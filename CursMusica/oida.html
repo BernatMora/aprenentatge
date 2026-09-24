@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Exercicis d'oïda · Harmonia</title>
+<style>
+ :root { color-scheme: dark; }
+ * { box-sizing: border-box; }
+ body { margin: 0; padding: 16px 14px 96px; background: #0f172a; color: #e2e8f0;
+        font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+ h1 { font-size: 20px; margin: 0 0 2px; }
+ p.sub { color: #94a3b8; font-size: 12.5px; margin: 0 0 6px; }
+ .com { background: rgba(251,191,36,.12); border: 1px solid rgba(251,191,36,.35);
+        border-radius: 11px; padding: 9px 12px; font-size: 12.5px; color: #fde68a; margin-bottom: 14px; }
+ .item { border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.05);
+          border-radius: 13px; padding: 12px 14px; cursor: pointer; }
+ .item.actiu { border-color: #fbbf24; background: rgba(251,191,36,.22); }
+ h2 { font-size: 15px; margin: 22px 0 10px; color: #fde68a; }
+ .item.extra { border-color: rgba(251,191,36,.35); background: rgba(251,191,36,.08); }
+ .desc { font-size: 12px; color: #94a3b8; margin-top: 3px; }
+ a.ex { display: flex; flex-direction: column; align-items: center; justify-content: center;
+        min-width: 62px; border-radius: 13px; border: 1px solid rgba(251,191,36,.45);
+        background: rgba(251,191,36,.16); color: #fef3c7; text-decoration: none; font-size: 19px; }
+ a.ex.dif { min-width: 54px; border-color: rgba(248,113,113,.5); background: rgba(248,113,113,.16);
+             color: #fecaca; }
+ a.ex.facil { min-width: 58px; border-color: rgba(52,211,153,.5); background: rgba(52,211,153,.16);
+              color: #d1fae5; }
+ a.ex.actiu { border-color: #fbbf24; background: rgba(251,191,36,.45); }
+ .ex-t { font-size: 11px; font-weight: 700; }
+ .ex-n { font-size: 10px; color: #fde68a; margin-top: 2px; }
+ a.ex.dif .ex-n { color: #fecaca; }
+ .cap { display: flex; justify-content: space-between; font-size: 11.5px; color: #94a3b8; }
+ .num { font-weight: 700; color: #fde68a; }
+ .titol { font-weight: 600; margin-top: 3px; }
+ .fila-item { display: flex; gap: 8px; margin-bottom: 9px; }
+ .fila-item .item { flex: 1; min-width: 0; }
+ footer { position: fixed; left: 0; right: 0; bottom: 0; padding: 10px 14px;
+           background: rgba(15,23,42,.98); border-top: 1px solid rgba(255,255,255,.1); }
+ .fila { display: flex; align-items: center; gap: 10px; }
+ .progres { flex: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,.15); overflow: hidden; }
+ .progres > i { display: block; height: 6px; width: 0; background: #fbbf24; }
+ #temps { font-size: 12px; color: #fde68a; font-variant-numeric: tabular-nums; min-width: 96px; text-align: right; }
+ button { border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.06); color: #e2e8f0;
+           border-radius: 10px; padding: 10px 14px; font: inherit; font-weight: 600; }
+ #ara { font-size: 12px; color: #94a3b8; margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+</style>
+</head>
+<body>
+  <h1>🎯 Exercicis d'oïda · Harmonia</h1>
+  <p class="sub">45 exercicis · 118 min en total. Clica'n un; en acabar passa sol al següent.<br />
+     🗂️ <a href="fitxes.html" style="color:#fde68a">Fitxes per consultar</a> ·
+     🎸 <a href="index.html" style="color:#7dd3fc">Tornar al curs</a></p>
+  <div class="com">Sona la música → tens uns segons per dir en veu alta què és → sents la resposta.
+    Els botons vermells (<strong>dif</strong>) són el nivell difícil: les opcions s'assemblen més.
+    Ideal per al cotxe: comença pel 1 i deixa-ho córrer.</div>
+  
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-01.mp3" data-titol="Exercicis d'oïda · Capítol 1 · Funcions i graus: per què funciona una progressió">
+        <div class="cap"><span class="num">1</span>
+          <span class="min">2.5 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 1 · Funcions i graus: per què funciona una progressió</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-01-facil.mp3" data-titol="Facil - Capítol 1 · Funcions i graus: per què funciona una progressió" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-01.mp3" data-titol="Capítol 1 · Funcions i graus: per què funciona una progressió" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-01-dificil.mp3" data-titol="Dificil - Capítol 1 · Funcions i graus: per què funciona una progressió" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-02.mp3" data-titol="Exercicis d'oïda · Capítol 2 · Les qualitats dels acords de sèptima">
+        <div class="cap"><span class="num">2</span>
+          <span class="min">2.6 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 2 · Les qualitats dels acords de sèptima</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-02-facil.mp3" data-titol="Facil - Capítol 2 · Les qualitats dels acords de sèptima" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-02.mp3" data-titol="Capítol 2 · Les qualitats dels acords de sèptima" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-02-dificil.mp3" data-titol="Dificil - Capítol 2 · Les qualitats dels acords de sèptima" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-03.mp3" data-titol="Exercicis d'oïda · Capítol 3 · Dominants secundàries: convertir qualsevol acord en un destí">
+        <div class="cap"><span class="num">3</span>
+          <span class="min">2.6 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 3 · Dominants secundàries: convertir qualsevol acord en un destí</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-03-facil.mp3" data-titol="Facil - Capítol 3 · Dominants secundàries: convertir qualsevol acord en un destí" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-03.mp3" data-titol="Capítol 3 · Dominants secundàries: convertir qualsevol acord en un destí" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-03-dificil.mp3" data-titol="Dificil - Capítol 3 · Dominants secundàries: convertir qualsevol acord en un destí" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-04.mp3" data-titol="Exercicis d'oïda · Capítol 4 · La substitució de tritó">
+        <div class="cap"><span class="num">4</span>
+          <span class="min">2.4 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 4 · La substitució de tritó</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-04-facil.mp3" data-titol="Facil - Capítol 4 · La substitució de tritó" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-04.mp3" data-titol="Capítol 4 · La substitució de tritó" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-04-dificil.mp3" data-titol="Dificil - Capítol 4 · La substitució de tritó" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-05.mp3" data-titol="Exercicis d'oïda · Capítol 5 · Intercanvi modal: acords prestats">
+        <div class="cap"><span class="num">5</span>
+          <span class="min">2.4 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 5 · Intercanvi modal: acords prestats</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-05-facil.mp3" data-titol="Facil - Capítol 5 · Intercanvi modal: acords prestats" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-05.mp3" data-titol="Capítol 5 · Intercanvi modal: acords prestats" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-05-dificil.mp3" data-titol="Dificil - Capítol 5 · Intercanvi modal: acords prestats" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-06.mp3" data-titol="Exercicis d'oïda · Capítol 6 · La modulació: canviar de casa">
+        <div class="cap"><span class="num">6</span>
+          <span class="min">2.8 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 6 · La modulació: canviar de casa</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-06-facil.mp3" data-titol="Facil - Capítol 6 · La modulació: canviar de casa" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-06.mp3" data-titol="Capítol 6 · La modulació: canviar de casa" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-06-dificil.mp3" data-titol="Dificil - Capítol 6 · La modulació: canviar de casa" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-07.mp3" data-titol="Exercicis d'oïda · Capítol 7 · Cadències i resolucions falses">
+        <div class="cap"><span class="num">7</span>
+          <span class="min">2.8 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 7 · Cadències i resolucions falses</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-07-facil.mp3" data-titol="Facil - Capítol 7 · Cadències i resolucions falses" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-07.mp3" data-titol="Capítol 7 · Cadències i resolucions falses" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-07-dificil.mp3" data-titol="Dificil - Capítol 7 · Cadències i resolucions falses" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-08.mp3" data-titol="Exercicis d'oïda · Capítol 8 · Com s&#x27;analitza un tema">
+        <div class="cap"><span class="num">8</span>
+          <span class="min">2.6 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 8 · Com s&#x27;analitza un tema</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-08-facil.mp3" data-titol="Facil - Capítol 8 · Com s&#x27;analitza un tema" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-08.mp3" data-titol="Capítol 8 · Com s&#x27;analitza un tema" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-08-dificil.mp3" data-titol="Dificil - Capítol 8 · Com s&#x27;analitza un tema" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-09.mp3" data-titol="Exercicis d'oïda · Capítol 9 · Cadenes de dominants i el cercle de quintes">
+        <div class="cap"><span class="num">9</span>
+          <span class="min">2.8 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 9 · Cadenes de dominants i el cercle de quintes</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-09-facil.mp3" data-titol="Facil - Capítol 9 · Cadenes de dominants i el cercle de quintes" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-09.mp3" data-titol="Capítol 9 · Cadenes de dominants i el cercle de quintes" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-09-dificil.mp3" data-titol="Dificil - Capítol 9 · Cadenes de dominants i el cercle de quintes" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-10.mp3" data-titol="Exercicis d'oïda · Capítol 10 · Els acords disminuïts i els seus tres usos">
+        <div class="cap"><span class="num">10</span>
+          <span class="min">2.6 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 10 · Els acords disminuïts i els seus tres usos</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-10-facil.mp3" data-titol="Facil - Capítol 10 · Els acords disminuïts i els seus tres usos" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-10.mp3" data-titol="Capítol 10 · Els acords disminuïts i els seus tres usos" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-10-dificil.mp3" data-titol="Dificil - Capítol 10 · Els acords disminuïts i els seus tres usos" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-11.mp3" data-titol="Exercicis d'oïda · Capítol 11 · Harmonia negativa">
+        <div class="cap"><span class="num">11</span>
+          <span class="min">2.6 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 11 · Harmonia negativa</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-11-facil.mp3" data-titol="Facil - Capítol 11 · Harmonia negativa" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-11.mp3" data-titol="Capítol 11 · Harmonia negativa" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-11-dificil.mp3" data-titol="Dificil - Capítol 11 · Harmonia negativa" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-12.mp3" data-titol="Exercicis d'oïda · Capítol 12 · Reharmonització">
+        <div class="cap"><span class="num">12</span>
+          <span class="min">2.9 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 12 · Reharmonització</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-12-facil.mp3" data-titol="Facil - Capítol 12 · Reharmonització" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-12.mp3" data-titol="Capítol 12 · Reharmonització" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-12-dificil.mp3" data-titol="Dificil - Capítol 12 · Reharmonització" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-13.mp3" data-titol="Exercicis d'oïda · Capítol 13 · Acords de color: noves, onzenes, tretzenes i alterats">
+        <div class="cap"><span class="num">13</span>
+          <span class="min">2.2 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 13 · Acords de color: noves, onzenes, tretzenes i alterats</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-13-facil.mp3" data-titol="Facil - Capítol 13 · Acords de color: noves, onzenes, tretzenes i alterats" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-13.mp3" data-titol="Capítol 13 · Acords de color: noves, onzenes, tretzenes i alterats" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-13-dificil.mp3" data-titol="Dificil - Capítol 13 · Acords de color: noves, onzenes, tretzenes i alterats" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-14.mp3" data-titol="Exercicis d'oïda · Capítol 14 · Voicings i conducció de veus">
+        <div class="cap"><span class="num">14</span>
+          <span class="min">2.6 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 14 · Voicings i conducció de veus</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-14-facil.mp3" data-titol="Facil - Capítol 14 · Voicings i conducció de veus" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-14.mp3" data-titol="Capítol 14 · Voicings i conducció de veus" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-14-dificil.mp3" data-titol="Dificil - Capítol 14 · Voicings i conducció de veus" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-15.mp3" data-titol="Exercicis d'oïda · Capítol 15 · Què tocar sobre cada acord">
+        <div class="cap"><span class="num">15</span>
+          <span class="min">3.1 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 15 · Què tocar sobre cada acord</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-15-facil.mp3" data-titol="Facil - Capítol 15 · Què tocar sobre cada acord" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-15.mp3" data-titol="Capítol 15 · Què tocar sobre cada acord" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-15-dificil.mp3" data-titol="Dificil - Capítol 15 · Què tocar sobre cada acord" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-16.mp3" data-titol="Exercicis d'oïda · Capítol 16 · Anàlisi d&#x27;estàndards">
+        <div class="cap"><span class="num">16</span>
+          <span class="min">2.7 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 16 · Anàlisi d&#x27;estàndards</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-16-facil.mp3" data-titol="Facil - Capítol 16 · Anàlisi d&#x27;estàndards" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-16.mp3" data-titol="Capítol 16 · Anàlisi d&#x27;estàndards" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-16-dificil.mp3" data-titol="Dificil - Capítol 16 · Anàlisi d&#x27;estàndards" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-17.mp3" data-titol="Exercicis d'oïda · Capítol 17 · Improvisar amb l&#x27;harmonia al cap">
+        <div class="cap"><span class="num">17</span>
+          <span class="min">2.8 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 17 · Improvisar amb l&#x27;harmonia al cap</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-17-facil.mp3" data-titol="Facil - Capítol 17 · Improvisar amb l&#x27;harmonia al cap" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-17.mp3" data-titol="Capítol 17 · Improvisar amb l&#x27;harmonia al cap" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-17-dificil.mp3" data-titol="Dificil - Capítol 17 · Improvisar amb l&#x27;harmonia al cap" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-18.mp3" data-titol="Exercicis d'oïda · Capítol 18 · Composar amb harmonia avançada">
+        <div class="cap"><span class="num">18</span>
+          <span class="min">2.8 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 18 · Composar amb harmonia avançada</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-18-facil.mp3" data-titol="Facil - Capítol 18 · Composar amb harmonia avançada" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-18.mp3" data-titol="Capítol 18 · Composar amb harmonia avançada" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-18-dificil.mp3" data-titol="Dificil - Capítol 18 · Composar amb harmonia avançada" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-19.mp3" data-titol="Exercicis d'oïda · Capítol 19 · Arranjaments i reharmonitzacions pràctiques">
+        <div class="cap"><span class="num">19</span>
+          <span class="min">2.5 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 19 · Arranjaments i reharmonitzacions pràctiques</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-19-facil.mp3" data-titol="Facil - Capítol 19 · Arranjaments i reharmonitzacions pràctiques" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-19.mp3" data-titol="Capítol 19 · Arranjaments i reharmonitzacions pràctiques" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-19-dificil.mp3" data-titol="Dificil - Capítol 19 · Arranjaments i reharmonitzacions pràctiques" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-20.mp3" data-titol="Exercicis d'oïda · Capítol 20 · El teu estil">
+        <div class="cap"><span class="num">20</span>
+          <span class="min">2.7 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 20 · El teu estil</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-20-facil.mp3" data-titol="Facil - Capítol 20 · El teu estil" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-20.mp3" data-titol="Capítol 20 · El teu estil" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-20-dificil.mp3" data-titol="Dificil - Capítol 20 · El teu estil" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-21.mp3" data-titol="Exercicis d'oïda · Capítol 21 · Pop i rock modern: sonar actual amb poc">
+        <div class="cap"><span class="num">21</span>
+          <span class="min">2.7 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 21 · Pop i rock modern: sonar actual amb poc</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-21-facil.mp3" data-titol="Facil - Capítol 21 · Pop i rock modern: sonar actual amb poc" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-21.mp3" data-titol="Capítol 21 · Pop i rock modern: sonar actual amb poc" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-21-dificil.mp3" data-titol="Dificil - Capítol 21 · Pop i rock modern: sonar actual amb poc" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-22.mp3" data-titol="Exercicis d'oïda · Capítol 22 · Blues avançat">
+        <div class="cap"><span class="num">22</span>
+          <span class="min">3.0 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 22 · Blues avançat</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-22-facil.mp3" data-titol="Facil - Capítol 22 · Blues avançat" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-22.mp3" data-titol="Capítol 22 · Blues avançat" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-22-dificil.mp3" data-titol="Dificil - Capítol 22 · Blues avançat" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-23.mp3" data-titol="Exercicis d'oïda · Capítol 23 · Bebop: el vocabulari">
+        <div class="cap"><span class="num">23</span>
+          <span class="min">2.6 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 23 · Bebop: el vocabulari</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-23-facil.mp3" data-titol="Facil - Capítol 23 · Bebop: el vocabulari" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-23.mp3" data-titol="Capítol 23 · Bebop: el vocabulari" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-23-dificil.mp3" data-titol="Dificil - Capítol 23 · Bebop: el vocabulari" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-24.mp3" data-titol="Exercicis d'oïda · Capítol 24 · Harmonia modal contemporània">
+        <div class="cap"><span class="num">24</span>
+          <span class="min">3.1 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 24 · Harmonia modal contemporània</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-24-facil.mp3" data-titol="Facil - Capítol 24 · Harmonia modal contemporània" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-24.mp3" data-titol="Capítol 24 · Harmonia modal contemporània" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-24-dificil.mp3" data-titol="Dificil - Capítol 24 · Harmonia modal contemporània" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-25.mp3" data-titol="Exercicis d'oïda · Capítol 25 · Reharmonització avançada">
+        <div class="cap"><span class="num">25</span>
+          <span class="min">2.5 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 25 · Reharmonització avançada</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-25-facil.mp3" data-titol="Facil - Capítol 25 · Reharmonització avançada" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-25.mp3" data-titol="Capítol 25 · Reharmonització avançada" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-25-dificil.mp3" data-titol="Dificil - Capítol 25 · Reharmonització avançada" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-26.mp3" data-titol="Exercicis d'oïda · Capítol 26 · Flamenc i música mediterrània">
+        <div class="cap"><span class="num">26</span>
+          <span class="min">2.8 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 26 · Flamenc i música mediterrània</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-26-facil.mp3" data-titol="Facil - Capítol 26 · Flamenc i música mediterrània" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-26.mp3" data-titol="Capítol 26 · Flamenc i música mediterrània" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-26-dificil.mp3" data-titol="Dificil - Capítol 26 · Flamenc i música mediterrània" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-27.mp3" data-titol="Exercicis d'oïda · Capítol 27 · Comping: acompanyar sense omplir">
+        <div class="cap"><span class="num">27</span>
+          <span class="min">2.5 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 27 · Comping: acompanyar sense omplir</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-27-facil.mp3" data-titol="Facil - Capítol 27 · Comping: acompanyar sense omplir" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-27.mp3" data-titol="Capítol 27 · Comping: acompanyar sense omplir" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-27-dificil.mp3" data-titol="Dificil - Capítol 27 · Comping: acompanyar sense omplir" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-28.mp3" data-titol="Exercicis d'oïda · Capítol 28 · Anàlisi d&#x27;estàndards, amb totes les eines">
+        <div class="cap"><span class="num">28</span>
+          <span class="min">2.6 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 28 · Anàlisi d&#x27;estàndards, amb totes les eines</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-28-facil.mp3" data-titol="Facil - Capítol 28 · Anàlisi d&#x27;estàndards, amb totes les eines" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-28.mp3" data-titol="Capítol 28 · Anàlisi d&#x27;estàndards, amb totes les eines" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-28-dificil.mp3" data-titol="Dificil - Capítol 28 · Anàlisi d&#x27;estàndards, amb totes les eines" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-29.mp3" data-titol="Exercicis d'oïda · Capítol 29 · Compondre un tema sencer">
+        <div class="cap"><span class="num">29</span>
+          <span class="min">2.5 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 29 · Compondre un tema sencer</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-29-facil.mp3" data-titol="Facil - Capítol 29 · Compondre un tema sencer" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-29.mp3" data-titol="Capítol 29 · Compondre un tema sencer" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-29-dificil.mp3" data-titol="Dificil - Capítol 29 · Compondre un tema sencer" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-30.mp3" data-titol="Exercicis d'oïda · Capítol 30 · Triades superiors: extensions sense aprendre acords nous">
+        <div class="cap"><span class="num">30</span>
+          <span class="min">2.5 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 30 · Triades superiors: extensions sense aprendre acords nous</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-30-facil.mp3" data-titol="Facil - Capítol 30 · Triades superiors: extensions sense aprendre acords nous" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-30.mp3" data-titol="Capítol 30 · Triades superiors: extensions sense aprendre acords nous" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-30-dificil.mp3" data-titol="Dificil - Capítol 30 · Triades superiors: extensions sense aprendre acords nous" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-31.mp3" data-titol="Exercicis d'oïda · Capítol 31 · Acords quartals: el so sense tercera">
+        <div class="cap"><span class="num">31</span>
+          <span class="min">2.5 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 31 · Acords quartals: el so sense tercera</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-31-facil.mp3" data-titol="Facil - Capítol 31 · Acords quartals: el so sense tercera" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-31.mp3" data-titol="Capítol 31 · Acords quartals: el so sense tercera" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-31-dificil.mp3" data-titol="Dificil - Capítol 31 · Acords quartals: el so sense tercera" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-32.mp3" data-titol="Exercicis d'oïda · Capítol 32 · Soul i rhythm and blues modern: acords bonics sense complicar-se">
+        <div class="cap"><span class="num">32</span>
+          <span class="min">2.7 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 32 · Soul i rhythm and blues modern: acords bonics sense complicar-se</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-32-facil.mp3" data-titol="Facil - Capítol 32 · Soul i rhythm and blues modern: acords bonics sense complicar-se" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-32.mp3" data-titol="Capítol 32 · Soul i rhythm and blues modern: acords bonics sense complicar-se" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-32-dificil.mp3" data-titol="Dificil - Capítol 32 · Soul i rhythm and blues modern: acords bonics sense complicar-se" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-33.mp3" data-titol="Exercicis d'oïda · Capítol 33 · Bossa nova i música brasilera: l&#x27;harmonia més elegant">
+        <div class="cap"><span class="num">33</span>
+          <span class="min">2.8 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 33 · Bossa nova i música brasilera: l&#x27;harmonia més elegant</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-33-facil.mp3" data-titol="Facil - Capítol 33 · Bossa nova i música brasilera: l&#x27;harmonia més elegant" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-33.mp3" data-titol="Capítol 33 · Bossa nova i música brasilera: l&#x27;harmonia més elegant" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-33-dificil.mp3" data-titol="Dificil - Capítol 33 · Bossa nova i música brasilera: l&#x27;harmonia més elegant" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-34.mp3" data-titol="Exercicis d'oïda · Capítol 34 · Melodia amb acords: tocar una cançó tot sol">
+        <div class="cap"><span class="num">34</span>
+          <span class="min">2.6 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 34 · Melodia amb acords: tocar una cançó tot sol</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-34-facil.mp3" data-titol="Facil - Capítol 34 · Melodia amb acords: tocar una cançó tot sol" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-34.mp3" data-titol="Capítol 34 · Melodia amb acords: tocar una cançó tot sol" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-34-dificil.mp3" data-titol="Dificil - Capítol 34 · Melodia amb acords: tocar una cançó tot sol" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-35.mp3" data-titol="Exercicis d'oïda · Capítol 35 · Mediants cromàtics: l&#x27;harmonia que sona a cinema">
+        <div class="cap"><span class="num">35</span>
+          <span class="min">2.5 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 35 · Mediants cromàtics: l&#x27;harmonia que sona a cinema</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-35-facil.mp3" data-titol="Facil - Capítol 35 · Mediants cromàtics: l&#x27;harmonia que sona a cinema" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-35.mp3" data-titol="Capítol 35 · Mediants cromàtics: l&#x27;harmonia que sona a cinema" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-35-dificil.mp3" data-titol="Dificil - Capítol 35 · Mediants cromàtics: l&#x27;harmonia que sona a cinema" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-36.mp3" data-titol="Exercicis d'oïda · Capítol 36 · Les escales de la menor melòdica: set colors per a set acords">
+        <div class="cap"><span class="num">36</span>
+          <span class="min">2.4 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 36 · Les escales de la menor melòdica: set colors per a set acords</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-36-facil.mp3" data-titol="Facil - Capítol 36 · Les escales de la menor melòdica: set colors per a set acords" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-36.mp3" data-titol="Capítol 36 · Les escales de la menor melòdica: set colors per a set acords" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-36-dificil.mp3" data-titol="Dificil - Capítol 36 · Les escales de la menor melòdica: set colors per a set acords" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-37.mp3" data-titol="Exercicis d'oïda · Capítol 37 · Rhythm changes i turnarounds: la progressió que ho aguanta tot">
+        <div class="cap"><span class="num">37</span>
+          <span class="min">2.7 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 37 · Rhythm changes i turnarounds: la progressió que ho aguanta tot</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-37-facil.mp3" data-titol="Facil - Capítol 37 · Rhythm changes i turnarounds: la progressió que ho aguanta tot" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-37.mp3" data-titol="Capítol 37 · Rhythm changes i turnarounds: la progressió que ho aguanta tot" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-37-dificil.mp3" data-titol="Dificil - Capítol 37 · Rhythm changes i turnarounds: la progressió que ho aguanta tot" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-38.mp3" data-titol="Exercicis d'oïda · Capítol 38 · Harmonia de gospel: acords de pas i dominants amb extensions">
+        <div class="cap"><span class="num">38</span>
+          <span class="min">2.4 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 38 · Harmonia de gospel: acords de pas i dominants amb extensions</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-38-facil.mp3" data-titol="Facil - Capítol 38 · Harmonia de gospel: acords de pas i dominants amb extensions" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-38.mp3" data-titol="Capítol 38 · Harmonia de gospel: acords de pas i dominants amb extensions" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-38-dificil.mp3" data-titol="Dificil - Capítol 38 · Harmonia de gospel: acords de pas i dominants amb extensions" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-39.mp3" data-titol="Exercicis d'oïda · Capítol 39 · Comping: el ritme que converteix els acords en música">
+        <div class="cap"><span class="num">39</span>
+          <span class="min">2.2 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 39 · Comping: el ritme que converteix els acords en música</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-39-facil.mp3" data-titol="Facil - Capítol 39 · Comping: el ritme que converteix els acords en música" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-39.mp3" data-titol="Capítol 39 · Comping: el ritme que converteix els acords en música" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-39-dificil.mp3" data-titol="Dificil - Capítol 39 · Comping: el ritme que converteix els acords en música" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-40.mp3" data-titol="Exercicis d'oïda · Capítol 40 · Tres estàndards a fons: on la teoria es torna música">
+        <div class="cap"><span class="num">40</span>
+          <span class="min">2.6 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 40 · Tres estàndards a fons: on la teoria es torna música</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-40-facil.mp3" data-titol="Facil - Capítol 40 · Tres estàndards a fons: on la teoria es torna música" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-40.mp3" data-titol="Capítol 40 · Tres estàndards a fons: on la teoria es torna música" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-40-dificil.mp3" data-titol="Dificil - Capítol 40 · Tres estàndards a fons: on la teoria es torna música" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-41.mp3" data-titol="Exercicis d'oïda · Capítol 41 · Tocar en grup: repartir-se l&#x27;harmonia">
+        <div class="cap"><span class="num">41</span>
+          <span class="min">2.3 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 41 · Tocar en grup: repartir-se l&#x27;harmonia</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-41-facil.mp3" data-titol="Facil - Capítol 41 · Tocar en grup: repartir-se l&#x27;harmonia" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-41.mp3" data-titol="Capítol 41 · Tocar en grup: repartir-se l&#x27;harmonia" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-41-dificil.mp3" data-titol="Dificil - Capítol 41 · Tocar en grup: repartir-se l&#x27;harmonia" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-42.mp3" data-titol="Exercicis d'oïda · Capítol 42 · Blues modern: Bird blues i blues menor">
+        <div class="cap"><span class="num">42</span>
+          <span class="min">2.6 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 42 · Blues modern: Bird blues i blues menor</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-42-facil.mp3" data-titol="Facil - Capítol 42 · Blues modern: Bird blues i blues menor" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-42.mp3" data-titol="Capítol 42 · Blues modern: Bird blues i blues menor" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-42-dificil.mp3" data-titol="Dificil - Capítol 42 · Blues modern: Bird blues i blues menor" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-43.mp3" data-titol="Exercicis d'oïda · Capítol 43 · Cada mode i els seus acords: el mapa dels acords prestats">
+        <div class="cap"><span class="num">43</span>
+          <span class="min">2.4 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 43 · Cada mode i els seus acords: el mapa dels acords prestats</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-43-facil.mp3" data-titol="Facil - Capítol 43 · Cada mode i els seus acords: el mapa dels acords prestats" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-43.mp3" data-titol="Capítol 43 · Cada mode i els seus acords: el mapa dels acords prestats" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-43-dificil.mp3" data-titol="Dificil - Capítol 43 · Cada mode i els seus acords: el mapa dels acords prestats" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-44.mp3" data-titol="Exercicis d'oïda · Capítol 44 · Jazz fusió: el llenguatge modern">
+        <div class="cap"><span class="num">44</span>
+          <span class="min">2.3 min ·
+            5 exemples</span></div>
+        <div class="titol">🎯 Capítol 44 · Jazz fusió: el llenguatge modern</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-44-facil.mp3" data-titol="Facil - Capítol 44 · Jazz fusió: el llenguatge modern" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-44.mp3" data-titol="Capítol 44 · Jazz fusió: el llenguatge modern" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">5</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-44-dificil.mp3" data-titol="Dificil - Capítol 44 · Jazz fusió: el llenguatge modern" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/exercici-oida-45.mp3" data-titol="Exercicis d'oïda · Capítol 45 · Pentatòniques i escales simètriques aplicades">
+        <div class="cap"><span class="num">45</span>
+          <span class="min">2.4 min ·
+            6 exemples</span></div>
+        <div class="titol">🎯 Capítol 45 · Pentatòniques i escales simètriques aplicades</div>
+      </div>
+      <a class="ex facil" href="#" data-src="audio/exercici-oida-45-facil.mp3" data-titol="Facil - Capítol 45 · Pentatòniques i escales simètriques aplicades" title="Nivell facil (3 exemples, amb mes temps per respondre)"><span class="ex-t">facil</span></a><a class="ex" href="#" data-src="audio/exercici-oida-45.mp3" data-titol="Capítol 45 · Pentatòniques i escales simètriques aplicades" title="Exercicis d'oida: sentir i endevinar"><span class="ex-t">6</span></a><a class="ex dif" href="#" data-src="audio/exercici-oida-45-dificil.mp3" data-titol="Dificil - Capítol 45 · Pentatòniques i escales simètriques aplicades" title="Nivell dificil: les opcions s'assemblen mes"><span class="ex-t">dif</span></a>
+    </div>
+  <h2>Altres exercicis d'oïda</h2>
+    <div class="fila-item">
+      <div class="item extra" data-src="audio/exercici-arpegis.mp3" data-titol="Arpegis: cada acord, com a bloc i com a línia">
+        <div class="cap"><span class="num">＋</span>
+          <span class="min">5.9 min</span></div>
+        <div class="titol">Arpegis: cada acord, com a bloc i com a línia</div>
+        <div class="desc">Cada tipus d&#x27;acord sona primer com a acord i després com a arpegi, i després se&#x27;n diu el nom. 17 tipus.</div>
+      </div>
+    </div>
+    <div class="fila-item">
+      <div class="item extra" data-src="audio/exercici-parells.mp3" data-titol="Parells mínims: la nota que els diferencia">
+        <div class="cap"><span class="num">＋</span>
+          <span class="min">11.1 min</span></div>
+        <div class="titol">Parells mínims: la nota que els diferencia</div>
+        <div class="desc">Dos acords que es diferencien en una sola nota; s&#x27;aïlla la nota i al final hi ha un repte en ordre sorpresa.</div>
+      </div>
+    </div>
+    <div class="fila-item">
+      <div class="item extra" data-src="audio/exercici-cantar.mp3" data-titol="Cantar la tònica, la tercera o la sèptima">
+        <div class="cap"><span class="num">＋</span>
+          <span class="min">7.7 min</span></div>
+        <div class="titol">Cantar la tònica, la tercera o la sèptima</div>
+        <div class="desc">Sona un acord i has de cantar la nota que et demana; després sona la nota sola.</div>
+      </div>
+    </div>
+    <div class="fila-item">
+      <div class="item extra" data-src="audio/exercici-dictat.mp3" data-titol="Dictat melòdic">
+        <div class="cap"><span class="num">＋</span>
+          <span class="min">7.3 min</span></div>
+        <div class="titol">Dictat melòdic</div>
+        <div class="desc">Melodies curtes per identificar les notes i l&#x27;escala.</div>
+      </div>
+    </div>
+    <div class="fila-item">
+      <div class="item extra" data-src="audio/exercici-cotxe.mp3" data-titol="Mode cotxe · repàs ràpid">
+        <div class="cap"><span class="num">＋</span>
+          <span class="min">6.8 min</span></div>
+        <div class="titol">Mode cotxe · repàs ràpid</div>
+        <div class="desc">Tots els capítols amb respostes d&#x27;una frase, per conduir.</div>
+      </div>
+    </div>
+    <div class="fila-item">
+      <div class="item extra" data-src="audio/exercici-barreja.mp3" data-titol="Repàs barrejat (2 per capítol)">
+        <div class="cap"><span class="num">＋</span>
+          <span class="min">16.8 min</span></div>
+        <div class="titol">Repàs barrejat (2 per capítol)</div>
+        <div class="desc">40 exemples de tots els capítols barrejats, amb el capítol a la resposta.</div>
+      </div>
+    </div>
+  <footer>
+    <div class="fila">
+      <div class="progres"><i id="barra"></i></div>
+      <span id="temps">—</span>
+      <button id="pausa">⏸</button>
+      <button id="seguent">⏭</button>
+    </div>
+    <div id="ara">Selecciona un exercici.</div>
+  </footer>
+  <audio id="player" preload="metadata"></audio>
+<script>
+  var items = Array.prototype.slice.call(document.querySelectorAll('.item'));
+  var exBtns = Array.prototype.slice.call(document.querySelectorAll('a.ex'));
+  var player = document.getElementById('player');
+  var ara = document.getElementById('ara');
+  var idx = -1;
+  var idxEx = -1;
+  function marca() {
+    items.forEach(function (el, j) { el.classList.toggle('actiu', j === idx); });
+    exBtns.forEach(function (el, j) { el.classList.toggle('actiu', j === idxEx); });
+  }
+  function posa(i) {
+    if (i < 0 || i >= items.length) { atura(); return; }
+    idx = i; idxEx = -1;
+    player.src = items[i].dataset.src;
+    player.play().catch(function () { ara.textContent = 'Torna a clicar per començar.'; });
+    ara.textContent = '🎯 ' + items[i].dataset.titol;
+    marca();
+  }
+  function posaEx(i) {
+    if (i < 0 || i >= exBtns.length) { atura(); return; }
+    idxEx = i; idx = -1;
+    player.src = exBtns[i].dataset.src;
+    player.play().catch(function () { ara.textContent = 'Torna a clicar per començar.'; });
+    ara.textContent = '🔥 ' + exBtns[i].dataset.titol;
+    marca();
+  }
+  function atura() { player.pause(); idx = -1; idxEx = -1; ara.textContent = 'Aturat.';
+    document.getElementById('temps').textContent = '—'; marca(); }
+  function mmss(s) { s = Math.max(0, Math.round(s)); var m = Math.floor(s / 60), r = s % 60;
+    return m + ':' + (r < 10 ? '0' : '') + r; }
+  player.addEventListener('timeupdate', function () {
+    if (!player.duration) { return; }
+    document.getElementById('barra').style.width = (100 * player.currentTime / player.duration) + '%';
+    document.getElementById('temps').textContent =
+      'queden ' + mmss(player.duration - player.currentTime) + ' (' + mmss(player.duration) + ')';
+  });
+  items.forEach(function (el, i) { el.addEventListener('click', function () { posa(i); }); });
+  exBtns.forEach(function (el, i) {
+    el.addEventListener('click', function (ev) { ev.preventDefault(); posaEx(i); });
+  });
+  player.addEventListener('ended', function () {
+    if (idxEx >= 0) { posaEx(idxEx + 1); } else { posa(idx + 1); }
+  });
+  document.getElementById('pausa').addEventListener('click', function () {
+    if (player.paused) { player.play(); } else { player.pause(); }
+  });
+  document.getElementById('seguent').addEventListener('click', function () { posa(idx + 1); });
+</script>
+</body>
+</html>

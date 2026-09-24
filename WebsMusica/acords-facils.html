@@ -1,0 +1,1714 @@
+﻿<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acords de Guitarra Avançats</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        
+        header::before {
+            content: "🎸";
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            position: relative;
+            font-weight: 300;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            color: var(--primary-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .filter-btn.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+        }
+        
+        .search-input {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            width: 100%;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: scale(1.02);
+        }
+        
+        .chords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(380px, 100%), 1fr));
+            gap: 2rem;
+        }
+        
+        .chord-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        
+        .chord-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 1.2rem;
+        }
+        
+        .card-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-number {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+        }
+        
+        .card-content {
+            padding: 1.8rem;
+        }
+        
+        .card-section {
+            margin-bottom: 1.8rem;
+        }
+        
+        .card-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .chord-diagram {
+            background: var(--light-color);
+            padding: 1.2rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            border-left: 4px solid var(--accent-color);
+            white-space: pre;
+            overflow-x: auto;
+        }
+        
+        .description {
+            font-style: italic;
+            color: var(--dark-color);
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #fff9e6, #fff0cc);
+            border-radius: 8px;
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .usage {
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #e8f6f3, #d1f0eb);
+            border-radius: 8px;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        
+        .tag {
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .type-tag {
+            background: linear-gradient(135deg, #e1f0fa, #cce5ff);
+            color: var(--accent-color);
+        }
+        
+        .difficulty-tag {
+            background: linear-gradient(135deg, #ffeaa7, #ffdc83);
+            color: #e67e22;
+        }
+        
+        .voicing-tag {
+            background: linear-gradient(135deg, #e8dffa, #d6c7f5);
+            color: #8e44ad;
+            font-family: monospace;
+        }
+        
+        .progression {
+            font-family: monospace;
+            font-size: 1.1rem;
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .highlight-section {
+            background: linear-gradient(135deg, rgba(142, 68, 173, 0.15), rgba(155, 89, 182, 0.1));
+            border-left: 4px solid #9b59b6;
+            padding: 1rem !important;
+        }
+        
+        .sound-description {
+            font-style: italic;
+            color: #9b59b6;
+            font-weight: 500;
+        }
+        
+        .theory-section {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(41, 128, 185, 0.1));
+            border-left: 4px solid #3498db;
+            padding: 1rem !important;
+        }
+        
+        .theory {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .technique-section {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.15), rgba(39, 174, 96, 0.1));
+            border-left: 4px solid #27ae60;
+            padding: 1rem !important;
+        }
+        
+        .technique {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .examples-section {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.15), rgba(211, 84, 0, 0.1));
+            border-left: 4px solid #e67e22;
+            padding: 1rem !important;
+        }
+        
+        .examples {
+            color: #d35400;
+            font-weight: 500;
+            font-style: italic;
+        }
+        
+        .toggle-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .toggle-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+            transform: translateY(-2px);
+        }
+        
+        .toggle-btn::after {
+            content: '▼';
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-btn.active::after {
+            transform: rotate(180deg);
+        }
+        
+        .chord-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        
+        .chord-details.expanded {
+            max-height: 3000px;
+        }
+        
+        .learning-section {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(142, 68, 173, 0.1));
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border: 2px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .learning-section h2 {
+            color: #3498db;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .learning-paths {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .learning-path {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .learning-path h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .learning-path ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .learning-path li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #34495e;
+            line-height: 1.6;
+        }
+        
+        .learning-path li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .intervals-section {
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.15), rgba(243, 156, 18, 0.1));
+            border-left: 4px solid #f39c12;
+            padding: 1rem !important;
+        }
+        
+        .intervals {
+            color: #2c3e50;
+            line-height: 1.6;
+            font-family: monospace;
+        }
+        
+        .practice-section {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.15), rgba(192, 57, 43, 0.1));
+            border-left: 4px solid #e74c3c;
+            padding: 1rem !important;
+        }
+        
+        .practice {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        footer {
+            background: rgba(44, 62, 80, 0.9);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: white;
+            grid-column: 1 / -1;
+            font-size: 1.2rem;
+        }
+        
+        .difficulty-easy { background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; }
+        .difficulty-medium { background: linear-gradient(135deg, #f39c12, #f1c40f); color: white; }
+        .difficulty-hard { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .chords-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .subtitle {
+                font-size: 1.05rem;
+            }
+            .controls {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            .filters {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                gap: 0.6rem;
+            }
+            .filter-btn {
+                flex: 0 0 auto;
+                padding: 0.55rem 1rem;
+            }
+            .search-box {
+                min-width: 100%;
+                max-width: 100%;
+            }
+            .card-header {
+                padding: 1rem;
+            }
+            .card-content {
+                padding: 1rem;
+            }
+            .section-title {
+                font-size: 1rem;
+            }
+            .chord-diagram {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            .progression {
+                font-size: 0.95rem;
+                padding: 0.8rem;
+            }
+            .toggle-btn {
+                font-size: 1rem;
+                padding: 0.9rem 1rem;
+            }
+            .learning-section {
+                padding: 1rem;
+            }
+            .learning-paths {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.9rem;
+            }
+            .subtitle {
+                font-size: 0.95rem;
+            }
+            .section-title {
+                font-size: 0.95rem;
+            }
+            .filter-btn {
+                padding: 0.5rem 0.9rem;
+                font-size: 0.9rem;
+            }
+            .toggle-btn {
+                font-size: 0.95rem;
+                padding: 0.85rem 0.95rem;
+            }
+            .progression,
+            .chord-diagram {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Acords de Guitarra Avançats</h1>
+        <p class="subtitle">Voicings amb cordes a l'aire a qualsevol posició del màstil - Sonoritats úniques i ressonants</p>
+    </header>
+    
+    <div class="container">
+        <div class="controls">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Tots</button>
+                <button class="filter-btn" data-filter="sus">Sus2/Sus4</button>
+                <button class="filter-btn" data-filter="add9">Add9/Add11</button>
+                <button class="filter-btn" data-filter="7th">Sèptimes</button>
+                <button class="filter-btn" data-filter="jazz">Jazz</button>
+                <button class="filter-btn" data-filter="atmospheric">Atmosfèrics</button>
+                <button class="filter-btn" data-filter="open">Acords Oberts</button>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Cercar acords per nom o tipus...">
+            </div>
+        </div>
+        
+        <section class="learning-section">
+            <h2>📚 Com Aprendre Aquests Acords</h2>
+            <p style="text-align: center; color: #34495e; margin-bottom: 1rem;">Segueix aquests itineraris segons el teu nivell i objectius musicals</p>
+            
+            <div class="learning-paths">
+                <div class="learning-path">
+                    <h3>🌱 Nivell Principiant</h3>
+                    <ul>
+                        <li>Comença amb acords <strong>easy</strong> (1-10)</li>
+                        <li>Practica Csus2, Gsus4, Dsus2</li>
+                        <li>Domina les cordes obertes primer</li>
+                        <li>Aprèn una progressió cada dia</li>
+                        <li>Usa només dits indicador i mig</li>
+                        <li>Tempo lent amb metrònom 60 BPM</li>
+                    </ul>
+                </div>
+                
+                <div class="learning-path">
+                    <h3>🌿 Nivell Intermedi</h3>
+                    <ul>
+                        <li>Acords <strong>medium</strong> (11-30)</li>
+                        <li>Experimenta amb add9 i 7th</li>
+                        <li>Combina acords en progressions</li>
+                        <li>Practica canvis ràpids entre acords</li>
+                        <li>Explora posicions altes del màstil</li>
+                        <li>Afegeix ritmes i dinàmiques</li>
+                    </ul>
+                </div>
+                
+                <div class="learning-path">
+                    <h3>🌳 Nivell Avançat</h3>
+                    <ul>
+                        <li>Acords <strong>hard</strong> (31-50)</li>
+                        <li>Tensions jazzístiques (#9, #11, 13)</li>
+                        <li>Crea les teves progressions</li>
+                        <li>Improvisa sobre les seqüències</li>
+                        <li>Combina amb melodies i solos</li>
+                        <li>Compon amb sonoritats úniques</li>
+                    </ul>
+                </div>
+                
+                <div class="learning-path">
+                    <h3>🎯 Per Estils Musicals</h3>
+                    <ul>
+                        <li><strong>Ambient/Indie:</strong> Filtra "atmospheric"</li>
+                        <li><strong>Jazz/Fusion:</strong> Filtra "jazz"</li>
+                        <li><strong>Folk/Fingerstyle:</strong> Acords sus + add9</li>
+                        <li><strong>Post-Rock:</strong> Posicions altes (31-40)</li>
+                        <li><strong>Experimental:</strong> Tensions (41-50)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <div class="chords-grid" id="chords-container">
+            <!-- Els acords s'inseriran aquí mitjançant JavaScript -->
+        </div>
+    </div>
+    
+    <footer>
+        <p>Acords amb cordes a l'aire per a guitarra - Explora sonoritats úniques a tot el màstil</p>
+    </footer>
+
+    <script>
+        // Dades dels acords avançats
+        const chords = [
+            {
+                number: 1,
+                name: "Emadd9",
+                type: "Menor amb 9a",
+                difficulty: "medium",
+                diagram: `Emadd9\ne |-0-|\nB |-0-|\nG |-0-|\nD |-4-|  Dit 4\nA |-2-|  Dit 2\nE |-0-|`,
+                description: "El cor atmosfèric - perfecte per progressions etèries amb cordes a l'aire",
+                usage: "Intros, fingerpicking, ambients",
+                theory: "La 9a (Fa#) afegeix color sense definir major/menor. Les cordes obertes creen ressonància natural",
+                technique: "Deixa sonar totes les cordes obertes. Usa fingerpicking per destacar la melodia interior",
+                sound: "Melancòlic però esperançador - com un cel ennuvolat amb llum",
+                examples: "Radiohead - Street Spirit, Bon Iver - Holocene",
+                tags: ["atmospheric", "open", "add9"],
+                progression: "Emadd9 (024000) - Csus2 (x35033) - G/B (x20033) - Dsus2 (xx0230)",
+                voicings: ["024000", "024004"]
+            },
+            {
+                number: 2,
+                name: "Csus2",
+                type: "Suspès",
+                difficulty: "easy",
+                diagram: `Csus2\ne |-0-|\nB |-3-|  Dit 3\nG |-0-|\nD |-2-|  Dit 2\nA |-3-|  Dit 4\nE |-X-|`,
+                description: "Flotant i obert - sense tercera per ambigüitat tonal. Cordes a l'aire creen ressonància",
+                usage: "Transicions, ambients minimalistes",
+                theory: "Substitueix la 3a per la 2a (Re). Ni major ni menor - crea suspens harmònic",
+                technique: "Apaga la corda MI greu amb el dit polze. Deixa ressonar les obertes",
+                sound: "Etèria i suspès - com flotar a l'aire esperant resolució",
+                examples: "Coldplay - The Scientist, Ed Sheeran - Thinking Out Loud",
+                tags: ["sus", "open", "atmospheric"],
+                progression: "Csus2 (x35033) - G (320003) - Am7 (x02010) - Fmaj7 (xx3210)",
+                voicings: ["x35033", "x30013"]
+            },
+            {
+                number: 3,
+                name: "Dsus2",
+                type: "Suspès",
+                difficulty: "easy",
+                diagram: `Dsus2\ne |-0-|\nB |-3-|  Dit 3\nG |-2-|  Dit 2\nD |-0-|\nA |-X-|\nE |-X-|`,
+                description: "Molt ressonant - ideal per crear espais sonors amb cordes obertes",
+                usage: "Finals de frases, intros ressonants",
+                theory: "Substitueix la 3a (F#) per la 2a (Mi). So neutre i obert que crea expectativa",
+                technique: "Apaga les cordes graves. Deixa vibrar RE, MI i SI obertes per màxima ressonància",
+                sound: "Cristal·lí i brillant - com campanes resonant",
+                intervals: "Arrel(D) - 2a(E) - 5a(A) - Arrel(D) - 2a(E)",
+                practice: "Practica alternant amb D major per sentir la diferència. Usa per substitucions creatives",
+                examples: "The xx - Intro, Sigur Rós - Hoppípolla",
+                tags: ["sus", "open"],
+                progression: "Dsus2 (xx0230) - Asus2 (x02200) - G (320003) - C (x32010)",
+                voicings: ["xx0230", "x57700"]
+            },
+            {
+                number: 4,
+                name: "Gsus4",
+                type: "Suspès",
+                difficulty: "medium",
+                diagram: `Gsus4\ne |-3-|  Dit 3\nB |-1-|  Dit 1\nG |-0-|\nD |-0-|\nA |-3-|  Dit 4\nE |-3-|  Dit 2`,
+                description: "Tensió resolutiva - crea moviment harmònic amb cordes a l'aire",
+                usage: "Suspensions, rock alternatiu",
+                theory: "Substitueix la 3a (Si) per la 4a (Do). Crea tensió que demana resolució a G major",
+                technique: "Usa els 4 dits. Deixa sonar les dues RE obertes per amplificar el so",
+                sound: "Tens i resolutiu - com una pregunta esperant resposta",
+                intervals: "Arrel(G) - 4a(C) - 5a(D) - Arrel(G) - 4a(C) - Arrel(G)",
+                practice: "Alterna G - Gsus4 - G en bucle. Escolta com la 4a crea tensió i la 3a la resol",
+                examples: "The Police - Every Breath You Take, Oasis - Wonderwall",
+                tags: ["sus", "open"],
+                progression: "G (320003) - Gsus4 (330013) - C (x32010) - D (xx0232)",
+                voicings: ["330013", "3x0013"]
+            },
+            {
+                number: 5,
+                name: "Cadd9",
+                type: "Add9",
+                difficulty: "medium",
+                diagram: `Cadd9\ne |-3-|  Dit 3\nB |-3-|  Dit 4\nG |-0-|\nD |-2-|  Dit 2\nA |-3-|  Dit 1\nE |-X-|`,
+                description: "Més color que C mayor - So dream-pop",
+                usage: "Pop modern, balades, indie",
+                theory: "La 9a (Re) afegeix brillantor sense alterar el caràcter major. Color extra sense complexitat",
+                technique: "Barreja fingerpicking: polze en 5a, índex-mitjà-anular en cordes agudes",
+                sound: "Lluminós i espacial - com rajos de sol a través de vidre",
+                intervals: "Arrel(C) - 3a(E) - 5a(G) - Arrel(C) - 9a(D) - Arrel(C)",
+                practice: "Compara amb C normal. Nota com la 9a obre espai harmònic sense canviar emoció",
+                examples: "John Mayer - Stop This Train, James Taylor - Fire and Rain",
+                tags: ["add9", "open"],
+                progression: "Cadd9 (x32033) - G (320003) - Am7 (x02010) - Fmaj7 (xx3210)",
+                voicings: ["x32033", "x30033"]
+            },
+            {
+                number: 6,
+                name: "Gadd9",
+                type: "Add9",
+                difficulty: "medium",
+                diagram: `Gadd9\ne |-3-|  Dit 3\nB |-0-|\nG |-2-|  Dit 2\nD |-0-|\nA |-2-|  Dit 1\nE |-3-|  Dit 4`,
+                description: "So dream-pop - ric en harmònics amb cordes obertes",
+                usage: "Ambient, post-rock, folk modern",
+                theory: "La 9a (La) sobre G crea sonoritat etèria. Les obertes amplifiquen ressonàncies naturals",
+                technique: "Deixa vibrar totes cordes. Usa arpegis lents per destacar cada nota",
+                sound: "Esperançador i expansiu - com un alba tranquil",
+                intervals: "Arrel(G) - 5a(D) - Arrel(G) - 3a(B) - 9a(A) - Arrel(G)",
+                practice: "Toca en bucle durant 5 minuts. Improvisa melodies sobre cordes obertes",
+                examples: "U2 - Where The Streets Have No Name, Radiohead - Karma Police",
+                tags: ["add9", "open", "atmospheric"],
+                progression: "Gadd9 (320033) - Cadd9 (x32033) - Dsus4 (xx0233) - Em7 (022030)",
+                voicings: ["320033", "3x0033"]
+            },
+            {
+                number: 7,
+                name: "Cmaj7",
+                type: "Séptima mayor",
+                difficulty: "easy",
+                diagram: `Cmaj7\ne |-0-|\nB |-0-|\nG |-0-|\nD |-2-|  Dit 2\nA |-3-|  Dit 3\nE |-X-|`,
+                description: "So de jazz - suau i sofisticat amb cordes a l'aire",
+                usage: "Jazz, bossa nova, balades",
+                theory: "7a major (Si) sobre C - intervals purs sense tensió. Defineix harmonia jazzística bàsica",
+                technique: "Totes cordes obertes excepte RE i LA. Posat delicat, deixa ressonar",
+                sound: "Sofisticat i suau - com una tarda daurada",
+                intervals: "Arrel(C) - 3a(E) - 5a(G) - 7M(B) - 5a(G) - 3a(E)",
+                practice: "Practica amb swing feel. Alterna amb C9 per explorar extensions",
+                examples: "The Beatles - Something, Stevie Wonder - Isnt She Lovely",
+                tags: ["7th", "jazz", "open"],
+                progression: "Cmaj7 (x32000) - Am7 (x02010) - Dm7 (xx0211) - G7 (320001)",
+                voicings: ["x32000", "x35453"]
+            },
+            {
+                number: 8,
+                name: "Dmaj9",
+                type: "Novena mayor",
+                difficulty: "hard",
+                diagram: `Dmaj9\ne |-2-|  Dit 2\nB |-0-|\nG |-2-|  Dit 3\nD |-0-|\nA |-X-|\nE |-X-|`,
+                description: "Luxós i atmosfèric - voicing únic amb cordes obertes",
+                usage: "Jazz modern, fusion, ambient",
+                theory: "Novena major (Mi) sobre D major - harmonia rica i sofisticada sense complexitat tècnica",
+                technique: "Posició alta amb cordes obertes. Deixa ressonar SI oberta per amplificar el so",
+                sound: "Elegant i luxós - com seda dorada",
+                intervals: "Arrel(D) - 3a(F#) - 7M(C#) - 9M(E) - 3a(F#) - Arrel(D)",
+                practice: "Practica transicions amb altres acords maj9. Escolta la ressonància de les obertes",
+                examples: "Pat Metheny - Bright Size Life, Bill Evans - Waltz for Debby",
+                tags: ["jazz", "atmospheric"],
+                progression: "Dmaj9 (xx0220) - G13 (3x323x) - Cmaj9 (x32030) - F#m7b5 (2x231x)",
+                voicings: ["xx0220", "x54230"]
+            },
+            {
+                number: 9,
+                name: "A7sus4",
+                type: "Séptima suspendida",
+                difficulty: "easy",
+                diagram: `A7sus4\ne |-0-|\nB |-3-|  Dit 3\nG |-2-|  Dit 2\nD |-2-|  Dit 1\nA |-0-|\nE |-X-|`,
+                description: "Funk/Soul - tensió rítmica amb cordes a l'aire",
+                usage: "Grooves, funk, R&B",
+                tags: ["7th", "sus"],
+                progression: "A7sus4 (x00030) - D7 (xx0212) - G (320003) - C (x32010)",
+                voicings: ["x00030", "575555"]
+            },
+            {
+                number: 10,
+                name: "F#m7",
+                type: "Menor séptima",
+                difficulty: "medium",
+                diagram: `F#m7\ne |-2-|  Dit 2\nB |-0-|\nG |-2-|  Dit 3\nD |-2-|  Dit 4\nA |-0-|\nE |-X-|`,
+                description: "So modal i misteriós - versàtil amb cordes obertes",
+                usage: "Rock alternatiu, jazz, progressions modals",
+                tags: ["7th", "jazz"],
+                progression: "F#m7 (2x2200) - Bm7 (x24232) - E (022100) - A (x02220)",
+                voicings: ["2x2200", "xx2222"]
+            },
+            {
+                number: 11,
+                name: "G6",
+                type: "Sexta",
+                difficulty: "easy",
+                diagram: `G6\ne |-0-|\nB |-0-|\nG |-0-|\nD |-0-|\nA |-2-|  Dit 2\nE |-3-|  Dit 3`,
+                description: "Sabor vintage - anys 60 amb cordes a l'aire",
+                usage: "Jazz tradicional, bossa nova",
+                tags: ["jazz", "open"],
+                progression: "G6 (320000) - Em7 (022030) - Am7 (x02010) - D7 (xx0212)",
+                voicings: ["320000", "3x0000"]
+            },
+            {
+                number: 12,
+                name: "C9",
+                type: "Novena",
+                difficulty: "hard",
+                diagram: `C9\ne |-3-|  Dit 3\nB |-3-|  Dit 4\nG |-0-|\nD |-2-|  Dit 2\nA |-3-|  Dit 1\nE |-X-|`,
+                description: "Blues/Jazz - ple de color amb ressonància oberta",
+                usage: "Blues, jazz, funk",
+                tags: ["7th", "jazz"],
+                progression: "C9 (x32333) - F9 (131213) - G7 (320001) - C7 (x32310)",
+                voicings: ["x32333", "x3233x"]
+            },
+            {
+                number: 13,
+                name: "Asus2",
+                type: "Suspès",
+                difficulty: "easy",
+                diagram: `Asus2\ne |-0-|\nB |-0-|\nG |-2-|  Dit 2\nD |-2-|  Dit 3\nA |-0-|\nE |-X-|`,
+                description: "So eteri i obert - molt versàtil amb cordes a l'aire",
+                usage: "Pop, folk, rock acústic",
+                tags: ["sus", "open", "atmospheric"],
+                progression: "Asus2 (x02200) - Dsus2 (xx0230) - Esus4 (022200) - A (x02220)",
+                voicings: ["x02200", "577000"]
+            },
+            {
+                number: 14,
+                name: "Eadd9",
+                type: "Add9",
+                difficulty: "medium",
+                diagram: `Eadd9\ne |-0-|\nB |-0-|\nG |-1-|  Dit 1\nD |-2-|  Dit 2\nA |-2-|  Dit 3\nE |-2-|  Dit 4`,
+                description: "Versió enriquida de E - més profunditat",
+                usage: "Rock acústic, balades",
+                tags: ["add9", "open"],
+                progression: "Eadd9 (022102) - Aadd9 (x02200) - C#m7 (x46454) - B (x24442)",
+                voicings: ["022102", "076700"]
+            },
+            {
+                number: 15,
+                name: "B7sus4",
+                type: "Séptima suspendida",
+                difficulty: "hard",
+                diagram: `B7sus4\ne |-2-|  Dit 2\nB |-2-|  Dit 3\nG |-2-|  Dit 4\nD |-4-|  Dit 1\nA |-X-|\nE |-X-|`,
+                description: "Per progressions interessants en posicions altes amb cordes a l'aire",
+                usage: "Jazz fusion, progressions modals en posicions altes",
+                tags: ["7th", "sus", "jazz"],
+                progression: "B7sus4 (x24252) - E7sus4 (020200) - A7 (x02020) - Dmaj7 (xx0222)",
+                voicings: ["x24252", "797977"]
+            },
+            {
+                number: 16,
+                name: "Am9",
+                type: "Menor novena",
+                difficulty: "medium",
+                diagram: `Am9\ne |-0-|\nB |-1-|  Dit 1\nG |-2-|  Dit 2\nD |-2-|  Dit 3\nA |-0-|\nE |-X-|`,
+                description: "Color de jazz - suau i melancòlic amb cordes obertes",
+                usage: "Jazz, bossa nova, balades",
+                tags: ["7th", "jazz"],
+                progression: "Am9 (5x553x) - Dm9 (xx0231) - G13 (3x323x) - Cmaj9 (x32030)",
+                voicings: ["5x553x", "x05553"]
+            },
+            {
+                number: 17,
+                name: "Fmaj7",
+                type: "Séptima mayor",
+                difficulty: "medium",
+                diagram: `Fmaj7\ne |-1-|  Dit 1\nB |-1-|  Dit 1\nG |-2-|  Dit 2\nD |-3-|  Dit 3\nA |-X-|\nE |-X-|`,
+                description: "Voicing sense cejilla - accessible i bell amb cordes a l'aire",
+                usage: "Pop jazz, balades sofisticades",
+                tags: ["7th", "jazz"],
+                progression: "Fmaj7 (xx3210) - G9 (3x3233) - Am7 (x02010) - Dm7 (xx0211)",
+                voicings: ["xx3210", "1x2210"]
+            },
+            {
+                number: 18,
+                name: "G13",
+                type: "Tretzena",
+                difficulty: "hard",
+                diagram: `G13\ne |-3-|  Dit 3\nB |-3-|  Dit 4\nG |-2-|  Dit 2\nD |-0-|\nA |-2-|  Dit 1\nE |-3-|  Dit 1`,
+                description: "Màxima extensió - so complet amb ressonància oberta",
+                usage: "Jazz modern, fusion",
+                tags: ["7th", "jazz"],
+                progression: "G13 (3x323x) - Cmaj9 (x32030) - Am11 (x01213) - D7#9 (xx0212)",
+                voicings: ["3x323x", "320001"]
+            },
+            {
+                number: 19,
+                name: "Csus4",
+                type: "Suspès",
+                difficulty: "easy",
+                diagram: `Csus4\ne |-1-|  Dit 1\nB |-1-|  Dit 1\nG |-0-|\nD |-3-|  Dit 3\nA |-3-|  Dit 4\nE |-X-|`,
+                description: "Tensió brillant - resol a C amb cordes a l'aire",
+                usage: "Rock, pop, resolució dramàtica",
+                tags: ["sus", "open"],
+                progression: "C (x32010) - Csus4 (x35563) - C (x32010) - F (133211)",
+                voicings: ["x35563", "x30011"]
+            },
+            {
+                number: 20,
+                name: "Em11",
+                type: "Menor onzena",
+                difficulty: "hard",
+                diagram: `Em11\ne |-0-|\nB |-0-|\nG |-0-|\nD |-2-|  Dit 2\nA |-2-|  Dit 3\nE |-0-|`,
+                description: "Textura rica - so modal amb cordes obertes al màstil",
+                usage: "Jazz modal, fusion, ambient amb cordes obertes",
+                tags: ["7th", "jazz", "atmospheric"],
+                progression: "Em11 (000000) - A7sus4 (x00030) - Dmaj9 (xx0220) - G6 (320000)",
+                voicings: ["000000", "020000"]
+            },
+            {
+                number: 21,
+                name: "Fadd9",
+                type: "Add9",
+                difficulty: "medium",
+                diagram: `Fadd9\ne |-0-|\nB |-1-|  Dit 1\nG |-0-|\nD |-3-|  Dit 3\nA |-3-|  Dit 4\nE |-X-|`,
+                description: "Variant rica de F - afegeix brillantor",
+                usage: "Pop, indie, folk modern",
+                tags: ["add9", "open"],
+                progression: "Fadd9 (xx3013) - C (x32010) - Gadd9 (320033) - Am7 (x02010)",
+                voicings: ["xx3013", "1x3013"]
+            },
+            {
+                number: 22,
+                name: "Dsus4",
+                type: "Suspès",
+                difficulty: "easy",
+                diagram: `Dsus4\ne |-3-|  Dit 3\nB |-3-|  Dit 4\nG |-2-|  Dit 2\nD |-0-|\nA |-X-|\nE |-X-|`,
+                description: "Transició perfecta - resol naturalment a D",
+                usage: "Intros, transicions, folk",
+                tags: ["sus", "open"],
+                progression: "Dsus4 (xx0233) - D (xx0232) - G (320003) - A (x02220)",
+                voicings: ["xx0233", "x57785"]
+            },
+            {
+                number: 23,
+                name: "Em7",
+                type: "Menor sèptima",
+                difficulty: "easy",
+                diagram: `Em7\ne |-0-|\nB |-0-|\nG |-0-|\nD |-2-|  Dit 2\nA |-2-|  Dit 3\nE |-0-|`,
+                description: "Acord fonamental - base per moltes progressions",
+                usage: "Rock, pop, jazz, tots els estils",
+                tags: ["7th", "open", "atmospheric"],
+                progression: "Em7 (022030) - Am7 (x02010) - D (xx0232) - G (320003)",
+                voicings: ["022030", "020000"]
+            },
+            {
+                number: 24,
+                name: "Dm9",
+                type: "Menor novena",
+                difficulty: "hard",
+                diagram: `Dm9\ne |-1-|  Dit 1\nB |-3-|  Dit 3\nG |-2-|  Dit 2\nD |-0-|\nA |-X-|\nE |-X-|`,
+                description: "Color modal ric - so sofisticat",
+                usage: "Jazz, fusion, balades",
+                tags: ["7th", "jazz"],
+                progression: "Dm9 (xx0231) - G13 (3x323x) - Cmaj9 (x32030) - A7#9 (x02023)",
+                voicings: ["xx0231", "x53555"]
+            },
+            {
+                number: 25,
+                name: "Asus4",
+                type: "Suspès",
+                difficulty: "easy",
+                diagram: `Asus4\ne |-0-|\nB |-3-|  Dit 3\nG |-2-|  Dit 2\nD |-2-|  Dit 1\nA |-0-|\nE |-X-|`,
+                description: "Suspensió clàssica - molt utilitzada",
+                usage: "Rock, pop, progressions estàndard",
+                tags: ["sus", "open"],
+                progression: "A (x02220) - Asus4 (x02230) - A (x02220) - D (xx0232)",
+                voicings: ["x02230", "577755"]
+            },
+            {
+                number: 26,
+                name: "Bm7",
+                type: "Menor sèptima",
+                difficulty: "medium",
+                diagram: `Bm7\ne |-2-|  Dit 1 (cejilla)\nB |-3-|  Dit 2\nG |-2-|  Dit 1\nD |-4-|  Dit 3\nA |-2-|  Dit 1\nE |-X-|`,
+                description: "Acord de barra essencial - so ple",
+                usage: "Jazz, rock, progressions en LA",
+                tags: ["7th", "jazz"],
+                progression: "Bm7 (x24232) - E7 (020100) - Amaj7 (x02120) - D (xx0232)",
+                voicings: ["x24232", "797777"]
+            },
+            {
+                number: 27,
+                name: "E7",
+                type: "Sèptima dominant",
+                difficulty: "easy",
+                diagram: `E7\ne |-0-|\nB |-0-|\nG |-1-|  Dit 1\nD |-0-|\nA |-2-|  Dit 2\nE |-0-|`,
+                description: "Dominant clàssic - tensió natural",
+                usage: "Blues, rock, jazz, resolució a LA",
+                tags: ["7th", "open", "jazz"],
+                progression: "E7 (020100) - A (x02220) - D (xx0232) - A (x02220)",
+                voicings: ["020100", "076700"]
+            },
+            {
+                number: 28,
+                name: "Am11",
+                type: "Menor onzena",
+                difficulty: "hard",
+                diagram: `Am11\ne |-0-|\nB |-1-|  Dit 1\nG |-0-|\nD |-2-|  Dit 2\nA |-0-|\nE |-X-|`,
+                description: "Textura complexa - so modern i ric",
+                usage: "Jazz modal, fusion, ambient amb cordes obertes",
+                tags: ["7th", "jazz", "atmospheric"],
+                progression: "Am11 (x01213) - D9 (xx0210) - Gmaj7 (320002) - C9 (x32333)",
+                voicings: ["x01213", "5x5500"]
+            },
+            {
+                number: 29,
+                name: "Cmaj9",
+                type: "Novena major",
+                difficulty: "medium",
+                diagram: `Cmaj9\ne |-0-|\nB |-0-|\nG |-0-|\nD |-2-|  Dit 2\nA |-3-|  Dit 3\nE |-X-|`,
+                description: "Lluminós i expansiu - color jazzístic",
+                usage: "Jazz, bossa nova, pop sofisticat",
+                tags: ["jazz", "atmospheric", "open"],
+                progression: "Cmaj9 (x32030) - Am9 (5x553x) - Dm9 (xx0231) - G13 (3x323x)",
+                voicings: ["x32030", "8x998x"]
+            },
+            {
+                number: 30,
+                name: "F#m11",
+                type: "Menor onzena",
+                difficulty: "hard",
+                diagram: `F#m11\ne |-0-|\nB |-0-|\nG |-2-|  Dit 2\nD |-2-|  Dit 3\nA |-X-|\nE |-2-|  Dit 1`,
+                description: "Modal i misteriós - crea atmosferes úniques",
+                usage: "Post-rock, ambient, jazz modal",
+                tags: ["7th", "jazz", "atmospheric"],
+                progression: "F#m11 (2x2200) - Bm7 (x24232) - Emaj7 (021100) - A13 (x02022)",
+                voicings: ["2x2200", "202200"]
+            },
+            {
+                number: 31,
+                name: "D/E (trast 7)",
+                type: "Acord amb baix obert",
+                difficulty: "medium",
+                diagram: `D/E Trast 7\ne |-0-|\nB |-0-|\nG |-7-|  Dit 3\nD |-7-|  Dit 2\nA |-7-|  Dit 1\nE |-0-|`,
+                description: "D al trast 7 amb MI i SI obertes - sonoritat única i ressonant",
+                usage: "Ambient, progressions modals, post-rock",
+                tags: ["atmospheric", "open"],
+                progression: "D/E (007770) - A/E (007760) - E (022100) - Aadd9 (x02200)",
+                voicings: ["007770", "00xxxx"]
+            },
+            {
+                number: 32,
+                name: "A/E (trast 5)",
+                type: "Acord amb cordes obertes",
+                difficulty: "easy",
+                diagram: `A/E Trast 5\ne |-0-|\nB |-0-|\nG |-6-|  Dit 3\nD |-7-|  Dit 4\nA |-7-|  Dit 2\nE |-0-|`,
+                description: "LA al trast 5 amb MI i SI obertes - textura aèria",
+                usage: "Ambient, fingerstyle, textures obertes",
+                theory: "LA al trast 5 sobre MI obert - inversió radical amb obertes màgiques",
+                technique: "Posició alta + obertes agudes. Deixa ressonar tot",
+                sound: "Aeri i lluminós - com cascada de llum",
+                intervals: "MI(0)-SI(0)-FA#(6)-LA(7)-DO#(7)-MI(0) - obertes amplifiquen tot",
+                practice: "Compara amb A normal. Nota com posició alta canvia caràcter totalment",
+                examples: "Andy McKee - Drifting, Antoine Dufour - These Moments",
+                tags: ["atmospheric", "open"],
+                progression: "A/E (007760) - E (022100) - D/E (007770) - A (x02220)",
+                voicings: ["007760", "00x765"]
+            },
+            {
+                number: 33,
+                name: "G/E (trast 3)",
+                type: "Suspensió amb obertes",
+                difficulty: "easy",
+                diagram: `G/E Trast 3\ne |-0-|\nB |-0-|\nG |-0-|\nD |-5-|  Dit 3\nA |-5-|  Dit 2\nE |-0-|`,
+                description: "SOL al trast 3 amb totes les cordes agudes obertes - màgia pura",
+                usage: "Intros atmosfèriques, progressions etèries",
+                theory: "SOL al trast 3 amb totes agudes obertes - ressonància multiplicada",
+                technique: "Trast 3, 3 cordes obertes. Fàcil però impactant",
+                sound: "Màgic i ressonant - com campanes celestes",
+                intervals: "MI(0)-SI(0)-SOL(0)-RE(5)-SOL(5)-MI(0) - pedal MI constant",
+                practice: "Toca lentament, escolta batecs harmònics. Deixa vibrar màxim temps",
+                examples: "Bon Iver - Re: Stacks, Sufjan Stevens - Chicago",
+                tags: ["atmospheric", "open", "sus"],
+                progression: "G/E (000550) - D/E (007770) - A/E (007760) - E (022100)",
+                voicings: ["000550", "000x5x"]
+            },
+            {
+                number: 34,
+                name: "C/E (trast 8)",
+                type: "Voicing alt amb obertes",
+                difficulty: "medium",
+                diagram: `C/E Trast 8\ne |-0-|\nB |-0-|\nG |-9-|  Dit 3\nD |-10-| Dit 4\nA |-10-| Dit 2\nE |-0-|`,
+                description: "DO al trast 8 amb MI i SI obertes - so expansiu i modern",
+                usage: "Pop modern, indie, ambient",
+                theory: "DO al trast 8 - posició extrema amb obertes màgiques. So modern i únic",
+                technique: "Posició molt alta. Precisió + obertes = so extraordinari",
+                sound: "Expansiu i modern - com ciutat de nit il·luminada",
+                intervals: "MI(0)-SI(0)-SOL(9)-DO(10)-MI(10)-MI(0) - contrast registres màxim",
+                practice: "Dificultat alta. Practica lent, enfoca precisió abans velocitat",
+                examples: "Alt-J - Breezeblocks, Local Natives - Sun Hands",
+                tags: ["atmospheric", "open"],
+                progression: "C/E (00xTT9) - G/E (000550) - D/E (007770) - A/E (007760)",
+                voicings: ["00xTT9", "00xTTx"]
+            },
+            {
+                number: 35,
+                name: "Dsus2 (trast 5)",
+                type: "Suspès en posició alta",
+                difficulty: "easy",
+                diagram: `Dsus2 Trast 5\ne |-0-|\nB |-0-|\nG |-0-|\nD |-0-|\nA |-5-|  Dit 1\nE |-X-|`,
+                description: "RE suspès al trast 5 amb totes les cordes obertes excepte LA - ressonància màxima",
+                usage: "Intros, ambients espacials, drone",
+                theory: "RE suspès al trast 5 amb 4 obertes - màxima ressonància possible",
+                technique: "Un dit al LA, resta obertes. Simplicitat extrema, so complex",
+                sound: "Celestial i ressonant - com estels vibrant",
+                intervals: "RE(0)-LA(5)-RE(0)-SOL(0)-SI(0)-MI(0) - drone amb obertes",
+                practice: "Usa com base meditativa. Toca un cop, escolta decaiguda 30 segons",
+                examples: "Mogwai - Mogwai Fear Satan, This Will Destroy You - Quiet",
+                tags: ["sus", "open", "atmospheric"],
+                progression: "Dsus2(5) (x50000) - Asus2 (x02200) - Esus4 (022200) - Bm/E (002440)",
+                voicings: ["x50000", "x5000x"]
+            },
+            {
+                number: 36,
+                name: "Fmaj7#11/E",
+                type: "Jazz amb obertes",
+                difficulty: "hard",
+                diagram: `Fmaj7#11/E\ne |-0-|\nB |-0-|\nG |-2-|  Dit 2\nD |-3-|  Dit 3\nA |-X-|\nE |-0-|`,
+                description: "FA maj7#11 sobre MI obert - color jazzístic ultramodern",
+                usage: "Jazz modern, fusion, composicions avançades",
+                tags: ["jazz", "atmospheric", "open"],
+                progression: "Fmaj7#11/E (000320) - Em11 (000000) - Am11 (x01213) - Dmaj9 (xx0220)",
+                voicings: ["000320", "0003x0"]
+            },
+            {
+                number: 37,
+                name: "Bm11/E",
+                type: "Menor amb obertes",
+                difficulty: "medium",
+                diagram: `Bm11/E\ne |-0-|\nB |-0-|\nG |-4-|  Dit 2\nD |-4-|  Dit 3\nA |-2-|  Dit 1\nE |-0-|`,
+                description: "SI menor 11 sobre MI obert - obscur i ressonant",
+                usage: "Post-rock, ambient, progressions melancòliques",
+                tags: ["7th", "atmospheric", "open"],
+                progression: "Bm11/E (002440) - Em7 (022030) - Am7 (x02010) - D/E (007770)",
+                voicings: ["002440", "00x44x"]
+            },
+            {
+                number: 38,
+                name: "Gmaj9/E",
+                type: "Major 9 amb obertes",
+                difficulty: "medium",
+                diagram: `Gmaj9/E\ne |-0-|\nB |-0-|\nG |-0-|\nD |-4-|  Dit 2\nA |-5-|  Dit 3\nE |-0-|`,
+                description: "SOL maj9 amb cordes obertes - lluminós i obert",
+                usage: "Folk modern, indie, balades atmosfèriques",
+                tags: ["jazz", "atmospheric", "open"],
+                progression: "Gmaj9/E (000540) - Cadd9 (x32033) - D/E (007770) - Em11 (000000)",
+                voicings: ["000540", "000x4x"]
+            },
+            {
+                number: 39,
+                name: "A7sus4/E (trast 7)",
+                type: "Suspès 7 en alt",
+                difficulty: "hard",
+                diagram: `A7sus4/E\ne |-0-|\nB |-0-|\nG |-0-|\nD |-7-|  Dit 2\nA |-7-|  Dit 1\nE |-0-|`,
+                description: "LA7sus4 al trast 7 amb totes les obertes possibles - tensió etèria",
+                usage: "Progressions modals, ambient, textures suspeses",
+                tags: ["7th", "sus", "atmospheric", "open"],
+                progression: "A7sus4/E (000770) - D/E (007770) - G/E (000550) - E (022100)",
+                voicings: ["000770", "000x70"]
+            },
+            {
+                number: 40,
+                name: "Esus2add#4",
+                type: "Acord obert experimental",
+                difficulty: "easy",
+                diagram: `Esus2add#4\ne |-0-|\nB |-0-|\nG |-0-|\nD |-0-|\nA |-X-|\nE |-0-|`,
+                description: "Totes les cordes obertes - el so més ressonant possible! Màgia pura",
+                usage: "Drones, ambient extremo, intros minimalistes",
+                tags: ["atmospheric", "open", "sus"],
+                progression: "Esus2add#4 (000000) - D/E (007770) - A/E (007760) - E (022100)",
+                voicings: ["000000", "0000xx"]
+            },
+            {
+                number: 41,
+                name: "F#m7add11/E (trast 9)",
+                type: "Menor amb tensions",
+                difficulty: "hard",
+                diagram: `F#m7add11/E\ne |-0-|\nB |-0-|\nG |-11-| Dit 3\nD |-11-| Dit 4\nA |-9-|  Dit 1\nE |-0-|`,
+                description: "FA# menor amb tensions al trast 9 - cordes obertes creen color únic",
+                usage: "Jazz modal, post-rock, soundscapes complexos",
+                tags: ["7th", "jazz", "atmospheric", "open"],
+                progression: "F#m7add11/E (009xBB) - Bm11/E (002440) - Emaj7 (021100) - A13 (x02022)",
+                voicings: ["009xBB", "009BB0"]
+            },
+            {
+                number: 42,
+                name: "Cmaj13/E (trast 12)",
+                type: "Acord de tensions altes",
+                difficulty: "hard",
+                diagram: `Cmaj13/E\ne |-0-|\nB |-0-|\nG |-12-| Dit 3\nD |-12-| Dit 2\nA |-12-| Dit 1\nE |-0-|`,
+                description: "DO maj13 al trast 12 amb obertes - tensió màxima i bellesa extrema",
+                usage: "Jazz contemporani, fusion, finals expansius",
+                tags: ["jazz", "atmospheric", "open"],
+                progression: "Cmaj13/E (00xCCC) - Fmaj9/E (xx3013) - Bm11/E (002440) - E (022100)",
+                voicings: ["00xCCC", "00CCC0"]
+            },
+            {
+                number: 43,
+                name: "E7#9 (trast 4)",
+                type: "Dominant amb tensió",
+                difficulty: "medium",
+                diagram: `E7#9\ne |-0-|\nB |-0-|\nG |-1-|  Dit 1\nD |-4-|  Dit 3\nA |-4-|  Dit 2\nE |-0-|`,
+                description: "MI7 amb 9a augmentada - tensió bluesy amb obertes (acord Hendrix)",
+                usage: "Blues rock, funk, resolucions dramàtiques",
+                tags: ["7th", "atmospheric", "open"],
+                progression: "E7#9 (000440) - A7#9 (x02023) - D9 (xx0210) - A (x02220)",
+                voicings: ["000440", "00x44x"]
+            },
+            {
+                number: 44,
+                name: "Asus2/B (trast 9)",
+                type: "Suspès amb baix alt",
+                difficulty: "medium",
+                diagram: `Asus2/B\ne |-0-|\nB |-0-|\nG |-9-|  Dit 2\nD |-9-|  Dit 3\nA |-X-|\nE |-0-|`,
+                description: "LA suspès al trast 9 sobre MI - etèria i flotant",
+                usage: "Ambient, intros cinematogràfiques, textures",
+                tags: ["sus", "atmospheric", "open"],
+                progression: "Asus2/B(9) (00x990) - Gsus2/E (000550) - D/E (007770) - E (022100)",
+                voicings: ["00x990", "00990x"]
+            },
+            {
+                number: 45,
+                name: "Dmaj9#11/E",
+                type: "Major amb tensions",
+                difficulty: "hard",
+                diagram: `Dmaj9#11/E\ne |-0-|\nB |-0-|\nG |-6-|  Dit 2\nD |-7-|  Dit 3\nA |-5-|  Dit 1\nE |-0-|`,
+                description: "RE maj9#11 sobre MI - tensions lidies amb obertes, so celestial",
+                usage: "Jazz modern, composició, progressions lidies",
+                theory: "RE maj9#11 sobre MI - totes tensions lidies. Complexitat màxima",
+                technique: "Trast 5-7, obertes MI-SI. Dificultat alta, resultat extraordinari",
+                sound: "Celestial i dens - com galàxia harmònica",
+                intervals: "MI(0)-SI(0)-DO#(6)-MI(7)-LA(5)-MI(0) - lidio extens",
+                practice: "Usa en reemplaçaments lidis. Estudia escala D Lidio",
+                examples: "Brad Mehldau - Blackbird, Hiromi - Place To Be",
+                tags: ["jazz", "atmospheric", "open"],
+                progression: "Dmaj9#11/E (005670) - Amaj9/E (008990) - Em11 (000000) - Bm7/E (002440)",
+                voicings: ["005670", "00x67x"]
+            },
+            {
+                number: 46,
+                name: "G#m9/E (trast 11)",
+                type: "Menor 9 alt",
+                difficulty: "hard",
+                diagram: `G#m9/E\ne |-0-|\nB |-0-|\nG |-0-|\nD |-11-| Dit 2\nA |-11-| Dit 1\nE |-0-|`,
+                description: "SOL# menor 9 al trast 11 amb 3 obertes - obscur i hipnòtic",
+                usage: "Post-rock, ambient fosc, progressions misterioses",
+                theory: "SOL# menor 9 al trast 11 - obscur però ric. Relació cromàtica amb MI",
+                technique: "Trast 11, 3 obertes. Posició extrema del màstil",
+                sound: "Obscur i hipnòtic - com laberint de miralls",
+                intervals: "MI(0)-SI(0)-SOL(0)-RE#(11)-SOL#(11)-MI(0) - cromatisme dens",
+                practice: "Usa en progressions cromàtiques. Explora relacions no diatòniques",
+                examples: "Radiohead - Pyramid Song, Portishead - Glory Box",
+                tags: ["7th", "jazz", "atmospheric", "open"],
+                progression: "G#m9/E (000xBB) - C#m9/E (000x99) - F#m11/E (2x2200) - E (022100)",
+                voicings: ["000xBB", "000BB0"]
+            },
+            {
+                number: 47,
+                name: "Bb6/9/E (trast 10)",
+                type: "Acord de color",
+                difficulty: "hard",
+                diagram: `Bb6/9/E\ne |-0-|\nB |-0-|\nG |-0-|\nD |-10-| Dit 2\nA |-10-| Dit 1\nE |-0-|`,
+                description: "SIb 6/9 sobre MI al trast 10 - politonal, màgic i complex",
+                usage: "Jazz fusion, soundscapes, colors avançats",
+                theory: "SIb 6/9 sobre MI - politonal extrem. Dos centres tonals distants",
+                technique: "Trast 10, 3 obertes. Concentració màxima per netedat",
+                sound: "Politonal i màgic - com dues realitats superposades",
+                intervals: "MI(0)-SI(0)-SOL(0)-SIb(10)-REb(10)-MI(0) - bitonalitat",
+                practice: "Experimenta resolucions no convencionals. Crea progressions modernes",
+                examples: "Herbie Hancock - Maiden Voyage, Robert Glasper - Smells Like Teen Spirit",
+                tags: ["jazz", "atmospheric", "open"],
+                progression: "Bb6/9/E (000xAA) - Eb6/9/E (000x88) - Am11 (x01213) - E (022100)",
+                voicings: ["000xAA", "000AA0"]
+            },
+            {
+                number: 48,
+                name: "Esus4#9 (trast 6)",
+                type: "Suspès amb tensió",
+                difficulty: "medium",
+                diagram: `Esus4#9\ne |-0-|\nB |-0-|\nG |-0-|\nD |-0-|\nA |-6-|  Dit 1\nE |-0-|`,
+                description: "MI suspès amb 9a augmentada al trast 6 - tensió sostinguda amb màxima obertura",
+                usage: "Drones amb tensió, ambient experimental",
+                theory: "MI sus4 amb #9 - tensió sostinguda màxima. Suspens + cromatisme",
+                technique: "Trast 6, màximes obertes. Deixa vibrar eternament",
+                sound: "Tens i misteriós - com portal a altra dimensió",
+                intervals: "MI(0)-SI(0)-RE(0)-SOL(0)-LA#(6)-MI(0) - suspens cromàtic",
+                practice: "Usa com drone base. Experimenta amb efectes ambients",
+                examples: "Sigur Rós - Untitled 8, Explosions in the Sky - The Birth and Death",
+                theory: "MI suspès amb #4 (La#) - tensió cromàtica en mare oberta",
+                technique: "Trast 6, màximes obertes. Deixa vibrar tot sense aturar",
+                sound: "Misteriós i tens - com enigma harmònic",
+                intervals: "MI(0)-SOL(0)-RE(0)-SI(0)-LA#(6)-MI(0) - cromatisme sobre diatònic",
+                practice: "Usa com drone. Experimenta amb feedback controlat",
+                examples: "Godspeed You Black Emperor - East Hastings, Mogwai - Like Herod",
+                tags: ["sus", "atmospheric", "open"],
+                progression: "Esus4#9 (00006x) - A/E (007760) - D/E (007770) - E (022100)",
+                voicings: ["00006x", "000060"]
+            },
+            {
+                number: 49,
+                name: "Amaj7#5/E (trast 8)",
+                type: "Major augmentat",
+                difficulty: "hard",
+                diagram: `Amaj7#5/E\ne |-0-|\nB |-0-|\nG |-9-|  Dit 3\nD |-9-|  Dit 2\nA |-8-|  Dit 1\nE |-0-|`,
+                description: "LA maj7 amb 5a augmentada - cromàtic i ressonant amb obertes",
+                usage: "Jazz harmònic, progressions cromàtiques",
+                theory: "LA maj7 amb 5a augmentada - cromàtic i ressonant. So whole-tone",
+                technique: "Trast 8-9, obertes MI-SI. Alta precisió requerida",
+                sound: "Cromàtic i tensional - com escalera harmònica infinita",
+                intervals: "MI(0)-SI(0)-DO#(9)-MI#(9)-LA(8)-MI(0) - augmentat + obertes",
+                practice: "Usa en moviments cromàtics. Explora escala whole-tone",
+                examples: "Thelonious Monk - Round Midnight, Bill Evans - Blue in Green",
+                tags: ["jazz", "atmospheric", "open"],
+                progression: "Amaj7#5/E (008990) - Dmaj7/E (005670) - G#m11/E (000xBB) - Cmaj7/E (00xCCC)",
+                voicings: ["008990", "00x99x"]
+            },
+            {
+                number: 50,
+                name: "B13sus4/E (trast 9)",
+                type: "Suspès de tensions",
+                difficulty: "hard",
+                diagram: `B13sus4/E\ne |-0-|\nB |-0-|\nG |-0-|\nD |-9-|  Dit 2\nA |-9-|  Dit 1\nE |-0-|`,
+                description: "SI 13 suspès al trast 9 - totes les tensions possibles amb obertes màximes",
+                usage: "Jazz modal extrem, fusion, ambient complex",
+                theory: "SI 13 suspès al trast 9 - totes tensions possibles. Culmen harmònic",
+                technique: "Trast 9, màximes obertes. Acord final - màxima complexitat",
+                sound: "Màgic i complex - com univers harmònic complet",
+                intervals: "MI(0)-SI(0)-SOL(0)-LA(9)-SI(9)-MI(0) - suspès + 13a + obertes",
+                practice: "Deixa vibrar 40 segons. Escolta totes ressonàncies. Medita sobre complexitat",
+                examples: "McCoy Tyner - Passion Dance, Chick Corea - Windows",
+                tags: ["7th", "sus", "jazz", "atmospheric", "open"],
+                progression: "B13sus4/E (000990) - E13sus4 (000000) - A13sus4 (x02230) - Dmaj9 (xx0220)",
+                voicings: ["000990", "00099x"]
+            }
+        ];
+
+        // Funció per renderitzar els acords
+        function renderChords(filter = 'all', searchTerm = '') {
+            const container = document.getElementById('chords-container');
+            container.innerHTML = '';
+            
+            let filteredChords = chords;
+            
+            // Aplicar filtre
+            if (filter !== 'all') {
+                filteredChords = filteredChords.filter(chord => 
+                    chord.tags.some(tag => tag.includes(filter))
+                );
+            }
+            
+            // Aplicar cerca
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filteredChords = filteredChords.filter(chord => 
+                    chord.name.toLowerCase().includes(term) ||
+                    chord.type.toLowerCase().includes(term) ||
+                    chord.description.toLowerCase().includes(term) ||
+                    chord.tags.some(tag => tag.toLowerCase().includes(term))
+                );
+            }
+            
+            if (filteredChords.length === 0) {
+                container.innerHTML = '<div class="no-results">No s\'han trobat acords que coincideixin amb la cerca.</div>';
+                return;
+            }
+            
+            filteredChords.forEach(chord => {
+                const card = document.createElement('div');
+                card.className = 'chord-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h2>${chord.name}</h2>
+                            <span class="card-number">${chord.number}</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-section">
+                            <h3 class="section-title">🎸 Diagrama</h3>
+                            <div class="chord-diagram">${chord.diagram}</div>
+                        </div>
+                        <div class="card-section">
+                            <h3 class="section-title">🏷️ Característiques</h3>
+                            <div class="tags">
+                                <span class="tag type-tag">${chord.type}</span>
+                                <span class="tag difficulty-tag difficulty-${chord.difficulty}">Dificultat: ${chord.difficulty}</span>
+                                ${chord.tags.map(tag => `<span class="tag type-tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <button class="toggle-btn" onclick="toggleDetails(this)">
+                            Veure detalls complets
+                        </button>
+                        
+                        <div class="chord-details">
+                            ${chord.sound ? `
+                            <div class="card-section highlight-section">
+                                <h3 class="section-title">🎵 Com Sona</h3>
+                                <p class="sound-description">${chord.sound}</p>
+                            </div>
+                            ` : ''}
+                            <div class="card-section">
+                                <h3 class="section-title">✨ Descripció</h3>
+                                <p class="description">${chord.description}</p>
+                            </div>
+                            ${chord.theory ? `
+                            <div class="card-section theory-section">
+                                <h3 class="section-title">📚 Teoria</h3>
+                                <p class="theory">${chord.theory}</p>
+                            </div>
+                            ` : ''}
+                            ${chord.intervals ? `
+                            <div class="card-section intervals-section">
+                                <h3 class="section-title">🎼 Intervals</h3>
+                                <p class="intervals">${chord.intervals}</p>
+                            </div>
+                            ` : ''}
+                            ${chord.technique ? `
+                            <div class="card-section technique-section">
+                                <h3 class="section-title">✋ Tècnica</h3>
+                                <p class="technique">${chord.technique}</p>
+                            </div>
+                            ` : ''}
+                            ${chord.practice ? `
+                            <div class="card-section practice-section">
+                                <h3 class="section-title">💪 Consells de Pràctica</h3>
+                                <p class="practice">${chord.practice}</p>
+                            </div>
+                            ` : ''}
+                            <div class="card-section">
+                                <h3 class="section-title">🎯 Ús Recomanat</h3>
+                                <p class="usage">${chord.usage}</p>
+                            </div>
+                            ${chord.examples ? `
+                            <div class="card-section examples-section">
+                                <h3 class="section-title">🎧 Exemples Coneguts</h3>
+                                <p class="examples">${chord.examples}</p>
+                            </div>
+                            ` : ''}
+                            <div class="card-section">
+                                <h3 class="section-title">📈 Progressió</h3>
+                                <div class="progression">${chord.progression}</div>
+                            </div>
+                            <div class="card-section">
+                                <h3 class="section-title">🎼 Voicings Alternatius</h3>
+                                <div class="tags">
+                                    ${chord.voicings.map(voicing => `<span class="tag voicing-tag">${voicing}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Funció per desplegar/plegar detalls
+        function toggleDetails(button) {
+            const details = button.nextElementSibling;
+            button.classList.toggle('active');
+            details.classList.toggle('expanded');
+            
+            if (details.classList.contains('expanded')) {
+                button.textContent = 'Amagar detalls';
+            } else {
+                button.textContent = 'Veure detalls complets';
+            }
+        }
+        
+        // Inicialitzar la pàgina
+        document.addEventListener('DOMContentLoaded', () => {
+            renderChords();
+            
+            // Configurar filtres
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const searchTerm = document.querySelector('.search-input').value;
+                    renderChords(this.dataset.filter, searchTerm);
+                });
+            });
+            
+            // Configurar cerca
+            document.querySelector('.search-input').addEventListener('input', function() {
+                const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+                renderChords(activeFilter, this.value);
+            });
+        });
+    </script>
+  <script>
+    // ======================================================================
+    //  SO EN DIRECTE (sintetitzador propi, sense dependencies ni fitxers)
+    //
+    //  El mateix motor que fa servir EmotiChords: cada nota porta tres
+    //  harmonics i una caiguda de piano de mes de dos segons (mesurat:
+    //  -23 dB a l'inici, -41 dB al segon i mig).
+    //
+    //  Ofereix:
+    //    window.__so.tocaAcords(["Cmaj7","G7alt"])   -> sona la progressio
+    //    window.__so.tocaNotes(["C","D","Eb"])       -> sona una escala
+    //    window.__so.extreuAcords(text)              -> treu els acords d'un text
+    //    window.__so.boto(text, acords)              -> boto llest per posar
+    // ======================================================================
+    (function () {
+      const SEMI = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+      const QUALITATS = [
+        ["maj7#5#11", [0, 4, 8, 11, 18]], ["maj7#11#5", [0, 4, 8, 11, 18]],
+        ["maj7add#11", [0, 4, 7, 11, 18]], ["maj7#11", [0, 4, 7, 11, 18]],
+        ["maj7#5", [0, 4, 8, 11]], ["maj7add13", [0, 4, 7, 11, 9]],
+        ["maj13#11", [0, 4, 11, 14, 21]], ["maj13", [0, 4, 11, 14, 21]],
+        ["maj11", [0, 4, 7, 11, 14, 17]], ["maj9#11", [0, 4, 7, 11, 14, 18]],
+        ["maj9#5", [0, 4, 8, 11, 14]], ["maj9", [0, 4, 7, 11, 14]],
+        ["maj7", [0, 4, 7, 11]], ["maj", [0, 4, 7]],
+        ["m11", [0, 3, 10, 14, 17]], ["m9", [0, 3, 7, 10, 14]], ["m6", [0, 3, 7, 9]],
+        ["m7b5", [0, 3, 6, 10]], ["m7#5", [0, 3, 8, 10]], ["m7", [0, 3, 7, 10]],
+        ["madd9", [0, 3, 7, 14]], ["madd11", [0, 3, 7, 17]],
+        ["m", [0, 3, 7]], ["dim7", [0, 3, 6, 9]], ["dim", [0, 3, 6]],
+        ["aug", [0, 4, 8]], ["sus4", [0, 5, 7]], ["sus2", [0, 2, 7]], ["sus", [0, 5, 7]],
+        ["add9", [0, 4, 7, 14]], ["6", [0, 4, 7, 9]], ["9", [0, 4, 7, 10, 14]],
+        ["13", [0, 4, 7, 10, 14, 21]], ["11", [0, 4, 7, 10, 14, 17]],
+        ["7b9#11", [0, 4, 10, 13, 18]], ["7#5b9", [0, 4, 8, 10, 13]],
+        ["7alt", [0, 4, 10, 13, 20]], ["7b9", [0, 4, 7, 10, 13]], ["7#9", [0, 4, 7, 10, 15]],
+        ["7b13", [0, 4, 7, 10, 20]], ["7#11", [0, 4, 10, 18]], ["7b5", [0, 4, 6, 10]],
+        ["7#5", [0, 4, 8, 10]], ["7sus4", [0, 5, 7, 10]], ["7sus", [0, 5, 7, 10]],
+        ["7", [0, 4, 7, 10]], ["", [0, 4, 7]]
+      ];
+      const PARCIALS = [[1, 1.0], [2, 0.45], [3, 0.22]];
+      const DUR = 2.3, ATA = 0.008, RELEASE = 0.12, VOL = 0.16;
+
+      function notes(simbol) {
+        let s = String(simbol).trim().replace(/♯/g, "#").replace(/♭/g, "b").replace(/[()]/g, "");
+        s = s.replace(/no5/g, "").replace(/\s+/g, "");
+        if (s.indexOf("/") >= 0) s = s.split("/")[0];
+        const m = s.match(/^([A-G])([#b]?)(.*)$/);
+        if (!m) return null;
+        const arrel = SEMI[m[1]] + (m[2] === "#" ? 1 : m[2] === "b" ? -1 : 0);
+        // la resta en minuscules: "CMaj7" i "Cmaj7" son el mateix
+        let resta = m[3].toLowerCase().replace("min", "m").replace("Δ", "maj");
+        for (const [clau, intervals] of QUALITATS) {
+          if (resta === clau) {
+            const base = 57 + arrel;
+            return intervals.map(i => 440 * Math.pow(2, (base + i - 69) / 12));
+          }
+        }
+        return null;
+      }
+
+      let ctx = null, actius = [];
+      function context() {
+        if (!ctx) {
+          ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const filtre = ctx.createBiquadFilter();
+          filtre.type = "lowpass"; filtre.frequency.value = 5200; filtre.Q.value = 0.4;
+          const master = ctx.createGain(); master.gain.value = 1.7;
+          filtre.connect(master); master.connect(ctx.destination);
+          ctx.__desti = filtre;
+        }
+        if (ctx.state === "suspended") ctx.resume();
+        return ctx;
+      }
+
+      function programa(ctx2, desti, fs, inici, dur, volBase) {
+        const durAc = dur || DUR;
+        const vol = (volBase || VOL) / Math.sqrt(Math.max(1, fs.length));
+        fs.forEach((f, j) => {
+          PARCIALS.forEach(([mult, g]) => {
+            const f2 = f * mult;
+            if (f2 > ctx2.sampleRate / 2 - 500) return;
+            const osc = ctx2.createOscillator(), gan = ctx2.createGain();
+            osc.type = "triangle"; osc.frequency.value = f2;
+            const pic = vol * g, t0 = inici + ATA * (1 + j * 0.35);
+            gan.gain.setValueAtTime(0.0001, Math.max(0, t0 - 0.001));
+            gan.gain.linearRampToValueAtTime(pic, t0);
+            gan.gain.exponentialRampToValueAtTime(pic * 0.30, t0 + durAc * 0.10);
+            gan.gain.exponentialRampToValueAtTime(pic * 0.12, t0 + durAc * 0.55);
+            gan.gain.exponentialRampToValueAtTime(pic * 0.02, t0 + durAc);
+            gan.gain.linearRampToValueAtTime(0.0001, t0 + durAc + RELEASE);
+            osc.connect(gan); gan.connect(desti);
+            osc.start(Math.max(0, t0 - 0.001)); osc.stop(t0 + durAc + RELEASE + 0.02);
+          });
+        });
+      }
+
+      function tocaAcords(acords, etiqueta) {
+        try {
+          const c = context();
+          actius.forEach(o => { try { o.stop(); } catch (e) {} });
+          actius = [];
+          const t0 = c.currentTime + 0.06, fets = [];
+          acords.forEach((s, k) => {
+            const fs = notes(s);
+            if (!fs) return;
+            programa(c, c.__desti, fs, t0 + k * DUR, DUR, VOL);
+            fets.push(s);
+          });
+          window.__so = Object.assign(window.__so || {}, {
+            ultim: { acords: fets, etiqueta: etiqueta || "", durada: fets.length * DUR, quan: Date.now() }
+          });
+          return fets.length;
+        } catch (e) { console.warn("so: error", e); return 0; }
+      }
+
+      // escala: notes una darrere l'altra, mes curtes
+      function tocaNotes(notes_, etiqueta, dura) {
+        try {
+          const c = context();
+          actius.forEach(o => { try { o.stop(); } catch (e) {} });
+          actius = [];
+          const d = dura || 0.85;
+          const t0 = c.currentTime + 0.06;
+          let n = 0;
+          notes_.forEach((s, k) => {
+            const fs = notes(s);
+            if (!fs) return;
+            programa(c, c.__desti, [fs[0]], t0 + k * d, d, VOL * 1.5);
+            n++;
+          });
+          window.__so = Object.assign(window.__so || {}, {
+            ultim: { notes: notes_.length, etiqueta: etiqueta || "", quan: Date.now() }
+          });
+          return n;
+        } catch (e) { console.warn("so: error", e); return 0; }
+      }
+
+      function atura() {
+        actius.forEach(o => { try { o.stop(); } catch (e) {} });
+        actius = [];
+      }
+
+      // Treu els simbols d'acord d'un text (per exemple d'una explicacio).
+      // Nomes accepta simbols amb qualitat o extensio (Cmaj7, Em7, F#m7b5, G/B):
+      // una lletra sola es una NOTA, no un acord, i es descarta.
+      const NOM = "[A-G][#b♯♭]?(?:maj|min|m|dim|aug|sus|add)?\\d*(?:[#b♯♭]\\d+)*(?:\\((?:no|add)\\d+\\))?(?:/(?:[A-G][#b♯♭]?))?";
+      function extreuAcords(text) {
+        const vistos = [], out = [];
+        const re = new RegExp("(^|[\\s(>,·-])(" + NOM + ")(?=[\\s:)-]|$)", "gi");
+        let m;
+        while ((m = re.exec(text)) !== null) {
+          const s = m[2];
+          if (vistos.indexOf(s) >= 0) continue;
+          if (!notes(s)) continue;
+          // ha de tenir qualitat, extensio o inversio: si no, es una nota solta
+          const teQualitat = /[A-G][#b♯♭]?/.test(s) && s.replace(/^[A-G][#b♯♭]?/, "").length > 0;
+          if (!teQualitat && s.indexOf("/") < 0) continue;
+          vistos.push(s); out.push(s);
+        }
+        return out;
+      }
+
+      function boto(text, acords, etiqueta) {
+        const b = document.createElement("button");
+        b.textContent = text;
+        b.setAttribute("data-so", "1");
+        b.style.cssText = "margin:6px 4px; padding:7px 12px; background:#f39c12; color:#fff;" +
+                          "border:none; border-radius:6px; cursor:pointer; font-size:12.5px; font-weight:600;";
+        b.addEventListener("click", () => {
+          const n = tocaAcords(acords, etiqueta);
+          if (n) { b.textContent = "▶ Sonant " + n + " acords";
+                   setTimeout(() => { b.textContent = text; }, n * DUR * 1000); }
+        });
+        return b;
+      }
+
+      window.__so = { notes: notes, tocaAcords: tocaAcords, tocaNotes: tocaNotes,
+                      atura: atura, extreuAcords: extreuAcords, boto: boto, programa: programa };
+    })();
+
+    // ------------------------------------------------------------------
+    //  Botons de so: cada fitxa d'acord porta la seva progressio al camp
+    //  'progression' (per exemple "Emadd9 (024000) - Csus2 (x35033) - ...").
+    //  Els traiem els parentesis amb les digitacions i fem sonar els acords.
+    // ------------------------------------------------------------------
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+        if (typeof chords === "undefined" || !window.__so) { console.warn("so: no trobo els acords"); return; }
+        const cont = document.getElementById("chords-container");
+        if (!cont) return;
+
+        function acordsDe(text) {
+          return String(text).replace(/\([^)]*\)/g, " ").split(/\s*-\s*/)
+                     .map(s => s.trim()).filter(s => window.__so.notes(s));
+        }
+
+        function posaBotons() {
+          const fitxes = cont.querySelectorAll(".chord-card");
+          fitxes.forEach(function (fitxa) {
+            if (fitxa.querySelector("[data-so]")) return;
+            const cos = fitxa.textContent || "";
+            const trobat = chords.find(function (c) { return cos.indexOf(c.name) === 0 || cos.indexOf(c.name) >= 0; });
+            const acords = trobat && trobat.progression ? acordsDe(trobat.progression) : [];
+            if (acords.length) {
+              fitxa.appendChild(window.__so.boto("▶ Escoltar la progressió", acords, trobat.name));
+            }
+          });
+        }
+
+        const orig = window.renderChords;
+        if (typeof orig === "function") {
+          window.renderChords = function () { const r = orig.apply(null, arguments); posaBotons(); return r; };
+        }
+        posaBotons();
+        // per si la pagina es re-renderitza en filtrar o cercar
+        setInterval(posaBotons, 1500);
+      }, 150);
+    });
+
+  </script>
+</body>
+</html>

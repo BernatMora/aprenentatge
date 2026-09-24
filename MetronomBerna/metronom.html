@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0f172a" />
+<title>Metrònom · ritme i compàs</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; padding: 14px 12px 40px; background: #0f172a; color: #e2e8f0;
+         font: 15.5px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 620px; margin-inline: auto; user-select: none; }
+  h1 { font-size: 19px; margin: 0 0 2px; }
+  p.sub { color: #94a3b8; font-size: 12.5px; margin: 0 0 12px; }
+  .bloc { border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04);
+          border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; }
+  .et { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #94a3b8;
+        margin-bottom: 6px; }
+
+  /* --- tempo --- */
+  .fila { display: flex; align-items: center; gap: 10px; }
+  .bpm { font-size: 44px; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums;
+         line-height: 1; min-width: 118px; text-align: center; }
+  .bpm small { font-size: 13px; font-weight: 600; color: #94a3b8; display: block; }
+  .boto { border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.06);
+          color: #e2e8f0; border-radius: 10px; padding: 9px 12px; font: inherit; font-weight: 600;
+          cursor: pointer; }
+  .boto:active { background: rgba(255,255,255,.16); }
+  .boto.gran { font-size: 22px; padding: 6px 14px; }
+  .principal { background: rgba(16,185,129,.28); border-color: #10b981; color: #d1fae5;
+               font-size: 17px; padding: 13px 18px; width: 100%; }
+  .principal.aturat { background: rgba(239,68,68,.28); border-color: #ef4444; color: #fee2e2; }
+  input[type=range] { width: 100%; accent-color: #38bdf8; }
+  .noms { display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
+
+  /* --- compàs i temps --- */
+  .temps { display: flex; gap: 6px; flex-wrap: wrap; }
+  .batec { flex: 1; min-width: 34px; height: 44px; border-radius: 9px; border: 1px solid rgba(255,255,255,.15);
+           background: rgba(255,255,255,.05); display: flex; align-items: center; justify-content: center;
+           font-weight: 700; font-size: 15px; color: #94a3b8; cursor: pointer; position: relative; }
+  .batec.fort { background: rgba(56,189,248,.22); border-color: #38bdf8; color: #e0f2fe; }
+  .batec.mut { opacity: .35; text-decoration: line-through; }
+  .batec.sona { transform: scale(1.08); box-shadow: 0 0 0 2px #38bdf8 inset; }
+  .batec.sona.fort { box-shadow: 0 0 0 2px #fbbf24 inset; }
+  .opcions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .opcions button { border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.05);
+                    color: #cbd5e1; border-radius: 8px; padding: 6px 11px; font: inherit; font-size: 13.5px;
+                    cursor: pointer; }
+  .opcions button.actiu { background: rgba(14,165,233,.3); border-color: #0ea5e9; color: #e0f2fe;
+                          font-weight: 700; }
+
+  /* --- indicador gran --- */
+  .indicador { display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .punt { width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,.12); }
+  .punt.sona { background: #38bdf8; }
+  .punt.sona.fort { background: #fbbf24; transform: scale(1.25); }
+  .compte { font-size: 13px; color: #94a3b8; font-variant-numeric: tabular-nums; }
+  .peu { color: #64748b; font-size: 11.5px; line-height: 1.7; margin-top: 16px; }
+  .avis { font-size: 12px; color: #fde68a; min-height: 17px; }
+</style>
+</head>
+<body>
+  <h1>🥁 Metrònom <span style="font-size:12px;color:#64748b">v3 · 13:05</span></h1>
+  <p class="sub">Ritme i compàs per practicar. Precisió de rellotge (programació anticipada),
+    amb subdivisions, accents, patrons i entrenador de velocitat.</p>
+
+  <!-- tempo -->
+  <div class="bloc">
+    <div class="fila">
+      <div class="bpm"><span id="bpm">80</span><small id="nom-tempo">Andante</small></div>
+      <div style="flex:1">
+        <input type="range" id="lliscador" min="20" max="300" value="80" />
+        <div class="noms"><span>20</span><span>300</span></div>
+      </div>
+    </div>
+    <div class="fila" style="margin-top:8px">
+      <button class="boto" id="menys">−5</button>
+      <button class="boto" id="mes">+5</button>
+      <button class="boto" id="tap">👆 Tap tempo</button>
+      <button class="boto" id="zero">↺ 80</button>
+    </div>
+    <div class="avis" id="avis"></div>
+  </div>
+
+  <!-- compàs -->
+  <div class="bloc">
+    <div class="et">Compàs (clica un temps per canviar-lo: fort / fluix / silenci)</div>
+    <div class="temps" id="temps"></div>
+    <div class="et" style="margin-top:10px">Nombre de temps</div>
+    <div class="opcions" id="compassos"></div>
+    <div class="et" style="margin-top:10px">Subdivisió</div>
+    <div class="opcions" id="subdivisions"></div>
+    <div class="et" style="margin-top:10px">Swing (només amb corxeres o semicorxeres)</div>
+    <div class="fila">
+      <input type="range" id="swing" min="50" max="80" value="50" />
+      <div id="swing-text" style="min-width:132px;text-align:right;font-size:13px;color:#7dd3fc">recte</div>
+    </div>
+    <div class="opcions" id="swing-presets" style="margin-top:6px"></div>
+
+    <div class="et" style="margin-top:12px">Humanitzar · el swing com una persona, no com una màquina</div>
+    <div class="fila">
+      <input type="range" id="hum" min="0" max="100" value="30" />
+      <div id="hum-text" style="min-width:132px;text-align:right;font-size:13px;color:#7dd3fc">—</div>
+    </div>
+    <div class="et" style="margin-top:8px">Sentit (on cau el cop respecte del temps)</div>
+    <div class="opcions" id="sentit"></div>
+    <div class="et" style="margin-top:8px">Feeling rítmic</div>
+    <div class="opcions" id="feelings"></div>
+  </div>
+
+
+  <!-- cinta visual: on cau cada clic respecte del pols -->
+  <div class="bloc">
+    <div class="et">On cau el clic respecte del pols</div>
+    <canvas id="cinta" width="600" height="76" style="width:100%;height:76px"></canvas>
+    <div class="fila" style="justify-content:space-between;font-size:11.5px;color:#64748b">
+      <span>◀ davant del temps</span>
+      <span id="cinta-num" style="color:#7dd3fc;font-weight:700">—</span>
+      <span>darrere del temps ▶</span>
+    </div>
+  </div>
+
+  <!-- indicador -->
+  <div class="bloc">
+    <div class="indicador">
+      <div id="punts" class="fila" style="gap:8px"></div>
+      <div class="compte" id="compte">compàs —</div>
+    </div>
+    <div style="margin-top:10px"><button class="principal" id="marxa">▶ Comença</button></div>
+    <div class="avis" id="avis2"></div>
+  </div>
+
+  <!-- patrons i so -->
+  <div class="bloc">
+    <div class="et">Patrons</div>
+    <div class="opcions" id="patrons"></div>
+    <div class="et" style="margin-top:10px">So</div>
+    <div class="opcions" id="sons"></div>
+    <div class="et" style="margin-top:10px">Patró de la mà dreta</div>
+    <div class="opcions" id="patrons-clic"></div>
+    <div class="et" style="margin-top:10px">Entrenador de velocitat</div>
+    <div class="opcions" id="entrenador"></div>
+  </div>
+
+  <div class="peu">
+    <strong>Tecles:</strong> espai = comença/atura · ← → = tempo · ↑ ↓ = tempo de 5 en 5 · T = tap tempo<br />
+    El compàs i els accents es guarden al navegador. Funciona sense internet.
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------------------------------------------------------------- estat
+  const ESTAT = {
+    bpm: 80,
+    temps: 4,                  // temps per compàs
+    numerador: 4,              // per mostrar el compàs (4/4, 3/4, 6/8...)
+    subdivisions: 1,           // 1 = negra, 2 = corxeres, 3 = tresets, 4 = semicorxeres
+    swing: 0.5,                // 0.5 = recte · 0.667 = treset (2:1) · 0.75 = swing fort
+    patro: "cap",              // "cap" = clic sol · "charles" · "ride"
+    humanitzar: 0.3,           // 0 = rellotge perfecte · 1 = molt humà
+    sentit: 0,                 // -1 = una mica davant · 0 = al temps · 1 = una mica darrere
+    accents: [2, 1, 1, 1],     // 2 = fort, 1 = fluix, 0 = silenci
+    so: "clic",
+    entrenador: 0,             // cada quants compassos puja
+    increment: 4,              // quants BPM puja
+    maxim: 200,
+    sonant: false,
+  };
+
+  const guardat = (() => {
+    try { return JSON.parse(localStorage.getItem("metronom") || "{}"); } catch (e) { return {}; }
+  })();
+  Object.keys(guardat).forEach((k) => { if (k in ESTAT) ESTAT[k] = guardat[k]; });
+
+  const desa = () => {
+    try { localStorage.setItem("metronom", JSON.stringify(ESTAT)); } catch (e) {}
+  };
+
+  // ---------------------------------------------------------------- audio
+  let ctx = null;
+  let master = null;
+  function audio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0.9;
+      master.connect(ctx.destination);
+    }
+    if (ctx.state === "suspended") ctx.resume();
+    return ctx;
+  }
+
+  // --- so del clic, fet com un instrument de debò
+  //  · cos tonal SINUSOIDAL amb caiguda rapida (les ones quadrades sonaven aspres)
+  //  · un transitori de soroll molt curt a l'atac: el que fa "clac" i no "xiulo"
+  //  · el buffer de soroll es crea UNA vegada (crear-lo a cada cop feia cruixits)
+  let buffers = null;
+  function soroll(dur) {
+    if (!buffers) buffers = {};
+    const clau = dur.toFixed(3);
+    if (buffers[clau]) return buffers[clau];
+    const c = audio();
+    const n = Math.max(1, Math.floor(c.sampleRate * dur));
+    const buf = c.createBuffer(1, n, c.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2);
+    buffers[clau] = buf;
+    return buf;
+  }
+
+  function programaClic(temps, fort, subdivisio) {
+    const c = audio();
+    const tipus = ESTAT.so;
+
+    let vol = fort ? 0.5 : 0.3;
+    if (subdivisio > 1) vol *= 0.42;
+    if (ESTAT.humanitzar > 0) vol *= 1 + (Math.random() - 0.5) * 0.4 * ESTAT.humanitzar;
+
+    // cos tonal segons el so triat
+    let f = 1320, dur = 0.035, harmonics = [];
+    let esXarles = false;
+    if (tipus === "fusta") { f = 480; dur = 0.075; harmonics = [[2.0, 0.25]]; }
+    else if (tipus === "xarles") { esXarles = true; f = 8200; dur = fort ? 0.1 : 0.055; }
+    else if (tipus === "greu") { f = 240; dur = 0.16; harmonics = [[1.5, 0.2]]; }
+
+    const filtre = c.createBiquadFilter();
+    filtre.type = "lowpass";
+    filtre.frequency.value = Math.min(12000, f * 4.5);
+    filtre.Q.value = 0.3;
+    filtre.connect(master);
+
+    if (!esXarles) {
+      const g = c.createGain();
+      g.gain.setValueAtTime(0.0001, temps);
+      g.gain.linearRampToValueAtTime(vol, temps + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.0001, temps + dur);
+      g.connect(filtre);
+
+      const osc = c.createOscillator();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(f, temps);
+      osc.connect(g);
+      osc.start(temps);
+      osc.stop(temps + dur + 0.02);
+
+      harmonics.forEach(([mult, amp]) => {
+        const oh = c.createOscillator(), gh = c.createGain();
+        oh.type = "sine";
+        oh.frequency.value = f * mult;
+        gh.gain.setValueAtTime(0.0001, temps);
+        gh.gain.linearRampToValueAtTime(vol * amp, temps + 0.002);
+        gh.gain.exponentialRampToValueAtTime(0.0001, temps + dur * 0.7);
+        oh.connect(gh);
+        gh.connect(filtre);
+        oh.start(temps);
+        oh.stop(temps + dur);
+      });
+    } else {
+      // --- CHARLES (xarles): el so que fa el peu, amb metall i cua curta
+      const g = c.createGain();
+      g.gain.setValueAtTime(0.0001, temps);
+      g.gain.linearRampToValueAtTime(vol * 0.75, temps + 0.001);
+      g.gain.exponentialRampToValueAtTime(0.0001, temps + dur);
+      g.connect(filtre);
+
+      const s = c.createBufferSource();
+      s.buffer = soroll(0.2);
+      const bp = c.createBiquadFilter();
+      bp.type = "bandpass"; bp.frequency.value = 8600; bp.Q.value = 1.1;
+      const hp = c.createBiquadFilter();
+      hp.type = "highpass"; hp.frequency.value = 6000;
+      s.connect(bp); bp.connect(hp); hp.connect(g);
+      s.start(temps); s.stop(temps + 0.16);
+
+      // el metall del charles: dues parcials molt agudes
+      [6300, 9400].forEach((f0, i) => {
+        const o = c.createOscillator(), gg = c.createGain();
+        o.type = "sine"; o.frequency.value = f0;
+        gg.gain.setValueAtTime(vol * (i === 0 ? 0.12 : 0.07), temps);
+        gg.gain.exponentialRampToValueAtTime(0.0001, temps + dur * 0.7);
+        o.connect(gg); gg.connect(filtre);
+        o.start(temps); o.stop(temps + dur);
+      });
+    }
+
+    // transitori d'atac
+    const s = c.createBufferSource();
+    s.buffer = soroll(0.008);
+    const fa = c.createBiquadFilter();
+    fa.type = "bandpass";
+    fa.frequency.value = f * 2.4;
+    fa.Q.value = 1.1;
+    const ga = c.createGain();
+    ga.gain.setValueAtTime(vol * 0.55, temps);
+    ga.gain.exponentialRampToValueAtTime(0.0001, temps + 0.014);
+    s.connect(fa);
+    fa.connect(ga);
+    ga.connect(filtre);
+    s.start(temps);
+    s.stop(temps + 0.03);
+  }
+
+  // ---------------------------------------------------------------- rellotge
+  // Programacio anticipada: cada 25 ms mirem si cal programar el seguent clic
+  // fins a 120 ms endavant. Aixo es el que fa que el tempo sigui exacte.
+  const ESPERA = 25;          // ms entre comprovacions
+  const ENDAVANT = 0.12;      // segons que programem per endavant
+  let seguentTemps = 0;
+  let indexSubdivisio = 0;
+  let ancoratge = 0;           // instant de referencia (temps 1 del compas 1)
+  let temporitzador = null;
+  let compassosFets = 0;
+  const cuaVisual = [];        // per sincronitzar la pantalla amb el so
+  const tempsProgramats = [];  // registre dels clics programats (per comprovar la precisio)
+  const desviacions = [];      // registre de les desviacions humanes (per mesurar-les)
+
+  // Desplaçaments de cada subdivisio dins del batec, en temps de compàs.
+  //
+  // AQUI ESTA EL SWING: en lloc de repartir el batec en parts iguals, la segona
+  // nota de cada parell es desplaça. Amb swing 2:1 (0.667) la segona corxera
+  // cau al TERCER TRESET del batec, que es exactament el que fa el jazz.
+  // Els tresets (3 subdivisions) no es balancegen: ja son iguals.
+  // Desviacio humana: una gaussiana aproximada (suma de tres aleatoris), que
+  // dona valors petits mes frequents que els grans, com fa una persona.
+  // Mai s'acumula: es suma al moment exacte de la reixa, no al clic anterior.
+  const DESVIACIO_MAX = 0.08;    // 80 ms amb humanitzar = 1 (per sota de 60 ms no es nota)
+  function desviacioHumana() {
+    if (ESTAT.humanitzar <= 0) return 0;
+    const g = (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;   // ~[-1, 1]
+    return g * DESVIACIO_MAX * ESTAT.humanitzar;
+  }
+
+  // El swing tambe es mou una mica: un bateria no repeteix mai el mateix ratio.
+  function swingViu() {
+    const n = ESTAT.subdivisions;
+    if (n !== 2 && n !== 4) return 0.5;
+    if (ESTAT.humanitzar <= 0) return ESTAT.swing;
+    const wobble = (Math.random() - 0.5) * 2 * 0.035 * ESTAT.humanitzar;   // fins a +-3,5% del batec
+    return Math.max(0.5, Math.min(0.85, ESTAT.swing + wobble));
+  }
+
+  function desplacaments() {
+    const n = ESTAT.subdivisions;
+    const p = (n === 2 || n === 4) ? swingViu() : 0.5;
+    const out = [];
+    for (let k = 0; k < n; k++) {
+      const iniciParell = Math.floor(k / 2) * 2;          // 0, 2, 4...
+      const esSegona = k % 2 === 1;
+      out.push(iniciParell / n + (esSegona ? (2 * p / n) : 0));
+    }
+    return out;
+  }
+
+  function segonsPerBatec() {
+    return 60.0 / ESTAT.bpm;
+  }
+
+  function interval() {
+    // durada mitjana entre clics (per mostrar-la i per comprovar-ho)
+    return segonsPerBatec() / ESTAT.subdivisions;
+  }
+
+  function programa() {
+    const c = audio();
+    const despl = desplacaments();
+    const n = ESTAT.subdivisions;
+    while (seguentTemps < c.currentTime + ENDAVANT) {
+      const k = indexSubdivisio;
+      const batec = Math.floor(k / n);
+      const sub = k % n;
+      const tempsDelCompas = batec % ESTAT.temps;
+      const esSubdivisio = sub !== 0;
+      const marca = ESTAT.accents[tempsDelCompas] === undefined ? 1 : ESTAT.accents[tempsDelCompas];
+
+      // El moment exacte es calcula SEMPRE des de l'ancoratge: aixi no s'acumula
+      // cap error (els errors no es van sumant clic a clic).
+      const exacte = ancoratge + (batec + despl[sub]) * segonsPerBatec();
+      // humanitzacio: desviacio de temps + sentit global (darrere o davant del temps)
+      const humaCli = desviacioHumana() + ESTAT.sentit * DESVIACIO_MAX * ESTAT.humanitzar;
+      const huma = humaCli;
+      seguentTemps = exacte + huma;
+
+      if (marca > 0) programaClic(seguentTemps, marca === 2 && !esSubdivisio, esSubdivisio ? 2 : 1);
+      cuaVisual.push({ quan: seguentTemps, temps: tempsDelCompas, fort: marca === 2 && !esSubdivisio, desv: humaCli });
+      tempsProgramats.push(seguentTemps);
+      desviacions.push(huma);          // per poder mesurar com d'humà es
+
+      indexSubdivisio += 1;
+
+      if (indexSubdivisio % (ESTAT.temps * n) === 0) {
+        compassosFets += 1;
+        if (ESTAT.entrenador > 0 && compassosFets % ESTAT.entrenador === 0) {
+          const nou = Math.min(ESTAT.maxim, ESTAT.bpm + ESTAT.increment);
+          if (nou !== ESTAT.bpm) {
+            ESTAT.bpm = nou; pintaTempo(); desa();
+            // reancorem perque el canvi de tempo no alteri el que ja ha sonat
+            ancoratge = seguentTemps;
+            indexSubdivisio = 0;
+          }
+        }
+      }
+    }
+  }
+
+  function dibuixa() {
+    const c = audio();
+    while (cuaVisual.length && cuaVisual[0].quan <= c.currentTime) {
+      const e = cuaVisual.shift();
+      marcaVisual(e.temps, e.fort);
+      if (e.desv !== undefined) anotaDesviacio(e.desv, e.fort);
+    }
+    requestAnimationFrame(dibuixa);
+  }
+
+  // --- cinta visual: cada clic deixa un punt on ha caigut de veritat
+  const marques = [];
+  const ESCALA_CINTA = 0.5;      // pixels per mil·lisegon (60 ms = 30 px)
+  function anotaDesviacio(desv, fort) {
+    marques.push({ desv: desv, quan: performance.now(), fort: fort });
+    if (marques.length > 40) marques.shift();
+    const cv = document.getElementById("cinta-num");
+    if (cv) {
+      const ms = desv * 1000;
+      cv.textContent = (ms >= 0 ? "+" : "") + ms.toFixed(0) + " ms" +
+        (Math.abs(ms) < 4 ? "  (clavat)" : ms > 0 ? "  (darrere)" : "  (endavant)");
+      cv.style.color = Math.abs(ms) < 4 ? "#6ee7b7" : ms > 0 ? "#fbbf24" : "#f87171";
+    }
+  }
+
+  function dibuixaCinta() {
+    const cv = document.getElementById("cinta");
+    if (!cv) return;
+    const g = cv.getContext("2d");
+    const W = cv.width, H = cv.height, ara = performance.now();
+    g.clearRect(0, 0, W, H);
+
+    // la linia del pols
+    g.strokeStyle = "#64748b";
+    g.lineWidth = 1.5;
+    g.beginPath(); g.moveTo(W / 2, 4); g.lineTo(W / 2, H - 4); g.stroke();
+    g.font = "11px sans-serif";
+    g.fillStyle = "#64748b";
+    g.fillText("pols", W / 2 + 4, 12);
+
+    // cada marca, segons la seva desviacio
+    marques.forEach((m) => {
+      const vida = (ara - m.quan) / 1000;
+      if (vida > 3) return;
+      const x = W / 2 + m.desv * 1000 * ESCALA_CINTA;
+      const y = H / 2 + 6;
+      g.globalAlpha = Math.max(0.12, 1 - vida / 3);
+      g.fillStyle = m.fort ? "#fbbf24" : "#38bdf8";
+      g.beginPath();
+      g.arc(Math.max(6, Math.min(W - 6, x)), y, m.fort ? 8 : 6, 0, 6.283);
+      g.fill();
+    });
+    g.globalAlpha = 1;
+  }
+
+  function marcaVisual(temps, fort) {
+    document.querySelectorAll(".batec").forEach((el, i) => {
+      el.classList.toggle("sona", i === temps);
+    });
+    document.querySelectorAll(".punt").forEach((el, i) => {
+      el.classList.toggle("sona", i === temps);
+      el.classList.toggle("fort", i === temps && fort);
+    });
+    document.getElementById("compte").textContent = "compàs " + (compassosFets + 1) +
+      " · temps " + (temps + 1) + "/" + ESTAT.temps;
+  }
+
+  function comenca() {
+    const c = audio();
+    ESTAT.sonant = true;
+    ancoratge = c.currentTime + 0.08;
+    seguentTemps = ancoratge;
+    indexSubdivisio = 0;
+    compassosFets = 0;
+    cuaVisual.length = 0;
+    tempsProgramats.length = 0;
+    desviacions.length = 0;
+    temporitzador = setInterval(programa, ESPERA);
+    requestAnimationFrame(dibuixa);
+    document.getElementById("marxa").textContent = "⏹ Atura";
+    document.getElementById("marxa").classList.add("aturat");
+    document.getElementById("avis2").textContent = "";
+  }
+
+  function atura() {
+    ESTAT.sonant = false;
+    if (temporitzador) { clearInterval(temporitzador); temporitzador = null; }
+    cuaVisual.length = 0;
+    document.querySelectorAll(".batec, .punt").forEach((el) => el.classList.remove("sona", "fort"));
+    document.getElementById("marxa").textContent = "▶ Comença";
+    document.getElementById("marxa").classList.remove("aturat");
+  }
+
+  // ---------------------------------------------------------------- pantalla
+  const NOMS_TEMPO = [[40, "Largo"], [60, "Larghetto"], [76, "Adagio"], [108, "Andante"],
+                      [120, "Moderato"], [168, "Allegro"], [200, "Vivace"], [999, "Presto"]];
+
+  function pintaTempo() {
+    document.getElementById("bpm").textContent = ESTAT.bpm;
+    document.getElementById("lliscador").value = ESTAT.bpm;
+    document.getElementById("nom-tempo").textContent =
+      NOMS_TEMPO.find(([max]) => ESTAT.bpm < max)[1];
+  }
+
+  function pintaTemps() {
+    const cont = document.getElementById("temps");
+    cont.innerHTML = "";
+    for (let i = 0; i < ESTAT.temps; i++) {
+      const b = document.createElement("button");
+      const marca = ESTAT.accents[i] === undefined ? 1 : ESTAT.accents[i];
+      b.className = "batec" + (marca === 2 ? " fort" : marca === 0 ? " mut" : "");
+      b.textContent = marca === 2 ? "●" : marca === 0 ? "×" : "○";
+      b.title = "Fort / fluix / silenci";
+      b.addEventListener("click", () => {
+        ESTAT.accents[i] = marca === 2 ? 1 : marca === 1 ? 0 : 2;
+        desa(); pintaTemps();
+      });
+      cont.appendChild(b);
+    }
+    const punts = document.getElementById("punts");
+    punts.innerHTML = "";
+    for (let i = 0; i < ESTAT.temps; i++) {
+      const d = document.createElement("div");
+      d.className = "punt";
+      punts.appendChild(d);
+    }
+  }
+
+  function opcions(contenidor, llista, actiu, fes) {
+    const c = document.getElementById(contenidor);
+    c.innerHTML = "";
+    llista.forEach(([etiqueta, valor]) => {
+      const b = document.createElement("button");
+      b.textContent = etiqueta;
+      if (valor === actiu()) b.className = "actiu";
+      b.addEventListener("click", () => { fes(valor); });
+      c.appendChild(b);
+    });
+  }
+
+  function pintaOpcions() {
+    const compassos = [["2/4", 2], ["3/4", 3], ["4/4", 4], ["5/4", 5], ["6/8", 6],
+                       ["7/8", 7], ["9/8", 9], ["12/8", 12]];
+    opcions("compassos", compassos, () => ESTAT.temps, (v) => {
+      ESTAT.temps = v;
+      ESTAT.numerador = v;
+      const nou = [];
+      for (let i = 0; i < v; i++) nou.push(i === 0 ? 2 : (ESTAT.accents[i] !== undefined ? ESTAT.accents[i] : 1));
+      ESTAT.accents = nou;
+      desa(); pintaTemps(); pintaOpcions();
+      if (ESTAT.sonant) { atura(); comenca(); }        // reiniciem per aplicar-ho
+    });
+
+    const subs = [["negra", 1], ["corxeres", 2], ["tresets", 3], ["semicorxeres", 4]];
+    opcions("subdivisions", subs, () => ESTAT.subdivisions, (v) => {
+      ESTAT.subdivisions = v; desa(); pintaOpcions(); pintaSwing();
+      if (ESTAT.sonant) { atura(); comenca(); }
+    });
+
+    const sons = [["clic", "clic"], ["fusta", "fusta"], ["xarles", "xarles"], ["greu", "greu"]];
+    opcions("sons", sons, () => ESTAT.so, (v) => { ESTAT.so = v; desa(); pintaOpcions(); });
+
+    const ents = [["no", 0], ["puja cada 4 compassos", 4], ["cada 8", 8], ["cada 16", 16]];
+    opcions("entrenador", ents, () => ESTAT.entrenador, (v) => {
+      ESTAT.entrenador = v; desa(); pintaOpcions();
+      if (v) document.getElementById("avis2").textContent =
+        "Entrenador actiu: puja " + ESTAT.increment + " BPM cada " + v + " compassos (fins a " + ESTAT.maxim + ").";
+      else document.getElementById("avis2").textContent = "";
+    });
+  }
+
+  // patrons: (nom, temps, accents, subdivisions)
+  const PATRONS = [
+    ["4/4", 4, [2, 1, 1, 1], 1],
+    ["3/4", 3, [2, 1, 1], 1],
+    ["Vals de jazz", 3, [2, 1, 1], 2],
+    ["Swing", 4, [2, 1, 1, 1], 3],
+    ["Bossa", 4, [2, 1, 1, 1], 2],
+    ["Funk (16)", 4, [2, 1, 1, 1], 4],
+    ["Shuffle", 4, [2, 0, 1, 0], 3],
+    ["7/8 (3+2+2)", 7, [2, 1, 2, 1, 2, 1, 1], 1],
+    ["5/4", 5, [2, 1, 1, 2, 1], 1],
+    ["6/8", 6, [2, 1, 1, 2, 1, 1], 1],
+    ["12/8", 12, [2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1], 1],
+  ];
+
+  // presets de feeling: els que fan que soni a persona i no a rellotge
+  const FEELINGS = [
+    ["🎸 Scofield (molt darrere)", {
+      valors: { subdivisions: 2, swing: 0.70, humanitzar: 1.0, sentit: 1, patro: "ride",
+                accents: [2, 0, 2, 0] },
+      nota: "swing 2,3:1 i el clic uns 60 ms DARRERE del pols, amb el so obert",
+    }],
+    ["🎷 Jazz (clavat)", {
+      valors: { subdivisions: 2, swing: 2 / 3, humanitzar: 0.06, sentit: 0, patro: "ride",
+                accents: [2, 0, 2, 0] },
+      nota: "swing 2:1 exacte i el clic CLAVAT al pols: el pols ben ferm",
+    }],
+    ["🎵 Shuffle blues (endavant)", {
+      valors: { subdivisions: 2, swing: 0.72, humanitzar: 0.7, sentit: -1, patro: "charles",
+                accents: [2, 1, 1, 1] },
+      nota: "swing 2,6:1 i EMPESES cap endavant (uns 56 ms abans del pols)",
+    }],
+    ["🕺 Funk (16è, greasy)", {
+      valors: { subdivisions: 4, swing: 0.5, humanitzar: 0.6, sentit: 0.5, patro: "charles",
+                accents: [2, 0, 1, 0] },
+      nota: "semicorxeres rectes, charles a 16è, i una mica darrere",
+    }],
+    ["🥁 Reixa exacta", {
+      valors: { subdivisions: 1, swing: 0.5, humanitzar: 0, sentit: 0, patro: "cap",
+                accents: [2, 1, 1, 1] },
+      nota: "zero desviació: el clic cau exactament al pols",
+    }],
+  ];
+
+  // humanitzacio: control, sentit i presets de feeling
+  function pintaHum() {
+    const lliscador = document.getElementById("hum");
+    lliscador.value = Math.round(ESTAT.humanitzar * 100);
+    const ms = Math.round(ESTAT.humanitzar * DESVIACIO_MAX * 1000);
+    document.getElementById("hum-text").textContent =
+      ESTAT.humanitzar <= 0 ? "rellotge exacte" : "fins a ±" + ms + " ms";
+
+    const cont = document.getElementById("sentit");
+    cont.innerHTML = "";
+    [[-1, "una mica davant"], [0, "al temps"], [1, "darrere del temps"]].forEach(([valor, nom]) => {
+      const b = document.createElement("button");
+      b.textContent = nom;
+      if (ESTAT.sentit === valor) b.className = "actiu";
+      b.addEventListener("click", () => {
+        ESTAT.sentit = valor; desa(); pintaHum();
+        if (ESTAT.sonant) { atura(); comenca(); }
+      });
+      cont.appendChild(b);
+    });
+
+    const fe = document.getElementById("feelings");
+    fe.innerHTML = "";
+    FEELINGS.forEach(([nom, cfg]) => {
+      const b = document.createElement("button");
+      b.textContent = nom;
+      b.title = cfg.nota;
+      b.addEventListener("click", () => {
+        Object.assign(ESTAT, cfg.valors);
+        desa(); pintaTemps(); pintaOpcions(); pintaSwing(); pintaHum(); pintaPatro(); pintaPatro();
+        document.getElementById("avis").textContent = nom.replace(/^\S+\s/, "") + ": " + cfg.nota;
+        if (ESTAT.sonant) { atura(); comenca(); }
+      });
+      fe.appendChild(b);
+    });
+  }
+
+  function pintaPatro() {
+    const cont = document.getElementById("patrons-clic");
+    if (!cont) return;
+    cont.innerHTML = "";
+    [["clic sol", "cap"], ["charles", "charles"], ["ride", "ride"]].forEach(([nom, valor]) => {
+      const b = document.createElement("button");
+      b.textContent = nom;
+      if (ESTAT.patro === valor) b.className = "actiu";
+      b.addEventListener("click", () => {
+        ESTAT.patro = valor; desa(); pintaPatro();
+        if (ESTAT.sonant) { atura(); comenca(); }
+      });
+      cont.appendChild(b);
+    });
+  }
+
+  // swing: el control nomes te sentit amb corxeres (2) i semicorxeres (4)
+  function pintaSwing() {
+    const lliscador = document.getElementById("swing");
+    const text = document.getElementById("swing-text");
+    const util = ESTAT.subdivisions === 2 || ESTAT.subdivisions === 4;
+    lliscador.disabled = !util;
+    const pct = Math.round(ESTAT.swing * 100);
+    const ratio = (ESTAT.swing / (1 - ESTAT.swing)).toFixed(2);
+    text.textContent = !util
+      ? "— (cal corxeres)"
+      : pct === 50 ? "recte (1:1)"
+      : pct === 67 ? "treset 2:1 · " + pct + "%"
+      : pct + "% · " + ratio + ":1";
+
+    const cont = document.getElementById("swing-presets");
+    cont.innerHTML = "";
+    [["recte", 0.5], ["swing 2:1", 2 / 3], ["swing fort", 0.75]].forEach(([nom, valor]) => {
+      const b = document.createElement("button");
+      b.textContent = nom;
+      if (Math.abs(ESTAT.swing - valor) < 0.005) b.className = "actiu";
+      b.disabled = !util;
+      b.addEventListener("click", () => {
+        ESTAT.swing = valor; desa(); pintaSwing();
+        if (ESTAT.sonant) { atura(); comenca(); }
+      });
+      cont.appendChild(b);
+    });
+  }
+
+  function pintaPatrons() {
+    const c = document.getElementById("patrons");
+    c.innerHTML = "";
+    PATRONS.forEach(([nom, temps, accents, subs]) => {
+      const b = document.createElement("button");
+      b.textContent = nom;
+      b.addEventListener("click", () => {
+        ESTAT.temps = temps;
+        ESTAT.numerador = temps;
+        ESTAT.accents = accents.slice();
+        ESTAT.subdivisions = subs;
+        desa(); pintaTemps(); pintaOpcions();
+        if (ESTAT.sonant) { atura(); comenca(); }
+      });
+      c.appendChild(b);
+    });
+  }
+
+  // ---------------------------------------------------------------- controls
+  function canviaTempo(delta) {
+    ESTAT.bpm = Math.max(20, Math.min(300, ESTAT.bpm + delta));
+    pintaTempo(); desa();
+    if (ESTAT.sonant) { atura(); comenca(); }
+  }
+
+  let taps = [];
+  function tap() {
+    const ara = performance.now();
+    taps = taps.filter((t) => ara - t < 3000);
+    taps.push(ara);
+    if (taps.length >= 2) {
+      const intervals = [];
+      for (let i = 1; i < taps.length; i++) intervals.push(taps[i] - taps[i - 1]);
+      const mitjana = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+      ESTAT.bpm = Math.max(20, Math.min(300, Math.round(60000 / mitjana)));
+      pintaTempo(); desa();
+      document.getElementById("avis").textContent = "Tap: " + ESTAT.bpm + " BPM (" + taps.length + " tocs)";
+    } else {
+      document.getElementById("avis").textContent = "Torna a tocar per fixar el tempo...";
+    }
+  }
+
+  document.getElementById("marxa").addEventListener("click", () => ESTAT.sonant ? atura() : comenca());
+  document.getElementById("lliscador").addEventListener("input", (e) => {
+    ESTAT.bpm = parseInt(e.target.value, 10); pintaTempo(); desa();
+  });
+  document.getElementById("lliscador").addEventListener("change", () => {
+    if (ESTAT.sonant) { atura(); comenca(); }
+  });
+  document.getElementById("menys").addEventListener("click", () => canviaTempo(-5));
+  document.getElementById("mes").addEventListener("click", () => canviaTempo(5));
+  document.getElementById("tap").addEventListener("click", tap);
+  document.getElementById("hum").addEventListener("input", (e) => {
+    ESTAT.humanitzar = parseInt(e.target.value, 10) / 100; desa(); pintaHum();
+  });
+  document.getElementById("hum").addEventListener("change", () => {
+    if (ESTAT.sonant) { atura(); comenca(); }
+  });
+  document.getElementById("swing").addEventListener("input", (e) => {
+    ESTAT.swing = parseInt(e.target.value, 10) / 100; desa(); pintaSwing();
+  });
+  document.getElementById("swing").addEventListener("change", () => {
+    if (ESTAT.sonant) { atura(); comenca(); }
+  });
+  document.getElementById("zero").addEventListener("click", () => { ESTAT.bpm = 80; pintaTempo(); desa(); });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") { e.preventDefault(); ESTAT.sonant ? atura() : comenca(); }
+    else if (e.code === "ArrowRight") canviaTempo(1);
+    else if (e.code === "ArrowLeft") canviaTempo(-1);
+    else if (e.code === "ArrowUp") canviaTempo(5);
+    else if (e.code === "ArrowDown") canviaTempo(-5);
+    else if (e.key === "t" || e.key === "T") tap();
+  });
+
+  // per poder comprovar-ho des de fora (proves)
+  window.__metronom = {
+    estat: ESTAT, comenca: comenca, atura: atura, interval: interval,
+    programa: programa, audio: audio,
+    clicsFets: () => compassosFets,
+    tempsProgramats: tempsProgramats,
+    desviacions: desviacions,
+  };
+
+  // ---------------------------------------------------------------- engegada
+  pintaTempo(); pintaTemps(); pintaOpcions(); pintaPatrons(); pintaSwing(); pintaHum(); pintaPatro();
+})();
+</script>
+</body>
+</html>

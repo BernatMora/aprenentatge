@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Acords i sensacions · amb so</title>
+<style>
+ :root { color-scheme: dark; }
+ * { box-sizing: border-box; }
+ body { margin: 0; padding: 16px 14px 96px; background: #0f172a; color: #e2e8f0;
+        font: 15.5px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        max-width: 900px; margin-inline: auto; }
+ h1 { font-size: 22px; margin: 0 0 2px; }
+ p.sub { color: #94a3b8; font-size: 13px; margin: 0 0 12px; }
+ .nota { background: rgba(14,165,233,.12); border: 1px solid rgba(56,189,248,.35);
+          border-radius: 11px; padding: 10px 13px; font-size: 13px; color: #bae6fd; margin-bottom: 14px; }
+ .barra { display: flex; gap: 8px; margin-bottom: 14px; }
+ .barra input { flex: 1; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.15);
+                 border-radius: 10px; color: #e2e8f0; padding: 9px 12px; font: inherit; }
+ .barra button { border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.06);
+                  color: #e2e8f0; border-radius: 10px; padding: 9px 14px; font: inherit; font-weight: 600; }
+ .barra button.principal { background: rgba(14,165,233,.3); border-color: #0ea5e9; color: #e0f2fe; }
+ .card { border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04);
+          border-radius: 14px; padding: 13px 15px; margin-bottom: 12px; }
+ .cap { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+ .cap .num { color: #7dd3fc; font-weight: 700; font-size: 13px; }
+ .cap .nom { font-weight: 700; font-size: 17px; color: #fff; }
+ .cap .sens { color: #fde68a; font-size: 12.5px; }
+ .prog { font-family: ui-monospace, Consolas, monospace; font-size: 14px; color: #a5f3fc;
+          background: rgba(0,0,0,.25); border-radius: 8px; padding: 7px 10px; margin: 8px 0; overflow-x: auto; }
+ .play { border: 1px solid rgba(251,191,36,.5); background: rgba(251,191,36,.16); color: #fef3c7;
+          border-radius: 10px; padding: 7px 14px; font: inherit; font-weight: 600; cursor: pointer; }
+ .play.sonant { background: rgba(251,191,36,.42); }
+ .et { font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; color: #94a3b8;
+        margin: 12px 0 3px; }
+ .bloc p { margin: 0 0 3px; }
+ .petit { font-size: 13px; color: #94a3b8; }
+ .moviment { font-family: ui-monospace, Consolas, monospace; color: #a5f3fc; }
+ .mono { font-family: ui-monospace, Consolas, monospace; font-size: 13.5px; color: #cbd5e1; }
+ .dues { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+ ul.escales { margin: 2px 0 0; padding-left: 18px; font-size: 13.5px; }
+ .avis { margin-top: 10px; font-size: 13px; color: #fecaca; background: rgba(248,113,113,.12);
+          border: 1px solid rgba(248,113,113,.35); border-radius: 9px; padding: 7px 10px; }
+ footer { position: fixed; left: 0; right: 0; bottom: 0; padding: 9px 14px;
+           background: rgba(15,23,42,.98); border-top: 1px solid rgba(255,255,255,.1); }
+ .fila { display: flex; align-items: center; gap: 10px; }
+ .progres { flex: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,.15); overflow: hidden; }
+ .progres > i { display: block; height: 6px; width: 0; background: #fbbf24; }
+ #temps { font-size: 12px; color: #fde68a; font-variant-numeric: tabular-nums; min-width: 92px; text-align: right; }
+ footer button { border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.06);
+                  color: #e2e8f0; border-radius: 10px; padding: 9px 13px; font: inherit; font-weight: 600; }
+ #ara { font-size: 12px; color: #94a3b8; margin-top: 5px; white-space: nowrap; overflow: hidden;
+         text-overflow: ellipsis; }
+</style>
+</head>
+<body>
+  <h1>🎼 Acords i sensacions</h1>
+  <p class="sub">25 progresiones amb so. Cada una porta la seva explicació, el camí de les
+     fonamentals, el mode, les escales i els voicings. Total: 10 min.</p>
+  <div class="nota">Aquestes progresiones no són harmonia funcional: no hi ha dominants que resolguin a tòniques. Són cicles de color, pensats per improvisar-hi a sobre, per fer intros o vamps. El que has après al curs et serveix per entendre què fa cada acord, però aquí no cal buscar-hi el dos-cinc-un: cal escoltar el color i triar l&#x27;escala que hi encaixa.</div>
+
+  <div class="barra">
+    <input type="search" id="cerca" placeholder="Cercar per nom, acord o sensació..." />
+    <button id="tot" class="principal">▶ Escoltar-les totes</button>
+  </div>
+
+  
+    <article class="card" data-cerca="solar drift eteri, amb tensió flotant | cmaj7♯11 | e7♭9 | f♯m11 | a7alt | gmaj7♯5 |">
+      <div class="cap">
+        <span class="num">1</span>
+        <span class="nom">Solar Drift</span>
+        <span class="sens">Eteri, amb tensió flotant</span>
+      </div>
+      <div class="prog">| Cmaj7♯11 | E7♭9 | F♯m11 | A7alt | Gmaj7♯5 |</div>
+      <button class="play" data-src="audio/prog-01.mp3" data-titol="Solar Drift">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>El primer acord ja porta un #11 (so lidia) i el segon un b9: cap dels dos és estable. El màxim de tensió és l&#x27;acord alterat del quart compàs, i el maj7#5 final no resol: deixa la frase flotant.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → E → F# → A → G</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Solar (C – E – F♯ – G – A – B♭ – D)</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Intros, solos amb tapping i delay</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Lidi</li><li>disminuïda</li><li>Dorià</li><li>alterada</li><li>Lidi♯5</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32430 · x7676x · 2x2200 · x05650 · 3x443x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="kuro spiral misteriós, amb girs inesperats | cmaj7 | e♭maj7♯11 | g7sus♭9 | amaj7♯5 | bdim7 |">
+      <div class="cap">
+        <span class="num">2</span>
+        <span class="nom">Kuro Spiral</span>
+        <span class="sens">Misteriós, amb girs inesperats</span>
+      </div>
+      <div class="prog">| Cmaj7 | E♭maj7♯11 | G7sus♭9 | Amaj7♯5 | Bdim7 |</div>
+      <button class="play" data-src="audio/prog-02.mp3" data-titol="Kuro Spiral">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Comença amb dues terceres menors (Do i Mi bemoll) i després salta al tríton. El Sol suspès amb b9 no resol i el disminuït final tanca amb simetria: és un cicle de colors, no una cadència.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → G → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Kuro (C – E♭ – G – A – B)</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Temes en 5/4 o 7/8</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Kuro</li><li>Lidi♯11</li><li>Mixolidi♭9</li><li>Lidi♯5</li><li>disminuïda</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32000 · x6536x · 3x331x · x02110 · x20101</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="messiaen mirage simètric, espiritual | cmaj9 | e♭maj13 | f♯7sus♯9 | a7♭13 | bmaj7add♯11 |">
+      <div class="cap">
+        <span class="num">3</span>
+        <span class="nom">Messiaen Mirage</span>
+        <span class="sens">Simètric, espiritual</span>
+      </div>
+      <div class="prog">| Cmaj9 | E♭maj13 | F♯7sus♯9 | A7♭13 | Bmaj7add♯11 |</div>
+      <button class="play" data-src="audio/prog-03.mp3" data-titol="Messiaen Mirage">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Moviment simètric per terceres menors. Els dos primers acords són tous (novena i tretzena) i l&#x27;aspror arriba amb el suspès #9 i el b13: per això sona espiritual i no tens.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Messiaen Mode 3</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Textures ambientals</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Mode 3</li><li>Lidi♯11</li><li>alterada</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32433 · x65366 · 2x233x · x02021 · x2444x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="hirajazz minimalista amb toc oriental | cmaj7 | dm9 | e♭maj7 | g7♯5 | a7sus♭9 |">
+      <div class="cap">
+        <span class="num">4</span>
+        <span class="nom">HiraJazz</span>
+        <span class="sens">Minimalista amb toc oriental</span>
+      </div>
+      <div class="prog">| Cmaj7 | Dm9 | E♭maj7 | G7♯5 | A7sus♭9 |</div>
+      <button class="play" data-src="audio/prog-04.mp3" data-titol="HiraJazz">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>És el més tonal dels vint-i-cinc: Do i Re són segon grau de debò i el Mi bemoll fa de gir cromàtic. El que el fa oriental és el final: dos acords que queden sense resoldre.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → D → Eb → G → A</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Hirajōshi adaptada</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Fraseig melòdic i vibrato</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Hirajōshi</li><li>Dorià</li><li>Lidi</li><li>Mixolidi♯5</li><li>disminuïda</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32000 · x5355x · x65333 · 3x344x · x02021</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="chromatic bloom cromàtic, intens | cmaj7♯11 | d♭7alt | f♯m9 | g♯dim7 | b7♭9♯11 |">
+      <div class="cap">
+        <span class="num">5</span>
+        <span class="nom">Chromatic Bloom</span>
+        <span class="sens">Cromàtic, intens</span>
+      </div>
+      <div class="prog">| Cmaj7♯11 | D♭7alt | F♯m9 | G♯dim7 | B7♭9♯11 |</div>
+      <button class="play" data-src="audio/prog-05.mp3" data-titol="Chromatic Bloom">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Cromatisme pur al principi (Do i Re bemoll) i després el tríton. Amb un disminuït i un dominant de dues alteracions, no hi ha cap punt de repòs en tota la progressió.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Db → F# → Ab → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Enigmàtica + alteracions jazz</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació lliure</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Lidi</li><li>alterada</li><li>Dorià</li><li>disminuïda</li><li>Mixolidi♭9♯11</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32430 · x4565x · 2x422x · 4x343x · x2122x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="zen cascade meditatiu, amb aire japonès | cmaj7 | d♭maj7 | fm9 | g7sus | a♭maj7♯11 |">
+      <div class="cap">
+        <span class="num">6</span>
+        <span class="nom">Zen Cascade</span>
+        <span class="sens">Meditatiu, amb aire japonès</span>
+      </div>
+      <div class="prog">| Cmaj7 | D♭maj7 | Fm9 | G7sus | A♭maj7♯11 |</div>
+      <button class="play" data-src="audio/prog-06.mp3" data-titol="Zen Cascade">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Cromatisme al primer salt i terceres menors després. Tots els acords són tous o suspesos, i per això sona tranquil tot i que no hi ha cap resolució.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Db → F → G → Ab</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">In-Sen</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Temes minimalistes</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>In-Sen</li><li>Lidi♯11</li><li>Dòric</li><li>Mixolidi</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32000 · x4311x · x5355x · 3x331x · 4x554x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="fractal flow abstracte, rítmic | cmaj7♯5 | e♭7sus | f♯m9 | a♭maj7 | bdim7 |">
+      <div class="cap">
+        <span class="num">7</span>
+        <span class="nom">Fractal Flow</span>
+        <span class="sens">Abstracte, rítmic</span>
+      </div>
+      <div class="prog">| Cmaj7♯5 | E♭7sus | F♯m9 | A♭maj7 | Bdim7 |</div>
+      <button class="play" data-src="audio/prog-07.mp3" data-titol="Fractal Flow">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Gairebé tot el camí és per terceres menors (Do, Mi bemoll, Fa sostingut, La bemoll, Si). El maj7#5 inicial planteja una tònica que ja neix inestable.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → Ab → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Bartók</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació en compàs irregular</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Bartók</li><li>Mixolidi♭9</li><li>Dorià</li><li>Lidi</li><li>disminuïda</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32444 · x6566x · 2x422x · 4x554x · x20101</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="obsidian drift fosc, amb tensió subterrània | cm7♭5 | d7alt | e♭maj7 | g♭7sus | b♭dim7 |">
+      <div class="cap">
+        <span class="num">8</span>
+        <span class="nom">Obsidian Drift</span>
+        <span class="sens">Fosc, amb tensió subterrània</span>
+      </div>
+      <div class="prog">| Cm7♭5 | D7alt | E♭maj7 | G♭7sus | B♭dim7 |</div>
+      <button class="play" data-src="audio/prog-08.mp3" data-titol="Obsidian Drift">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Comença amb un semidisminuït i un alterat —el moment més fosc— i després s&#x27;obre amb Mi bemoll i Sol bemoll. Acaba amb un disminuït: queda obert per continuar.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → D → Eb → F# → Bb</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Locri♯2</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Solos amb distorsió suau</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Locri♯2</li><li>alterada</li><li>Lidi</li><li>Mixolidi♭9</li><li>disminuïda</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x3534x · x5454x · x65333 · 2x233x · x1202x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="aurora spiral luminós, amb girs inesperats | cmaj7♯5 | dm9 | f♯7alt | g♯maj7 | b7sus♭9 |">
+      <div class="cap">
+        <span class="num">9</span>
+        <span class="nom">Aurora Spiral</span>
+        <span class="sens">Luminós, amb girs inesperats</span>
+      </div>
+      <div class="prog">| Cmaj7♯5 | Dm9 | F♯7alt | G♯maj7 | B7sus♭9 |</div>
+      <button class="play" data-src="audio/prog-09.mp3" data-titol="Aurora Spiral">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Colors brillants (maj7#5, m9) amb un alterat al mig que ho trenca. L&#x27;últim acord suspès amb b9 deixa la tensió oberta i convida a tornar a començar.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → D → F# → Ab → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Lidi♯5</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Temes amb tapping i loops</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Lidi♯5</li><li>Dorià</li><li>alterada</li><li>Lidi</li><li>Mixolidi♭9</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32444 · x5355x · 2x233x · 4x554x · x2122x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="mirage pulse espacial, amb colors brillants | cmaj7 | d♯dim7 | f♯m11 | amaj7 | b7alt |">
+      <div class="cap">
+        <span class="num">10</span>
+        <span class="nom">Mirage Pulse</span>
+        <span class="sens">Espacial, amb colors brillants</span>
+      </div>
+      <div class="prog">| Cmaj7 | D♯dim7 | F♯m11 | Amaj7 | B7alt |</div>
+      <button class="play" data-src="audio/prog-10.mp3" data-titol="Mirage Pulse">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>El disminuït del segon compàs fa de frontissa cap a un m11. El dominant alterat final és l&#x27;únic moment dur de la segona meitat: la resta és color.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Messiaen Mode 2</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Solos amb chorus i reverb</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Mode 2</li><li>disminuïda</li><li>Dorià</li><li>Lidi</li><li>alterada</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32000 · x6545x · 2x2200 · x02120 · x2122x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="glass horizon transparent, amb colors brillants | cmaj7 | d♯dim7 | f♯m11 | amaj7 | b7alt |">
+      <div class="cap">
+        <span class="num">11</span>
+        <span class="nom">Glass Horizon</span>
+        <span class="sens">Transparent, amb colors brillants</span>
+      </div>
+      <div class="prog">| Cmaj7 | D♯dim7 | F♯m11 | Amaj7 | B7alt |</div>
+      <button class="play" data-src="audio/prog-11.mp3" data-titol="Glass Horizon">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>És exactament la mateixa progressió que Mirage Pulse: a la llista original està repetida. Serveix igual, però no cal escoltar-la dues vegades seguides.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Lidi♯2 (C – D♯ – E – F♯ – G – A – B)</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Solos amb chorus i reverb</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Lidi♯2</li><li>disminuïda</li><li>Dorià</li><li>Lidi</li><li>alterada</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32000 · x6545x · 2x2200 · x02120 · x2122x</p>
+      </div>
+      <div class="avis">⚠️ Mateixa progressió que <strong>Mirage Pulse</strong> (repetida a la llista original).</div>
+    </article>
+    <article class="card" data-cerca="velvet dissonance suau però amb tensió cromàtica | cmaj7♯11 | e7alt | fm9 | a♭maj7♯11 | b7♭9 |">
+      <div class="cap">
+        <span class="num">12</span>
+        <span class="nom">Velvet Dissonance</span>
+        <span class="sens">Suau però amb tensió cromàtica</span>
+      </div>
+      <div class="prog">| Cmaj7♯11 | E7alt | Fm9 | A♭maj7♯11 | B7♭9 |</div>
+      <button class="play" data-src="audio/prog-12.mp3" data-titol="Velvet Dissonance">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>La més dissonant del conjunt: dos acords alterats i dos amb #11. Cap dels cinc acords és estable, i això és exactament el que busca.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → E → F → Ab → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Alterat + Enigmàtica</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació amb fraseig lent</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Lidi♯11</li><li>alterada</li><li>Dòric</li><li>Lidi♯11</li><li>Mixolidi♭9</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32430 · x7676x · x5355x · 4x554x · x2121x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="nocturnal bloom fosc, amb floració harmònica | cm7♭5 | d7alt | e♭maj7 | g♭7sus | a7♭13 |">
+      <div class="cap">
+        <span class="num">13</span>
+        <span class="nom">Nocturnal Bloom</span>
+        <span class="sens">Fosc, amb floració harmònica</span>
+      </div>
+      <div class="prog">| Cm7♭5 | D7alt | E♭maj7 | G♭7sus | A7♭13 |</div>
+      <button class="play" data-src="audio/prog-13.mp3" data-titol="Nocturnal Bloom">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Com l&#x27;Obsidian Drift però amb un final diferent: en lloc del disminuït, un dominant amb tretzena bemoll, que tanca amb més foscor encara.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → D → Eb → F# → A</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Locria♯2 + Messiaen</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Temes nocturns o introspectius</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Locria♯2</li><li>alterada</li><li>Lidi</li><li>Mixolidi♭9</li><li>alterada</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x3534x · x5454x · x65333 · 2x233x · x02021</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="iridescent tension brillant, amb tensió flotant | cmaj7♯5 | dm11 | f♯7alt | g♯maj7 | b7sus♭9 |">
+      <div class="cap">
+        <span class="num">14</span>
+        <span class="nom">Iridescent Tension</span>
+        <span class="sens">Brillant, amb tensió flotant</span>
+      </div>
+      <div class="prog">| Cmaj7♯5 | Dm11 | F♯7alt | G♯maj7 | B7sus♭9 |</div>
+      <button class="play" data-src="audio/prog-14.mp3" data-titol="Iridescent Tension">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>L&#x27;onzena del segon acord és el moment de calma, i el suspès amb b9 del final el que et deixa esperant. Contrast entre brillantor i alteració.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → D → F# → Ab → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Lidi♯5</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació amb tapping i loops</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Lidi♯5</li><li>Dorià</li><li>alterada</li><li>Lidi</li><li>Mixolidi♭9</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32444 · x5355x · 2x233x · 4x554x · x2122x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="crimson spiral abstracte, amb girs inesperats | cmaj7 | e♭7sus | f♯m9 | amaj7♯5 | bdim7 |">
+      <div class="cap">
+        <span class="num">15</span>
+        <span class="nom">Crimson Spiral</span>
+        <span class="sens">Abstracte, amb girs inesperats</span>
+      </div>
+      <div class="prog">| Cmaj7 | E♭7sus | F♯m9 | Amaj7♯5 | Bdim7 |</div>
+      <button class="play" data-src="audio/prog-15.mp3" data-titol="Crimson Spiral">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Terceres menors amb un suspès pel mig. El maj7#5 i el disminuït final acoloreixen sense resoldre mai: bon material per a un vamp.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Bartók + Enigmàtica</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació lliure i rítmica</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Bartók</li><li>Mixolidi♭9</li><li>Dorià</li><li>Lidi♯5</li><li>disminuïda</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32000 · x6566x · 2x422x · x02110 · x20101</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="echoes of glass fràgil, amb ressonància cristal·lina | cmaj7 | d♯dim7 | fm11 | a♭maj7 | b7alt |">
+      <div class="cap">
+        <span class="num">16</span>
+        <span class="nom">Echoes of Glass</span>
+        <span class="sens">Fràgil, amb ressonància cristal·lina</span>
+      </div>
+      <div class="prog">| Cmaj7 | D♯dim7 | Fm11 | A♭maj7 | B7alt |</div>
+      <button class="play" data-src="audio/prog-16.mp3" data-titol="Echoes of Glass">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Disminuït de pas al segon compàs i després un m11. El dominant alterat final demana tornar al principi, i aquesta és la gràcia: el cercle no es tanca.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F → Ab → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Lidi♯2</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Temes ambientals o cinematogràfics</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Lidi♯2</li><li>disminuïda</li><li>Dòric</li><li>Lidi</li><li>alterada</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32000 · x6545x · x3333x · 4x554x · x2122x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="synthetic mirage artificial, hipnòtic | cmaj7 | e♭maj7 | f♯7sus♯9 | a7alt | bmaj7♯11 |">
+      <div class="cap">
+        <span class="num">17</span>
+        <span class="nom">Synthetic Mirage</span>
+        <span class="sens">Artificial, hipnòtic</span>
+      </div>
+      <div class="prog">| Cmaj7 | E♭maj7 | F♯7sus♯9 | A7alt | Bmaj7♯11 |</div>
+      <button class="play" data-src="audio/prog-17.mp3" data-titol="Synthetic Mirage">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Mateixa estructura que Spectral Bloom (estan repetides a la llista original). Do i Mi bemoll són els dos pols i el suspès #9 fa de frontissa entre els dos mons.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Messiaen Mode 6</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Electrònica experimental</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Mode 6</li><li>Lidi♯11</li><li>alterada</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32000 · x65333 · 2x233x · x05650 · x2434x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="twilight cluster dens, amb ombres harmòniques | cm7♭5 | d7alt | fmaj7 | g♯dim7 | b7♭9♯11 |">
+      <div class="cap">
+        <span class="num">18</span>
+        <span class="nom">Twilight Cluster</span>
+        <span class="sens">Dens, amb ombres harmòniques</span>
+      </div>
+      <div class="prog">| Cm7♭5 | D7alt | Fmaj7 | G♯dim7 | B7♭9♯11 |</div>
+      <button class="play" data-src="audio/prog-18.mp3" data-titol="Twilight Cluster">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Fosc al principi (semidisminuït i alterat), un moment de llum amb el Fa major i un final amb dues alteracions alhora. El contrast és el que la fa interessant.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → D → F → Ab → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Locria♯6</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació lenta i expressiva</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Locria♯6</li><li>alterada</li><li>Lidi</li><li>disminuïda</li><li>Mixolidi♭9</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x3534x · x5454x · x33210 · 4x343x · x2122x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="liquid geometry fluït, amb formes inestables | cmaj7♯5 | d♯dim7 | f♯m11 | amaj7 | b7alt |">
+      <div class="cap">
+        <span class="num">19</span>
+        <span class="nom">Liquid Geometry</span>
+        <span class="sens">Fluït, amb formes inestables</span>
+      </div>
+      <div class="prog">| Cmaj7♯5 | D♯dim7 | F♯m11 | Amaj7 | B7alt |</div>
+      <button class="play" data-src="audio/prog-19.mp3" data-titol="Liquid Geometry">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Com Mirage Pulse, però amb el primer acord amb la quinta augmentada: encara més inestable des del primer compàs.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Lidi♯2♯5</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació amb delays i modulació</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Lidi♯2♯5</li><li>disminuïda</li><li>Dorià</li><li>Lidi</li><li>alterada</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32444 · x6545x · 2x2200 · x02120 · x2122x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="prism shift refractat, amb colors canviants | cmaj7♯11 | d♭maj7♯11 | f♯7alt | a7sus♭9 | g♯dim7 |">
+      <div class="cap">
+        <span class="num">20</span>
+        <span class="nom">Prism Shift</span>
+        <span class="sens">Refractat, amb colors canviants</span>
+      </div>
+      <div class="prog">| Cmaj7♯11 | D♭maj7♯11 | F♯7alt | A7sus♭9 | G♯dim7 |</div>
+      <button class="play" data-src="audio/prog-20.mp3" data-titol="Prism Shift">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Dos acords amb #11 seguits (aire de lidia) i després el tríton. Acaba amb un disminuït en comptes de resoldre: la frase queda suspesa.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Db → F# → A → Ab</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Enigmàtica</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació cromàtica</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Enigmàtica</li><li>Lidi♯11</li><li>alterada</li><li>disminuïda</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32430 · x4311x · 2x233x · x02021 · 4x343x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="nebula waltz espacial, amb aire de vals | cmaj9 | e♭maj13 | f♯m11 | a7alt | bmaj7♯11 |">
+      <div class="cap">
+        <span class="num">21</span>
+        <span class="nom">Nebula Waltz</span>
+        <span class="sens">Espacial, amb aire de vals</span>
+      </div>
+      <div class="prog">| Cmaj9 | E♭maj13 | F♯m11 | A7alt | Bmaj7♯11 |</div>
+      <button class="play" data-src="audio/prog-21.mp3" data-titol="Nebula Waltz">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Els tres primers acords són tous (novena, tretzena, m11) i l&#x27;alterat és l&#x27;únic moment dur. El final amb #11 deixa un aire obert; funciona molt bé en compàs de tres.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Messiaen Mode 2</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Temes en 3/4 amb ambientació</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Mode 2</li><li>Lidi♯11</li><li>Dorià</li><li>alterada</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32433 · x65366 · 2x2200 · x05650 · x2434x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="opal fracture trencadís, amb llum i ombra | cmaj7♯5 | d♯7alt | f♯m9 | amaj7♯11 | b7♭9 |">
+      <div class="cap">
+        <span class="num">22</span>
+        <span class="nom">Opal Fracture</span>
+        <span class="sens">Trencadís, amb llum i ombra</span>
+      </div>
+      <div class="prog">| Cmaj7♯5 | D♯7alt | F♯m9 | Amaj7♯11 | B7♭9 |</div>
+      <button class="play" data-src="audio/prog-22.mp3" data-titol="Opal Fracture">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Tensió des del primer compàs: comença amb la quinta augmentada i continua amb un alterat. El m9 i el maj7#11 són els únics moments de calma.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Lidi♯2♯5</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació amb fraseig angular</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Lidi♯2♯5</li><li>alterada</li><li>Dorià</li><li>Lidi♯11</li><li>Mixolidi♭9</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32444 · x6565x · 2x422x · x02130 · x2121x</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="frozen tension congelat, amb tensió suspesa | cm7♭5 | d7alt | e♭maj7 | g7sus♭9 | a7♭13 |">
+      <div class="cap">
+        <span class="num">23</span>
+        <span class="nom">Frozen Tension</span>
+        <span class="sens">Congelat, amb tensió suspesa</span>
+      </div>
+      <div class="prog">| Cm7♭5 | D7alt | E♭maj7 | G7sus♭9 | A7♭13 |</div>
+      <button class="play" data-src="audio/prog-23.mp3" data-titol="Frozen Tension">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>El nom li escau: no hi ha cap resolució en tota la progressió. Dues parelles fosques i un final amb tretzena bemoll que no et deixa respirar.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → D → Eb → G → A</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Locria♯2</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació lenta i atmosfèrica</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Locria♯2</li><li>alterada</li><li>Lidi</li><li>Mixolidi♭9</li><li>alterada</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x3534x · x5454x · x65333 · 3x331x · x02021</p>
+      </div>
+      
+    </article>
+    <article class="card" data-cerca="spectral bloom etèric, amb floració harmònica | cmaj7 | e♭maj7 | f♯7sus♯9 | a7alt | bmaj7♯11 |">
+      <div class="cap">
+        <span class="num">24</span>
+        <span class="nom">Spectral Bloom</span>
+        <span class="sens">Etèric, amb floració harmònica</span>
+      </div>
+      <div class="prog">| Cmaj7 | E♭maj7 | F♯7sus♯9 | A7alt | Bmaj7♯11 |</div>
+      <button class="play" data-src="audio/prog-24.mp3" data-titol="Spectral Bloom">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>Mateixa progressió que Synthetic Mirage (repetida a la llista original). Val la pena tenir-la present com a variant del mateix color.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Messiaen Mode 3</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Improvisació amb harmònics i delays</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Mode 3</li><li>Lidi♯11</li><li>alterada</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32000 · x65333 · 2x233x · x05650 · x2434x</p>
+      </div>
+      <div class="avis">⚠️ Mateixa progressió que <strong>Synthetic Mirage</strong> (repetida a la llista original).</div>
+    </article>
+    <article class="card" data-cerca="crystal pulse vibrant, amb energia cristal·lina | cmaj7♯5 | d♯7alt | f♯m11 | amaj7♯11 | b7sus♭9 |">
+      <div class="cap">
+        <span class="num">25</span>
+        <span class="nom">Crystal Pulse</span>
+        <span class="sens">Vibrant, amb energia cristal·lina</span>
+      </div>
+      <div class="prog">| Cmaj7♯5 | D♯7alt | F♯m11 | Amaj7♯11 | B7sus♭9 |</div>
+      <button class="play" data-src="audio/prog-25.mp3" data-titol="Crystal Pulse">▶ Escoltar</button>
+      <div class="bloc">
+        <div class="et">Què fa aquesta progressió</div>
+        <p>La barreja més densa: quinta augmentada, alterat, m11 i #11 en cinc compassos. És la que més allunya de qualsevol tonalitat.</p>
+        
+      </div>
+      <div class="bloc">
+        <div class="et">El camí de les fonamentals</div>
+        <p class="moviment">C → Eb → F# → A → B</p>
+        <p class="petit">barreja intervals: el camí és lliure, més de color que de funció</p>
+      </div>
+      <div class="dues">
+        <div>
+          <div class="et">Mode</div><p class="petit">Lidi♯2♯5</p>
+        </div>
+        <div>
+          <div class="et">Ús</div><p class="petit">Temes amb tapping, loops i modulació</p>
+        </div>
+      </div>
+      <div class="bloc">
+        <div class="et">Escales per improvisar-hi</div>
+        <ul class="escales"><li>Lidi♯2♯5</li><li>alterada</li><li>Dorià</li><li>Lidi♯11</li><li>Mixolidi♭9</li></ul>
+      </div>
+      <div class="bloc">
+        <div class="et">Voicings (digitació de guitarra)</div>
+        <p class="mono">x32444 · x6565x · 2x2200 · x02130 · x2122x</p>
+      </div>
+      
+    </article>
+
+  <footer>
+    <div class="fila">
+      <div class="progres"><i id="barra"></i></div>
+      <span id="temps">—</span>
+      <button id="pausa">⏸</button>
+      <button id="seguent">⏭</button>
+    </div>
+    <div id="ara">Tria una progressió.</div>
+  </footer>
+  <audio id="player" preload="metadata"></audio>
+<script>
+  var botons = Array.prototype.slice.call(document.querySelectorAll('.play'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var player = document.getElementById('player');
+  var ara = document.getElementById('ara');
+  var idx = -1;
+  function posa(i) {
+    if (i < 0 || i >= botons.length) { atura(); return; }
+    idx = i;
+    player.src = botons[i].dataset.src;
+    player.play().catch(function () { ara.textContent = 'Torna a clicar per començar.'; });
+    ara.textContent = '▶ ' + botons[i].dataset.titol;
+    botons.forEach(function (b, j) { b.classList.toggle('sonant', j === i); });
+  }
+  function atura() { player.pause(); idx = -1; botons.forEach(function (b) { b.classList.remove('sonant'); });
+    ara.textContent = 'Aturat.'; document.getElementById('temps').textContent = '—'; }
+  function mmss(s) { s = Math.max(0, Math.round(s)); var m = Math.floor(s / 60), r = s % 60;
+    return m + ':' + (r < 10 ? '0' : '') + r; }
+  player.addEventListener('timeupdate', function () {
+    if (!player.duration) { return; }
+    document.getElementById('barra').style.width = (100 * player.currentTime / player.duration) + '%';
+    document.getElementById('temps').textContent =
+      'queden ' + mmss(player.duration - player.currentTime) + ' (' + mmss(player.duration) + ')';
+  });
+  botons.forEach(function (b, i) { b.addEventListener('click', function () { posa(i); }); });
+  player.addEventListener('ended', function () { posa(idx + 1); });
+  document.getElementById('pausa').addEventListener('click', function () {
+    if (player.paused) { player.play(); } else { player.pause(); }
+  });
+  document.getElementById('seguent').addEventListener('click', function () { posa(idx + 1); });
+  document.getElementById('tot').addEventListener('click', function () { posa(0); });
+  document.getElementById('cerca').addEventListener('input', function (ev) {
+    var t = ev.target.value.trim().toLowerCase();
+    cards.forEach(function (c) {
+      c.style.display = (!t || c.dataset.cerca.indexOf(t) >= 0) ? '' : 'none';
+    });
+    botons = Array.prototype.slice.call(document.querySelectorAll('.card:not([style*="display: none"]) .play'));
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Prova de so · curs d'harmonia</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 22px 18px 40px; background: #0f172a; color: #e2e8f0;
+         font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 720px; margin-inline: auto; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p.sub { color: #94a3b8; font-size: 13px; margin: 0 0 20px; }
+  .m { border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04);
+        border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+  .t { font-weight: 600; margin-bottom: 8px; }
+  audio { width: 100%; }
+  .peu { margin-top: 22px; color: #64748b; font-size: 12px; }
+</style>
+</head>
+<body>
+  <h1>🎸 Prova de so · curs d'harmonia</h1>
+  <p class="sub">Aquests sons són <strong>sintetitzats</strong> (ffmpeg: tres harmònics i caiguda
+     exponencial, com un piano elèctric). Escolta'ls i digues si el so és prou bo per fer el curs.
+     Si no ho és, es pot canviar abans d'escriure res: més harmònics, so més suau, o piano de mostres.</p>
+      <div class="m">
+      <div class="t">1. Acord major (Do)</div>
+      <audio controls preload="metadata" src="mostres/1-acord-major-do.mp3"></audio>
+    </div>
+    <div class="m">
+      <div class="t">2. Acord menor (Do menor)</div>
+      <audio controls preload="metadata" src="mostres/2-acord-menor-do-menor.mp3"></audio>
+    </div>
+    <div class="m">
+      <div class="t">3. Do amb septima major (Cmaj7)</div>
+      <audio controls preload="metadata" src="mostres/3-do-amb-septima-major-cmaj7.mp3"></audio>
+    </div>
+    <div class="m">
+      <div class="t">4. Menor amb septima (Cm7)</div>
+      <audio controls preload="metadata" src="mostres/4-menor-amb-septima-cm7.mp3"></audio>
+    </div>
+    <div class="m">
+      <div class="t">5. Septima de dominant (C7)</div>
+      <audio controls preload="metadata" src="mostres/5-septima-de-dominant-c7.mp3"></audio>
+    </div>
+    <div class="m">
+      <div class="t">6. Menor amb bemoll cinc (Cm7b5)</div>
+      <audio controls preload="metadata" src="mostres/6-menor-amb-bemoll-cinc-cm7b5.mp3"></audio>
+    </div>
+    <div class="m">
+      <div class="t">7. Dos, cinc, un en Do (Dm7 G7 Cmaj7)</div>
+      <audio controls preload="metadata" src="mostres/7-dos-cinc-un-en-do-dm7-g7-cmaj7.mp3"></audio>
+    </div>
+    <div class="m">
+      <div class="t">8. Dos, cinc, un amb substitucio de trito (Dm7 Db7 Cmaj7)</div>
+      <audio controls preload="metadata" src="mostres/8-dos-cinc-un-amb-substitucio-de-trito-dm7-db7-cmaj7.mp3"></audio>
+    </div>
+    <div class="m">
+      <div class="t">9. Cadencia andalusa en La menor (Am G F E7)</div>
+      <audio controls preload="metadata" src="mostres/9-cadencia-andalusa-en-la-menor-am-g-f-e7.mp3"></audio>
+    </div>
+    <div class="m">
+      <div class="t">10. Acord de guitarra: Do amb novena (Cadd9) obert</div>
+      <audio controls preload="metadata" src="mostres/10-acord-de-guitarra-do-amb-novena-cadd9-obert.mp3"></audio>
+    </div>
+  <div class="peu">
+    Generat per <code>mostres.py</code> · per refer-ho: <code>python mostres.py</code>
+  </div>
+</body>
+</html>

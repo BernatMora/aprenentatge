@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Bases per acompanyar · ritme i compàs</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; padding: 14px 12px 40px; background: #0f172a; color: #e2e8f0;
+         font: 15.5px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 680px; margin-inline: auto; user-select: none; }
+  h1 { font-size: 19px; margin: 0 0 2px; }
+  p.sub { color: #94a3b8; font-size: 12.5px; margin: 0 0 12px; }
+  .bloc { border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04);
+          border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; }
+  .et { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #94a3b8; margin-bottom: 6px; }
+  .fila { display: flex; align-items: center; gap: 10px; }
+  button { border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.06); color: #e2e8f0;
+           border-radius: 9px; padding: 7px 11px; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+  button.actiu { background: rgba(14,165,233,.3); border-color: #0ea5e9; color: #e0f2fe; }
+  button.gran { font-size: 18px; padding: 13px 18px; width: 100%; }
+  button.marxa { background: rgba(16,185,129,.28); border-color: #10b981; color: #d1fae5; }
+  button.parada { background: rgba(239,68,68,.28); border-color: #ef4444; color: #fee2e2; }
+  input[type=range] { width: 100%; accent-color: #38bdf8; }
+  .graella { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .compte { display: flex; align-items: center; gap: 8px; }
+  .pastilla { font-family: ui-monospace, Consolas, monospace; font-size: 15px; font-weight: 700;
+              background: rgba(0,0,0,.3); border-radius: 8px; padding: 6px 10px; color: #fbbf24; }
+  .acords { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+  .acord { border: 1px solid rgba(255,255,255,.15); border-radius: 7px; padding: 4px 9px;
+           font-size: 13px; font-family: ui-monospace, Consolas, monospace; color: #cbd5e1; }
+  .acord.ara { background: rgba(251,191,36,.3); border-color: #fbbf24; color: #fff; font-weight: 700; }
+  .peu { color: #64748b; font-size: 11.5px; line-height: 1.7; margin-top: 14px; }
+  .avis { font-size: 12px; color: #7dd3fc; min-height: 16px; }
+</style>
+</head>
+<body>
+  <h1>🎸 Bases per acompanyar</h1>
+  <p class="sub">Bateria i baix per practicar <strong>acompanyament</strong>: els acords els poses tu.
+    Amb swing humanitzat (el 2 i el 4 marcats, i el so una mica darrere del temps).</p>
+
+  <div class="bloc">
+    <div class="et">Estil</div>
+    <div class="graella" id="estils"></div>
+    <div class="et" style="margin-top:10px">Tonalitat</div>
+    <div class="graella" id="tonalitats"></div>
+  </div>
+
+  <div class="bloc">
+    <div class="fila">
+      <div class="pastilla" id="bpm">80 BPM</div>
+      <div style="flex:1"><input type="range" id="lliscador" min="40" max="220" value="80" /></div>
+    </div>
+    <div class="fila" style="margin-top:8px">
+      <button id="menys">−5</button><button id="mes">+5</button>
+      <button id="comptatge">comptatge: 1 compàs</button>
+    </div>
+  </div>
+
+  <div class="bloc">
+    <div class="fila"><div class="compte"><span id="barra-compte">compàs —</span><span id="ara" class="pastilla">—</span></div></div>
+    <div class="acords" id="acords"></div>
+    <div style="margin-top:10px"><button class="gran marxa" id="marxa">▶ Comença</button></div>
+    <div class="avis" id="avis"></div>
+  </div>
+
+  <div class="bloc">
+    <div class="et">Volums</div>
+    <div class="fila"><span style="width:74px;font-size:13px">Bateria</span>
+      <input type="range" id="vol-bat" min="0" max="100" value="80" /></div>
+    <div class="fila"><span style="width:74px;font-size:13px">Baix</span>
+      <input type="range" id="vol-baix" min="0" max="100" value="85" /></div>
+    <div class="et" style="margin-top:10px">Swing i feeling</div>
+    <div class="fila"><span style="width:74px;font-size:13px">Swing</span>
+      <input type="range" id="swing" min="50" max="80" value="67" /></div>
+    <div class="fila"><span style="width:74px;font-size:13px">Humà</span>
+      <input type="range" id="hum" min="0" max="100" value="40" /></div>
+    <div class="graella" id="sentits" style="margin-top:8px"></div>
+    <div class="fila" style="margin-top:8px">
+      <button id="clic-24">clic al 2 i al 4: no</button>
+    </div>
+  </div>
+
+
+  <!-- biblioteca de patrons de comping -->
+  <div class="bloc">
+    <div class="et">Patrons de comping (clica'n un per sentir-lo sobre la base)</div>
+    <div id="patrons" class="opcions"></div>
+    <div id="patro-regla" style="display:flex;gap:3px;margin-top:10px;flex-wrap:nowrap"></div>
+    <div class="fila" style="margin-top:6px;font-size:12px;color:#94a3b8">
+      <span id="patro-info">cap patró: els acords els toques tu</span>
+    </div>
+    <div class="fila" style="margin-top:8px">
+      <span style="width:74px;font-size:13px">Comping</span>
+      <input type="range" id="vol-comp" min="0" max="100" value="55" />
+    </div>
+  </div>
+
+  <div class="peu">
+    <strong>Com practicar-ho:</strong> tria estil i tonalitat, posa el tempo que et costi una mica i toca-hi
+    a sobre. Comença amb un patró senzill (un acord per compàs) i ves-hi afegint síncopes.
+    Si el tempo et supera, baixa'l 10 BPM: l'acompanyament s'ha de poder fer sense patir.
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  const NOTES = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+  const NOMS = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+
+  function midiDeNota(nom) {
+    const m = /^([A-G])([#b]?)(-?\d)$/.exec(nom);
+    if (!m) return 60;
+    let pc = NOTES[m[1]] + (m[2] === "#" ? 1 : m[2] === "b" ? -1 : 0);
+    return 12 * (parseInt(m[3], 10) + 1) + pc;
+  }
+  const midiDeNom = (n) => {
+    const m = /^([A-G])([#b]?)/.exec(n);
+    return (NOTES[m[1]] + (m[2] === "#" ? 1 : m[2] === "b" ? -1 : 0) + 12) % 12;
+  };
+  const freq = (midi) => 440 * Math.pow(2, (midi - 69) / 12);
+
+  // ---------------------------------------------------------------- estils
+  // Cada estil: la graella (8 = corxeres, 16 = semicorxeres), la forma, i els patrons.
+  const ESTILS = {
+    texas: {
+      nom: "Texas blues (SRV)",
+      graella: 8,
+      swing: 2 / 3,
+      forma: "blues12",
+      desc: "shuffle amb backbeat fort i baix root-cinquena-sisena",
+      bat: {
+        kick:  [0, 4, 8, 12],            // 1 i 3
+        snare: [4, 12],                  // 2 i 4 (backbeat)
+        hat:   [0, 1, 2, 3, 4, 5, 6, 7],
+        ride:  [],
+      },
+      baix: "shuffle",
+    },
+    funk: {
+      nom: "Funk (16è)",
+      graella: 16,
+      swing: 0.5,
+      forma: "vamp",
+      desc: "un acord i molt groove, amb síncopes i ghost notes",
+      bat: {
+        kick:  [0, 6, 10],
+        snare: [4, 12, 14],
+        hat:   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        ride:  [],
+      },
+      baix: "funk",
+    },
+    swing: {
+      nom: "Swing (Scofield)",
+      graella: 8,
+      swing: 2 / 3,
+      forma: "bluesjazz",
+      desc: "ride amb swing darrere del temps i baix caminant",
+      bat: {
+        kick:  [0, 6],
+        snare: [4, 12],                  // el 2 i el 4, amb escobilles
+        hat:   [4, 12],
+        ride:  [0, 1, 2, 3, 4, 5, 6, 7], // el ride marca la subdivisió
+      },
+      baix: "caminant",
+    },
+    fusio: {
+      nom: "Fusió (vamp modal)",
+      graella: 16,
+      swing: 0.5,
+      forma: "modal",
+      desc: "dos acords a mig to, amb groove de rock-fusió",
+      bat: {
+        kick:  [0, 3, 8, 11],
+        snare: [4, 12],
+        hat:   [0, 2, 4, 6, 8, 10, 12, 14],
+        ride:  [],
+      },
+      baix: "riff",
+    },
+  };
+
+  // ---------------------------------------------------------------- formes
+  // Els acords son arrels (sense qualitat: el que toca el guitarrista ho decideix)
+  const FORMES = {
+    blues12: (arrel) => {
+      const q = [0, 0, 0, 0, 5, 5, 0, 0, 7, 5, 0, 7];   // I I I I IV IV I I V IV I V
+      return q.map((g) => NOMS[(midiDeNom(arrel) + g) % 12]);
+    },
+    bluesjazz: (arrel) => {
+      // blues de jazz: moviment al 2, dos-cinc al 9
+      const base = midiDeNom(arrel);
+      return [arrel, NOMS[(base + 5) % 12], arrel, NOMS[(base + 7) % 12],
+              NOMS[(base + 5) % 12], NOMS[(base + 5) % 12], arrel, NOMS[(base + 9) % 12],
+              NOMS[(base + 2) % 12], NOMS[(base + 7) % 12], arrel, NOMS[(base + 7) % 12]];
+    },
+    vamp: (arrel) => {
+      const base = midiDeNom(arrel);
+      return [arrel, arrel, NOMS[(base + 5) % 12], arrel,
+              arrel, arrel, NOMS[(base + 10) % 12], NOMS[(base + 5) % 12]];
+    },
+    modal: (arrel) => {
+      const base = midiDeNom(arrel);
+      return [arrel, arrel, arrel, arrel,
+              NOMS[(base + 1) % 12], NOMS[(base + 1) % 12], NOMS[(base + 1) % 12], NOMS[(base + 1) % 12]];
+    },
+  };
+
+  const TONALITATS = ["E", "A", "D", "G", "C", "F", "Bb", "Eb"];
+
+  // ---------------------------------------------------------------- estat
+  const ESTAT = {
+    estil: "texas",
+    tonalitat: "A",
+    bpm: 80,
+    comptatge: 1,
+    swing: 2 / 3,
+    hum: 0.4,
+    sentit: 1,          // 1 = darrere del temps (Scofield), 0 = al temps, -1 = davant
+    clic24: false,
+    volBat: 0.48,
+    volBaix: 0.48,
+    volComp: 1.0,
+    sonant: false,
+  };
+  try {
+    const g = JSON.parse(localStorage.getItem("bases") || "{}");
+    Object.keys(g).forEach((k) => { if (k in ESTAT) ESTAT[k] = g[k]; });
+  } catch (e) {}
+  const desa = () => { try { localStorage.setItem("bases", JSON.stringify(ESTAT)); } catch (e) {} };
+
+  // ---------------------------------------------------------------- audio
+  let ctx = null, busBat = null, busBaix = null, busClic = null, busSala = null, busComp = null, limitRef = null, analitzador = null;
+
+  /** Impulsió de sala: soroll que decau, com una habitació petita. */
+  function impulsió(dur, decaiment) {
+    const c = audio();
+    const n = Math.floor(c.sampleRate * dur);
+    const buf = c.createBuffer(2, n, c.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch);
+      for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, decaiment);
+    }
+    return buf;
+  }
+
+  function audio() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+      // limitador: evita que la suma de bombo, caixa i baix saturi
+      const limit = ctx.createDynamicsCompressor();
+      // suau: si comprimeix massa, el bombo desapareix sota el baix
+      limit.threshold.value = -4; limit.knee.value = 10; limit.ratio.value = 3;
+      limit.attack.value = 0.006; limit.release.value = 0.2;
+      limit.connect(ctx.destination);
+      limitRef = limit;
+
+      // SALA: reverberació de convolució amb un impulsió generat.
+      // Es el que fa que la bateria soni a bateria i no a joguina.
+      const sala = ctx.createConvolver();
+      sala.buffer = impulsió(1.2, 2.8);
+      const salaVol = ctx.createGain();
+      salaVol.gain.value = 0.32;
+      sala.connect(salaVol);
+      salaVol.connect(limit);
+      busSala = ctx.createGain();
+      busSala.gain.value = 1;
+      busSala.connect(sala);
+
+      busBat = ctx.createGain(); busBat.gain.value = ESTAT.volBat; busBat.connect(limit);
+      busBaix = ctx.createGain(); busBaix.gain.value = isFinite(ESTAT.volBaix) ? ESTAT.volBaix : 0.7; busBaix.connect(limit);
+      busClic = ctx.createGain(); busClic.gain.value = 0.5; busClic.connect(limit);
+      busComp = ctx.createGain(); busComp.gain.value = ESTAT.volComp; busComp.connect(limit);
+    }
+    if (ctx.state === "suspended") ctx.resume();
+    return ctx;
+  }
+
+  let buffers = null;
+  function soroll(dur) {
+    if (!buffers) buffers = {};
+    const clau = dur.toFixed(3);
+    if (buffers[clau]) return buffers[clau];
+    const c = audio();
+    const n = Math.max(1, Math.floor(c.sampleRate * dur));
+    const buf = c.createBuffer(1, n, c.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2);
+    buffers[clau] = buf;
+    return buf;
+  }
+
+  // --- Bombo: cos greu que baixa de to, amb clic d'atac i cua.
+  function bombo(quan, vol) {
+    const c = audio();
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(140, quan);
+    o.frequency.exponentialRampToValueAtTime(52, quan + 0.07);
+    o.frequency.exponentialRampToValueAtTime(42, quan + 0.35);
+    g.gain.setValueAtTime(0.0001, quan);
+    g.gain.linearRampToValueAtTime(1.6 * vol, quan + 0.003);   // mes pic
+    g.gain.exponentialRampToValueAtTime(0.42 * vol, quan + 0.09);
+    g.gain.exponentialRampToValueAtTime(0.0001, quan + 0.5);
+    o.connect(g); g.connect(busBat); g.connect(busSala);
+    o.start(quan); o.stop(quan + 0.45);
+
+    const s = c.createBufferSource();
+    s.buffer = soroll(0.02);
+    const f = c.createBiquadFilter();
+    f.type = "bandpass"; f.frequency.value = 2600; f.Q.value = 0.4;   // clic mes agut
+    const ga = c.createGain();
+    ga.gain.setValueAtTime(0.85 * vol, quan);
+    ga.gain.exponentialRampToValueAtTime(0.0001, quan + 0.04);
+    s.connect(f); f.connect(ga); ga.connect(busBat); ga.connect(busSala);
+    s.start(quan); s.stop(quan + 0.05);
+  }
+
+  // --- Caixa: pell ampla + cos de dos tons + atac brillant.
+  function caixa(quan, vol) {
+    const c = audio();
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.0001, quan);
+    g.gain.linearRampToValueAtTime(0.8 * vol, quan + 0.002);
+    g.gain.exponentialRampToValueAtTime(0.0001, quan + 0.26);
+    g.connect(busBat); g.connect(busSala);
+
+    const s = c.createBufferSource();
+    s.buffer = soroll(0.28);
+    const hp = c.createBiquadFilter();
+    hp.type = "highpass"; hp.frequency.value = 190; hp.Q.value = 0.7;
+    const lp = c.createBiquadFilter();
+    lp.type = "lowpass"; lp.frequency.value = 8200; lp.Q.value = 0.5;
+    s.connect(hp); hp.connect(lp); lp.connect(g);
+    s.start(quan); s.stop(quan + 0.3);
+
+    // el cos d'una caixa dura molt poc: si dura mes, sona a tambor electronic
+    [[175, 0.42, 0.055], [330, 0.3, 0.045]].forEach(([f0, amp, dur]) => {
+      const o = c.createOscillator(), gg = c.createGain();
+      o.type = "triangle";
+      o.frequency.setValueAtTime(f0 * 1.25, quan);
+      o.frequency.exponentialRampToValueAtTime(f0, quan + 0.02);
+      gg.gain.setValueAtTime(0.0001, quan);
+      gg.gain.linearRampToValueAtTime(amp * vol, quan + 0.001);
+      gg.gain.exponentialRampToValueAtTime(0.0001, quan + dur);
+      o.connect(gg); gg.connect(busBat);
+      o.start(quan); o.stop(quan + dur + 0.02);
+    });
+
+    // les pues (el brunzit caracteristic): banda 3-6 kHz amb cua
+    const sw = c.createBufferSource();
+    sw.buffer = soroll(0.3);
+    const bpw = c.createBiquadFilter();
+    bpw.type = "bandpass"; bpw.frequency.value = 4200; bpw.Q.value = 0.7;
+    const bpw2 = c.createBiquadFilter();
+    bpw2.type = "highpass"; bpw2.frequency.value = 2600;
+    const gw = c.createGain();
+    gw.gain.setValueAtTime(0.0001, quan);
+    gw.gain.linearRampToValueAtTime(0.55 * vol, quan + 0.001);
+    gw.gain.exponentialRampToValueAtTime(0.0001, quan + 0.22);
+    sw.connect(bpw); bpw.connect(bpw2); bpw2.connect(gw);
+    gw.connect(busBat); gw.connect(busSala);
+    sw.start(quan); sw.stop(quan + 0.32);
+
+    const sa = c.createBufferSource();
+    sa.buffer = soroll(0.02);
+    const fa = c.createBiquadFilter();
+    fa.type = "highpass"; fa.frequency.value = 3000;
+    const ga = c.createGain();
+    ga.gain.setValueAtTime(0.5 * vol, quan);
+    ga.gain.exponentialRampToValueAtTime(0.0001, quan + 0.02);
+    sa.connect(fa); fa.connect(ga); ga.connect(busBat); ga.connect(busSala);
+    sa.start(quan); sa.stop(quan + 0.03);
+  }
+
+  // --- Xarles: soroll amb metall i una mica de cua.
+  function xarles(quan, vol, fort) {
+    const c = audio();
+    const g = c.createGain();
+    const dur = fort ? 0.1 : 0.055;
+    g.gain.setValueAtTime(0.0001, quan);
+    g.gain.linearRampToValueAtTime((fort ? 0.3 : 0.18) * vol, quan + 0.001);
+    g.gain.exponentialRampToValueAtTime(0.0001, quan + dur);
+    g.connect(busBat); g.connect(busSala);
+
+    const s = c.createBufferSource();
+    s.buffer = soroll(0.14);
+    const bp = c.createBiquadFilter();
+    bp.type = "bandpass"; bp.frequency.value = 8200; bp.Q.value = 1.1;
+    const hp = c.createBiquadFilter();
+    hp.type = "highpass"; hp.frequency.value = 5500;
+    s.connect(bp); bp.connect(hp); hp.connect(g);
+    s.start(quan); s.stop(quan + 0.16);
+
+    [6300, 9400].forEach((f0) => {
+      const o = c.createOscillator(), gg = c.createGain();
+      o.type = "sine"; o.frequency.value = f0;
+      gg.gain.setValueAtTime(0.06 * vol, quan);
+      gg.gain.exponentialRampToValueAtTime(0.0001, quan + dur * 0.6);
+      o.connect(gg); gg.connect(busBat);
+      o.start(quan); o.stop(quan + dur);
+    });
+  }
+
+  // --- Ride: parcials inarmòniques i cua llarga.
+  function ride(quan, vol) {
+    const c = audio();
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.0001, quan);
+    g.gain.linearRampToValueAtTime(0.26 * vol, quan + 0.003);
+    g.gain.exponentialRampToValueAtTime(0.0001, quan + 0.75);
+    g.connect(busBat); g.connect(busSala);
+
+    [520, 742, 1105, 1477, 2100, 3150].forEach((f0, i) => {
+      const o = c.createOscillator(), gg = c.createGain();
+      o.type = "sine";
+      o.frequency.value = f0;
+      gg.gain.value = 0.2 / (1 + i * 0.35);
+      o.connect(gg); gg.connect(g);
+      o.start(quan); o.stop(quan + 0.8);
+    });
+
+    const s = c.createBufferSource();
+    s.buffer = soroll(0.7);
+    const hp = c.createBiquadFilter();
+    hp.type = "highpass"; hp.frequency.value = 4800;
+    const gg2 = c.createGain();
+    gg2.gain.setValueAtTime(0.12 * vol, quan);
+    gg2.gain.exponentialRampToValueAtTime(0.0001, quan + 0.5);
+    s.connect(hp); hp.connect(gg2); gg2.connect(g);
+    s.start(quan); s.stop(quan + 0.72);
+  }
+
+  // --- Baix: la nota DURA i amb HARMONICS.
+  // Una sinusoide pura a 40-80 Hz no se sent en altaveus petits: el que fa que
+  // un baix se senti es la barreja d'harmonics i l'atac de la pua.
+  function baix(quan, midi, dur, vol) {
+    const c = audio();
+    const d = Math.max(dur, 0.14);
+    const f0 = freq(midi);
+
+    const bus = c.createGain();
+    const f = c.createBiquadFilter();
+    f.type = "lowpass"; f.frequency.value = 2400; f.Q.value = 0.7;
+    bus.connect(f); f.connect(busBaix); f.connect(busSala);
+
+    // harmonics (1a a 5a): la 2a i la 3a son les que fan el so audible
+    [[1, 0.5], [2, 0.3], [3, 0.17], [4, 0.09], [5, 0.05]].forEach(([mult, amp]) => {
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = mult === 1 ? "sine" : "triangle";
+      o.frequency.value = f0 * mult;
+      g.gain.setValueAtTime(0.0001, quan);
+      g.gain.linearRampToValueAtTime(amp * vol, quan + 0.012);
+      g.gain.setValueAtTime(amp * vol, quan + d * 0.82);
+      g.gain.exponentialRampToValueAtTime(0.0001, quan + d);
+      o.connect(g); g.connect(bus);
+      o.start(quan); o.stop(quan + d + 0.05);
+    });
+
+    // atac de la pua: un clic curt i brillant
+    const s = c.createBufferSource();
+    s.buffer = soroll(0.04);
+    const bp = c.createBiquadFilter();
+    bp.type = "bandpass"; bp.frequency.value = Math.min(6000, f0 * 7); bp.Q.value = 0.8;
+    const ga = c.createGain();
+    ga.gain.setValueAtTime(1.1 * vol, quan);
+    ga.gain.exponentialRampToValueAtTime(0.0001, quan + 0.05);
+    s.connect(bp); bp.connect(ga); ga.connect(bus);
+    s.start(quan); s.stop(quan + 0.06);
+  }
+
+  function clic(quan, fort) {
+    const c = audio(), o = c.createOscillator(), g = c.createGain();
+    o.type = "sine"; o.frequency.value = fort ? 1400 : 950;
+    g.gain.setValueAtTime(0.0001, quan);
+    g.gain.linearRampToValueAtTime(fort ? 0.4 : 0.22, quan + 0.002);
+    g.gain.exponentialRampToValueAtTime(0.0001, quan + 0.04);
+    o.connect(g); g.connect(busClic);
+    o.start(quan); o.stop(quan + 0.06);
+  }
+
+
+  // ---------------------------------------------------------------- comping
+  // Patrons de ma dreta. La xifra es una regla de 16 semicorxeres per compas:
+  //   x = cop · X = cop fort · . = silenci
+  // Els estils de graella de 8 (shuffle, swing) toquen els llocs parells.
+  const PATRONS_COMP = [
+    // --- shuffle de Texas
+    ["Negres", "texas", "x...x...x...x..."],
+    ["Charleston", "texas", "x.....x........."],
+    ["Backbeat (2 i 4)", "texas", "....X.......X..."],
+    ["Shuffle amb pua", "texas", "x..Xx..Xx..Xx..X"],
+    ["Texas push", "texas", "x...x...x...x..X"],
+    ["Pregunta i resposta", "texas", "x...x..X....x..."+ "....X...x...x..X"],
+    // --- funk
+    ["Funk 1", "funk", "x..x..x...x.x..."],
+    ["Chank", "funk", "X.x...X.x.X...x."],
+    ["Un sol acord", "funk", "x..x..x...x..x.."],
+    ["Sincopes", "funk", "..x..x..x...x.x."],
+    ["Ghost notes", "funk", "x.xx..x.X.xx..x."],
+    ["Funk 2 compassos", "funk", "X.x...x.x..x...." + "x..X.x..x...x.x."],
+    // --- swing
+    ["Rengle (4 negres)", "swing", "x...x...x...x..."],
+    ["Charleston jazz", "swing", "x.....x........."],
+    ["Comping al 2 i 4", "swing", "....X.......X..."],
+    ["Anticipacio", "swing", "..x.....x...x..."],
+    ["Comping 2 compassos", "swing", "x.....x.....x..." + "....x.......x..X"],
+    ["Rengle amb accents", "swing", "X...x...X...x..."],
+    // --- fusio
+    ["Vamp modal", "fusio", "x.......x......."],
+    ["Quartal", "fusio", "x...x..x..x....."],
+    ["16e rock-fusio", "fusio", "x.x..x.x..x.x..x"],
+    ["Sincopat fusio", "fusio", "x..x..x..x..x..x"],
+    ["Comping obert", "fusio", "x.......x...x..."],
+    ["Fusio 2 compassos", "fusio", "x...x..x..x....." + "..x...x..x..x..x"],
+  ];
+
+  let patroTria = null;          // null = cap patro (toques tu)
+  let copsFets = 0;              // comptador de cops d'acord (per verificar)
+  let slotSona = null;           // per pintar la regla
+
+  const QUALITATS_COMP = {
+    "7": [0, 4, 10], "m7": [0, 3, 10], "7#9": [0, 4, 10, 15],
+    "13": [0, 4, 10, 21], "maj7": [0, 4, 11], "m6": [0, 3, 9],
+  };
+
+  function qualitatEstil(estil, idx) {
+    if (estil === "texas") return "7";
+    if (estil === "swing") return idx === 8 ? "m7" : "7";
+    if (estil === "funk") return (idx === 2 || idx === 6) ? "m7" : "7#9";
+    return "m7";
+  }
+
+  // --- el so del cop d'acord (comping): una GUITARRA, no un segon baix
+  function acordCop(quan, midis, vol) {
+    const c = audio();
+    const dur = 0.22;                        // pesa mes a la barreja
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.0001, quan);
+    g.gain.linearRampToValueAtTime(2.2 * vol, quan + 0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001, quan + dur);
+
+    // el filtre es tanca de pressa: aixo es el que fa el "plok" de la pua
+    const f = c.createBiquadFilter();
+    f.type = "lowpass";
+    f.frequency.setValueAtTime(4200, quan);
+    f.frequency.exponentialRampToValueAtTime(2400, quan + dur);
+    f.Q.value = 1.1;
+    g.connect(f);
+    if (busComp) f.connect(busComp);
+    f.connect(busSala);
+
+    midis.forEach((m) => {
+      const o = c.createOscillator(), gg = c.createGain();
+      o.type = "triangle";
+      o.frequency.value = freq(m);
+      gg.gain.value = 0.8 / midis.length;
+      o.connect(gg); gg.connect(g);
+      o.start(quan); o.stop(quan + dur + 0.04);
+
+      const o2 = c.createOscillator(), g2 = c.createGain();
+      o2.type = "sawtooth";
+      o2.frequency.value = freq(m) * 2;
+      g2.gain.value = 0.34 / midis.length;      // mes serra: brillantor que destaca
+      o2.connect(g2); g2.connect(g);
+      o2.start(quan); o2.stop(quan + dur * 0.6);
+    });
+
+    // atac de la pua
+    const s = c.createBufferSource();
+    s.buffer = soroll(0.035);
+    const bp = c.createBiquadFilter();
+    bp.type = "bandpass"; bp.frequency.value = 3200; bp.Q.value = 0.7;
+    const ga = c.createGain();
+    ga.gain.setValueAtTime(1.1 * vol, quan);
+    ga.gain.exponentialRampToValueAtTime(0.0001, quan + 0.045);
+    s.connect(bp); bp.connect(ga); ga.connect(g);
+    s.start(quan); s.stop(quan + 0.05);
+  }
+
+  /** Ducking: quan toca el comping, el baix i la bateria baixen un instant
+   *  perque el cop es senti clar. Es el que fa qualsevol mescla de debò. */
+  function duck(quan) {
+    const c = audio();
+    if (!busBaix || !busBat) return;
+    const d = 0.16;
+    const baseB = ESTAT.volBaix, baseT = ESTAT.volBat;
+    [["baix", busBaix, baseB, 0.45], ["bat", busBat, baseT, 0.72]].forEach(([, bus, base, factor]) => {
+      bus.gain.cancelScheduledValues(quan);
+      bus.gain.setValueAtTime(base, quan);
+      bus.gain.linearRampToValueAtTime(base * factor, quan + 0.015);
+      bus.gain.linearRampToValueAtTime(base, quan + d);
+    });
+  }
+
+  function pintaRegla() {
+    const cont = document.getElementById("patro-regla");
+    if (!cont) return;
+    cont.innerHTML = "";
+    const xifra = patroTria ? PATRONS_COMP[patroTria][2] : "................";
+    for (let i = 0; i < xifra.length; i++) {
+      const d = document.createElement("div");
+      const c = xifra[i];
+      const esTemps = i % 4 === 0;
+      d.style.cssText = "flex:1;height:26px;border-radius:5px;border:1px solid " +
+        (esTemps ? "rgba(148,163,184,.5)" : "rgba(255,255,255,.08)") + ";background:" +
+        (c === "X" ? "rgba(251,191,36,.75)" : c === "x" ? "rgba(56,189,248,.6)" : "rgba(255,255,255,.04)");
+      d.dataset.i = String(i);
+      cont.appendChild(d);
+    }
+  }
+
+  function pintaPatrons() {
+    const cont = document.getElementById("patrons");
+    if (!cont) return;
+    cont.innerHTML = "";
+    const famílies = { texas: "Shuffle de Texas", funk: "Funk", swing: "Swing", fusio: "Fusió" };
+
+    const b0 = document.createElement("button");
+    b0.textContent = "cap (toco jo)";
+    if (patroTria === null) b0.className = "actiu";
+    b0.addEventListener("click", () => {
+      patroTria = null; pintaPatrons(); pintaRegla();
+      const info = document.getElementById("patro-info");
+      if (info) info.textContent = "cap patró: els acords els toques tu";
+    });
+    cont.appendChild(b0);
+
+    Object.keys(famílies).forEach((fam) => {
+      const titol = document.createElement("div");
+      titol.textContent = famílies[fam];
+      titol.style.cssText = "width:100%;font-size:11px;color:#64748b;margin-top:6px";
+      cont.appendChild(titol);
+      PATRONS_COMP.forEach(([nom, familia, xifra], i) => {
+        if (familia !== fam) return;
+        const b = document.createElement("button");
+        b.textContent = nom;
+        if (patroTria === i) b.className = "actiu";
+        b.addEventListener("click", () => {
+          patroTria = i; pintaPatrons(); pintaRegla();
+          const info = document.getElementById("patro-info");
+          const esc = ESTILS[ESTAT.estil].graella === 16 ? "16è" : "8è";
+          if (info) {
+            info.textContent = "patró \"" + nom + "\" · " + xifra.replace(/\./g, "·") +
+              (ESTILS[ESTAT.estil].graella === 8 ? "  (en graella de " + esc + " només sonen els llocs parells)" : "");
+          }
+        });
+        cont.appendChild(b);
+      });
+    });
+  }
+
+  // el comping automatic: s'enganxa al planificador
+  function comping(quan, batec, kb, perBatec, spb) {
+    if (patroTria === null) return;
+    const [nom, familia, xifra] = PATRONS_COMP[patroTria];
+    // posicio dins del compas en semicorxeres (0..15)
+    const slot16 = (batec % 4) * 4 + Math.round(kb * (4 / perBatec));
+    const compassosPatro = Math.ceil(xifra.length / 16);
+    const compasDins = Math.floor(batec / 4) % compassosPatro;
+    const idx = compasDins * 16 + slot16;
+    const c = xifra[idx] || ".";
+    slotSona = slot16;
+    if (c === ".") return;
+    const idxAcord2 = Math.floor(batec / 4) % (acordsForma.length || 1);
+    const arrelNom = acordsForma[idxAcord2] || ESTAT.tonalitat;
+    const q = qualitatEstil(ESTAT.estil, idxAcord2);
+    const intervals = QUALITATS_COMP[q] || QUALITATS_COMP["7"];
+    const arrelMidi = midiDeNota(arrelNom + "4");   // registre de guitarra, no de baix
+    const notes = intervals.map((i2) => arrelMidi + i2);
+    acordCop(quan, notes, c === "X" ? 1 : 0.75);
+    copsFets += 1;
+    duck(quan);
+  }
+
+  function pintaSlotSona() {
+    const cont = document.getElementById("patro-regla");
+    if (!cont || slotSona === null) return;
+    Array.from(cont.children).forEach((el, i) => {
+      el.style.outline = i === slotSona ? "2px solid #fbbf24" : "none";
+    });
+  }
+
+  // ---------------------------------------------------------------- rellotge
+  const ESPERA = 25, ENDAVANT = 0.14, DESV_MAX = 0.013;
+  let ancoratge = 0, seguent = 0, index = 0, temporitzador = null, animacio = null;
+  let compas = 0, enComptatge = true;
+  const cua = [];
+  const programats = [];       // registre dels temps programats (per mesurar)
+  let acordsForma = [];
+
+  function huma() {
+    if (!isFinite(ESTAT.hum) || ESTAT.hum <= 0) return 0;
+    if (!isFinite(ESTAT.sentit)) ESTAT.sentit = 0;
+    const g = (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
+    return g * DESV_MAX * ESTAT.hum + ESTAT.sentit * DESV_MAX * ESTAT.hum * 0.6;
+  }
+
+  function swingViu() {
+    const e = ESTILS[ESTAT.estil];
+    if (e.graella !== 8) return 0.5;
+    if (ESTAT.hum <= 0) return ESTAT.swing;
+    return Math.max(0.5, Math.min(0.8, ESTAT.swing + (Math.random() - 0.5) * 0.06 * ESTAT.hum));
+  }
+
+  // Desplaçament de cada subdivisió dins del batec, en unitats de batec.
+  // Mateixa lògica que el metrònom: amb swing 2:1 la segona corxera cau a 0,667
+  // del batec (el tercer treset). A 16è, es balancegen els parells de semicorxeres.
+  function desplacamentSub(sub, n) {
+    const per = n / 4;                                  // subdivisions per batec: 2 o 4
+    const p = (per === 2 || per === 4) ? swingViu() : 0.5;
+    const k = sub % per;
+    const iniciParell = Math.floor(k / 2) * 2;
+    return (iniciParell + (k % 2 ? 2 * p : 0)) / per;
+  }
+
+  function programa() {
+    const c = audio();
+    const e = ESTILS[ESTAT.estil];
+    const n = e.graella;                 // events per compàs (8 o 16)
+    const perBatec = n / 4;              // events per batec (2 o 4)
+    // guarda: cap valor invalid no ha de poder aturar el so
+    let bpmValid = Number(ESTAT.bpm);
+    if (!isFinite(bpmValid) || bpmValid < 20) { bpmValid = 80; ESTAT.bpm = 80; }
+    let sentitValid = Number(ESTAT.sentit);
+    if (!isFinite(sentitValid)) { sentitValid = 0; ESTAT.sentit = 0; }
+    const spb = 60.0 / bpmValid;         // segons per batec
+    const temps = 4;                     // tots els estils son en 4/4
+    while (seguent < c.currentTime + ENDAVANT) {
+      const sub = index % n;                            // posicio dins del compas
+      const batec = Math.floor(index / perBatec);       // batec absolut
+      const kb = index % perBatec;                      // posicio dins del batec
+
+      let quan = ancoratge + batec * spb + desplacamentSub(kb, perBatec) * spb + huma();
+      if (!isFinite(quan)) { index += 1; continue; }        // mai mes un NaN atura la musica
+
+      if (enComptatge) {
+        // comptatge: nomes el clic, un per temps
+        if (sub % (n / temps) === 0) clic(quan, sub === 0);
+      } else {
+        // --- bateria
+        if (e.bat.kick.indexOf(sub) >= 0) bombo(quan, 0.85 + Math.random() * 0.15);
+        if (e.bat.snare.indexOf(sub) >= 0) caixa(quan, 1, sub === 0 || (sub % (n / 2)) === 0);
+        if (e.bat.hat.indexOf(sub) >= 0) xarles(quan, 1, sub === 0);
+        if (e.bat.ride.indexOf(sub) >= 0) ride(quan, 1);
+        if (ESTAT.clic24 && (sub === n / 4 || sub === 3 * n / 4)) clic(quan, false);
+
+        // --- baix
+        const idxAcord = Math.floor(batec / temps) % (acordsForma.length || 1);
+        const acord = acordsForma[idxAcord] || ESTAT.tonalitat;
+        const arrel = midiDeNota(acord + "2");
+        const tipus = e.baix;
+        if (tipus === "caminant") {
+          if (sub % (n / 4) === 0) {                    // negres
+            const pas = Math.floor(sub / (n / 4)) % 4;
+            baix(quan, arrel + [0, 7, 4, 1][pas], spb * 0.98, 1);
+          }
+        } else if (tipus === "shuffle") {
+          const vuit = spb * 0.48;                       // una corxera, gairebe sencera
+          if (sub === 0) baix(quan, arrel, vuit, 1);
+          else if (sub === 1) baix(quan, arrel + 12, vuit, 0.85);
+          else if (sub === 2) baix(quan, arrel + 7, vuit, 1);
+          else if (sub === 3) baix(quan, arrel + 9, vuit, 0.85);
+          else if (sub === 4) baix(quan, arrel, vuit, 1);
+          else if (sub === 5) baix(quan, arrel + 12, vuit, 0.85);
+          else if (sub === 6) baix(quan, arrel + 10, vuit, 1);
+          else if (sub === 7) baix(quan, arrel + 9, vuit, 0.85);
+        } else if (tipus === "funk") {
+          [0, 3, 6, 10, 14].forEach((s) => {
+            if (sub === s) baix(quan, arrel + ((s === 6 || s === 14) ? 12 : 0), spb * 0.21, 1);
+          });
+        } else if (tipus === "riff") {
+          const patro = [0, 0, 12, 0, 7, 0, 10, 12];
+          if (sub % 2 === 0) baix(quan, arrel + patro[Math.floor(sub / 2) % patro.length], spb * 0.45, 1);
+        }
+      }
+
+      if (!enComptatge) comping(quan, batec, kb, perBatec, spb);
+
+      cua.push({ quan: quan, compas: Math.floor(batec / temps) });
+      programats.push(quan);
+
+      seguent = ancoratge + (batec + 1) * spb;
+      index += 1;
+      if (index % n === 0) {
+        compas += 1;
+        if (enComptatge && compas >= (ESTAT.comptatge || 1)) {
+          enComptatge = false;
+          compas = 0;
+          avis("");
+        }
+      }
+    }
+  }
+
+  function avis(text) { document.getElementById("avis").textContent = text; }
+
+  function dibuixa() {
+    const c = audio();
+    while (cua.length && cua[0].quan <= c.currentTime) {
+      const e = cua.shift();
+      const idx = e.compas % acordsForma.length;
+      document.getElementById("barra-compte").textContent = "compàs " + (e.compas + 1);
+      document.getElementById("ara").textContent = acordsForma[idx] || "";
+      document.querySelectorAll("#acords .acord").forEach((el, i) => el.classList.toggle("ara", i === idx));
+      pintaSlotSona();
+    }
+    animacio = requestAnimationFrame(dibuixa);
+  }
+
+  function comenca() {
+    const c = audio();
+    ESTAT.sonant = true;
+    acordsForma = FORMES[ESTILS[ESTAT.estil].forma](ESTAT.tonalitat);
+    ancoratge = c.currentTime + 0.15;
+    seguent = ancoratge; index = 0; compas = 0;
+    enComptatge = ESTAT.comptatge > 0;
+    cua.length = 0;
+    programats.length = 0;
+    copsFets = 0;
+    temporitzador = setInterval(programa, ESPERA);
+    animacio = requestAnimationFrame(dibuixa);
+    pintaAcords();
+    document.getElementById("marxa").textContent = "⏹ Atura";
+    document.getElementById("marxa").className = "gran parada";
+    avis(enComptatge ? "Comptatge..." : "");
+  }
+
+  function atura() {
+    ESTAT.sonant = false;
+    if (temporitzador) { clearInterval(temporitzador); temporitzador = null; }
+    if (animacio) { cancelAnimationFrame(animacio); animacio = null; }
+    cua.length = 0;
+    programats.length = 0;
+    copsFets = 0;
+    document.getElementById("marxa").textContent = "▶ Comença";
+    document.getElementById("marxa").className = "gran marxa";
+    document.getElementById("ara").textContent = "—";
+  }
+
+  // ---------------------------------------------------------------- pantalla
+  function opcions(contenidor, llista, actiu, fes, etiquetes) {
+    const c = document.getElementById(contenidor);
+    c.innerHTML = "";
+    llista.forEach((valor, i) => {
+      const b = document.createElement("button");
+      b.textContent = etiquetes ? etiquetes[i] : valor;
+      if (valor === actiu()) b.className = "actiu";
+      b.addEventListener("click", () => { fes(valor); });
+      c.appendChild(b);
+    });
+  }
+
+  function pinta() {
+    opcions("estils", Object.keys(ESTILS), () => ESTAT.estil, (v) => {
+      ESTAT.estil = v;
+      ESTAT.swing = ESTILS[v].swing;
+      document.getElementById("swing").value = Math.round(ESTAT.swing * 100);
+      desa(); pinta();
+      if (ESTAT.sonant) { atura(); comenca(); }
+    }, Object.values(ESTILS).map((e) => e.nom));
+
+    opcions("tonalitats", TONALITATS, () => ESTAT.tonalitat, (v) => {
+      ESTAT.tonalitat = v; desa(); pinta();
+      if (ESTAT.sonant) { atura(); comenca(); }
+    });
+
+    opcions("sentits", [1, 0, -1], () => ESTAT.sentit, (v) => {
+      ESTAT.sentit = v; desa(); pinta();
+      if (ESTAT.sonant) { atura(); comenca(); }
+    }, ["🎸 darrere (Scofield)", "al temps", "endavant"]);
+
+    document.getElementById("bpm").textContent = ESTAT.bpm + " BPM";
+    document.getElementById("lliscador").value = ESTAT.bpm;
+    document.getElementById("swing").value = Math.round(ESTAT.swing * 100);
+    document.getElementById("hum").value = Math.round(ESTAT.hum * 100);
+    document.getElementById("vol-bat").value = Math.round(ESTAT.volBat * 100);
+    document.getElementById("vol-baix").value = Math.round(ESTAT.volBaix * 100);
+    document.getElementById("comptatge").textContent = "comptatge: " + (ESTAT.comptatge ? ESTAT.comptatge + " compàs" : "no");
+    document.getElementById("clic-24").textContent = "clic al 2 i al 4: " + (ESTAT.clic24 ? "sí" : "no");
+  }
+
+  function pintaAcords() {
+    const cont = document.getElementById("acords");
+    cont.innerHTML = "";
+    (acordsForma.length ? acordsForma : FORMES[ESTILS[ESTAT.estil].forma](ESTAT.tonalitat)).forEach((a) => {
+      const d = document.createElement("span");
+      d.className = "acord";
+      d.textContent = a;
+      cont.appendChild(d);
+    });
+  }
+
+  document.getElementById("marxa").addEventListener("click", () => ESTAT.sonant ? atura() : comenca());
+  document.getElementById("lliscador").addEventListener("input", (e) => {
+    ESTAT.bpm = parseInt(e.target.value, 10); pinta(); desa();
+  });
+  document.getElementById("lliscador").addEventListener("change", () => { if (ESTAT.sonant) { atura(); comenca(); } });
+  document.getElementById("menys").addEventListener("click", () => { ESTAT.bpm = Math.max(40, ESTAT.bpm - 5); pinta(); desa(); if (ESTAT.sonant) { atura(); comenca(); } });
+  document.getElementById("mes").addEventListener("click", () => { ESTAT.bpm = Math.min(220, ESTAT.bpm + 5); pinta(); desa(); if (ESTAT.sonant) { atura(); comenca(); } });
+  document.getElementById("comptatge").addEventListener("click", () => { ESTAT.comptatge = ESTAT.comptatge ? 0 : 1; pinta(); desa(); });
+  document.getElementById("clic-24").addEventListener("click", () => { ESTAT.clic24 = !ESTAT.clic24; pinta(); desa(); });
+  document.getElementById("swing").addEventListener("input", (e) => { ESTAT.swing = parseInt(e.target.value, 10) / 100; desa(); });
+  document.getElementById("swing").addEventListener("change", () => { if (ESTAT.sonant) { atura(); comenca(); } });
+  document.getElementById("hum").addEventListener("input", (e) => { ESTAT.hum = parseInt(e.target.value, 10) / 100; desa(); });
+  document.getElementById("hum").addEventListener("change", () => { if (ESTAT.sonant) { atura(); comenca(); } });
+  document.getElementById("vol-bat").addEventListener("input", (e) => {
+    ESTAT.volBat = parseInt(e.target.value, 10) / 100; if (busBat) busBat.gain.value = ESTAT.volBat; desa();
+  });
+  document.getElementById("vol-comp").addEventListener("input", (e) => {
+    ESTAT.volComp = parseInt(e.target.value, 10) / 100;
+    if (busComp) busComp.gain.value = ESTAT.volComp;
+    desa();
+  });
+  document.getElementById("vol-baix").addEventListener("input", (e) => {
+    ESTAT.volBaix = parseInt(e.target.value, 10) / 100; if (busBaix) busBaix.gain.value = ESTAT.volBaix; desa();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") { e.preventDefault(); ESTAT.sonant ? atura() : comenca(); }
+  });
+
+  /** Mostreig repartit en el temps: 40 mostres cada 40 ms (1,6 s).
+   *  Amb 60 mostres seguides (60 ms) un cop de comping de 130 ms gairebe no es veia. */
+  function bandesDurant(ms) {
+    return new Promise((resoldre) => {
+      const ms_ = ms || 1600;
+      const acumulat = { pic: [], rms: [], greu: [], baix: [], mig: [], agut: [] };
+      const passos = 40;
+      let fet = 0;
+      const timer = setInterval(() => {
+        const b = bandes();
+        Object.keys(acumulat).forEach((k) => acumulat[k].push(b[k]));
+        fet++;
+        if (fet >= passos) {
+          clearInterval(timer);
+          const mx = {};
+          Object.keys(acumulat).forEach((k) => {
+            const v = acumulat[k];
+            mx[k] = k === 'rms'
+              ? +(v.reduce((a, b) => a + b, 0) / v.length).toFixed(1)
+              : +Math.max.apply(null, v).toFixed(1);
+          });
+          resoldre(mx);
+        }
+      }, ms_ / passos);
+    });
+  }
+
+  /** Energia per bandes: serveix per comprovar si el bombo hi es de veritat. */
+  function bandes() {
+    const c = audio();
+    if (!analitzador) {
+      analitzador = c.createAnalyser();
+      analitzador.fftSize = 4096;
+      if (limitRef) limitRef.connect(analitzador);
+    }
+    const dades = new Float32Array(analitzador.frequencyBinCount);
+    analitzador.getFloatFrequencyData(dades);
+    const sr = c.sampleRate / 2 / dades.length;
+    const suma = (a, b) => {
+      // el MAXIM de la banda: comparar mitjanes entre bandes de mides molt
+      // diferents no te cap sentit (250-2000 te molts mes bins que 30-90)
+      let mx = -200;
+      for (let i = Math.floor(a / sr); i < Math.min(dades.length, Math.ceil(b / sr)); i++) {
+        if (dades[i] > mx) mx = dades[i];
+      }
+      return +mx.toFixed(1);
+    };
+    // el PIC de debò (domini del temps): es el que serveix per equilibrar volums
+    const temps = new Float32Array(analitzador.fftSize);
+    analitzador.getFloatTimeDomainData(temps);
+    let pic = 0;
+    for (let i = 0; i < temps.length; i++) { const v = Math.abs(temps[i]); if (v > pic) pic = v; }
+    let suma2 = 0;
+    for (let i = 0; i < temps.length; i++) suma2 += temps[i] * temps[i];
+    const rms = Math.sqrt(suma2 / temps.length);
+    return { pic: +(20 * Math.log10(pic + 1e-9)).toFixed(1),
+             rms: +(20 * Math.log10(rms + 1e-9)).toFixed(1),
+             greu: suma(30, 90), baix: suma(90, 250), mig: suma(250, 2000), agut: suma(2000, 8000) };
+  }
+
+  function volums(bat, baix_) {
+    ESTAT.volBat = bat; ESTAT.volBaix = baix_;
+    if (busBat) busBat.gain.value = bat;
+    if (busBaix) busBaix.gain.value = baix_;
+    const vb = document.getElementById("vol-bat"), vx = document.getElementById("vol-baix");
+    if (vb) vb.value = Math.round(bat * 100);
+    if (vx) vx.value = Math.round(baix_ * 100);
+  }
+
+  window.__bases = { estat: ESTAT, comenca, atura, estils: ESTILS, formes: FORMES, bandes, bandesDurant, volums,
+                     cops: () => copsFets, patroTria: () => patroTria,
+                     acords: () => acordsForma, audio, programats: programats };
+
+  pinta(); pintaAcords(); pintaPatrons(); pintaRegla();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Comparacio de so A/B · curs d'harmonia</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; padding: 22px 18px 40px; background: #0f172a; color: #e2e8f0;
+         font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         max-width: 720px; margin-inline: auto; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p.sub { color: #94a3b8; font-size: 13px; margin: 0 0 20px; }
+  .m { border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04);
+        border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+  .t { font-weight: 600; margin-bottom: 8px; }
+  .tag { display: inline-block; border-radius: 6px; padding: 1px 8px; font-size: 12px;
+          font-weight: 700; margin-right: 6px; }
+  .tag.A { background: rgba(14,165,233,.35); color: #e0f2fe; }
+  .tag.B { background: rgba(168,85,247,.35); color: #f3e8ff; }
+  audio { width: 100%; }
+  .peu { margin-top: 22px; color: #64748b; font-size: 12px; line-height: 1.7; }
+</style>
+</head>
+<body>
+  <h1>🎸 Comparació de so · A o B?</h1>
+  <p class="sub">El mateix exemple, dues vegades: <strong>A</strong> és el timbre de les dues
+     primeres mostres que et van agradar; <strong>B</strong> té més harmònics, una segona veu
+     lleugerament desafinada (dona cos) i una cua més llarga. Escolta'ls i digues quin vols:
+     A, B, o una barreja (per exemple, A per als acords i B per a les progressions).</p>
+      <div class="m">
+      <div class="t"><span class="tag A">A</span> Acord major (Do)</div>
+      <audio controls preload="metadata" src="comparacio/a-acord-major-do.mp3"></audio>
+    </div>    <div class="m">
+      <div class="t"><span class="tag B">B</span> Acord major (Do)</div>
+      <audio controls preload="metadata" src="comparacio/b-acord-major-do.mp3"></audio>
+    </div>    <div class="m">
+      <div class="t"><span class="tag A">A</span> Septima de dominant (C7)</div>
+      <audio controls preload="metadata" src="comparacio/a-septima-de-dominant-c7.mp3"></audio>
+    </div>    <div class="m">
+      <div class="t"><span class="tag B">B</span> Septima de dominant (C7)</div>
+      <audio controls preload="metadata" src="comparacio/b-septima-de-dominant-c7.mp3"></audio>
+    </div>    <div class="m">
+      <div class="t"><span class="tag A">A</span> Dos, cinc, un en Do</div>
+      <audio controls preload="metadata" src="comparacio/a-dos-cinc-un-en-do.mp3"></audio>
+    </div>    <div class="m">
+      <div class="t"><span class="tag B">B</span> Dos, cinc, un en Do</div>
+      <audio controls preload="metadata" src="comparacio/b-dos-cinc-un-en-do.mp3"></audio>
+    </div>    <div class="m">
+      <div class="t"><span class="tag A">A</span> Cadencia andalusa (Am G F E7)</div>
+      <audio controls preload="metadata" src="comparacio/a-cadencia-andalusa-am-g-f-e7.mp3"></audio>
+    </div>    <div class="m">
+      <div class="t"><span class="tag B">B</span> Cadencia andalusa (Am G F E7)</div>
+      <audio controls preload="metadata" src="comparacio/b-cadencia-andalusa-am-g-f-e7.mp3"></audio>
+    </div>
+  <div class="peu">
+    Generat per <code>compara.py</code> · per refer: <code>python compara.py</code>
+  </div>
+</body>
+</html>

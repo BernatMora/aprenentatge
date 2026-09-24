@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Curs · Crear amb IA</title>
+<style>
+ :root { color-scheme: dark; }
+ * { box-sizing: border-box; }
+ body { margin: 0; padding: 16px 14px 96px; background: #0f172a; color: #e2e8f0;
+        font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+ h1 { font-size: 20px; margin: 0 0 2px; }
+ p.sub { color: #94a3b8; font-size: 12.5px; margin: 0 0 16px; }
+ .item { border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.05);
+          border-radius: 13px; padding: 12px 14px; margin-bottom: 9px; cursor: pointer; }
+ .item.actiu { border-color: #0ea5e9; background: rgba(14,165,233,.22); }
+ .cap { display: flex; justify-content: space-between; font-size: 11.5px; color: #94a3b8; }
+ .num { font-weight: 700; color: #7dd3fc; }
+ .titol { font-weight: 600; margin-top: 3px; }
+ .fila-item { display: flex; gap: 8px; align-items: stretch; margin-bottom: 9px; }
+ .fila-item .item { flex: 1; min-width: 0; margin-bottom: 0; }
+ a.ex { display: flex; flex-direction: column; align-items: center; justify-content: center;
+        min-width: 62px; border-radius: 13px; border: 1px solid rgba(56,189,248,.4);
+        background: rgba(14,165,233,.16); color: #e0f2fe; text-decoration: none; font-size: 19px; }
+ a.ex:active { background: rgba(14,165,233,.35); }
+ a.ex.actiu { border-color: #0ea5e9; background: rgba(14,165,233,.4); }
+ .ex-n { font-size: 10px; color: #bae6fd; margin-top: 2px; }
+ footer { position: fixed; left: 0; right: 0; bottom: 0; padding: 10px 14px;
+           background: rgba(15,23,42,.98); border-top: 1px solid rgba(255,255,255,.1);
+           display: flex; align-items: center; gap: 10px; }
+ button { border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.06); color: #e2e8f0;
+           border-radius: 10px; padding: 10px 14px; font: inherit; font-weight: 600; }
+ #ara { font-size: 12px; color: #94a3b8; margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+ .fila { display: flex; align-items: center; gap: 10px; }
+ .progres { flex: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,.15); overflow: hidden; }
+ .progres > i { display: block; height: 6px; width: 0; background: #0ea5e9; }
+ #temps { font-size: 12px; color: #7dd3fc; font-variant-numeric: tabular-nums; min-width: 96px; text-align: right; }
+</style>
+</head>
+<body>
+  <h1>🎓 Curs · Crear amb IA</h1>
+  <p class="sub">25 capítols per aprendre a crear coses amb intel·ligència artificial.
+     Clica un capítol; en acabar passa sol al següent. Total: 2.9 h.</p>
+  
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-01-com-demanar.mp3" data-titol="Capítol 1 · Com parlar amb un model perquè t&#x27;entengui">
+        <div class="cap"><span class="num">1</span>
+          <span class="min">8.0 min</span></div>
+        <div class="titol">Capítol 1 · Com parlar amb un model perquè t&#x27;entengui</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-01.mp3" data-titol="Exercicis del capítol 1" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-02-crear-app.mp3" data-titol="Capítol 2 · Crear una aplicació de zero">
+        <div class="cap"><span class="num">2</span>
+          <span class="min">8.4 min</span></div>
+        <div class="titol">Capítol 2 · Crear una aplicació de zero</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-02.mp3" data-titol="Exercicis del capítol 2" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-03-agents.mp3" data-titol="Capítol 3 · Agents: què són de veritat">
+        <div class="cap"><span class="num">3</span>
+          <span class="min">7.2 min</span></div>
+        <div class="titol">Capítol 3 · Agents: què són de veritat</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-03.mp3" data-titol="Exercicis del capítol 3" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-04-imatge-video.mp3" data-titol="Capítol 4 · Imatge i vídeo">
+        <div class="cap"><span class="num">4</span>
+          <span class="min">7.3 min</span></div>
+        <div class="titol">Capítol 4 · Imatge i vídeo</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-04.mp3" data-titol="Exercicis del capítol 4" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-05-veu-audio.mp3" data-titol="Capítol 5 · Veu i àudio">
+        <div class="cap"><span class="num">5</span>
+          <span class="min">7.2 min</span></div>
+        <div class="titol">Capítol 5 · Veu i àudio</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-05.mp3" data-titol="Exercicis del capítol 5" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-06-automatitzar.mp3" data-titol="Capítol 6 · Automatitzar">
+        <div class="cap"><span class="num">6</span>
+          <span class="min">7.6 min</span></div>
+        <div class="titol">Capítol 6 · Automatitzar</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-06.mp3" data-titol="Exercicis del capítol 6" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-07-locals-nuvol.mp3" data-titol="Capítol 7 · Models locals i núvol">
+        <div class="cap"><span class="num">7</span>
+          <span class="min">7.7 min</span></div>
+        <div class="titol">Capítol 7 · Models locals i núvol</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-07.mp3" data-titol="Exercicis del capítol 7" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-08-invents.mp3" data-titol="Capítol 8 · Com no empassar-te invents">
+        <div class="cap"><span class="num">8</span>
+          <span class="min">6.7 min</span></div>
+        <div class="titol">Capítol 8 · Com no empassar-te invents</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-08.mp3" data-titol="Exercicis del capítol 8" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-09-assistent.mp3" data-titol="Capítol 9 · Un assistent que et conegui">
+        <div class="cap"><span class="num">9</span>
+          <span class="min">7.5 min</span></div>
+        <div class="titol">Capítol 9 · Un assistent que et conegui</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-09.mp3" data-titol="Exercicis del capítol 9" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-10-que-ve.mp3" data-titol="Capítol 10 · Què ve després">
+        <div class="cap"><span class="num">10</span>
+          <span class="min">6.6 min</span></div>
+        <div class="titol">Capítol 10 · Què ve després</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-10.mp3" data-titol="Exercicis del capítol 10" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-11-escriure.mp3" data-titol="Capítol 11 · Escriure amb IA">
+        <div class="cap"><span class="num">11</span>
+          <span class="min">6.7 min</span></div>
+        <div class="titol">Capítol 11 · Escriure amb IA</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-11.mp3" data-titol="Exercicis del capítol 11" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-12-aprendre.mp3" data-titol="Capítol 12 · Aprendre amb IA">
+        <div class="cap"><span class="num">12</span>
+          <span class="min">6.8 min</span></div>
+        <div class="titol">Capítol 12 · Aprendre amb IA</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-12.mp3" data-titol="Exercicis del capítol 12" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-13-dades.mp3" data-titol="Capítol 13 · Dades i fulls de càlcul">
+        <div class="cap"><span class="num">13</span>
+          <span class="min">6.5 min</span></div>
+        <div class="titol">Capítol 13 · Dades i fulls de càlcul</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-13.mp3" data-titol="Exercicis del capítol 13" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-14-etica.mp3" data-titol="Capítol 14 · Privacitat, drets i ètica pràctica">
+        <div class="cap"><span class="num">14</span>
+          <span class="min">7.7 min</span></div>
+        <div class="titol">Capítol 14 · Privacitat, drets i ètica pràctica</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-14.mp3" data-titol="Exercicis del capítol 14" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-15-mobil.mp3" data-titol="Capítol 15 · IA al mòbil">
+        <div class="cap"><span class="num">15</span>
+          <span class="min">6.1 min</span></div>
+        <div class="titol">Capítol 15 · IA al mòbil</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-15.mp3" data-titol="Exercicis del capítol 15" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-16-escanejats.mp3" data-titol="Capítol 16 · Documents escanejats">
+        <div class="cap"><span class="num">16</span>
+          <span class="min">7.4 min</span></div>
+        <div class="titol">Capítol 16 · Documents escanejats</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-16.mp3" data-titol="Exercicis del capítol 16" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-17-programar.mp3" data-titol="Capítol 17 · Programar amb ajuda d&#x27;IA">
+        <div class="cap"><span class="num">17</span>
+          <span class="min">6.7 min</span></div>
+        <div class="titol">Capítol 17 · Programar amb ajuda d&#x27;IA</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-17.mp3" data-titol="Exercicis del capítol 17" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-18-assistent-tecnic.mp3" data-titol="Capítol 18 · Muntar el teu propi assistent">
+        <div class="cap"><span class="num">18</span>
+          <span class="min">7.2 min</span></div>
+        <div class="titol">Capítol 18 · Muntar el teu propi assistent</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-18.mp3" data-titol="Exercicis del capítol 18" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-19-casa.mp3" data-titol="Capítol 19 · IA a casa">
+        <div class="cap"><span class="num">19</span>
+          <span class="min">7.2 min</span></div>
+        <div class="titol">Capítol 19 · IA a casa</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-19.mp3" data-titol="Exercicis del capítol 19" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-20-triar-eina.mp3" data-titol="Capítol 20 · Triar eina i model">
+        <div class="cap"><span class="num">20</span>
+          <span class="min">8.2 min</span></div>
+        <div class="titol">Capítol 20 · Triar eina i model</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-20.mp3" data-titol="Exercicis del capítol 20" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-21-equip.mp3" data-titol="Capítol 21 · Treballar en equip amb IA">
+        <div class="cap"><span class="num">21</span>
+          <span class="min">5.8 min</span></div>
+        <div class="titol">Capítol 21 · Treballar en equip amb IA</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-21.mp3" data-titol="Exercicis del capítol 21" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-22-al-dia.mp3" data-titol="Capítol 22 · Mantenir-se al dia sense ofegar-se">
+        <div class="cap"><span class="num">22</span>
+          <span class="min">6.0 min</span></div>
+        <div class="titol">Capítol 22 · Mantenir-se al dia sense ofegar-se</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-22.mp3" data-titol="Exercicis del capítol 22" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-23-errors.mp3" data-titol="Capítol 23 · Errors i desastres reals">
+        <div class="cap"><span class="num">23</span>
+          <span class="min">6.7 min</span></div>
+        <div class="titol">Capítol 23 · Errors i desastres reals</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-23.mp3" data-titol="Exercicis del capítol 23" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-24-familia.mp3" data-titol="Capítol 24 · IA per a la família">
+        <div class="cap"><span class="num">24</span>
+          <span class="min">6.6 min</span></div>
+        <div class="titol">Capítol 24 · IA per a la família</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-24.mp3" data-titol="Exercicis del capítol 24" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+    <div class="fila-item">
+      <div class="item" data-src="audio/curs-crear-ia-25-pla.mp3" data-titol="Capítol 25 · Un pla aplicat a tu">
+        <div class="cap"><span class="num">25</span>
+          <span class="min">6.2 min</span></div>
+        <div class="titol">Capítol 25 · Un pla aplicat a tu</div>
+      </div>
+      <a class="ex" href="#" data-src="audio/exercici-ex-25.mp3" data-titol="Exercicis del capítol 25" title="Exercicis del capítol (preguntes amb pausa per respondre)">🎯<span class="ex-n">5</span></a>
+    </div>
+  <footer>
+    <div class="fila">
+      <div class="progres"><i id="barra"></i></div>
+      <span id="temps">—</span>
+      <button id="pausa">⏸</button>
+      <button id="seguent">⏭</button>
+    </div>
+    <div id="ara">Selecciona un capítol.</div>
+  </footer>
+  <audio id="player" preload="metadata"></audio>
+<script>
+  var items = Array.prototype.slice.call(document.querySelectorAll('.item'));
+  var exBtns = Array.prototype.slice.call(document.querySelectorAll('a.ex'));
+  var player = document.getElementById('player');
+  var ara = document.getElementById('ara');
+  var idx = -1;
+  var idxEx = -1;
+  function marca() {
+    items.forEach(function (el, j) { el.classList.toggle('actiu', j === idx); });
+    exBtns.forEach(function (el, j) { el.classList.toggle('actiu', j === idxEx); });
+  }
+  function posa(i) {
+    if (i < 0 || i >= items.length) { atura(); return; }
+    idx = i; idxEx = -1;
+    player.src = items[i].dataset.src;
+    player.play().catch(function () { ara.textContent = 'Torna a clicar per començar.'; });
+    ara.textContent = '▶ ' + items[i].dataset.titol;
+    marca();
+  }
+  function posaEx(i) {
+    if (i < 0 || i >= exBtns.length) { atura(); return; }
+    idxEx = i; idx = -1;
+    player.src = exBtns[i].dataset.src;
+    player.play().catch(function () { ara.textContent = 'Torna a clicar per començar.'; });
+    ara.textContent = '🎯 ' + exBtns[i].dataset.titol;
+    marca();
+  }
+  function atura() { player.pause(); idx = -1; idxEx = -1; ara.textContent = 'Aturat.';
+    document.getElementById('temps').textContent = '—'; marca(); }
+  function mmss(s) {
+    s = Math.max(0, Math.round(s));
+    var m = Math.floor(s / 60), r = s % 60;
+    return m + ':' + (r < 10 ? '0' : '') + r;
+  }
+  player.addEventListener('timeupdate', function () {
+    var barra = document.getElementById('barra');
+    var temps = document.getElementById('temps');
+    if (!player.duration) { return; }
+    barra.style.width = (100 * player.currentTime / player.duration) + '%';
+    var resta = player.duration - player.currentTime;
+    temps.textContent = 'queden ' + mmss(resta) + ' (' + mmss(player.duration) + ')';
+  });
+  items.forEach(function (el, i) { el.addEventListener('click', function () { posa(i); }); });
+  exBtns.forEach(function (el, i) {
+    el.addEventListener('click', function (ev) { ev.preventDefault(); posaEx(i); });
+  });
+  player.addEventListener('ended', function () {
+    if (idxEx >= 0) { posaEx(idxEx + 1); } else { posa(idx + 1); }
+  });
+  document.getElementById('pausa').addEventListener('click', function () {
+    if (player.paused) { player.play(); } else { player.pause(); }
+  });
+  document.getElementById('seguent').addEventListener('click', function () { posa(idx + 1); });
+</script>
+</body>
+</html>

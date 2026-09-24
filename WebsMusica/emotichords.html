@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EmotiChords - Genera acords per emocions</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #f0f0f0;
+      --bg-secondary: #ffffff;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --border-color: #ddd;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    body.dark-mode {
+      --bg-primary: #1e1e1e;
+      --bg-secondary: #2d2d2d;
+      --text-primary: #ffffff;
+      --text-secondary: #cccccc;
+      --border-color: #444;
+      --shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      padding: 20px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    .theme-toggle {
+      padding: 8px 16px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+    }
+
+    .section {
+      background: var(--bg-secondary);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    .section:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    select, input, button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    input, select {
+      border: 2px solid var(--border-color);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    button {
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .chords {
+      font-size: 18px;
+      margin-top: 20px;
+      padding: 20px;
+      background: var(--bg-primary);
+      border-radius: 10px;
+      border-left: 4px solid #3498db;
+      animation: slideIn 0.4s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .emotion-box {
+      display: inline-block;
+      padding: 12px 20px;
+      margin: 8px 8px 8px 0;
+      border-radius: 20px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .emotion-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    .chord-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .chord {
+      background: #34495e;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .chord:hover {
+      transform: scale(1.1) translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .recommendations {
+      background: rgba(52, 152, 219, 0.1);
+      border-left: 4px solid #3498db;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 8px;
+    }
+
+    .recommendations h3 {
+      color: #2980b9;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .compatibility {
+      color: #27ae60;
+      font-size: 14px;
+      margin-top: 10px;
+      padding: 10px;
+      background: rgba(39, 174, 96, 0.1);
+      border-radius: 6px;
+    }
+
+    .error-message {
+      background: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 10px 0;
+      display: none;
+    }
+
+    .success-message {
+      background: rgba(39, 174, 96, 0.1);
+      color: #27ae60;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 10px 0;
+      display: none;
+      animation: slideIn 0.4s ease;
+    }
+
+    .Soledat { background-color: #7f8c8d; }
+    .Nostàlgia { background-color: #2980b9; }
+    .Esperança { background-color: #27ae60; }
+    .Tensió { background-color: #e74c3c; }
+    .Misteri { background-color: #8e44ad; }
+    .Alegria { background-color: #f39c12; }
+    .Passion { background-color: #c0392b; }
+    .Serenitat { background-color: #16a085; }
+    .Brollador { background-color: #d35400; }
+    .Tristor { background-color: #34495e; }
+    .Descripció { background-color: #34495e; }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .button-group {
+        grid-template-columns: 1fr;
+      }
+
+      select, input, button {
+        font-size: 16px;
+      }
+
+      .section {
+        padding: 15px;
+      }
+
+      .chord {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      h2 {
+        font-size: 1.1rem;
+      }
+
+      .emotion-box {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎵 EmotiChords</h1>
+      <button class="theme-toggle" id="themeToggle">🌙 Mode fosc</button>
+    </header>
+
+    <!-- SECCIÓ 1: Genera acords per emoció -->
+    <div class="section">
+      <h2>🎭 Tria una emoció</h2>
+      <label for="emotion">Selecciona una emoció:</label>
+      <select id="emotion"></select>
+      <button onclick="app.generateVariation()">🔄 Genera variació</button>
+      <div id="chordOutput" class="chords" style="display:none;"></div>
+    </div>
+
+    <!-- SECCIÓ 2: Genera per descripció -->
+    <div class="section">
+      <h2>🧠 Interpreta una descripció</h2>
+      <input type="text" id="description" placeholder="Ex: melancolia suau, alegria contagiosa, foscor misteriosa...">
+      <button onclick="app.generateFromDescription()">🔮 Interpretar</button>
+      <div id="descriptionOutput" class="chords" style="display:none;"></div>
+    </div>
+
+    <!-- SECCIÓ 3: Afegeix nova emoció -->
+    <div class="section">
+      <h2>➕ Afegeix una nova emoció</h2>
+      <input type="text" id="newEmotion" placeholder="Nom de l'emoció (ex: Esperança)">
+      <input type="text" id="newChords" placeholder="Acords separats per guions (ex: Am-F-C-G)">
+      <div id="emotionError" class="error-message"></div>
+      <div id="emotionSuccess" class="success-message"></div>
+      <button onclick="app.addEmotion()">✨ Afegir emoció</button>
+    </div>
+
+    <!-- SECCIÓ 4: Restaurar -->
+    <div class="section">
+      <h2>🔄 Accions</h2>
+      <button onclick="app.restoreDefaults()">↻ Restaurar emocions originals</button>
+    </div>
+
+    <!-- SECCIÓ 5: APRÈN PROGRESSIONS CLÀSSIQUES -->
+    <div class="section">
+      <h2>📚 Progressions Musicals Clàssiques</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 15px;">Descobreix progressions famoses i com les usen milions de cançons:</p>
+      
+      <div id="progressionList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;"></div>
+    </div>
+
+    <!-- SECCIÓ 6: GUIA EMOCIONS -->
+    <div class="section">
+      <h2>🎓 Com afecten els acords a les emocions</h2>
+      <div id="emotionGuide" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // ===== CLASSE EMOTICHORDS =====
+    class EmotiChords {
+      constructor() {
+        this.defaultEmotions = {
+          "Soledat": { chords: ["Em", "Cmaj7", "G#dim", "D"], keywords: ["trist", "soledat", "desolat", "abandonat", "sola", "triste", "malenconia"] },
+          "Nostàlgia": { chords: ["D", "Gm", "Bbmaj7", "A"], keywords: ["nostàlgia", "records", "passat", "passada", "record", "temps", "record", "antic"] },
+          "Esperança": { chords: ["F#m", "D#dim", "A", "Emaj7"], keywords: ["esperança", "llum", "futur", "optimisme", "espera", "bona", "positiu", "bé"] },
+          "Tensió": { chords: ["Cm", "Ab", "E", "Gm"], keywords: ["tensió", "drama", "dramatisme", "conflicte", "tensa", "nervi", "estres"] },
+          "Misteri": { chords: ["Bm", "Gmaj7", "Ebm", "F#"], keywords: ["misteri", "foscor", "desconegut", "enigma", "misteriós", "fosc", "oscur"] },
+          "Alegria": { chords: ["C", "G", "A", "F"], keywords: ["alegria", "feliç", "joia", "jubilació", "felicitat", "alegre", "content", "festa"] },
+          "Passion": { chords: ["Am", "E", "Bm", "F#m"], keywords: ["passió", "intens", "ardor", "amor", "intensa", "apassionada", "enamorat"] },
+          "Serenitat": { chords: ["Gmaj7", "Amaj7", "Fmaj7", "Cmaj7"], keywords: ["serenitat", "pau", "tranquil", "serè", "quiet", "tranquila", "peaceful", "relax"] },
+          "Brollador": { chords: ["D", "A", "E", "B"], keywords: ["brollador", "energètic", "viu", "dinàmic", "energia", "vivid", "actiu", "alegre"] },
+          "Tristor": { chords: ["Em", "Am", "G", "Dm"], keywords: ["tristor", "melancolia", "pena", "duelo", "melancòlic", "dolent", "mal"] }
+        };
+
+        this.classicProgressions = [
+          {
+            name: "I-V-vi-IV",
+            chords: ["C", "G", "Am", "F"],
+            emotion: "Alegria",
+            examples: "Kan - Don't Stop Believin', Lady Gaga - Poker Face",
+            description: "La progressió més popular del món! Perfecta per cançons alegres i catxes."
+          },
+          {
+            name: "vi-IV-I-V",
+            chords: ["Am", "F", "C", "G"],
+            emotion: "Nostàlgia",
+            examples: "Coldplay - Yellow, Radiohead - Creep",
+            description: "Versió tristona del I-V-vi-IV. Perfecta per balades emocionals."
+          },
+          {
+            name: "I-IV-V",
+            chords: ["C", "F", "G"],
+            emotion: "Alegria",
+            examples: "Blues clàssic - Utilitzat en milers de cançons",
+            description: "La progressió del blues. Simple, potent i emocionalment versàtil."
+          },
+          {
+            name: "i-VII-VI-VII",
+            chords: ["Cm", "Bb", "Ab", "Bb"],
+            emotion: "Tensió",
+            examples: "Extreme - More Than Words, Muse - Plug in Baby",
+            description: "Crea tensió i dramatisme. Perfecta per rock i metal."
+          },
+          {
+            name: "vi-ii-V-I",
+            chords: ["Am", "Dm", "G", "C"],
+            emotion: "Serenitat",
+            examples: "Mariah Carey - All I Want for Christmas, Jazz estàndard",
+            description: "Progressió de jazz i bàlades. Calmada i sofisticada."
+          },
+          {
+            name: "i-bVI-bVII",
+            chords: ["Cm", "Ab", "Bb"],
+            emotion: "Soledat",
+            examples: "Radiohead - No Surprises, Nirvana - Something in the Way",
+            description: "Sombria i depriment. Perfecta per rock alternatiu."
+          },
+          {
+            name: "I-bIII-IV-I",
+            chords: ["C", "Eb", "F", "C"],
+            emotion: "Misteri",
+            examples: "Queens - We Will Rock You, AC/DC - Back in Black",
+            description: "Crea drama i grandiositat. Rock i power ballads."
+          },
+          {
+            name: "ii-V-I",
+            chords: ["Dm", "G", "C"],
+            emotion: "Alegria",
+            examples: "Casi tota la música de jazz i pop",
+            description: "Progressió per a cadències. La més fonamental en música."
+          },
+          {
+            name: "I-vi-IV-V",
+            chords: ["C", "Am", "F", "G"],
+            emotion: "Brollador",
+            examples: "The Beatles - I Want You Back, Michael Jackson",
+            description: "Energètica i dansable. Clàssica del pop dels 60s-80s."
+          },
+          {
+            name: "i-VI-III-VII",
+            chords: ["Cm", "Ab", "Eb", "B"],
+            emotion: "Passion",
+            examples: "Yngwie Malmsteen - Rising Force, Metal neoclàssic",
+            description: "Apassionada i intensa. Perfecta per solos de guitarra."
+          }
+        ];
+
+        this.emotions = this.loadEmotions();
+        this.init();
+      }
+
+      init() {
+        this.setupTheme();
+        this.updateEmotionList();
+        this.showChords();
+        this.setupEventListeners();
+        this.displayProgressions();
+        this.displayEmotionGuide();
+      }
+
+      displayProgressions() {
+        const container = document.getElementById("progressionList");
+        if (!container) return;
+
+        container.innerHTML = this.classicProgressions.map((prog, idx) => `
+          <div style="background: var(--bg-primary); padding: 15px; border-radius: 8px; border-left: 4px solid #3498db;">
+            <h4 style="margin-bottom: 10px; font-size: 1.1rem;">${prog.name}</h4>
+            <div class="chord-display" style="margin-bottom: 10px;">
+              ${prog.chords.map(c => `<div class="chord">${c}</div>`).join("")}
+            </div>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">
+              <strong>Emoció:</strong> ${prog.emotion}
+            </p>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">
+              <strong>Exemples:</strong> ${prog.examples}
+            </p>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;">
+              ${prog.description}
+            </p>
+            <button onclick="app.useProgression('${prog.name.replace(/'/g, "\\'")}')" 
+              style="width: 100%; padding: 8px; background: #3498db; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px;">
+              ➕ Usar aquesta progressió
+            </button>
+          </div>
+        `).join("");
+      }
+
+      displayEmotionGuide() {
+        const container = document.getElementById("emotionGuide");
+        if (!container) return;
+
+        const guide = [
+          {
+            emotion: "Alegria 😊",
+            mainTip: "Acords majors (C, G, F), progressió I-V-vi-IV, tonalitat major",
+            details: [
+              "🎹 <strong>Acords clau:</strong> Majors (C, G, D, F) amb 7es majors (Cmaj7, Gmaj7)",
+              "📈 <strong>Intervals:</strong> Terceres majors (4 semitons) creen brillantor",
+              "⏱️ <strong>Ritme:</strong> Ràpid (140+ BPM) amplifica la sensació de felicitat",
+              "🔊 <strong>Dinàmica:</strong> Alta, sense interrupcions discordants",
+              "💡 <strong>Exemple:</strong> Kan - Don't Stop Believin' (I-V-vi-IV)",
+              "🎯 <strong>Consell:</strong> Usa acords bàsics sense extensions menors per màxima claredat"
+            ],
+            color: "#f39c12"
+          },
+          {
+            emotion: "Tristor 😢",
+            mainTip: "Acords menors (Am, Em, Dm), progressió vi-IV-I-V, tonalitat menor natural",
+            details: [
+              "🎹 <strong>Acords clau:</strong> Menors (Am, Em, Bm, Dm) i menors amb 7 (Am7, Em7)",
+              "📉 <strong>Intervals:</strong> Terceres menors (3 semitons) creen melangia",
+              "⏱️ <strong>Ritme:</strong> Lent (60-80 BPM) augmenta la melancolia",
+              "🔊 <strong>Dinàmica:</strong> Baixa i constant, sense pics d'energia",
+              "💡 <strong>Exemple:</strong> Radiohead - Creep (Em - Am - B - E progressió tristona)",
+              "🎯 <strong>Consell:</strong> Evita acords majors i mantén la tonalitat menor durant tota la cançó"
+            ],
+            color: "#7f8c8d"
+          },
+          {
+            emotion: "Esperança 🌟",
+            mainTip: "Acords maj7, progressió ascendent, ritme moderat i dinàmica creixent",
+            details: [
+              "🎹 <strong>Acords clau:</strong> Maj7 (Cmaj7, Gmaj7, Amaj7), 9 (C9, G9), sus4 (Csus4, Gsus4)",
+              "📈 <strong>Intervals:</strong> Sèptimes majors (11 semitons) creen obertura i lluminositat",
+              "⏱️ <strong>Ritme:</strong> Moderat-ràpid (90-130 BPM) amb sensació de moviment",
+              "🔊 <strong>Dinàmica:</strong> Creixent, comença suau i va pujant progressivament",
+              "💡 <strong>Exemple:</strong> The Police - Every Little Thing She Does Is Magic",
+              "🎯 <strong>Consell:</strong> Combina acords menors amb maj7 majors per crear tensió i resolució optimista"
+            ],
+            color: "#27ae60"
+          },
+          {
+            emotion: "Tensió 😰",
+            mainTip: "Acords diminuts (dim), intervals discordants (tritò), dinàmica variable",
+            details: [
+              "🎹 <strong>Acords clau:</strong> Diminuts (Cdim, G#dim), tritó (b5, #11), acords 7b9",
+              "📊 <strong>Intervals:</strong> Tritó (6 semitons = interval diàbòlic medieval) crea inestabilitat",
+              "⏱️ <strong>Ritme:</strong> Errático, canviant dinàmica (ràpid-lent-ràpid)",
+              "🔊 <strong>Dinàmica:</strong> Impredictible, pics d'energia seguida de silencis",
+              "💡 <strong>Exemple:</strong> Muse - Plug in Baby (intervals de tritó)",
+              "🎯 <strong>Consell:</strong> Resol els acords discordants cap a consonants per crear alliberament"
+            ],
+            color: "#e74c3c"
+          },
+          {
+            emotion: "Serenitat 😌",
+            mainTip: "Acords maj7 i sus, progressió lenta, tonalitat major, pocs canvis",
+            details: [
+              "🎹 <strong>Acords clau:</strong> Maj7 (Cmaj7, Fmaj7, Gmaj7), sus2, sus4, ped (poder acordes amb notes constants)",
+              "🌊 <strong>Intervals:</strong> Seconds majors (2 semitons) creen flotació, no hi ha dissonància",
+              "⏱️ <strong>Ritme:</strong> Molt lent (40-70 BPM), amb metre simple (4/4 constant)",
+              "🔊 <strong>Dinàmica:</strong> Suau i constant, res de sorpreses o canvis abruptes",
+              "💡 <strong>Exemple:</strong> Erik Satie - Gymnopédie No.1",
+              "🎯 <strong>Consell:</strong> Mantén pocs acords (2-3) i deixa que ressonen sense interrupcions"
+            ],
+            color: "#16a085"
+          },
+          {
+            emotion: "Misteri 🌙",
+            mainTip: "Acords diminuts, tonalitat menor harmònica, harmònics estranys, espaciament",
+            details: [
+              "🎹 <strong>Acords clau:</strong> Diminuts (Cdim, Bdim), menors amb 7b9, acords simètrics",
+              "🔮 <strong>Intervals:</strong> Menors, disminuïts i augmentats creen ambigüitat tonal",
+              "⏱️ <strong>Ritme:</strong> Irregular, amb silencs dramàtics, tempo lent o medium",
+              "🔊 <strong>Dinàmica:</strong> Dinàmica baixa però amb moments de creixement sorprenent",
+              "💡 <strong>Exemple:</strong> Radiohead - No Surprises (acords menors ambigus)",
+              "🎯 <strong>Consell:</strong> Usa acords que no es resolen clarament a casa (tònica); deixa la sensació de perdut"
+            ],
+            color: "#8e44ad"
+          },
+          {
+            emotion: "Passion 🔥",
+            mainTip: "Acords amb extensió (7, 9, 13), ritme dinàmic, resolucions cadencials fuertes",
+            details: [
+              "🎹 <strong>Acords clau:</strong> Dom7 (C7, G7), min7b5 (Cm7b5), 9 (C9, G9), aug (Caug)",
+              "⚡ <strong>Intervals:</strong> Sèptimes menors (10 semitons) creen desig i energia sexual",
+              "⏱️ <strong>Ritme:</strong> Ràpid i dinàmic (120-180 BPM), amb variacions de rubato",
+              "🔊 <strong>Dinàmica:</strong> Alta, amb pics i valls que simlen una història emocional",
+              "💡 <strong>Exemple:</strong> Boyz II Men - End of the Road (resolucions emocionals fortes)",
+              "🎯 <strong>Consell:</strong> Usa dominants (V7) que es resolen cap a vi per crear tensió-relaxació constant"
+            ],
+            color: "#c0392b"
+          },
+          {
+            emotion: "Nostàlgia 📸",
+            mainTip: "Progressió menor lenta, acordes bàsics, dinàmica suau, tempo melancòlic",
+            details: [
+              "🎹 <strong>Acords clau:</strong> Menors bàsics (Am, Em, Dm), maj7 majors (Cmaj7 sobre menor)",
+              "🎵 <strong>Intervals:</strong> Combinació de menor i major crea contradicció emocional (trista però feliç)",
+              "⏱️ <strong>Ritme:</strong> Lent a moderat (70-100 BPM), amb sensació de distància temporal",
+              "🔊 <strong>Dinàmica:</strong> Suau amb pics ocasionals de nostalgia, com records que ens sorprenen",
+              "💡 <strong>Exemple:</strong> Coldplay - Yellow (Em - Am - Dm progressió lenta)",
+              "🎯 <strong>Consell:</strong> Mescla acordes menors amb maj7 per crear la dualitat 'bé però trist'"
+            ],
+            color: "#2980b9"
+          },
+          {
+            emotion: "Brollador 🎉",
+            mainTip: "Progressió dansable (I-IV-V), ritme ràpid, acords majors brillants, percussió energètica",
+            details: [
+              "🎹 <strong>Acords clau:</strong> Majors simples (C, G, D, F, A), sense extensions complexes",
+              "💃 <strong>Intervals:</strong> Quintes justes (7 semitons) i terceres majors per claritat rítmica",
+              "⏱️ <strong>Ritme:</strong> Molt ràpid (140+ BPM), amb beat fort en negres (bum-tss-bum-tss)",
+              "🔊 <strong>Dinàmica:</strong> Consistent i alta, sense caigudes de tensió",
+              "💡 <strong>Exemple:</strong> The Beatles - I Want You Back (I-vi-IV-V dinàmic)",
+              "🎯 <strong>Consell:</strong> Mantén els acords simples i deixa que la percussió i la melodia facin la feina emocional"
+            ],
+            color: "#d35400"
+          }
+        ];
+
+        container.innerHTML = guide.map(g => `
+          <div style="background: var(--bg-primary); padding: 20px; border-radius: 8px; border-left: 5px solid ${g.color};">
+            <h4 style="color: ${g.color}; margin-bottom: 12px; font-size: 1.2rem;">${g.emotion}</h4>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 15px; font-style: italic;">
+              ${g.mainTip}
+            </p>
+            <div style="border-top: 1px solid var(--border-color); padding-top: 12px;">
+              ${g.details.map(d => `
+                <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">
+                  ${d}
+                </p>
+              `).join("")}
+            </div>
+          </div>
+        `).join("");
+      }
+
+      useProgression(name) {
+        const prog = this.classicProgressions.find(p => p.name === name);
+        if (!prog) return;
+
+        const output = document.getElementById("chordOutput");
+        let html = `<div style="display: flex; justify-content: space-between; align-items: center;">`;
+        html += `<div class="emotion-box" style="background: #3498db;">${prog.name}</div>`;
+        html += `<span style="font-size: 12px; color: var(--text-secondary);">Progressió Clàssica</span>`;
+        html += `</div>`;
+        
+        html += `<div class="chord-display">`;
+        prog.chords.forEach(chord => {
+          html += `<div class="chord">${chord}</div>`;
+        });
+        html += `</div>`;
+
+        html += `<div class="compatibility" style="margin-top: 15px;">`;
+        html += `📊 Emoció relacionada: <strong>${prog.emotion}</strong><br/>`;
+        html += `🎵 Exemples: ${prog.examples}`;
+        html += `</div>`;
+
+        output.innerHTML = html;
+        output.style.display = "block";
+        output.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      setupTheme() {
+        const toggle = document.getElementById("themeToggle");
+        const isDark = localStorage.getItem("darkMode") === "true";
+        if (isDark) {
+          document.body.classList.add("dark-mode");
+          toggle.textContent = "☀️ Mode clar";
+        }
+        toggle.addEventListener("click", () => this.toggleTheme());
+      }
+
+      toggleTheme() {
+        const toggle = document.getElementById("themeToggle");
+        document.body.classList.toggle("dark-mode");
+        const isDark = document.body.classList.contains("dark-mode");
+        localStorage.setItem("darkMode", isDark);
+        toggle.textContent = isDark ? "☀️ Mode clar" : "🌙 Mode fosc";
+      }
+
+      setupEventListeners() {
+        const emotionSelect = document.getElementById("emotion");
+        emotionSelect.addEventListener("change", () => this.showChords());
+        // Quan l'app es carrega, mostra els acords de la primera emoció
+        if (emotionSelect.value) {
+          setTimeout(() => this.showChords(), 100);
+        }
+      }
+
+      loadEmotions() {
+        const saved = localStorage.getItem("emotions");
+        if (saved) {
+          try {
+            const parsed = JSON.parse(saved);
+            return Object.keys(parsed).length > 0 ? parsed : this.defaultEmotions;
+          } catch {
+            return { ...this.defaultEmotions };
+          }
+        }
+        return { ...this.defaultEmotions };
+      }
+
+      saveEmotions() {
+        localStorage.setItem("emotions", JSON.stringify(this.emotions));
+      }
+
+      updateEmotionList() {
+        const select = document.getElementById("emotion");
+        select.innerHTML = "";
+        Object.keys(this.emotions).forEach(emotion => {
+          const option = document.createElement("option");
+          option.value = emotion;
+          option.text = emotion;
+          select.appendChild(option);
+        });
+      }
+
+      // Validació robusta d'acords
+      validateChords(chordsString) {
+        if (!chordsString.trim()) return { valid: false, message: "Els acords no poden estar buits" };
+        
+        const chords = chordsString.split("-").map(c => c.trim());
+        if (chords.length === 0) return { valid: false, message: "Afegeix almenys un acord" };
+        
+        const validPattern = /^[A-G][#b]?(m|maj|min|dim|aug)?(\d+)?(\/)?\w*$/;
+        const invalid = chords.filter(c => !validPattern.test(c));
+        
+        if (invalid.length > 0) {
+          return { valid: false, message: `Acords inválids: ${invalid.join(", ")}` };
+        }
+        
+        return { valid: true, chords };
+      }
+
+      showChords() {
+        const emotion = document.getElementById("emotion").value;
+        if (!emotion) return;
+
+        const emotionData = this.emotions[emotion];
+        if (!emotionData) {
+          console.error("No data for emotion:", emotion);
+          return;
+        }
+
+        const chords = Array.isArray(emotionData) ? emotionData : emotionData.chords;
+        this.displayChords(chords, emotion, "Original");
+      }
+
+      generateVariation() {
+        const emotion = document.getElementById("emotion").value;
+        if (!emotion) {
+          alert("Selecciona una emoció!");
+          return;
+        }
+
+        const emotionData = this.emotions[emotion];
+        if (!emotionData) return;
+
+        const originalChords = Array.isArray(emotionData) ? emotionData : emotionData.chords;
+        
+        // Genera 12 tipus de variacions aleatoris
+        const variationType = Math.floor(Math.random() * 12);
+        let variation = [];
+        let variationName = "";
+
+        switch(variationType) {
+          case 0:
+            // Variació 1: Reordena els acords
+            variation = [...originalChords].sort(() => Math.random() - 0.5);
+            variationName = "Variació (Reordenada)";
+            break;
+          case 1:
+            // Variació 2: Acords substituts musicals
+            variation = this.generateSubstitutes(originalChords);
+            variationName = "Variació (Substituts)";
+            break;
+          case 2:
+            // Variació 3: Progressió estesa
+            variation = [...originalChords, ...originalChords.slice(0, 2)];
+            variationName = "Variació (Estesa)";
+            break;
+          case 3:
+            // Variació 4: Invertida (al revés)
+            variation = [...originalChords].reverse();
+            variationName = "Variació (Invertida)";
+            break;
+          case 4:
+            // Variació 5: Espiral (sube/baixa semitons)
+            variation = this.generateSpiral(originalChords);
+            variationName = "Variació (Espiral)";
+            break;
+          case 5:
+            // Variació 6: Cíclica (repetida 2 vegades)
+            variation = [...originalChords, ...originalChords];
+            variationName = "Variació (Cíclica)";
+            break;
+          case 6:
+            // Variació 7: Mode menor/major (inverteix)
+            variation = this.toggleMajorMinor(originalChords);
+            variationName = "Variació (Mode Inversa)";
+            break;
+          case 7:
+            // Variació 8: Tensionada (amb extensions)
+            variation = this.addTension(originalChords);
+            variationName = "Variació (Tensionada)";
+            break;
+          case 8:
+            // Variació 9: Lenta (cada acord x2)
+            variation = originalChords.flatMap(chord => [chord, chord]);
+            variationName = "Variació (Lenta)";
+            break;
+          case 9:
+            // Variació 10: Ràpida (salta acords)
+            variation = this.generateFast(originalChords);
+            variationName = "Variació (Ràpida)";
+            break;
+          case 10:
+            // Variació 11: Amb inversions (baix)
+            variation = this.generateInversions(originalChords);
+            variationName = "Variació (Amb Baix)";
+            break;
+          case 11:
+            // Variació 12: Relativitzada (tonalitat relativa)
+            variation = this.generateRelative(originalChords);
+            variationName = "Variació (Relatiu)";
+            break;
+        }
+
+        this.displayChords(variation, emotion, variationName);
+      }
+
+      generateSubstitutes(chords) {
+        const substitutes = {
+          "C": ["G", "F", "Am"],
+          "G": ["D", "Em", "C"],
+          "D": ["A", "Bm", "G"],
+          "A": ["E", "F#m", "D"],
+          "E": ["B", "G#m", "A"],
+          "F": ["C", "Dm", "Bb"],
+          "Am": ["Em", "Dm", "C"],
+          "Em": ["Bm", "Am", "G"],
+          "F#m": ["C#m", "Bm", "A"],
+          "Bm": ["F#m", "G", "D"],
+          "Cm": ["Gm", "Fm", "Bb"],
+          "Gm": ["Dm", "Cm", "Eb"],
+          "Dm": ["Am", "Gm", "F"],
+          "Gmaj7": ["Cmaj7", "Amaj7", "Em"],
+          "Cmaj7": ["Gmaj7", "Fmaj7", "Am"],
+          "Amaj7": ["Emaj7", "Dmaj7", "F#m"],
+          "Emaj7": ["Amaj7", "Bmaj7", "G#m"],
+          "Fmaj7": ["Cmaj7", "Bbmaj7", "Dm"],
+          "Bbmaj7": ["Fmaj7", "Ebmaj7", "Gm"],
+          "G#dim": ["Bdim", "Ddim"],
+          "D#dim": ["Adim", "F#dim"],
+          "Ab": ["Eb", "Bbm", "Fm"],
+          "Eb": ["Bb", "Fm", "Ab"],
+          "F#": ["C#", "B", "A"]
+        };
+
+        return chords.map(chord => {
+          const alternatives = substitutes[chord] || [chord];
+          return alternatives[Math.floor(Math.random() * alternatives.length)];
+        });
+      }
+
+      generateSpiral(chords) {
+        // Puja/baixa semitons mantenint l'estructura
+        const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+        const shift = Math.floor(Math.random() * 7) - 3; // -3 a +3 semitons
+        
+        return chords.map(chord => {
+          const baseNote = chord[0];
+          const idx = notes.indexOf(baseNote);
+          if (idx === -1) return chord;
+          const newNote = notes[(idx + shift + 12) % 12];
+          return chord.replace(baseNote, newNote);
+        });
+      }
+
+      toggleMajorMinor(chords) {
+        return chords.map(chord => {
+          if (chord.includes("m") && !chord.includes("maj")) {
+            // Minor a major: treu la "m"
+            return chord.replace("m", "");
+          } else if (!chord.includes("m")) {
+            // Major a minor: afegeix "m"
+            return chord + "m";
+          }
+          return chord;
+        });
+      }
+
+      addTension(chords) {
+        // Afegeix extensions (7, 9, sus)
+        const extensions = ["7", "9", "sus4"];
+        return chords.map(chord => {
+          const ext = extensions[Math.floor(Math.random() * extensions.length)];
+          if (!chord.includes("dim") && !chord.includes("7")) {
+            return chord + ext;
+          }
+          return chord;
+        });
+      }
+
+      generateFast(chords) {
+        // Salta acords alternats per crear ritme ràpid
+        const result = [];
+        for (let i = 0; i < chords.length; i++) {
+          result.push(chords[i]);
+          if (i < chords.length - 1) {
+            result.push(chords[(i + 1) % chords.length]);
+          }
+        }
+        return result.slice(0, chords.length + 2);
+      }
+
+      generateInversions(chords) {
+        // Afegeix baix alternant amb acords originals
+        return chords.map((chord, idx) => {
+          if (idx % 2 === 0) {
+            return chord;
+          }
+          // Alternativa: afegeix "/" per inversió
+          const baseNote = chord[0];
+          return chord + "/" + baseNote;
+        });
+      }
+
+      generateRelative(chords) {
+        // Genera tonalitat relativa (menor a major o viceversa)
+        const relativeMap = {
+          "C": "Am", "Am": "C",
+          "G": "Em", "Em": "G",
+          "D": "Bm", "Bm": "D",
+          "A": "F#m", "F#m": "A",
+          "E": "C#m", "C#m": "E",
+          "F": "Dm", "Dm": "F",
+          "Bb": "Gm", "Gm": "Bb",
+          "Eb": "Cm", "Cm": "Eb"
+        };
+
+        return chords.map(chord => {
+          const baseChord = chord.replace(/[0-9]/g, "").replace(/maj|sus|dim|7|9/g, "");
+          return relativeMap[baseChord] || chord;
+        });
+      }
+
+      displayChords(chords, emotion, label) {
+        const output = document.getElementById("chordOutput");
+        
+        let html = `<div style="display: flex; justify-content: space-between; align-items: center;">`;
+        html += `<div class="emotion-box ${emotion}">${emotion}</div>`;
+        html += `<span style="font-size: 12px; color: var(--text-secondary);">${label}</span>`;
+        html += `</div>`;
+        
+        html += `<div class="chord-display">`;
+        chords.forEach(chord => {
+          html += `<div class="chord">${chord}</div>`;
+        });
+        html += `</div>`;
+
+        // NOVA: Anàlisi detallada de la progressió
+        html += this.analyzeProgression(chords, emotion);
+
+        // Compatibilitat i recomendacions
+        html += this.getCompatibilityInfo(chords);
+        html += this.getRecommendations(emotion);
+
+        output.innerHTML = html;
+        output.style.display = "block";
+        
+        // Scroll cap a la secció
+        output.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      analyzeProgression(chords, emotion) {
+        const analysis = this.getDetailedAnalysis(chords, emotion);
+        
+        let html = `<div style="background: rgba(52, 152, 219, 0.08); padding: 18px; margin-top: 20px; border-radius: 10px; border-left: 4px solid #3498db;">`;
+        html += `<h3 style="color: #2980b9; margin-bottom: 12px; font-size: 1.1rem;">🔬 Anàlisi Musical Detallada</h3>`;
+        
+        // Anàlisi d'acords individuals
+        html += `<div style="margin-bottom: 15px; background: var(--bg-secondary); padding: 12px; border-radius: 8px;">`;
+        html += `<strong style="color: var(--text-primary);">🎹 Desglossament d'acords:</strong><br/>`;
+        html += `<div style="margin-top: 8px;">`;
+        chords.forEach((chord, idx) => {
+          const chordAnalysis = this.analyzeChord(chord);
+          html += `<div style="margin-bottom: 10px; padding: 8px; background: var(--bg-primary); border-radius: 6px;">`;
+          html += `<strong style="color: #3498db;">${idx + 1}. ${chord}</strong><br/>`;
+          html += `<span style="font-size: 12px; color: var(--text-secondary);">`;
+          html += `<strong>Tipus:</strong> ${chordAnalysis.type}<br/>`;
+          html += `<strong>Notes:</strong> ${chordAnalysis.notes}<br/>`;
+          html += `<strong>Funció:</strong> ${chordAnalysis.function}<br/>`;
+          if (chordAnalysis.tension) {
+            html += `<strong style="color: #e74c3c;">Tensions:</strong> ${chordAnalysis.tension}<br/>`;
+          }
+          if (chordAnalysis.voicing) {
+            html += `<strong style="color: #27ae60;">Voicing:</strong> ${chordAnalysis.voicing}`;
+          }
+          html += `</span>`;
+          html += `</div>`;
+        });
+        html += `</div>`;
+        html += `</div>`;
+        
+        // Estructura
+        html += `<div style="margin-bottom: 12px;">`;
+        html += `<strong style="color: var(--text-primary);">📐 Estructura harmònica:</strong><br/>`;
+        html += `<span style="font-size: 13px; color: var(--text-secondary);">${analysis.structure}</span>`;
+        html += `</div>`;
+        
+        // Moviment harmònic
+        html += `<div style="margin-bottom: 12px;">`;
+        html += `<strong style="color: var(--text-primary);">↔️ Moviment harmònic:</strong><br/>`;
+        html += `<span style="font-size: 13px; color: var(--text-secondary);">${analysis.movement}</span>`;
+        html += `</div>`;
+        
+        // Intervals
+        html += `<div style="margin-bottom: 12px;">`;
+        html += `<strong style="color: var(--text-primary);">🎵 Intervals i sensacions:</strong><br/>`;
+        html += `<span style="font-size: 13px; color: var(--text-secondary);">${analysis.intervals}</span>`;
+        html += `</div>`;
+        
+        // Per què funciona
+        html += `<div style="margin-bottom: 12px;">`;
+        html += `<strong style="color: var(--text-primary);">💡 Psicologia musical:</strong><br/>`;
+        html += `<span style="font-size: 13px; color: var(--text-secondary);">${analysis.why}</span>`;
+        html += `</div>`;
+        
+        // Tonalitat
+        html += `<div style="margin-bottom: 12px;">`;
+        html += `<strong style="color: var(--text-primary);">🎹 Centre tonal:</strong><br/>`;
+        html += `<span style="font-size: 13px; color: var(--text-secondary);">${analysis.tonality}</span>`;
+        html += `</div>`;
+        
+        // Tensions avançades
+        if (analysis.advancedTensions) {
+          html += `<div style="margin-bottom: 12px; background: var(--bg-secondary); padding: 10px; border-radius: 6px;">`;
+          html += `<strong style="color: #e74c3c;">⚡ Tensions i extensions:</strong><br/>`;
+          html += `<span style="font-size: 13px; color: var(--text-secondary);">${analysis.advancedTensions}</span>`;
+          html += `</div>`;
+        }
+        
+        // Voicings i inversions
+        if (analysis.voicingTips) {
+          html += `<div style="margin-bottom: 12px; background: var(--bg-secondary); padding: 10px; border-radius: 6px;">`;
+          html += `<strong style="color: #27ae60;">🎸 Voicings i inversions:</strong><br/>`;
+          html += `<span style="font-size: 13px; color: var(--text-secondary);">${analysis.voicingTips}</span>`;
+          html += `</div>`;
+        }
+        
+        // Consells d'ús
+        html += `<div>`;
+        html += `<strong style="color: var(--text-primary);">🎯 Consells d'interpretació:</strong><br/>`;
+        html += `<span style="font-size: 13px; color: var(--text-secondary);">${analysis.tip}</span>`;
+        html += `</div>`;
+        
+        html += `</div>`;
+        return html;
+      }
+
+      analyzeChord(chord) {
+        const baseNote = chord[0];
+        let analysis = {
+          type: "",
+          notes: "",
+          function: "",
+          tension: "",
+          voicing: ""
+        };
+        
+        // Detecta el tipus d'acord
+        if (chord.includes('maj7')) {
+          analysis.type = "Major amb sèptima major";
+          analysis.notes = `${baseNote}, ${baseNote}+4 semitons, ${baseNote}+7 semitons, ${baseNote}+11 semitons`;
+          analysis.function = "Acord sofisticat que crea brillantor i obertura. Molt usat en jazz i balades.";
+          analysis.tension = "La sèptima major (11 semitons) és una tensió suau que afegeix color sense dissonància.";
+          analysis.voicing = "Prova voicing obert: tònica al baix, tercera al mig, sèptima i quinta arriba. Sona més ampli.";
+        } else if (chord.includes('m7') || (chord.includes('m') && chord.includes('7'))) {
+          analysis.type = "Menor amb sèptima menor";
+          analysis.notes = `${baseNote}, ${baseNote}+3 semitons, ${baseNote}+7 semitons, ${baseNote}+10 semitons`;
+          analysis.function = "Acord melancòlic amb tensió. Perfecte per crear profunditat emocional.";
+          analysis.tension = "La sèptima menor (10 semitons) afegeix una lleugera dissonància que vol resoldre.";
+          analysis.voicing = "Voicing obert: quinta al baix, tònica i tercera al mig, sèptima arriba. Crea més espai.";
+        } else if (chord.includes('7') && !chord.includes('maj')) {
+          analysis.type = "Dominant (acord de sèptima)";
+          analysis.notes = `${baseNote}, ${baseNote}+4 semitons, ${baseNote}+7 semitons, ${baseNote}+10 semitons`;
+          analysis.function = "Acord de tensió que demana resolució. El més important en música tonal.";
+          analysis.tension = "La sèptima menor sobre una tríada major crea el tritó (interval diabòlic) que vol resoldre.";
+          analysis.voicing = "Ometre la quinta per destacar el tritó: tònica, tercera, sèptima. Sona més bluesy.";
+        } else if (chord.includes('dim')) {
+          analysis.type = "Disminuït";
+          analysis.notes = `${baseNote}, ${baseNote}+3 semitons, ${baseNote}+6 semitons`;
+          analysis.function = "Acord extremament inestable. Crea màxima tensió i demanda resolució immediata.";
+          analysis.tension = "Conté dos tritònos! És totalment simètric i pot resoldre en 4 direccions diferents.";
+          analysis.voicing = "Voicing tancat funciona millor per mantenir la tensió compacta. No separis les notes.";
+        } else if (chord.includes('aug')) {
+          analysis.type = "Augmentat";
+          analysis.notes = `${baseNote}, ${baseNote}+4 semitons, ${baseNote}+8 semitons`;
+          analysis.function = "Acord simètric que crea ambigüitat. Sona misteriós i inestable.";
+          analysis.tension = "La quinta augmentada (+8 semitons) crea una tensió ascendent, com pujar escales.";
+          analysis.voicing = "Experimenta amb inversions: cada nota pot ser la tònica. És totalment simètric.";
+        } else if (chord.includes('sus4')) {
+          analysis.type = "Suspès quart (sus4)";
+          analysis.notes = `${baseNote}, ${baseNote}+5 semitons, ${baseNote}+7 semitons`;
+          analysis.function = "Acord ambiguu que no és ni major ni menor. Crea suspensió i vol resoldre.";
+          analysis.tension = "Substitueix la tercera per la quarta, eliminant la definició major/menor. Molt versatil.";
+          analysis.voicing = "Voicing obert amb quinta al baix, quarta prominent: crea més ambigüitat tonal.";
+        } else if (chord.includes('sus2')) {
+          analysis.type = "Suspès segon (sus2)";
+          analysis.notes = `${baseNote}, ${baseNote}+2 semitons, ${baseNote}+7 semitons`;
+          analysis.function = "Acord obert i lluminós sense tercera. Sona modern i minimalista.";
+          analysis.tension = "La segona major substitueix la tercera. Sona més obert que el sus4.";
+          analysis.voicing = "Voicing molt obert: tònica al baix, segona i quinta separades. Sona etèric.";
+        } else if (chord.includes('9')) {
+          analysis.type = "Acord amb novena";
+          analysis.notes = `${baseNote} + tríada + sèptima + novena (${baseNote}+14 semitons = segona una octava més amunt)`;
+          analysis.function = "Extensió del dominant. Afegeix color i riquesa harmònica.";
+          analysis.tension = "La novena és una tensió alta que afegeix complexitat sense excés de dissonància.";
+          analysis.voicing = "Ometre la quinta per deixar espai a la novena: tònica, tercera, sèptima, novena.";
+        } else if (chord.includes('11')) {
+          analysis.type = "Acord amb onzena";
+          analysis.notes = `${baseNote} + tríada + sèptima + novena + onzena`;
+          analysis.function = "Acord de jazz modern. Molt ric en harmònics.";
+          analysis.tension = "La onzena (quarta una octava més amunt) pot xocar amb la tercera. S'usa #11 sovint.";
+          analysis.voicing = "Voicing per capes: baix (tònica-sèptima), mig (tercera-novena), alt (onzena).";
+        } else if (chord.includes('13')) {
+          analysis.type = "Acord amb tretzena";
+          analysis.notes = `${baseNote} + tríada + 7 + 9 + 11 + 13 (sisena una octava més amunt)`;
+          analysis.function = "Acord complet amb totes les extensions. Sona luxós i complex.";
+          analysis.tension = "Conté gairebé totes les notes de l'escala. S'ometen notes per evitar fang harmònic.";
+          analysis.voicing = "Voicing selectiu: tònica, tercera, sèptima, tretzena. Ometre quinta i altres extensions.";
+        } else if (chord.includes('m') && !chord.includes('maj')) {
+          analysis.type = "Acord menor";
+          analysis.notes = `${baseNote}, ${baseNote}+3 semitons, ${baseNote}+7 semitons`;
+          analysis.function = "Acord bàsic melancòlic. Fonament de tota música trista.";
+          analysis.tension = "La tercera menor (3 semitons) crea la sensació de tristor. És instintiu per als humans.";
+          analysis.voicing = "Voicing obert: tònica al baix, quinta al mig, tercera menor arriba. Amplifica melangia.";
+        } else {
+          analysis.type = "Acord major";
+          analysis.notes = `${baseNote}, ${baseNote}+4 semitons, ${baseNote}+7 semitons`;
+          analysis.function = "Acord bàsic brillant. Fonament de música alegre i optimista.";
+          analysis.tension = "No té tensions. És l'acord més consonant i estable de la música occidental.";
+          analysis.voicing = "Voicing obert: tònica al baix, tercera major al mig, quinta arriba. Màxima brillantor.";
+        }
+        
+        return analysis;
+      }
+
+      getDetailedAnalysis(chords, emotion) {
+        const numChords = chords.length;
+        const hasMajor = chords.some(c => !c.includes('m') && !c.includes('dim'));
+        const hasMinor = chords.some(c => c.includes('m') && !c.includes('maj'));
+        const hasDim = chords.some(c => c.includes('dim'));
+        const hasMaj7 = chords.some(c => c.includes('maj7'));
+        const has7 = chords.some(c => c.includes('7') && !c.includes('maj7'));
+        const hasSus = chords.some(c => c.includes('sus'));
+        const has9 = chords.some(c => c.includes('9'));
+        const has11 = chords.some(c => c.includes('11'));
+        const has13 = chords.some(c => c.includes('13'));
+        const hasInversions = chords.some(c => c.includes('/'));
+        const hasExtensions = has9 || has11 || has13;
+        
+        // Analitza la progressió
+        let structure = `Progressió de ${numChords} acords. `;
+        if (hasMajor && !hasMinor) {
+          structure += "Completament major (brillant, optimista).";
+        } else if (hasMinor && !hasMajor) {
+          structure += "Completament menor (fosca, introspectiva).";
+        } else if (hasMajor && hasMinor) {
+          structure += "Mixt major-menor (complexitat emocional, contrast).";
+        }
+        
+        if (hasDim) structure += " Conté diminuts (tensió i inestabilitat).";
+        if (hasMaj7) structure += " Amb maj7 (sofisticació i brillantor).";
+        if (has7) structure += " Amb dominants (7) per crear moviment.";
+        if (hasSus) structure += " Amb suspensions (sus) per ambigüitat tonal.";
+        
+        // Moviment harmònic
+        let movement = this.analyzeMovement(chords);
+        
+        // Intervals
+        let intervals = this.analyzeIntervals(emotion, chords);
+        
+        // Per què funciona per aquesta emoció
+        const emotionMap = {
+          "Alegria": "Els acords majors amb intervals de terceres majors creen una sensació de felicitat natural. El cervell humà associa aquestes freqüències amb energia positiva.",
+          "Tristor": "Els acords menors amb terceres menors creen dissonància emocional. El cervell interpreta aquestes freqüències com a pèrdua o melangia.",
+          "Nostàlgia": "La combinació de menor i major crea una dualitat emocional: records tristos però bonics. Aquest contrast és la clau de la nostàlgia musical.",
+          "Esperança": "Els maj7 creen una sensació d'obertura i possibilitat. La sèptima major (11 semitons) és l'interval més lluminós de la música occidental.",
+          "Tensió": "Els acords diminuts contenen el tritó (interval del diable), que crea inestabilitat i demanda resolució. El cervell busca constantment l'acord de resolució.",
+          "Misteri": "Els intervals ambigus i no resolts mantenen el cervell en suspens. La falta de tònica clara crea la sensació de perdut o incertesa.",
+          "Passion": "Les dominants (7) creen desig musical: volen resoldre. Aquesta tensió no resolta simula el desig emocional i físic de la passió.",
+          "Serenitat": "Els acords simples amb poques tensions permeten que el cervell es relaxi. L'absència de dissonància és clau per a la pau mental.",
+          "Brollador": "Els acords majors simples amb quintes justes permeten que el ritme domini. La simplicitat harmònica deixa espai per a l'energia rítmica.",
+          "Soledat": "La progressió menor lenta sense resolució clara simula la sensació d'aïllament. Els silencis entre acords amplifiquen la solitud."
+        };
+        
+        const why = emotionMap[emotion] || "Aquesta progressió crea una sensació emocional complexa a través dels seus intervals i estructura harmònica.";
+        
+        // Tonalitat
+        const tonality = this.detectKey(chords);
+        
+        // Tensions avançades
+        let advancedTensions = "";
+        if (hasExtensions || has7 || hasMaj7) {
+          advancedTensions = "Aquesta progressió usa <strong>tensions harmòniques</strong>: ";
+          if (hasMaj7) advancedTensions += "<br/>• <strong>maj7</strong> - Sèptima major (+11 semitons): Afegeix color brillant sense dissonància. És la nota més propera a l'octava sense ser-ho, creant una sensació d'obertura.";
+          if (has7) advancedTensions += "<br/>• <strong>7</strong> - Sèptima menor (+10 semitons): Crea el famós 'tritó' entre la 3ª i 7ª (3 tons sencers = interval diabòlic), que demanda resolució immediata.";
+          if (has9) advancedTensions += "<br/>• <strong>9</strong> - Novena (+14 semitons = 2 semitons una octava més amunt): Afegeix 'aire' i espai harmònic. És com afegir una segona, però més suau.";
+          if (has11) advancedTensions += "<br/>• <strong>11</strong> - Onzena (+17 semitons = quarta una octava més amunt): Sona modern i jazzy. Atenció: pot xocar amb la tercera major! S'usa sovint #11.";
+          if (has13) advancedTensions += "<br/>• <strong>13</strong> - Tretzena (+21 semitons = sisena una octava més amunt): Màxima riquesa harmònica. Conté gairebé totes les notes de l'escala.";
+          
+          advancedTensions += "<br/><br/><strong>🎓 Regles d'ús de tensions:</strong>";
+          advancedTensions += "<br/>• Dominants (X7): Pots afegir 9, ♯11(♭5), 13. Exemple: G7 → G7(♯11) o G13";
+          advancedTensions += "<br/>• Maj7: Funcionen bé 9 i ♯11. Exemple: Cmaj7 → Cmaj9 o Cmaj7(♯11)";
+          advancedTensions += "<br/>• Menors (Xm7): Usa 9, 11, 13. Exemple: Dm7 → Dm9 o Dm11";
+          advancedTensions += "<br/>• <strong>Important:</strong> Les tensions es col·loquen una octava (o més) per sobre de la tríada per evitar 'xocs' sonors!";
+          advancedTensions += "<br/>• La quinta (5ª) és la nota menys important: pots ometre-la per fer espai a tensions.";
+        }
+        
+        // Voicings i inversions
+        let voicingTips = "";
+        if (hasInversions || hasExtensions || hasSus || has7) {
+          voicingTips = "<strong>🎹 Voicings (Disposició de notes):</strong>";
+          voicingTips += "<br/><br/><strong>Tipus bàsics:</strong>";
+          voicingTips += "<br/>• <strong>Voicing tancat:</strong> Totes les notes en menys d'una octava. Ex: C-E-G (Do-Mi-Sol junts). Sona compacte, fort, ple. Ideal per rock/pop.";
+          voicingTips += "<br/>• <strong>Voicing obert:</strong> Notes separades per més d'una octava. Ex: C(baix)-G(mig)-E(alt). Sona ampli, elegant, professional. Perfecte per jazz/balades.";
+          voicingTips += "<br/><br/><strong>Tècniques avançades:</strong>";
+          voicingTips += "<br/>• <strong>Drop 2:</strong> Agafa el voicing tancat i baixa la 2ª nota més alta una octava. Típic de guitarra jazz. Ex: C-E-G-B → C-G-B-E";
+          voicingTips += "<br/>• <strong>Drop 3:</strong> Baixa la 3ª nota més alta una octava. Sona molt ample, típic de big bands. Ex: C-E-G-B → C-E-C-G-B";
+          voicingTips += "<br/>• <strong>Inversions:</strong> Canvia quina nota va al baix. Ex: <em>C/E</em> = Do major amb Mi al baix. Crea moviments de baix més suaus.";
+          voicingTips += "<br/>• <strong>Omissions:</strong> En acords amb tensions (9, 11, 13), sovint s'omet la quinta per fer espai. La quinta és la menys característica!";
+          voicingTips += "<br/><br/><strong>💡 Consell clau:</strong> El mateix acord sona COMPLETAMENT diferent segons com disposis les notes. Experimenta movent notes amunt/avall octaves fins que soni perfecte per al teu context!";
+          voicingTips += "<br/><br/><strong>Exemples pràctics:</strong>";
+          voicingTips += "<br/>• Cmaj7 tancat (piano): C-E-G-B (sona ple però una mica dens)";
+          voicingTips += "<br/>• Cmaj7 obert (piano): C(baix)-G-B-E(alt) - ometre 5ª original (sona més elegant i espaciat)";
+          voicingTips += "<br/>• Cmaj7 guitarra: x-3-2-0-0-0 (Drop 2, sona professional)";
+        } else {
+          voicingTips = "<strong>🎸 Voicings recomanats:</strong> Aquests acords són bàsics (tríades). Prova tocar-los amb <strong>voicing obert</strong>: separa les notes en diferents octaves.";
+          voicingTips += "<br/><br/><strong>Consells:</strong>";
+          voicingTips += "<br/>• Al piano: Posa la tònica al baix amb la mà esquerra, i la 3ª i 5ª separades amb la mà dreta";
+          voicingTips += "<br/>• A la guitarra: Usa formes amb cordes del mig sense tocar (ex: x-3-2-0-1-0 per C)";
+          voicingTips += "<br/>• <strong>Inversions simples:</strong> Posa la 3ª o la 5ª al baix. Ex: Am/C (La menor amb Do al baix) suavitza les transicions.";
+        }
+        
+        // Consell
+        const tips = {
+          "Alegria": "Per amplificar: augmenta el tempo a 140+ BPM i afegeix percussió energètica.",
+          "Tristor": "Per amplificar: baixa el tempo a 60-70 BPM i toca amb dinàmica molt suau.",
+          "Nostàlgia": "Per amplificar: alterna entre moments suaus i pics emocionals, com records que vénen i van.",
+          "Esperança": "Per amplificar: fes créixer la dinàmica progressivament, començant pianissimo i acabant forte.",
+          "Tensió": "Per amplificar: usa dinàmiques fortes (forte) i canvis de ritme sobtats.",
+          "Misteri": "Per amplificar: afegeix silencis i delays, deixa que els acords ressonen amb reverb.",
+          "Passion": "Per amplificar: toca amb rubato (tempo flexible) i dinàmiques extremes (fortissimo a pianissimo).",
+          "Serenitat": "Per amplificar: manté un tempo constant i deixa que cada acord ressoni completament abans de canviar.",
+          "Brollador": "Per amplificar: manté el ritme constant i afegeix sincopació en la melodia.",
+          "Soledat": "Per amplificar: deixa silencis llargs entre acords i toca amb mínima dinàmica."
+        };
+        
+        const tip = tips[emotion] || "Experimenta amb diferents tempos i dinàmiques per trobar la sensació perfecta.";
+        
+        return {
+          structure,
+          movement,
+          intervals,
+          why,
+          tonality,
+          advancedTensions,
+          voicingTips,
+          tip
+        };
+      }
+      
+      analyzeMovement(chords) {
+        if (chords.length < 2) return "Progressió d'un sol acord (estàtic, drone).";
+        
+        let movement = "";
+        for (let i = 0; i < chords.length - 1; i++) {
+          const current = chords[i];
+          const next = chords[i + 1];
+          const currentRoot = current.replace(/[^A-G#b]/g, '')[0];
+          const nextRoot = next.replace(/[^A-G#b]/g, '')[0];
+          
+          if (i > 0) movement += "; ";
+          
+          // Analitza el tipus de moviment
+          if (currentRoot === nextRoot) {
+            movement += `<strong>${current}→${next}</strong>: mateix fonament, canvi de color/mode`;
+          } else {
+            // Calcula distància aproximada
+            const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+            let idx1 = notes.indexOf(currentRoot);
+            let idx2 = notes.indexOf(nextRoot);
+            
+            if (idx1 >= 0 && idx2 >= 0) {
+              let diff = Math.abs(idx2 - idx1);
+              if (diff > 6) diff = 12 - diff; // Inversió
+              
+              if (diff === 1) movement += `<strong>${current}→${next}</strong>: moviment cromàtic (molt suau)`;
+              else if (diff === 2) movement += `<strong>${current}→${next}</strong>: moviment per tons sencers`;
+              else if (diff === 5 || diff === 7) movement += `<strong>${current}→${next}</strong>: moviment de 4ª/5ª (fort, cadencial)`;
+              else if (diff === 3 || diff === 4) movement += `<strong>${current}→${next}</strong>: moviment de 3ª (suau i melòdic)`;
+              else movement += `<strong>${current}→${next}</strong>: salt harmònic`;
+            } else {
+              movement += `${current}→${next}`;
+            }
+          }
+        }
+        
+        return movement;
+      }
+      
+      analyzeIntervals(emotion, chords) {
+        let intervals = "";
+        const firstChord = chords[0];
+        
+        if (chords.length >= 3) {
+          intervals = `Moviment inicial: <strong>${firstChord} → ${chords[1]} → ${chords[2]}</strong>. `;
+        }
+        
+        // Afegeix descripció emocional dels intervals
+        if (emotion === 'Soledat') intervals += "Terceres menors (3 semitons) generen melangia profunda. Les sisenes menors amplifiquen la tristor.";
+        else if (emotion === 'Nostàlgia') intervals += "Combinació de terceres majors (+4) i menors (+3) crea dualitat emocional: records bonics però tristos.";
+        else if (emotion === 'Esperança') intervals += "Terceres majors (+4) ascendents transmeten optimisme. Moviments de quinta justa (+7) creen estabilitat creixent.";
+        else if (emotion === 'Tensió') intervals += "Tritòns (+6 semitons = 'interval del diable') creen màxima dissonància. Segones menors (+1) generen fricció harmònica.";
+        else if (emotion === 'Misteri') intervals += "Intervals augmentats (+8) i disminuïts (+6) creen ambigüitat tonal. Quinzenes disminuïdes per inestabilitat.";
+        else if (emotion === 'Alegria') intervals += "Terceres majors (+4) i sisenes majors (+9) transmeten felicitat. Quintes (+7) i quartes (+5) donen energia.";
+        else if (emotion === 'Passion') intervals += "Sèptimes menors (+10) creen tensió romàntica que vol resoldre. Novenes (+14) estenen l'emoció verticalment.";
+        else if (emotion === 'Serenitat') intervals += "Quintes justes (+7 semitons) són l'interval més estable de la natura. Terceres majors (+4) suaus sense tensions.";
+        else if (emotion === 'Brollador') intervals += "Intervals amplis (octaves +12, desenes +16) transmeten energia expansiva. Moviments cromàtics ràpids afegeixen excitació.";
+        else intervals += "Combinació d'intervals consonants (3ª, 5ª, 6ª) i dissonants (2ª, 7ª, tritó) per crear textura emocional complexa.";
+        
+        return intervals;
+      }
+
+      detectKey(chords) {
+        // Detecta la possible tonalitat basant-se en els acords
+        const majorKeys = ["C", "G", "D", "A", "E", "F", "Bb", "Eb", "Ab"];
+        const minorKeys = ["Am", "Em", "Bm", "F#m", "C#m", "Dm", "Gm", "Cm", "Fm"];
+        
+        const firstChord = chords[0].replace(/[0-9]/g, "").replace(/maj|sus|dim|7|9/g, "");
+        
+        if (firstChord.includes('m')) {
+          return `Probablement ${firstChord} (menor) o la seva relativa major.`;
+        } else {
+          return `Probablement ${firstChord} major o la seva relativa menor.`;
+        }
+      }
+
+      showChords() {
+        const emotion = document.getElementById("emotion").value;
+        if (!emotion) return;
+
+        const emotionData = this.emotions[emotion];
+        if (!emotionData) {
+          console.error("No data for emotion:", emotion);
+          return;
+        }
+
+        const chords = Array.isArray(emotionData) ? emotionData : emotionData.chords;
+        this.displayChords(chords, emotion, "Original");
+      }
+
+      getCompatibilityInfo(chords) {
+        const chordFamily = this.analyzeChordProgression(chords);
+        return `<div class="compatibility">📊 Progressió: ${chordFamily}</div>`;
+      }
+
+      analyzeChordProgression(chords) {
+        const majors = chords.filter(c => !c.includes("m")).length;
+        const minors = chords.filter(c => c.includes("m")).length;
+        
+        if (majors > minors) return "Majoritàriament major (brill, esperança)";
+        if (minors > majors) return "Majoritàriament menor (soledat, profunditat)";
+        return "Equilibrada (versatilitat emocional)";
+      }
+
+      getRecommendations(emotion) {
+        const similar = {
+          "Soledat": ["Nostàlgia", "Tristor"],
+          "Nostàlgia": ["Soledat", "Tristor"],
+          "Esperança": ["Alegria", "Serenitat"],
+          "Tensió": ["Passion", "Brollador"],
+          "Misteri": ["Soledat", "Tensió"],
+          "Alegria": ["Esperança", "Brollador"],
+          "Passion": ["Tensió", "Alegria"],
+          "Serenitat": ["Esperança", "Nostàlgia"],
+          "Brollador": ["Alegria", "Passion"],
+          "Tristor": ["Soledat", "Nostàlgia"]
+        };
+
+        const recs = similar[emotion] || [];
+        let html = `<div class="recommendations"><h3>💡 Emocions relacionades:</h3>`;
+        recs.forEach(rec => {
+          html += `<div style="display:inline-block; margin-right: 8px;"><span class="emotion-box ${rec}">${rec}</span></div>`;
+        });
+        html += `</div>`;
+        return html;
+      }
+
+      generateFromDescription() {
+        const desc = document.getElementById("description").value.toLowerCase().trim();
+        if (!desc) {
+          alert("Escriu una descripció!");
+          return;
+        }
+
+        let bestMatch = null;
+        let maxMatches = 0;
+
+        // Busca la millor coincidència de keywords
+        for (const [emotion, data] of Object.entries(this.emotions)) {
+          const keywords = data.keywords || [];
+          const matches = keywords.filter(kw => desc.includes(kw)).length;
+          
+          if (matches > maxMatches) {
+            maxMatches = matches;
+            bestMatch = emotion;
+          }
+        }
+
+        // Si no hi ha match, intenta trobar partial matches
+        if (!bestMatch) {
+          const words = desc.split(/\s+/);
+          for (const [emotion, data] of Object.entries(this.emotions)) {
+            const keywords = data.keywords || [];
+            const matches = keywords.filter(kw => 
+              words.some(w => kw.includes(w) || w.includes(kw.substring(0, 3)))
+            ).length;
+            
+            if (matches > maxMatches) {
+              maxMatches = matches;
+              bestMatch = emotion;
+            }
+          }
+        }
+
+        // Fallback: usa una emoció aleatòria
+        if (!bestMatch) {
+          const emotions = Object.keys(this.emotions);
+          bestMatch = emotions[Math.floor(Math.random() * emotions.length)];
+        }
+
+        const emotion = bestMatch;
+        const emotionData = this.emotions[emotion];
+        const chords = Array.isArray(emotionData) ? emotionData : emotionData.chords;
+
+        const output = document.getElementById("descriptionOutput");
+        let html = `<div class="emotion-box ${emotion}">${emotion}</div>`;
+        html += `<div class="chord-display">`;
+        chords.forEach(chord => {
+          html += `<div class="chord">${chord}</div>`;
+        });
+        html += `</div>`;
+        html += this.getCompatibilityInfo(chords);
+        html += this.getRecommendations(emotion);
+
+        output.innerHTML = html;
+        output.style.display = "block";
+        document.getElementById("description").value = "";
+      }
+
+      addEmotion() {
+        const name = document.getElementById("newEmotion").value.trim();
+        const chordsStr = document.getElementById("newChords").value.trim();
+        const errorDiv = document.getElementById("emotionError");
+        const successDiv = document.getElementById("emotionSuccess");
+
+        errorDiv.style.display = "none";
+        successDiv.style.display = "none";
+
+        // Validació
+        if (!name) {
+          this.showError(errorDiv, "El nom de l'emoció no pot estar buit");
+          return;
+        }
+
+        if (this.emotions[name]) {
+          this.showError(errorDiv, "Aquesta emoció ja existeix");
+          return;
+        }
+
+        const validation = this.validateChords(chordsStr);
+        if (!validation.valid) {
+          this.showError(errorDiv, validation.message);
+          return;
+        }
+
+        // Afegir emoció
+        this.emotions[name] = {
+          chords: validation.chords,
+          keywords: [name.toLowerCase()]
+        };
+        this.saveEmotions();
+        this.updateEmotionList();
+
+        // Netejar
+        document.getElementById("newEmotion").value = "";
+        document.getElementById("newChords").value = "";
+        
+        this.showSuccess(successDiv, `✅ Emoció "${name}" afegida correctament!`);
+      }
+
+      showError(element, message) {
+        element.textContent = message;
+        element.style.display = "block";
+      }
+
+      showSuccess(element, message) {
+        element.textContent = message;
+        element.style.display = "block";
+        setTimeout(() => {
+          element.style.display = "none";
+        }, 3000);
+      }
+
+      restoreDefaults() {
+        if (confirm("Vols restaurar les emocions originals? Es perdran les personalitzades.")) {
+          this.emotions = { ...this.defaultEmotions };
+          this.saveEmotions();
+          this.updateEmotionList();
+          this.showChords();
+          alert("✅ Seqüències originals restaurades!");
+        }
+      }
+    }
+
+    // ===== INICIALITZACIÓ =====
+    let app;
+    document.addEventListener("DOMContentLoaded", () => {
+      app = new EmotiChords();
+    });
+  </script>
+  <script>
+    // ======================================================================
+    //  SO EN DIRECTE  (sintetitzador propi, sense dependencies)
+    //
+    //  Web Audio API: no cal cap fitxer ni cap llibreria. Per aixo sona tambe
+    //  el que l'app inventa (variacions, substitucions, descripcions).
+    //
+    //  El so imita el motor del curs: cada nota porta tres harmonics i una
+    //  caiguda exponencial de piano que dura tota la durada de l'acord, amb un
+    //  alliberament curt al final. (La primera versio baixava fins a gairebe
+    //  zero en un instant: se sentia un cop i prou.)
+    // ======================================================================
+    (function () {
+      const SEMI = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+      const QUALITATS = [
+        ["maj7", [0, 4, 7, 11]], ["maj9", [0, 4, 7, 11, 14]], ["maj", [0, 4, 7]],
+        ["m7", [0, 3, 7, 10]], ["m9", [0, 3, 7, 10, 14]], ["m6", [0, 3, 7, 9]],
+        ["m", [0, 3, 7]], ["dim7", [0, 3, 6, 9]], ["dim", [0, 3, 6]],
+        ["aug", [0, 4, 8]], ["sus4", [0, 5, 7]], ["sus2", [0, 2, 7]],
+        ["add9", [0, 4, 7, 14]], ["6", [0, 4, 7, 9]], ["9", [0, 4, 7, 10, 14]],
+        ["11", [0, 4, 7, 10, 14, 17]], ["13", [0, 4, 7, 10, 14, 21]],
+        ["7", [0, 4, 7, 10]], ["", [0, 4, 7]]
+      ];
+      // (multiple de la frequencia, volum): com el motor del curs
+      const PARCIALS = [[1, 1.0], [2, 0.45], [3, 0.22]];
+      const DUR = 2.3;          // durada de cada acord
+      const ATA = 0.008;        // atac
+      const RELEASE = 0.12;     // alliberament final (evita el clic)
+      const VOL = 0.16;         // volum base (es divideix per la mida de l'acord)
+
+      function notes(simbol) {
+        let s = String(simbol).trim().replace(/♯/g, "#").replace(/♭/g, "b");
+        if (s.indexOf("/") >= 0) s = s.split("/")[0];
+        const m = s.match(/^([A-G])([#b]?)(.*)$/);
+        if (!m) return null;
+        const arrel = SEMI[m[1]] + (m[2] === "#" ? 1 : m[2] === "b" ? -1 : 0);
+        const resta = m[3].replace("min", "m").replace("M", "maj");
+        for (const [clau, intervals] of QUALITATS) {
+          if (resta === clau || (clau === "" && resta === "5")) {
+            const base = 57 + arrel;                 // La3 = 57
+            return intervals.map(i => 440 * Math.pow(2, (base + i - 69) / 12));
+          }
+        }
+        return null;
+      }
+      window.__emotiNotes = notes;
+
+      // Programa un acord dins de QUALSEVOL context d'audio (aixi es pot
+      // renderitzar fora de linia per comprovar-ne la forma).
+      function programaAcord(ctx, desti, fs, inici, dur, volBase) {
+        const durAc = dur || DUR;
+        const vol = (volBase || VOL) / Math.sqrt(Math.max(1, fs.length));
+        fs.forEach((f, j) => {
+          PARCIALS.forEach(([mult, g]) => {
+            const f2 = f * mult;
+            if (f2 > ctx.sampleRate / 2 - 500) return;
+            const osc = ctx.createOscillator();
+            const gan = ctx.createGain();
+            osc.type = "triangle";
+            osc.frequency.value = f2;
+            const pic = vol * g;
+            const t0 = inici + ATA * (1 + j * 0.35);
+            gan.gain.setValueAtTime(0.0001, Math.max(0, t0 - 0.001));
+            gan.gain.linearRampToValueAtTime(pic, t0);
+            // caiguda exponencial que queda audible: baixa fins al 30% del pic
+            gan.gain.exponentialRampToValueAtTime(pic * 0.30, t0 + durAc * 0.10);
+            gan.gain.exponentialRampToValueAtTime(pic * 0.12, t0 + durAc * 0.55);
+            gan.gain.exponentialRampToValueAtTime(pic * 0.02, t0 + durAc);
+            gan.gain.linearRampToValueAtTime(0.0001, t0 + durAc + RELEASE);
+            osc.connect(gan); gan.connect(desti);
+            osc.start(Math.max(0, t0 - 0.001));
+            osc.stop(t0 + durAc + RELEASE + 0.02);
+          });
+        });
+      }
+      window.__emotiPrograma = programaAcord;
+
+      let ctx = null, filtrat = null, actius = [];
+
+      function context() {
+        if (!ctx) {
+          ctx = new (window.AudioContext || window.webkitAudioContext)();
+          // un filtre suau i un limitador: el so queda menys aspre
+          filtrat = ctx.createBiquadFilter();
+          filtrat.type = "lowpass";
+          filtrat.frequency.value = 5200;
+          filtrat.Q.value = 0.4;
+          const master = ctx.createGain();
+          master.gain.value = 1.7;
+          filtrat.connect(master); master.connect(ctx.destination);
+          ctx.__desti = filtrat;
+        }
+        if (ctx.state === "suspended") ctx.resume();
+        return ctx;
+      }
+
+      function tocaAcords(acords, etiqueta) {
+        try {
+          const c = context();
+          actius.forEach(o => { try { o.stop(); } catch (e) {} });
+          actius = [];
+          const t0 = c.currentTime + 0.06;
+          const fets = [];
+          acords.forEach((simbol, k) => {
+            const fs = notes(simbol);
+            if (!fs) return;
+            programaAcord(c, c.__desti, fs, t0 + k * DUR, DUR, VOL);
+            fets.push(simbol);
+          });
+          window.__emotiSo = { acords: fets, etiqueta: etiqueta || "", durada: fets.length * DUR, quan: Date.now() };
+          return fets.length;
+        } catch (e) {
+          console.warn("EmotiChords: no s'ha pogut sonar", e);
+          return 0;
+        }
+      }
+      window.__emotiToca = tocaAcords;
+
+      function boto(text, acords, etiqueta) {
+        const b = document.createElement("button");
+        b.textContent = text;
+        b.setAttribute("data-so", "1");
+        b.style.cssText = "width:100%; margin-top:8px; padding:8px; background:#f39c12; color:#fff;" +
+                          "border:none; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600;";
+        b.addEventListener("click", () => {
+          const n = tocaAcords(acords, etiqueta);
+          if (n) { b.textContent = "▶ Sonant " + n + " acords (" + (n * DUR).toFixed(1) + " s)";
+                   setTimeout(() => { b.textContent = text; }, n * DUR * 1000); }
+        });
+        return b;
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          if (typeof app === "undefined" || !app || !app.displayChords) {
+            console.warn("EmotiChords: no trobo l'app per afegir-hi el so");
+            return;
+          }
+          const origChords = app.displayChords.bind(app);
+          app.displayChords = function (chords, emotion, label) {
+            origChords(chords, emotion, label);
+            const out = document.getElementById("chordOutput");
+            if (out && chords && chords.length) {
+              out.appendChild(boto("▶ Escoltar " + chords.length + " acords", chords.slice(),
+                                   (emotion || "") + " " + (label || "")));
+            }
+          };
+          const origProg = app.displayProgressions.bind(app);
+          app.displayProgressions = function () {
+            origProg();
+            const cont = document.getElementById("progressionList");
+            if (!cont || !app.classicProgressions) return;
+            const files = cont.children;
+            app.classicProgressions.forEach((prog, i) => {
+              if (files[i] && prog.chords) {
+                files[i].appendChild(boto("▶ Escoltar la progressió", prog.chords.slice(), prog.name));
+              }
+            });
+          };
+          if (app.displayProgressions) app.displayProgressions();
+          if (app.showChords) app.showChords();
+        }, 120);
+      });
+    })();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,2367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Academia de Armonía Moderna - Versión Simplificada</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        :root {
+            --primary: #4ecdc4;
+            --secondary: #ff6b6b;
+            --accent: #45b7d1;
+            --dark: #0f0f23;
+            --darker: #1a1a2e;
+            --light: #ffffff;
+            --success: #4CAF50;
+            --error: #F44336;
+            --warning: #FFC107;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark), var(--darker), #16213e);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid rgba(78, 205, 196, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .user-stats {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: fadeIn 1s ease;
+        }
+        
+        .streak {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .main-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            border: none;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .nav-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(78, 205, 196, 0.4);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            box-shadow: 0 5px 15px rgba(69, 183, 209, 0.3);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 20px 0;
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        .section.active { 
+            display: block; 
+        }
+        
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(90deg, var(--secondary), var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: gradient 3s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            border-bottom: 3px solid rgba(78, 205, 196, 0.3);
+            padding-bottom: 15px;
+            font-size: 2em;
+        }
+        
+        h3 { 
+            color: var(--secondary); 
+            margin: 25px 0 20px 0;
+            font-size: 1.5em;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            overflow: hidden;
+            flex-wrap: wrap;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tab {
+            flex: 1;
+            min-width: 130px;
+            padding: 18px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 0.95em;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+        
+        .tab:hover {
+            background: rgba(78, 205, 196, 0.1);
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(78, 205, 196, 0.2));
+        }
+        
+        .tab.active::after {
+            width: 80%;
+        }
+        
+        .tab-content { 
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active { 
+            display: block; 
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .chord-example {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid var(--accent);
+            font-family: 'Courier New', monospace;
+            font-size: 1.05em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .chord-example:hover {
+            transform: translateX(5px);
+        }
+        
+        /* Quiz Styles */
+        .quiz-container {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .question-card {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateX(-20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1em;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+        
+        .option-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .option-btn:hover { 
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+        
+        .option-btn.correct { 
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.2));
+            border-color: var(--success);
+            animation: correctPulse 0.5s ease;
+        }
+        
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .option-btn.incorrect { 
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.3), rgba(244, 67, 54, 0.2));
+            border-color: var(--error);
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3));
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            border-radius: 15px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card:hover::before {
+            opacity: 0.3;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.3);
+        }
+        
+        .scale-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 25px 0;
+            justify-content: center;
+        }
+        
+        .note {
+            background: linear-gradient(135deg, rgba(69, 183, 209, 0.3), rgba(69, 183, 209, 0.2));
+            padding: 12px 18px;
+            border-radius: 20px;
+            border: 2px solid var(--accent);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .note:hover {
+            background: linear-gradient(135deg, rgba(69, 183, 209, 0.5), rgba(69, 183, 209, 0.4));
+            transform: scale(1.1) rotate(3deg);
+            box-shadow: 0 5px 15px rgba(69, 183, 209, 0.4);
+        }
+        
+        .note.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            transform: scale(1.15);
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.5);
+            animation: notePulse 0.5s ease;
+        }
+        
+        @keyframes notePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1.15); }
+        }
+        
+        .progress-bar {
+            background: rgba(0, 0, 0, 0.5);
+            height: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .explanation {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.05));
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid var(--secondary);
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .achievement {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            border: 2px solid gold;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: achievementPop 0.5s ease;
+        }
+        
+        @keyframes achievementPop {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .achievement-icon {
+            font-size: 3em;
+        }
+        
+        .achievement-content h4 {
+            color: gold;
+            margin-bottom: 5px;
+        }
+        
+        .level-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, gold, #ffd700);
+            color: var(--dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+            animation: levelShine 2s infinite;
+        }
+        
+        @keyframes levelShine {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.5em; }
+            h3 { font-size: 1.2em; }
+            
+            .user-stats {
+                position: static;
+                margin: 10px auto;
+                justify-content: center;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                min-width: 100%;
+            }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        select option {
+            background: var(--darker);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎵 Academia de Armonía Moderna</h1>
+        <div class="user-stats">
+            <div class="streak">🔥 <span id="streak-count">0</span> días</div>
+            <div class="level">Nivel <span class="level-badge" id="user-level">1</span></div>
+            <div class="xp">⭐ <span id="user-xp">0</span> XP</div>
+        </div>
+        <div class="main-nav">
+            <button class="nav-btn active" onclick="showSection('home')">🏠 Inicio</button>
+            <button class="nav-btn" onclick="showSection('theory')">📚 Teoría</button>
+            <button class="nav-btn" onclick="showSection('quiz')">🧠 Quiz</button>
+            <button class="nav-btn" onclick="showSection('scales')">🎼 Escalas</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Home Section -->
+        <div class="section active" id="home">
+            <h2>🚀 Bienvenido a tu Academia Musical</h2>
+            <p style="font-size: 1.1em; margin-bottom: 30px;">Domina los conceptos más avanzados de la armonía moderna con contenido teórico completo, quizzes interactivos y exploración de escalas.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>📚 Teoría Avanzada</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>✅ Acordes extendidos y alterados</li>
+                        <li>✅ Dominantes complejos</li>
+                        <li>✅ Sustituciones armónicas</li>
+                        <li>✅ Intercambio modal</li>
+                        <li>✅ Poliacordes</li>
+                        <li>✅ Armonía por cuartas</li>
+                        <li>✅ Técnicas contemporáneas</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🧠 Sistema de Quiz</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>🎯 4 niveles de dificultad</li>
+                        <li>📊 +20 preguntas avanzadas</li>
+                        <li>💡 Explicaciones detalladas</li>
+                        <li>🏆 Sistema de puntuación</li>
+                        <li>⭐ Gana XP por respuestas correctas</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎼 Explorador de Escalas</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>🎹 16+ escalas diferentes</li>
+                        <li>🌍 Escalas exóticas y modernas</li>
+                        <li>🎵 Visualización interactiva</li>
+                        <li>📝 Intervalos y aplicaciones</li>
+                        <li>🔄 Transposición a todas las tonalidades</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📈 Tu Progreso</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="main-progress" style="width: 15%"></div>
+                    </div>
+                    <p style="margin: 15px 0;"><strong>15%</strong> completado</p>
+                    <p>🏆 <strong>Logros desbloqueados:</strong> <span id="achievements-count">0</span>/20</p>
+                    <p>📚 <strong>Lecciones estudiadas:</strong> <span id="lessons-count">0</span>/8</p>
+                    <p>⚡ <strong>Próximo nivel en:</strong> <span id="xp-needed">100</span> XP</p>
+                </div>
+            </div>
+            
+            <div class="achievement">
+                <div class="achievement-icon">🎉</div>
+                <div class="achievement-content">
+                    <h4>¡Bienvenido de vuelta!</h4>
+                    <p>Has mantenido una racha de <strong><span id="streak-display">0</span> días</strong>. ¡Sigue estudiando para desbloquear más contenido!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theory Section -->
+        <div class="section" id="theory">
+            <h2>📚 Teoría Armónica Avanzada</h2>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="showTab(event, 'maj7-content')">Maj7 Extendidos</button>
+                <button class="tab" onclick="showTab(event, 'dom7-content')">Dominantes Alterados</button>
+                <button class="tab" onclick="showTab(event, 'min7-content')">Menores Complejos</button>
+                <button class="tab" onclick="showTab(event, 'subs-content')">Sustituciones</button>
+                <button class="tab" onclick="showTab(event, 'modal-content')">Intercambio Modal</button>
+                <button class="tab" onclick="showTab(event, 'polychords-content')">Poliacordes</button>
+                <button class="tab" onclick="showTab(event, 'quartal-content')">Armonía Cuartal</button>
+                <button class="tab" onclick="showTab(event, 'contemporary-content')">Contemporáneo</button>
+            </div>
+
+            <div class="tab-content active" id="maj7-content">
+                <h3>Acordes Maj7 y extensiones avanzadas</h3>
+                
+                <div class="chord-example">
+                    <strong>📚 Familia básica y construcción:</strong><br>
+                    CMaj7: C - E - G - B (1 - 3 - 5 - 7)<br>
+                    CMaj9: C - E - G - B - D (añade 9ª = 2ª una octava arriba)<br>
+                    CMaj11: C - E - G - B - D - F (problemático: F choca con E)<br>
+                    CMaj13: C - E - G - B - D - A (omite 11ª natural)<br>
+                    CMaj7(add13): C - E - G - B - A (sin 9ª)<br><br>
+                    
+                    <strong>🎼 Con alteraciones Lidias (Modo IV):</strong><br>
+                    CMaj7♯11: C - E - G - B - F♯ (F♯ no choca con E)<br>
+                    CMaj9♯11: C - E - G - B - D - F♯<br>
+                    CMaj13♯11: C - E - G - B - D - F♯ - A<br>
+                    CMaj7♯11(no5): C - E - B - F♯ (omite 5ª para claridad)<br><br>
+                    
+                    <strong>🔥 Variaciones del Lidio Aumentado (3er modo menor melódica):</strong><br>
+                    CMaj7♯5: C - E - G♯ - B<br>
+                    CMaj9♯5: C - E - G♯ - B - D<br>
+                    CMaj7♯5♯11: C - E - G♯ - B - F♯<br>
+                    CMaj13♯5♯11: C - E - G♯ - B - D - F♯ - A<br><br>
+                    
+                    <strong>🌟 Voicings por cuartas (So What voicings):</strong><br>
+                    CMaj7(♯11): E - A - D - G - B (stack de 4ªs desde la 3ª)<br>
+                    CMaj9(♯11): D - G - C - F♯ - B (desde la 9ª)<br>
+                    CMaj7 Kenny Barron: B - E - A - D (voicing moderno)<br><br>
+                    
+                    <strong>🎭 Voicings clásicos de Bill Evans:</strong><br>
+                    CMaj7 rootless: E - G - B - D (3-5-7-9)<br>
+                    CMaj7 rootless II: G - B - D - F♯ (5-7-9-♯11)<br>
+                    CMaj9 spread: E - B - D - G (3-7-9-5)<br>
+                    CMaj7♯11 cluster: B - C - D - E - F♯ (7-1-9-3-♯11)
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🎹 Progresiones típicas con Maj7:</strong><br>
+                    IMaj7 - IVMaj7: CMaj7 - FMaj7 (sonido abierto)<br>
+                    IMaj7 - ♭IIMaj7: CMaj7 - D♭Maj7 (cromático descendente)<br>
+                    IMaj7 - IIIMaj7: CMaj7 - EMaj7 (mediantes)<br>
+                    IMaj7 - ♭VIMaj7: CMaj7 - A♭Maj7 (intercambio modal)<br>
+                    IMaj7♯11 - ♭VIIMaj7: CMaj7♯11 - B♭Maj7 (backdoor)<br><br>
+                    
+                    <strong>🎼 Sustituciones comunes:</strong><br>
+                    CMaj7 → Em7 (relativo menor)<br>
+                    CMaj7 → Am9 (sonido más oscuro)<br>
+                    CMaj7 → CMaj7♯11 (color lidio)<br>
+                    CMaj7 → G/C (sonido sus)<br>
+                    CMaj7 → Em7/C (poliacorde)
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎯 Contextos de uso específicos</h4>
+                        <p><strong>CMaj7:</strong> Final de standards, tónica estable</p>
+                        <p><strong>CMaj9:</strong> Color moderno, neo-soul, R&B</p>
+                        <p><strong>CMaj7♯11:</strong> Jazz modal (So What, Impressions)</p>
+                        <p><strong>CMaj13♯11:</strong> Fusion, jazz contemporáneo</p>
+                        <p><strong>CMaj7♯5:</strong> Música de cine (John Williams)</p>
+                        <p><strong>CMaj7(no3):</strong> Ambigüedad tonal, new age</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎹 Técnicas avanzadas de voicing</h4>
+                        <p><strong>Drop 2:</strong> 1357 → 1573 (2ª voz baja octava)</p>
+                        <p><strong>Drop 3:</strong> 1357 → 1537 (3ª voz baja octava)</p>
+                        <p><strong>Drop 2+4:</strong> 1357 → 5173 (2ª y 4ª bajan)</p>
+                        <p><strong>Spread:</strong> Notas en diferentes octavas</p>
+                        <p><strong>Cluster:</strong> Notas muy cercanas (2ªs)</p>
+                        <p><strong>Rootless:</strong> Omite fundamental</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎵 Escalas para improvisar</h4>
+                        <p><strong>Sobre CMaj7:</strong> C Jónico, C Lidio, C Pentatónica Mayor</p>
+                        <p><strong>Sobre CMaj7♯11:</strong> C Lidio, G Mayor Pentatónica</p>
+                        <p><strong>Sobre CMaj7♯5:</strong> C Lidio Aumentado (3er modo menor melódica)</p>
+                        <p><strong>Approach notes:</strong> Cromáticos hacia notas del acorde</p>
+                        <p><strong>Bebop scale:</strong> Añade 7ªM de paso en escala mayor</p>
+                    </div>
+                </div>
+                
+                <div class="explanation">
+                    <strong>💡 Teoría profunda:</strong> Los acordes Maj7 funcionan como acordes de reposo en tonalidad mayor (I y IV grados). La ♯11 (característica del modo Lidio) es la única tensión que no requiere resolución en un acorde mayor, ya que evita el intervalo de ♭9 con la 3ª mayor. Históricamente, el uso extendido de Maj7♯11 comenzó con el jazz modal de Miles Davis ("Kind of Blue", 1959) y Bill Evans. En música clásica, Debussy y Ravel usaron estas sonoridades décadas antes en contextos impresionistas.
+                </div>
+                
+                <div class="chord-example">
+                    <strong>📖 Ejemplos en standards de jazz:</strong><br>
+                    "Girl from Ipanema" - Jobim: FMaj7♯11 como tónica<br>
+                    "Misty" - Garner: E♭Maj7 con extensiones<br>
+                    "Body and Soul" - Green: D♭Maj7♯11 en el puente<br>
+                    "All The Things You Are" - Kern: FMaj7 y A♭Maj7<br>
+                    "Stella by Starlight" - Young: B♭Maj7♯11 opening
+                </div>
+            </div>
+
+            <div class="tab-content" id="dom7-content">
+                <h3>El arsenal completo de dominantes alterados</h3>
+                
+                <div class="chord-example">
+                    <strong>🎯 Dominante natural y sus tensiones disponibles:</strong><br>
+                    C7: C - E - G - B♭ (1 - 3 - 5 - ♭7)<br>
+                    C9: C - E - G - B♭ - D (añade 9ª natural)<br>
+                    C13: C - E - G - B♭ - D - A (añade 13ª, omite 11ª)<br>
+                    C7sus4: C - F - G - B♭ (suspende la 3ª)<br>
+                    C7sus4(♭9): C - F - G - B♭ - D♭ (sus con tensión)<br><br>
+                    
+                    <strong>🔥 Alteraciones simples (una tensión alterada):</strong><br>
+                    C7♭9: C - E - G - B♭ - D♭ (tensión hacia menor)<br>
+                    C7♯9: C - E - G - B♭ - D♯ (blue note, Hendrix chord)<br>
+                    C7♯11: C - E - G - B♭ - F♯ (evita 5ª natural)<br>
+                    C7♭13: C - E - G - B♭ - A♭ (tensión descendente)<br>
+                    C7♭5: C - E - G♭ - B♭ (quinta disminuida)<br>
+                    C7♯5: C - E - G♯ - B♭ (quinta aumentada)<br><br>
+                    
+                    <strong>💥 Combinaciones dobles:</strong><br>
+                    C7♭9♯11: C - E - G - B♭ - D♭ - F♯<br>
+                    C7♯9♯11: C - E - G - B♭ - D♯ - F♯<br>
+                    C7♭9♭13: C - E - G - B♭ - D♭ - A♭<br>
+                    C7♯9♭13: C - E - G - B♭ - D♯ - A♭<br>
+                    C7♭5♭9: C - E - G♭ - B♭ - D♭<br>
+                    C7♯5♯9: C - E - G♯ - B♭ - D♯<br><br>
+                    
+                    <strong>⚡ El acorde "alt" completo (Super Alterado):</strong><br>
+                    C7alt: C - E - G♭/G♯ - B♭ - D♭ - D♯ - F♯ - A♭<br>
+                    Contiene TODAS las alteraciones: ♭5, ♯5, ♭9, ♯9, ♯11, ♭13<br>
+                    Escala: C - D♭ - D♯ - E - F♯ - A♭ - B♭<br>
+                    = 7º modo de D♭ menor melódica
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🎼 Escalas específicas para cada alteración:</strong><br>
+                    C7 natural → C Mixolidio: C D E F G A B♭<br>
+                    C7♭9 → C Frigio Mayor: C D♭ E F G A♭ B♭ (5º modo F menor armónica)<br>
+                    C7♯9 → C Mixolidio ♯2: C D♯ E F G A B♭<br>
+                    C7♯11 → C Lidio Dominante: C D E F♯ G A B♭ (4º modo G menor melódica)<br>
+                    C7♭13 → C Mixolidio ♭6: C D E F G A♭ B♭ (5º modo F menor melódica)<br>
+                    C7alt → C Alterada: C D♭ D♯ E F♯ A♭ B♭ (7º modo D♭ menor melódica)<br><br>
+                    
+                    <strong>🎹 Escala Simétrica Disminuida (para dominantes):</strong><br>
+                    C13(♭9♯9♯11): C D♭ D♯ E F♯ G A B♭<br>
+                    Patrón: Semitono-Tono-Semitono-Tono...<br>
+                    Acordes disponibles: C7, E♭7, F♯7, A7 (todos con mismas tensiones)
+                </div>
+                
+                <div class="scale-display">
+                    <span class="note" title="Fundamental">C</span>
+                    <span class="note" title="♭9">D♭</span>
+                    <span class="note" title="♯9">D♯</span>
+                    <span class="note" title="3ª Mayor">E</span>
+                    <span class="note" title="♯11/♭5">F♯/G♭</span>
+                    <span class="note" title="5ª">G</span>
+                    <span class="note" title="♯5/♭13">G♯/A♭</span>
+                    <span class="note" title="13ª">A</span>
+                    <span class="note" title="7ª menor">B♭</span>
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎼 Contextos armónicos específicos</h4>
+                        <p><strong>V7 → Im:</strong> C7alt → Fm (máxima tensión)</p>
+                        <p><strong>V7 → I:</strong> C7(♯11♭13) → FMaj7 (tensión media)</p>
+                        <p><strong>SubV7:</strong> D♭7 sustituyendo G7 (tritono)</p>
+                        <p><strong>V7/V:</strong> C7 → F7 (dominante secundario)</p>
+                        <p><strong>♭II7:</strong> D♭7 → CMaj7 (sustitución napolitana)</p>
+                        <p><strong>Blues:</strong> C7♯9 (acordes de 7ª con blue notes)</p>
+                    </div>
+                    <div class="card">
+                        <h4>⚡ Función de cada alteración</h4>
+                        <p><strong>♭9:</strong> Crea semitono con fundamental del target</p>
+                        <p><strong>♯9:</strong> Blue note, tensión cromática ascendente</p>
+                        <p><strong>♯11:</strong> Evita choque con 3ª, sonido lidio</p>
+                        <p><strong>♭13:</strong> Resuelve por semitono a 5ª del target</p>
+                        <p><strong>♭5:</strong> Inestabilidad, movimiento cromático</p>
+                        <p><strong>♯5:</strong> Whole tone sound, resolución ascendente</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎹 Voicings esenciales</h4>
+                        <p><strong>C7alt shell:</strong> C - E - B♭ (mínimo)</p>
+                        <p><strong>C7♭9 rootless:</strong> E - B♭ - D♭ - G</p>
+                        <p><strong>C7♯9 Hendrix:</strong> C - E - G - B♭ - D♯</p>
+                        <p><strong>C7alt Type A:</strong> E - A♭ - B♭ - D♭</p>
+                        <p><strong>C7alt Type B:</strong> A♭ - B♭ - D♭ - E</p>
+                        <p><strong>C13♭9:</strong> E - B♭ - D♭ - A</p>
+                    </div>
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🎵 Progresiones típicas con dominantes alterados:</strong><br>
+                    Dm7♭5 - G7alt - Cm7 (ii-V-i menor con máxima tensión)<br>
+                    Dm7 - G7♭13 - CMaj7 (ii-V-I con color)<br>
+                    C7♯11 - FMaj7 (Lidio dominante resolviendo)<br>
+                    E7alt - Am7 - D7alt - GMaj7 (dominantes en cadena)<br>
+                    F7 - F♯°7 - C/G - G7alt - C (turnaround con alteraciones)<br><br>
+                    
+                    <strong>🎭 Tritone substitution con alteraciones:</strong><br>
+                    Original: Dm7 - G7 - CMaj7<br>
+                    Sub básica: Dm7 - D♭7 - CMaj7<br>
+                    Sub alterada: Dm7 - D♭7♯11 - CMaj7<br>
+                    Doble sub: Dm7♭5 - D♭7alt - CMaj7<br>
+                    Cadena: Dm7 - D♭7 - CMaj7 - B7alt - B♭Maj7
+                </div>
+                
+                <div class="explanation">
+                    <strong>🎯 Aplicación práctica en improvisación:</strong> Los dominantes alterados son el corazón del vocabulario bebop y post-bop. Charlie Parker usaba principalmente ♭9 y ♯9. Dizzy Gillespie popularizó el ♭5. Bill Evans llevó las alteraciones al extremo con voicings que omitían la fundamental. John Coltrane en "Giant Steps" usa dominantes alterados para navegar cambios de tonalidad rápidos. En el jazz moderno, músicos como Kurt Rosenwinkel y Gilad Hekselman usan todas las alteraciones disponibles creando líneas melódicas que incorporan la escala alterada completa.
+                </div>
+                
+                <div class="chord-example">
+                    <strong>📖 Ejemplos icónicos en standards:</strong><br>
+                    "Caravan" - Ellington: C7♭9 → Fm (sonido español)<br>
+                    "Round Midnight" - Monk: múltiples dominantes alterados<br>
+                    "Donna Lee" - Parker: cadenas de dominantes con alteraciones<br>
+                    "Spain" - Corea: G7alt → CM (modalidad alterada)<br>
+                    "Recordame" - Henderson: dominantes alterados latinos<br>
+                    "Cherokee" - Noble: puente con dominantes alterados en secuencia
+                </div>
+            </div>
+
+            <div class="tab-content" id="min7-content">
+                <h3>Acordes Menores: El universo completo de la melancolía</h3>
+                
+                <div class="chord-example">
+                    <strong>🌙 Familia menor natural (Modo Eólico):</strong><br>
+                    Cm: C - E♭ - G (triada menor básica)<br>
+                    Cm7: C - E♭ - G - B♭ (añade 7ª menor)<br>
+                    Cm9: C - E♭ - G - B♭ - D (añade 9ª = 2ª)<br>
+                    Cm11: C - E♭ - G - B♭ - D - F (añade 11ª = 4ª)<br>
+                    Cm13: C - E♭ - G - B♭ - D - F - A (problemático: A natural en menor)<br>
+                    Cm7(add11): C - E♭ - G - B♭ - F (sin 9ª)<br><br>
+                    
+                    <strong>🎵 Modo Dórico (ii en mayor, sonido jazz):</strong><br>
+                    Cm6: C - E♭ - G - A (6ª mayor característica)<br>
+                    Cm6/9: C - E♭ - G - A - D (sonido Dorian completo)<br>
+                    Cm7(13): C - E♭ - G - B♭ - A (13ª sin 9ª ni 11ª)<br>
+                    Cm9(13): C - E♭ - G - B♭ - D - A<br>
+                    Cm69(no5): C - E♭ - A - D (voicing moderno)<br><br>
+                    
+                    <strong>🎭 Menor Melódica (tónica menor jazz):</strong><br>
+                    Cm(Maj7): C - E♭ - G - B (7ª mayor en menor = tensión)<br>
+                    Cm(Maj9): C - E♭ - G - B - D<br>
+                    Cm(Maj7)♯11: C - E♭ - G - B - F♯<br>
+                    Cm(Maj13): C - E♭ - G - B - D - A<br>
+                    Cm6(Maj7): C - E♭ - G - A - B (muy disonante)<br><br>
+                    
+                    <strong>⚡ Medio-disminuidos (Modo Locrio):</strong><br>
+                    Cm7♭5: C - E♭ - G♭ - B♭ (ii° en menor)<br>
+                    Cm9♭5: C - E♭ - G♭ - B♭ - D<br>
+                    Cm11♭5: C - E♭ - G♭ - B♭ - D - F<br>
+                    Cm7♭5(♭13): C - E♭ - G♭ - B♭ - A♭<br><br>
+                    
+                    <strong>🏛️ Menor Armónica (tónica menor clásica):</strong><br>
+                    Cm(Maj7): C - E♭ - G - B<br>
+                    Cm♭6: C - E♭ - G - A♭ (6ª menor = tensión)<br>
+                    CmMaj7♭13: C - E♭ - G - B - A♭<br><br>
+                    
+                    <strong>🔥 Variaciones exóticas y modernas:</strong><br>
+                    Cm7sus4: C - F - G - B♭ (suspende la 3ª)<br>
+                    Cm7♭13: C - E♭ - G - B♭ - A♭ (frigio)<br>
+                    Cm(add9): C - E♭ - G - D (sin 7ª)<br>
+                    Cm(♯5): C - E♭ - G♯ (aumentado menor)<br>
+                    Cm7(♯5): C - E♭ - G♯ - B♭
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🎼 Funciones en diferentes contextos:</strong><br><br>
+                    
+                    <strong>Como i (tónica en menor):</strong><br>
+                    Cm7 - Fm7 - G7 - Cm7 (i - iv - V - i)<br>
+                    Cm(Maj7) - Cm7 - Cm6 - Cm(♯5) (línea cromática descendente)<br><br>
+                    
+                    <strong>Como ii (subdominante en mayor):</strong><br>
+                    Cm7 - F7 - B♭Maj7 (ii-V-I en B♭)<br>
+                    Cm9 - F13 - B♭Maj7♯11 (extensiones modernas)<br><br>
+                    
+                    <strong>Como vi (relativo menor):</strong><br>
+                    E♭Maj7 - Cm7 - Fm7 - B♭7 (I-vi-ii-V en E♭)<br><br>
+                    
+                    <strong>Como iv (intercambio modal):</strong><br>
+                    GMaj7 - Cm7 - GMaj7 (I - iv - I en G)<br>
+                    G - Cm6 - G (sonido Beatles)<br><br>
+                    
+                    <strong>Como iii (mediante):</strong><br>
+                    A♭Maj7 - Cm7 - Fm7 (I - iii - vi en A♭)
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎬 Carácter emocional específico</h4>
+                        <p><strong>Cm7:</strong> Melancolía standard, introspección</p>
+                        <p><strong>Cm9:</strong> Melancolía sofisticada, neo-soul</p>
+                        <p><strong>Cm6:</strong> Nostalgia jazz, años 40-50</p>
+                        <p><strong>Cm(Maj7):</strong> Tensión dramática, film noir</p>
+                        <p><strong>Cm11:</strong> Espacioso, contemplativo</p>
+                        <p><strong>Cm7♭5:</strong> Inestable, transicional</p>
+                        <p><strong>Cm(add9):</strong> Pop melancólico moderno</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎹 Voicings característicos</h4>
+                        <p><strong>Cm7 Drop 2:</strong> E♭ - B♭ - C - G</p>
+                        <p><strong>Cm9 rootless:</strong> E♭ - B♭ - D - G</p>
+                        <p><strong>Cm6 vintage:</strong> C - G - A - E♭</p>
+                        <p><strong>Cm11 quartal:</strong> C - F - B♭ - E♭</p>
+                        <p><strong>Cm(Maj7) shell:</strong> C - E♭ - B</p>
+                        <p><strong>Cm7♭5 rootless:</strong> E♭ - G♭ - B♭</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎼 Escalas para improvisación</h4>
+                        <p><strong>Cm7:</strong> C Dórico, C Eólico, C Pentatónica menor</p>
+                        <p><strong>Cm6:</strong> C Dórico (exclusivamente)</p>
+                        <p><strong>Cm(Maj7):</strong> C Menor Melódica</p>
+                        <p><strong>Cm7♭5:</strong> C Locrio, C Locrio ♮2</p>
+                        <p><strong>Cm7(♭13):</strong> C Frigio</p>
+                        <p><strong>Blues:</strong> C Blues (C-E♭-F-F♯-G-B♭)</p>
+                    </div>
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🎵 Progresiones menores clásicas:</strong><br>
+                    <strong>Minor ii-V-i:</strong> Dm7♭5 - G7alt - Cm7<br>
+                    <strong>Modal menor:</strong> Cm7 - Fm7 - B♭7 - E♭Maj7 - A♭Maj7 - Dm7♭5 - G7 - Cm7<br>
+                    <strong>Line Cliché:</strong> Cm - Cm(Maj7) - Cm7 - Cm6<br>
+                    <strong>Andaluza:</strong> Cm - B♭ - A♭ - G7<br>
+                    <strong>Minor Blues:</strong> Cm7 - Cm7 - Cm7 - Cm7 - Fm7 - Fm7 - Cm7 - Cm7 - G7alt - Fm7 - Cm7 - G7alt<br><br>
+                    
+                    <strong>🔄 Sustituciones menores comunes:</strong><br>
+                    Cm7 → E♭Maj7 (relativo mayor)<br>
+                    Cm7 → Cm6 (color dórico)<br>
+                    Cm7 → Cm(Maj7) (tensión melódica)<br>
+                    Cm7 → A♭Maj7♯11 (mediante)<br>
+                    Cm7 → Cm11 (extensión modal)
+                </div>
+                
+                <div class="explanation">
+                    <strong>🎯 Historia y evolución:</strong> Los acordes menores han evolucionado desde la simple triada menor del período barroco hasta las complejas extensiones del jazz moderno. Bach usaba principalmente triadas y ocasionalmente m7. En el período romántico, compositores como Chopin introdujeron m6 y m(add9). El jazz de los años 20-30 popularizó m6 y m7. Bill Evans revolucionó el uso de m(Maj7) en los 50s. El modal jazz de los 60s (Miles Davis, John Coltrane) estableció el Cm7 dórico como sonido standard. El neo-soul moderno (Robert Glasper, Esperanza Spalding) usa todas las extensiones disponibles creando texturas densas y emotivas.
+                </div>
+                
+                <div class="chord-example">
+                    <strong>📖 Ejemplos en standards y canciones icónicas:</strong><br>
+                    "Autumn Leaves": Cm7 - F7 - B♭Maj7 (ii-V-I relativo)<br>
+                    "So What" - Davis: Dm6/9 - E♭m6/9 (modal dórico)<br>
+                    "My Funny Valentine": Cm - Cm(Maj7) - Cm7 - Cm6 (line cliché)<br>
+                    "Black Orpheus": Am7 - Bm7♭5 - E7 - Am7 (menor con ii-V)<br>
+                    "Blue Bossa": Cm7 - Fm7 - Dm7♭5 - G7alt - Cm7<br>
+                    "Summertime": Am6 - E7 - Am6 (menor con dominante)
+                </div>
+            </div>
+
+            <div class="tab-content" id="subs-content">
+                <h3>Sustituciones Armónicas: El arte completo de la rearmonización</h3>
+                
+                <div class="chord-example">
+                    <strong>🔄 1. SUSTITUCIÓN TRITONAL (La más importante):</strong><br>
+                    Principio: Dos dominantes a distancia de tritono comparten el mismo tritono<br>
+                    G7 (G-B-D-F) y D♭7 (D♭-F-A♭-B) comparten B-F<br><br>
+                    
+                    <strong>Ejemplos prácticos:</strong><br>
+                    Original: Dm7 - G7 - CMaj7<br>
+                    Sustituido: Dm7 - D♭7 - CMaj7<br>
+                    Cromático: Dm7 - D♭7 - CMaj7 - B7 - B♭Maj7<br>
+                    Doble sub: A♭m7 - D♭7 - CMaj7 (sustituyendo también el ii)<br><br>
+                    
+                    <strong>Con alteraciones:</strong><br>
+                    Dm7 - D♭7♯11 - CMaj7 (♯11 = G = 5ª de C)<br>
+                    Dm7 - D♭9♯11 - CMaj7 (más color)<br>
+                    Dm7♭5 - D♭7alt - CMaj7 (máxima tensión)<br><br>
+                    
+                    <strong>Cadenas de tritonos:</strong><br>
+                    E7 → B♭7 → A7 → E♭7 → D7 → A♭7 → G7 → D♭7 → C
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🎯 2. SUSTITUCIÓN DIATÓNICA (Mismo campo armónico):</strong><br>
+                    En C Mayor: CMaj7, Dm7, Em7, FMaj7, G7, Am7, Bm7♭5<br><br>
+                    
+                    <strong>Principio: Acordes con notas comunes pueden sustituirse:</strong><br>
+                    CMaj7 (C-E-G-B) → Em7 (E-G-B-D) = 3 notas comunes<br>
+                    CMaj7 → Am7 (A-C-E-G) = 2 notas comunes<br>
+                    FMaj7 (F-A-C-E) → Am7 (A-C-E-G) = 3 notas comunes<br>
+                    G7 (G-B-D-F) → Bm7♭5 (B-D-F-A) = 3 notas comunes<br><br>
+                    
+                    <strong>Aplicaciones:</strong><br>
+                    Original: CMaj7 - Am7 - Dm7 - G7<br>
+                    Sustituido: Em7 - FMaj7 - Bm7♭5 - G7<br>
+                    Más subs: Em7/C - Am7 - FMaj7/D - G7sus4
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🔥 3. DOMINANTES SECUNDARIOS (V7 de cada grado):</strong><br>
+                    En C Mayor:<br>
+                    V7/ii = A7 → Dm7<br>
+                    V7/iii = B7 → Em7<br>
+                    V7/IV = C7 → FMaj7<br>
+                    V7/V = D7 → G7<br>
+                    V7/vi = E7 → Am7<br><br>
+                    
+                    <strong>Progresión original:</strong> CMaj7 - Am7 - Dm7 - G7<br>
+                    <strong>Con dominantes secundarios:</strong> CMaj7 - E7 - Am7 - A7 - Dm7 - G7<br>
+                    <strong>Todos los dominantes:</strong> C - C7 - F - D7 - G7 - E7 - A7 - F♯7 - B7 - G7 - C<br><br>
+                    
+                    <strong>Con ii-V secundarios:</strong><br>
+                    Original: CMaj7 - FMaj7<br>
+                    Con ii-V/IV: CMaj7 - Gm7 - C7 - FMaj7<br>
+                    Completo: CMaj7 - Em7 - A7 - Dm7 - G7 - Gm7 - C7 - FMaj7
+                </div>
+                
+                <div class="chord-example">
+                    <strong>⚡ 4. SUSTITUCIÓN MODAL (Intercambio de modos paralelos):</strong><br>
+                    De C menor a C Mayor podemos tomar:<br>
+                    Fm7 (iv7), A♭Maj7 (♭VIMaj7), B♭7 (♭VII7), E♭Maj7 (♭IIIMaj7)<br>
+                    Gm7♭5 (ii°7), D♭Maj7 (♭IIMaj7)<br><br>
+                    
+                    <strong>Progresión modal típica:</strong><br>
+                    CMaj7 - A♭Maj7 - B♭7 - CMaj7 (I - ♭VI - ♭VII - I)<br>
+                    CMaj7 - Fm7 - CMaj7 (I - iv - I)<br>
+                    CMaj7 - E♭Maj7 - A♭Maj7 - D♭Maj7 - CMaj7 (cromático descendente)
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🎼 5. COLTRANE CHANGES (Sustitución por terceras mayores):</strong><br>
+                    Original: CMaj7 (2 compases)<br>
+                    Coltrane: CMaj7 - E♭7 - A♭Maj7 - B7 - EMaj7 - G7 - CMaj7<br><br>
+                    
+                    <strong>Principio: Divide la octava en 3 partes iguales:</strong><br>
+                    C → A♭ (↓4 semitonos) → E (↓4 semitonos) → C (↓4 semitonos)<br><br>
+                    
+                    <strong>Giant Steps changes:</strong><br>
+                    BMaj7 - D7 - GMaj7 - B♭7 - E♭Maj7 - Am7 - D7 -<br>
+                    GMaj7 - B♭7 - E♭Maj7 - F♯7 - BMaj7 - Fm7 - B♭7 -<br>
+                    E♭Maj7 - Am7 - D7 - GMaj7 - C♯m7 - F♯7 - BMaj7
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎹 6. Técnicas avanzadas</h4>
+                        <p><strong>Diminished substitution:</strong> G7 → B°7 (misma función)</p>
+                        <p><strong>♭5 substitution:</strong> D♭7 → D7♭5 (mismo tritono)</p>
+                        <p><strong>Chromatic approach:</strong> Acorde medio tono arriba/abajo del target</p>
+                        <p><strong>Pedal point:</strong> Mantener bajo mientras cambian acordes</p>
+                        <p><strong>Constant structure:</strong> Mismo tipo de acorde en paralelo</p>
+                        <p><strong>Side-stepping:</strong> Tocar medio tono arriba y resolver</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎼 7. Aplicaciones por género</h4>
+                        <p><strong>Jazz Bebop:</strong> Tritono y dominantes secundarios</p>
+                        <p><strong>Jazz Modal:</strong> Sustitución modal y pedal</p>
+                        <p><strong>Bossa Nova:</strong> Diatónicas suaves</p>
+                        <p><strong>Neo-Soul:</strong> Constant structure y cromáticos</p>
+                        <p><strong>Fusion:</strong> Coltrane changes y side-stepping</p>
+                        <p><strong>Standards:</strong> Todas las anteriores combinadas</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎯 8. Estrategias de práctica</h4>
+                        <p><strong>Paso 1:</strong> Analizar progresión original</p>
+                        <p><strong>Paso 2:</strong> Identificar dominantes</p>
+                        <p><strong>Paso 3:</strong> Aplicar tritonos primero</p>
+                        <p><strong>Paso 4:</strong> Añadir dominantes secundarios</p>
+                        <p><strong>Paso 5:</strong> Incorporar intercambio modal</p>
+                        <p><strong>Paso 6:</strong> Combinar todas las técnicas</p>
+                    </div>
+                </div>
+                
+                <div class="chord-example">
+                    <strong>📖 EJEMPLO COMPLETO - "All The Things You Are" (primeros 8 compases):</strong><br><br>
+                    
+                    <strong>Original:</strong><br>
+                    Fm7 - B♭m7 - E♭7 - A♭Maj7 - D♭Maj7 - G7 - CMaj7 - CMaj7<br><br>
+                    
+                    <strong>Con sustitución tritonal:</strong><br>
+                    Fm7 - B♭m7 - A7 - A♭Maj7 - D♭Maj7 - D♭7 - CMaj7 - CMaj7<br><br>
+                    
+                    <strong>Con dominantes secundarios:</strong><br>
+                    Fm7 - F7 - B♭m7 - E♭7 - A♭Maj7 - A♭7 - D♭Maj7 - G7 - CMaj7<br><br>
+                    
+                    <strong>Rearmonización completa moderna:</strong><br>
+                    Fm9 - E7alt - E♭Maj7♯11 - D7alt - D♭Maj7♯11 - C7alt - BMaj7 - B♭7alt - A♭Maj7
+                </div>
+                
+                <div class="explanation">
+                    <strong>💡 Concepto maestro:</strong> Las sustituciones armónicas son el corazón de la rearmonización en jazz. No son reglas fijas sino herramientas creativas. Bill Evans decía: "No sustituyas por sustituir, hazlo para crear una línea melódica en el bajo o para aumentar/disminuir la tensión". La clave está en mantener la función armónica mientras se añade color. Un buen rearmonizador piensa horizontalmente (melodía del bajo) y verticalmente (tensiones) simultáneamente. Practica primero con progresiones simples (blues, rhythm changes) antes de abordar standards complejos.
+                </div>
+            </div>
+
+            <div class="tab-content" id="modal-content">
+                <h3>Intercambio Modal: Colores de otros mundos</h3>
+                <div class="chord-example">
+                    <strong>🌙 En tonalidad de C Mayor, podemos usar:</strong><br><br>
+                    
+                    <strong>Del paralelo menor (C menor):</strong><br>
+                    Fm7 (iv7) - A♭Maj7 (♭VIMaj7) - B♭7 (♭VII7) - Cm7 (i7)<br>
+                    E♭Maj7 (♭IIIMaj7) - Gm7♭5 (ii°7) - D♭Maj7 (♭IIMaj7)<br><br>
+                    
+                    <strong>Del modo Dórico:</strong><br>
+                    Dm6 (ii con 6ª mayor) - Em7/D (sonoridad dórica)<br><br>
+                    
+                    <strong>Del modo Mixolidio:</strong><br>
+                    C7 (I7) - Gm7 (v7) - B♭Maj7 (♭VIIMaj7)<br><br>
+                    
+                    <strong>Del modo Frigio:</strong><br>
+                    D♭Maj7 (♭IIMaj7) - Fm7 (iv7) - B♭m7 (♭vi7)
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎭 Efectos emocionales</h4>
+                        <p><strong>♭VIMaj7:</strong> Nostalgia cinematográfica</p>
+                        <p><strong>♭VII7:</strong> Rock, resolución backdoor</p>
+                        <p><strong>♭IIMaj7:</strong> Drama neoclásico</p>
+                        <p><strong>iv7:</strong> Tristeza pastoral</p>
+                        <p><strong>♭IIIMaj7:</strong> Oscuridad épica</p>
+                    </div>
+                    <div class="card">
+                        <h4>📽️ Uso en géneros</h4>
+                        <p><strong>Jazz:</strong> iv7, ♭VIMaj7, ♭VII7</p>
+                        <p><strong>Pop/Rock:</strong> ♭VII, ♭VI, iv</p>
+                        <p><strong>Clásico:</strong> ♭II6, iv6</p>
+                        <p><strong>Cine:</strong> Todos los anteriores</p>
+                        <p><strong>R&B:</strong> ♭IIIMaj7, ♭VIMaj7</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="polychords-content">
+                <h3>Poliacordes: Superposición de mundos armónicos</h3>
+                <div class="chord-example">
+                    <strong>🏗️ Construcción básica:</strong><br>
+                    D/C = Acorde de D sobre bajo de C<br>
+                    = C(bajo) + D-F♯-A (triada superior)<br>
+                    = CMaj7♯11 en voicing específico<br><br>
+                    
+                    <strong>🎼 Poliacordes triádicos comunes:</strong><br>
+                    E/C = CMaj7♯5 → C + E-G♯-B<br>
+                    F♯/C = C7♯11♯9 → C + F♯-A♯-C♯<br>
+                    B♭/C = C7sus4 → C + B♭-D-F<br>
+                    G/C = CMaj9 → C + G-B-D<br>
+                    A/C = C6/9 → C + A-C♯-E<br><br>
+                    
+                    <strong>🔥 Poliacordes de 7ª:</strong><br>
+                    Em7/C = CMaj9♯11 → C + E-G-B-D<br>
+                    Fm7/C = Cm11 → C + F-A♭-C-E♭<br>
+                    Gm7/C = C7sus4 → C + G-B♭-D-F<br>
+                    Am7/C = C6/9 → C + A-C-E-G<br>
+                    BMaj7/C = CMaj7♯11♯5 → C + B-D♯-F♯-A♯
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎯 Ventajas del análisis</h4>
+                        <p><strong>Simplicidad:</strong> Dos acordes simples</p>
+                        <p><strong>Voicing:</strong> Distribución clara</p>
+                        <p><strong>Improvisación:</strong> Escalas intuitivas</p>
+                        <p><strong>Composición:</strong> Pensamiento por capas</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎹 Técnicas de ejecución</h4>
+                        <p><strong>Piano:</strong> Manos separadas</p>
+                        <p><strong>Ensemble:</strong> Secciones diferentes</p>
+                        <p><strong>Guitarra:</strong> Registros separados</p>
+                        <p><strong>Orquesta:</strong> Familias instrumentales</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="quartal-content">
+                <h3>Armonía por Cuartas: Más allá de las terceras</h3>
+                <div class="chord-example">
+                    <strong>🎼 Construcción por 4ªs perfectas:</strong><br>
+                    C-F-B♭-E♭ (stack de cuartas)<br>
+                    D-G-C-F (So What voicing)<br>
+                    E-A-D-G-C (5 cuartas)<br><br>
+                    
+                    <strong>🔥 Cuartas mixtas (P4 + Aug4):</strong><br>
+                    C-F-B-E (P4-Aug4-P4) = CMaj7♯11<br>
+                    F-B♭-E-A (P4-Aug4-P4) = F7♯11<br>
+                    G-C-F♯-B (P4-Aug4-P4) = GMaj7♯11<br><br>
+                    
+                    <strong>⚡ Voicings de McCoy Tyner:</strong><br>
+                    Mano izquierda: C-F-B♭<br>
+                    Mano derecha: E♭-A♭-D♭<br>
+                    = Sonoridad modal abierta<br><br>
+                    
+                    <strong>🌟 Aplicaciones modernas:</strong><br>
+                    Herbie Hancock: Cuartas + tensiones<br>
+                    Chick Corea: Cuartas + clusters<br>
+                    Keith Jarrett: Cuartas + pedal
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎨 Características</h4>
+                        <p><strong>Ambigüedad:</strong> Sin centro tonal claro</p>
+                        <p><strong>Modernidad:</strong> Sonido contemporáneo</p>
+                        <p><strong>Espacialidad:</strong> Registro amplio</p>
+                        <p><strong>Versatilidad:</strong> Múltiples contextos</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎯 Usos prácticos</h4>
+                        <p><strong>Jazz modal:</strong> Comping moderno</p>
+                        <p><strong>Fusion:</strong> Texturas densas</p>
+                        <p><strong>Contemporáneo:</strong> Nuevas sonoridades</p>
+                        <p><strong>Free jazz:</strong> Exploración armónica</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="contemporary-content">
+                <h3>Técnicas Contemporáneas del Siglo XXI: La vanguardia armónica</h3>
+                
+                <div class="chord-example">
+                    <strong>🌊 PLANING (Movimiento paralelo de acordes):</strong><br><br>
+                    
+                    <strong>Planing diatónico (mantiene la tonalidad):</strong><br>
+                    CMaj7 - Dm7 - Em7 - FMaj7 - G7 - Am7 - Bm7♭5<br>
+                    (Todos los acordes de C mayor en paralelo)<br><br>
+                    
+                    <strong>Planing cromático (mismo tipo de acorde):</strong><br>
+                    CMaj7 - D♭Maj7 - DMaj7 - E♭Maj7 - EMaj7 - FMaj7<br>
+                    Cm7 - C♯m7 - Dm7 - E♭m7 - Em7 - Fm7<br>
+                    C7♯11 - D♭7♯11 - D7♯11 - E♭7♯11 - E7♯11<br><br>
+                    
+                    <strong>Planing por tonos enteros:</strong><br>
+                    CMaj7♯11 - DMaj7♯11 - EMaj7♯11 - F♯Maj7♯11 - G♯Maj7♯11 - A♯Maj7♯11<br><br>
+                    
+                    <strong>Planing mixto (diferentes tipos en paralelo):</strong><br>
+                    CMaj7 - Dm7 - E♭Maj7 - Fm7 - GMaj7 - Am7 - B♭Maj7
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🔄 TRANSFORMACIONES NEO-RIEMANNIANAS:</strong><br>
+                    Sistema de análisis que relaciona acordes por movimiento mínimo de voces<br><br>
+                    
+                    <strong>Transformaciones básicas:</strong><br>
+                    P (Parallel): C → Cm (cambia 3ª, mantiene 1ª y 5ª)<br>
+                    R (Relative): C → Am (cambia 1ª, mantiene 3ª y 5ª)<br>
+                    L (Leading-tone): C → Em (cambia 5ª, mantiene 1ª y 3ª)<br><br>
+                    
+                    <strong>Combinaciones:</strong><br>
+                    PR: C → Cm → A♭<br>
+                    RP: C → Am → A<br>
+                    PL: C → Cm → E♭<br>
+                    LP: C → Em → E<br>
+                    PLR: C → Cm → E♭ → Cm<br>
+                    PRP: C → Cm → A♭ → A♭m<br><br>
+                    
+                    <strong>Tonnetz (red de alturas):</strong><br>
+                    Visualización geométrica donde acordes cercanos comparten notas<br>
+                    Muy usado en análisis de Wagner, Liszt, y música de videojuegos moderna
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🎭 CLUSTERS Y TÉCNICAS ESPECTRALES:</strong><br><br>
+                    
+                    <strong>Clusters diatónicos (segundas en la escala):</strong><br>
+                    C-D-E (cluster de C mayor)<br>
+                    F-G-A-B (cluster extendido)<br>
+                    C-D-E-F-G (cluster de quinta)<br><br>
+                    
+                    <strong>Clusters cromáticos:</strong><br>
+                    C-C♯-D (cluster de 3 semitonos)<br>
+                    C-C♯-D-D♯-E (cluster cromático de 5 notas)<br>
+                    B-C-C♯-D-D♯-E-F (cluster masivo)<br><br>
+                    
+                    <strong>Clusters por tonos:</strong><br>
+                    C-D-E-F♯ (whole tone cluster)<br>
+                    C-D-E-F♯-G♯-A♯ (hexatónico completo)<br><br>
+                    
+                    <strong>Técnicas espectrales (basadas en armónicos):</strong><br>
+                    C + armónicos: C-C-G-C-E-G-B♭-C-D-E-F♯-G<br>
+                    Acordes construidos desde el espectro acústico<br>
+                    Usado por Grisey, Murail, y compositores contemporáneos
+                </div>
+                
+                <div class="chord-example">
+                    <strong>💫 POLITONALIDAD Y POLIMODALIDAD:</strong><br><br>
+                    
+                    <strong>Politonalidad (dos o más tonalidades simultáneas):</strong><br>
+                    Mano derecha: C mayor (C-E-G)<br>
+                    Mano izquierda: F♯ mayor (F♯-A♯-C♯)<br>
+                    = Tritono politonal<br><br>
+                    
+                    <strong>Polimodalidad (dos modos simultáneos):</strong><br>
+                    Voz superior: C Lidio (C-D-E-F♯-G-A-B)<br>
+                    Voz inferior: C Frigio (C-D♭-E♭-F-G-A♭-B♭)<br><br>
+                    
+                    <strong>Poliacordes extendidos:</strong><br>
+                    EMaj7/CMaj7 = Sonoridad muy disonante y moderna<br>
+                    D♭Maj7/CMaj7 = Máxima tensión cromática<br>
+                    AMaj7/CMaj7 = Sonoridad de sextas
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🎼 SERIALISMO Y POST-SERIALISMO:</strong><br><br>
+                    
+                    <strong>Serie dodecafónica básica:</strong><br>
+                    Original (O): C-E-F-C♯-D-F♯-G-E♭-A♭-B♭-A-B<br>
+                    Retrógrado (R): B-A-B♭-A♭-E♭-G-F♯-D-C♯-F-E-C<br>
+                    Inversión (I): C-A♭-G-B-B♭-F♯-F-A-E-D-E♭-C♯<br>
+                    Retrógrado de la Inversión (RI): C♯-E♭-D-E-A-F-F♯-B♭-B-G-A♭-C<br><br>
+                    
+                    <strong>Set Theory (Teoría de conjuntos):</strong><br>
+                    [0,1,4] = Tricorde (C-C♯-E)<br>
+                    [0,2,4,7] = Tetracorde (C-D-E-G)<br>
+                    [0,1,3,4,6,7,9,10] = Octacorde (escala octatónica)<br><br>
+                    
+                    <strong>Pitch Class Sets más usados:</strong><br>
+                    [0,1,6] = Tritono + semitono<br>
+                    [0,2,7] = Sus2<br>
+                    [0,4,8] = Triada aumentada<br>
+                    [0,3,6,9] = Disminuido 7
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🌍 Influencias World Music</h4>
+                        <p><strong>Microtonalidad:</strong> Cuartos de tono, sistemas de 19, 24, 31 divisiones</p>
+                        <p><strong>Ragas indios:</strong> Sistemas melódicos con microintervalos</p>
+                        <p><strong>Maqam árabe:</strong> Escalas con segundas aumentadas y cuartos de tono</p>
+                        <p><strong>Gamelan:</strong> Sistemas de afinación no temperados</p>
+                        <p><strong>Just Intonation:</strong> Afinación por proporciones puras</p>
+                        <p><strong>Espectralismo:</strong> Basado en análisis del espectro sonoro</p>
+                    </div>
+                    <div class="card">
+                        <h4>🎹 Compositores y estilos clave</h4>
+                        <p><strong>Messiaen:</strong> Modos de transposición limitada</p>
+                        <p><strong>Ligeti:</strong> Micropolifonía y clusters</p>
+                        <p><strong>Xenakis:</strong> Música estocástica</p>
+                        <p><strong>Cage:</strong> Indeterminación y azar</p>
+                        <p><strong>Reich/Glass:</strong> Minimalismo y procesos</p>
+                        <p><strong>Ferneyhough:</strong> Nueva complejidad</p>
+                    </div>
+                    <div class="card">
+                        <h4>💻 Técnicas digitales/electrónicas</h4>
+                        <p><strong>Síntesis granular:</strong> Microsonidos como material armónico</p>
+                        <p><strong>Síntesis FM:</strong> Complejos armónicos no temperados</p>
+                        <p><strong>Live coding:</strong> Armonía algorítmica en tiempo real</p>
+                        <p><strong>AI composition:</strong> Machine learning para generar armonías</p>
+                        <p><strong>Espacialización:</strong> Armonía en el espacio 3D</p>
+                        <p><strong>Sonificación:</strong> Datos convertidos en armonía</p>
+                    </div>
+                </div>
+                
+                <div class="chord-example">
+                    <strong>🚀 JAZZ CONTEMPORÁNEO Y FUSIÓN MODERNA:</strong><br><br>
+                    
+                    <strong>Acordes híbridos (mezcla de técnicas):</strong><br>
+                    CMaj7♯11/F♯ = Politonal + Lidio<br>
+                    Cm(Maj7)add♯11♭13 = Menor melódica + alteraciones<br>
+                    Csus4(Maj7♯5) = Suspendido + aumentado<br><br>
+                    
+                    <strong>Upper Structure Triads complejos:</strong><br>
+                    B/C7 = C7♯11♯9<br>
+                    D♭/C7 = C7♭9♭13<br>
+                    A/C7 = C13♯11<br>
+                    E♭m/C7 = C7alt<br><br>
+                    
+                    <strong>Progresiones no funcionales:</strong><br>
+                    CMaj7♯11 - BMaj7♯11 - B♭Maj7♯11 - AMaj7♯11 (cromático descendente)<br>
+                    Em7 - FMaj7♯11 - E♭m7 - EMaj7♯11 (simetría)<br>
+                    Todos Maj7♯5 subiendo por terceras menores
+                </div>
+                
+                <div class="explanation">
+                    <strong>🎯 El futuro de la armonía:</strong> La música del siglo XXI ha roto todas las barreras tradicionales. Ya no existe separación entre consonancia/disonancia, tonal/atonal, acústico/electrónico. Compositores como Jacob Collier usan microtonalidad en pop. Tigran Hamasyan fusiona metal con música armenia. Snarky Puppy combina gospel con serialismo. El límite es la imaginación. La tecnología permite explorar sistemas armónicos imposibles de ejecutar humanamente. La IA está comenzando a componer. Pero en el centro sigue estando la emoción humana: toda esta complejidad sirve para expresar lo que sentimos de formas nuevas.
+                </div>
+                
+                <div class="chord-example">
+                    <strong>📖 Ejemplos en música actual:</strong><br>
+                    Jacob Collier: Microtonalidad y modulaciones imposibles<br>
+                    Snarky Puppy: Fusion de gospel, jazz y contemporáneo<br>
+                    Tigran Hamasyan: Metal progresivo + música armenia<br>
+                    Robert Glasper: Hip-hop + jazz armónico avanzado<br>
+                    Esperanza Spalding: Música de cámara + jazz + R&B<br>
+                    Brad Mehldau: Radiohead meets Bach meets Coltrane<br>
+                    María Schneider: Orquestación espectral en big band<br>
+                    Vijay Iyer: Ritmos carnáticos + jazz contemporáneo
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="section" id="quiz">
+            <h2>🧠 Quiz Interactivo Multinivel</h2>
+            
+            <div style="text-align: center; margin-bottom: 30px;">
+                <button class="btn" onclick="setDifficulty('beginner')">👶 Principiante</button>
+                <button class="btn" onclick="setDifficulty('intermediate')">🎓 Intermedio</button>
+                <button class="btn" onclick="setDifficulty('advanced')">🎯 Avanzado</button>
+                <button class="btn" onclick="setDifficulty('expert')">🏆 Experto</button>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="quiz-progress" style="width: 0%"></div>
+                </div>
+                
+                <div class="question-card" id="question-card">
+                    <div id="question-text" style="font-size: 1.2em; margin-bottom: 20px;">
+                        Selecciona un nivel de dificultad para comenzar
+                    </div>
+                    
+                    <div class="options-grid" id="options-grid">
+                        <!-- Options will be generated dynamically -->
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="btn" onclick="nextQuestion()" id="next-btn" style="display: none;">
+                            ➡️ Siguiente Pregunta
+                        </button>
+                        <button class="btn" onclick="resetQuiz()">
+                            🔄 Reiniciar Quiz
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <p style="font-size: 1.1em;">
+                        Puntuación: <span id="quiz-score" style="color: var(--primary); font-weight: bold;">0</span>/
+                        <span id="total-questions">10</span>
+                    </p>
+                    <p>Pregunta: <span id="question-number">0</span>/<span id="total-questions-2">10</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scales Section -->
+        <div class="section" id="scales">
+            <h2>🎼 Explorador de Escalas Interactivo</h2>
+            
+            <div style="text-align: center; margin-bottom: 40px;">
+                <button class="btn" onclick="showScale('major')">Mayor</button>
+                <button class="btn" onclick="showScale('minor')">Menor</button>
+                <button class="btn" onclick="showScale('dorian')">Dórico</button>
+                <button class="btn" onclick="showScale('phrygian')">Frigio</button>
+                <button class="btn" onclick="showScale('lydian')">Lidio</button>
+                <button class="btn" onclick="showScale('mixolydian')">Mixolidio</button>
+                <button class="btn" onclick="showScale('locrian')">Locrio</button>
+                <button class="btn" onclick="showScale('bebop')">Bebop</button>
+                <button class="btn" onclick="showScale('altered')">Alterada</button>
+                <button class="btn" onclick="showScale('wholetone')">Tonos Enteros</button>
+                <button class="btn" onclick="showScale('diminished')">Disminuida</button>
+                <button class="btn" onclick="showScale('harmonic')">Menor Armónica</button>
+                <button class="btn" onclick="showScale('melodic')">Menor Melódica</button>
+                <button class="btn" onclick="showScale('hungarian')">Húngara</button>
+                <button class="btn" onclick="showScale('japanese')">Japonesa</button>
+                <button class="btn" onclick="showScale('arabic')">Árabe</button>
+            </div>
+            
+            <div class="card">
+                <h4>🎵 Selecciona la tónica:</h4>
+                <select id="scale-root" onchange="updateScale()">
+                    <option value="C">C</option>
+                    <option value="C#">C♯/D♭</option>
+                    <option value="D">D</option>
+                    <option value="Eb">E♭/D♯</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="F#">F♯/G♭</option>
+                    <option value="G">G</option>
+                    <option value="Ab">A♭/G♯</option>
+                    <option value="A">A</option>
+                    <option value="Bb">B♭/A♯</option>
+                    <option value="B">B</option>
+                </select>
+            </div>
+            
+            <div class="card" id="scale-info" style="margin-top: 20px;">
+                <p>Selecciona una escala para explorar sus intervalos y aplicaciones</p>
+            </div>
+            
+            <div class="scale-display" id="scale-notes"></div>
+            
+            <div class="grid" id="scale-details" style="display: none;">
+                <div class="card">
+                    <h4>📊 Intervalos</h4>
+                    <div id="scale-intervals"></div>
+                </div>
+                <div class="card">
+                    <h4>🎵 Acordes de la escala</h4>
+                    <div id="scale-chords"></div>
+                </div>
+                <div class="card">
+                    <h4>🎯 Aplicaciones</h4>
+                    <div id="scale-uses"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de usuario y progresión
+        let userData = {
+            level: 1,
+            xp: 0,
+            streak: 0,
+            achievements: [],
+            completedLessons: [],
+            quizScores: [],
+            lastVisit: new Date().toDateString()
+        };
+
+        // Cargar datos del usuario
+        function loadUserData() {
+            const saved = localStorage.getItem('harmonicaUserData');
+            if (saved) {
+                userData = JSON.parse(saved);
+                // Check streak
+                const today = new Date().toDateString();
+                if (userData.lastVisit !== today) {
+                    const lastDate = new Date(userData.lastVisit);
+                    const todayDate = new Date(today);
+                    const diffTime = Math.abs(todayDate - lastDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    if (diffDays === 1) {
+                        userData.streak++;
+                    } else if (diffDays > 1) {
+                        userData.streak = 1;
+                    }
+                    userData.lastVisit = today;
+                    saveUserData();
+                }
+            }
+            updateUserDisplay();
+        }
+
+        function saveUserData() {
+            localStorage.setItem('harmonicaUserData', JSON.stringify(userData));
+        }
+
+        function updateUserDisplay() {
+            document.getElementById('user-level').textContent = userData.level;
+            document.getElementById('user-xp').textContent = userData.xp;
+            document.getElementById('streak-count').textContent = userData.streak;
+            document.getElementById('streak-display').textContent = userData.streak;
+            
+            // Update main progress
+            const progressPercent = (userData.xp % 100);
+            document.getElementById('main-progress').style.width = progressPercent + '%';
+            
+            // Update stats
+            document.getElementById('achievements-count').textContent = userData.achievements.length;
+            document.getElementById('lessons-count').textContent = userData.completedLessons.length;
+            document.getElementById('xp-needed').textContent = 100 - progressPercent;
+        }
+
+        function addXP(amount) {
+            userData.xp += amount;
+            while (userData.xp >= 100) {
+                userData.xp -= 100;
+                userData.level++;
+                showLevelUp();
+            }
+            saveUserData();
+            updateUserDisplay();
+        }
+
+        function showLevelUp() {
+            const achievement = document.createElement('div');
+            achievement.className = 'achievement';
+            achievement.innerHTML = `
+                <div class="achievement-icon">🎊</div>
+                <div class="achievement-content">
+                    <h4>¡Subiste de Nivel!</h4>
+                    <p>Has alcanzado el nivel ${userData.level}. ¡Sigue así!</p>
+                </div>
+            `;
+            document.querySelector('.container').insertBefore(achievement, document.querySelector('.container').firstChild);
+            setTimeout(() => achievement.remove(), 5000);
+        }
+
+        // Quiz System
+        const quizQuestions = {
+            beginner: [
+                {
+                    question: "¿Cuáles son las notas del acorde C Mayor?",
+                    options: ["C - E - G", "C - E♭ - G", "C - E - G♯", "C - F - G"],
+                    correct: 0,
+                    explanation: "El acorde de C Mayor contiene C (fundamental), E (tercera mayor) y G (quinta justa)."
+                },
+                {
+                    question: "¿Qué intervalo hay entre C y G?",
+                    options: ["Tercera mayor", "Cuarta justa", "Quinta justa", "Sexta mayor"],
+                    correct: 2,
+                    explanation: "Entre C y G hay una quinta justa (7 semitonos)."
+                }
+            ],
+            intermediate: [
+                {
+                    question: "¿Cuáles son las notas del acorde CMaj7?",
+                    options: ["C - E - G - B", "C - E - G - B♭", "C - E♭ - G - B", "C - E - G♯ - B"],
+                    correct: 0,
+                    explanation: "CMaj7 contiene C (1ª), E (3ªM), G (5ª) y B (7ªM)."
+                },
+                {
+                    question: "¿Qué escala se usa sobre un acorde m7♭5?",
+                    options: ["Mayor", "Menor natural", "Locria", "Dórica"],
+                    correct: 2,
+                    explanation: "El modo Locrio es perfecto para m7♭5 ya que contiene todos sus intervalos."
+                }
+            ],
+            advanced: [
+                {
+                    question: "¿Cuáles son las notas del acorde CMaj7♯11?",
+                    options: ["C - E - G - B - F♯", "C - E - G - B - F", "C - E - G - B♭ - F♯", "C - E♭ - G - B - F♯"],
+                    correct: 0,
+                    explanation: "CMaj7♯11 contiene la ♯11 (F♯) que es característica del modo Lidio."
+                },
+                {
+                    question: "¿Qué escala se usa para un acorde C7alt?",
+                    options: ["Mixolidia", "Alterada", "Mayor", "Menor armónica"],
+                    correct: 1,
+                    explanation: "La escala alterada contiene todas las tensiones alteradas: ♭9, ♯9, ♯11, ♭13."
+                }
+            ],
+            expert: [
+                {
+                    question: "En un ii-V-I en F♯ mayor, ¿cuál es la sustitución tritonal del V7?",
+                    options: ["B7", "C7", "G7", "D7"],
+                    correct: 2,
+                    explanation: "El V7 en F♯ es C♯7, su sustitución tritonal es G7 (a distancia de tritono)."
+                },
+                {
+                    question: "¿Qué modo de la menor melódica se usa sobre mMaj7♯5?",
+                    options: ["3er modo", "4to modo", "5to modo", "6to modo"],
+                    correct: 0,
+                    explanation: "El 3er modo (Lidio ♯5) contiene los intervalos necesarios para mMaj7♯5."
+                }
+            ]
+        };
+
+        let currentDifficulty = '';
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let currentQuizQuestions = [];
+
+        function setDifficulty(level) {
+            currentDifficulty = level;
+            currentQuizQuestions = [...quizQuestions[level]];
+            // Add more questions if available
+            while (currentQuizQuestions.length < 10 && quizQuestions[level].length > 0) {
+                currentQuizQuestions.push(...quizQuestions[level]);
+            }
+            currentQuizQuestions = currentQuizQuestions.slice(0, 10);
+            currentQuestionIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-score').textContent = '0';
+            document.getElementById('question-number').textContent = '1';
+            document.getElementById('total-questions').textContent = currentQuizQuestions.length;
+            document.getElementById('total-questions-2').textContent = currentQuizQuestions.length;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= currentQuizQuestions.length) {
+                showQuizResults();
+                return;
+            }
+            
+            const question = currentQuizQuestions[currentQuestionIndex];
+            document.getElementById('question-text').textContent = question.question;
+            
+            const optionsGrid = document.getElementById('options-grid');
+            optionsGrid.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => selectAnswer(btn, index === question.correct);
+                optionsGrid.appendChild(btn);
+            });
+            
+            document.getElementById('next-btn').style.display = 'none';
+            
+            // Update progress
+            const progress = ((currentQuestionIndex) / currentQuizQuestions.length) * 100;
+            document.getElementById('quiz-progress').style.width = progress + '%';
+            document.getElementById('question-number').textContent = currentQuestionIndex + 1;
+        }
+
+        function selectAnswer(button, isCorrect) {
+            const buttons = document.querySelectorAll('#options-grid .option-btn');
+            buttons.forEach(b => b.disabled = true);
+            
+            if (isCorrect) {
+                button.classList.add('correct');
+                quizScore++;
+                addXP(5);
+            } else {
+                button.classList.add('incorrect');
+                // Show correct answer
+                const correctIndex = currentQuizQuestions[currentQuestionIndex].correct;
+                buttons[correctIndex].classList.add('correct');
+            }
+            
+            // Show explanation
+            const explanation = document.createElement('div');
+            explanation.className = 'explanation';
+            explanation.innerHTML = `<strong>💡 Explicación:</strong> ${currentQuizQuestions[currentQuestionIndex].explanation}`;
+            document.getElementById('question-card').appendChild(explanation);
+            
+            document.getElementById('quiz-score').textContent = quizScore;
+            document.getElementById('next-btn').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            const explanation = document.querySelector('.explanation');
+            if (explanation) explanation.remove();
+            loadQuestion();
+        }
+
+        function resetQuiz() {
+            if (currentQuizQuestions.length > 0) {
+                currentQuestionIndex = 0;
+                quizScore = 0;
+                document.getElementById('quiz-score').textContent = '0';
+                loadQuestion();
+            }
+        }
+
+        function showQuizResults() {
+            const percentage = Math.round((quizScore / currentQuizQuestions.length) * 100);
+            let message = '';
+            let emoji = '';
+            let xpEarned = Math.round(percentage / 10) * 10;
+            
+            if (percentage >= 90) {
+                message = '¡Excelente! Dominas este nivel perfectamente.';
+                emoji = '🏆';
+                xpEarned += 20;
+            } else if (percentage >= 70) {
+                message = '¡Muy bien! Tienes un buen dominio del tema.';
+                emoji = '🎯';
+                xpEarned += 10;
+            } else if (percentage >= 50) {
+                message = 'Bien, pero hay margen de mejora.';
+                emoji = '📚';
+            } else {
+                message = 'Necesitas más práctica. ¡No te rindas!';
+                emoji = '💪';
+            }
+            
+            addXP(xpEarned);
+            userData.quizScores.push(percentage);
+            saveUserData();
+            
+            document.getElementById('question-card').innerHTML = `
+                <div style="text-align: center;">
+                    <h3>${emoji} Quiz Completado</h3>
+                    <p style="font-size: 2em; margin: 20px 0; color: var(--primary);">${quizScore}/${currentQuizQuestions.length}</p>
+                    <p style="font-size: 1.3em; margin: 15px 0; color: var(--accent);">${percentage}% correcto</p>
+                    <p style="margin: 20px 0; font-size: 1.1em;">${message}</p>
+                    <p style="color: gold; font-size: 1.2em;">+${xpEarned} XP ganados</p>
+                    <button class="btn" onclick="resetQuiz()" style="margin-top: 20px;">🔄 Intentar de Nuevo</button>
+                </div>
+            `;
+        }
+
+        // Navigation
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(sectionName).classList.add('active');
+            
+            const clickedButton = Array.from(document.querySelectorAll('.nav-btn')).find(btn => 
+                btn.textContent.toLowerCase().includes(
+                    sectionName === 'home' ? 'inicio' : 
+                    sectionName === 'theory' ? 'teoría' :
+                    sectionName === 'quiz' ? 'quiz' :
+                    sectionName === 'scales' ? 'escalas' : ''
+                )
+            );
+            
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+            
+            // Mark lesson as completed when viewing theory
+            if (sectionName === 'theory' && !userData.completedLessons.includes('theory-main')) {
+                userData.completedLessons.push('theory-main');
+                addXP(10);
+                saveUserData();
+            }
+        }
+
+        function showTab(event, tabId) {
+            const container = event.target.closest('.section');
+            container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            container.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Mark tab as completed
+            const lessonId = `theory-${tabId}`;
+            if (!userData.completedLessons.includes(lessonId)) {
+                userData.completedLessons.push(lessonId);
+                addXP(5);
+                saveUserData();
+                updateUserDisplay();
+            }
+        }
+
+        // Scale Functions
+        const scalePatterns = {
+            major: [0, 2, 4, 5, 7, 9, 11],
+            minor: [0, 2, 3, 5, 7, 8, 10],
+            dorian: [0, 2, 3, 5, 7, 9, 10],
+            phrygian: [0, 1, 3, 5, 7, 8, 10],
+            lydian: [0, 2, 4, 6, 7, 9, 11],
+            mixolydian: [0, 2, 4, 5, 7, 9, 10],
+            locrian: [0, 1, 3, 5, 6, 8, 10],
+            bebop: [0, 2, 4, 5, 7, 9, 10, 11],
+            altered: [0, 1, 3, 4, 6, 8, 10],
+            wholetone: [0, 2, 4, 6, 8, 10],
+            diminished: [0, 2, 3, 5, 6, 8, 9, 11],
+            harmonic: [0, 2, 3, 5, 7, 8, 11],
+            melodic: [0, 2, 3, 5, 7, 9, 11],
+            hungarian: [0, 2, 3, 6, 7, 8, 11],
+            japanese: [0, 2, 3, 7, 8],
+            arabic: [0, 1, 4, 5, 7, 8, 11]
+        };
+
+        const scaleInfo = {
+            major: '🎵 Escala Mayor: La escala más fundamental. Sonido brillante y alegre.',
+            minor: '🎭 Escala Menor Natural: Sonido melancólico y emotivo.',
+            dorian: '🎼 Modo Dórico: Menor con 6ª mayor. Sonido jazz y folk.',
+            phrygian: '🌍 Modo Frigio: Sonido español y flamenco con 2ª menor.',
+            lydian: '✨ Modo Lidio: Mayor con #4. Sonido etéreo y flotante.',
+            mixolydian: '🎸 Modo Mixolidio: Mayor con 7ª menor. Sonido blues y rock.',
+            locrian: '⚡ Modo Locrio: Sonido inestable, perfecto para m7♭5.',
+            bebop: '🎷 Escala Bebop: Añade nota de paso para líneas melódicas fluidas.',
+            altered: '🔥 Escala Alterada: Todas las tensiones alteradas sobre dominante.',
+            wholetone: '🌊 Tonos Enteros: Solo intervalos de tono. Sonido onírico.',
+            diminished: '🎭 Escala Disminuida: Alterna tono-semitono. Muy versátil.',
+            harmonic: '🏛️ Menor Armónica: Menor con 7ª mayor. Sonido clásico/exótico.',
+            melodic: '🎼 Menor Melódica: Menor con 6ª y 7ª mayores. Base del jazz moderno.',
+            hungarian: '🎭 Escala Húngara: Exótica con ♯2 y ♯4.',
+            japanese: '🇯🇵 Escala Japonesa (Hirajoshi): Pentatónica tradicional japonesa.',
+            arabic: '🕌 Escala Árabe (Hijaz): Sonido medio-oriental característico.'
+        };
+
+        const scaleUses = {
+            major: 'Música pop, clásica, folk. Base de la armonía occidental.',
+            minor: 'Baladas, música triste, metal, clásica.',
+            dorian: 'Jazz modal, funk, rock progresivo.',
+            phrygian: 'Flamenco, metal, música del medio este.',
+            lydian: 'Jazz modal, bandas sonoras, música new age.',
+            mixolydian: 'Blues, rock, jazz, música celta.',
+            locrian: 'Jazz sobre acordes m7♭5, música experimental.',
+            bebop: 'Jazz bebop, improvisación sobre changes.',
+            altered: 'Jazz moderno sobre dominantes alterados.',
+            wholetone: 'Impresionismo, música de cine, efectos especiales.',
+            diminished: 'Jazz, música clásica del siglo XX.',
+            harmonic: 'Música clásica, metal neoclásico, flamenco.',
+            melodic: 'Jazz moderno, fusion, música contemporánea.',
+            hungarian: 'Música folclórica húngara, jazz experimental.',
+            japanese: 'Música tradicional japonesa, new age.',
+            arabic: 'Música árabe, metal oriental, world music.'
+        };
+
+        let currentScale = 'major';
+        const pianoNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+        function showScale(scaleType) {
+            currentScale = scaleType;
+            updateScale();
+            addXP(1);
+        }
+
+        function updateScale() {
+            const root = document.getElementById('scale-root').value;
+            const rootIndex = pianoNotes.indexOf(root.replace('♯', '#').replace('♭', 'b'));
+            const pattern = scalePatterns[currentScale];
+            
+            const scaleNotes = pattern.map(interval => {
+                const noteIndex = (rootIndex + interval) % 12;
+                return pianoNotes[noteIndex].replace('#', '♯');
+            });
+            
+            // Update display
+            document.getElementById('scale-info').innerHTML = `
+                <h3>${root} ${currentScale.charAt(0).toUpperCase() + currentScale.slice(1)}</h3>
+                <p>${scaleInfo[currentScale]}</p>
+            `;
+            
+            const notesDisplay = document.getElementById('scale-notes');
+            notesDisplay.innerHTML = scaleNotes.map((note, index) => 
+                `<span class="note" onclick="this.classList.toggle('active')" 
+                 title="Grado ${index + 1}">${note}</span>`
+            ).join('');
+            
+            // Show additional details
+            document.getElementById('scale-details').style.display = 'grid';
+            
+            // Update intervals display
+            const intervalsDisplay = document.getElementById('scale-intervals');
+            const intervalNames = ['T', '2ª', '3ª', '4ª', '5ª', '6ª', '7ª', '8ª'];
+            intervalsDisplay.innerHTML = pattern.map((interval, i) => 
+                `${intervalNames[i] || ''}: ${interval} semitonos<br>`
+            ).join('');
+            
+            // Update chords display
+            updateScaleChords(scaleNotes);
+            
+            // Update uses
+            document.getElementById('scale-uses').innerHTML = scaleUses[currentScale];
+        }
+
+        function updateScaleChords(scaleNotes) {
+            const chordsDisplay = document.getElementById('scale-chords');
+            const chordQualities = {
+                major: ['Maj7', 'm7', 'm7', 'Maj7', '7', 'm7', 'm7♭5'],
+                minor: ['m7', 'm7♭5', 'Maj7', 'm7', 'm7', 'Maj7', '7'],
+                dorian: ['m7', 'm7', 'Maj7', '7', 'm7', 'm7♭5', 'Maj7'],
+                phrygian: ['m7', 'Maj7', '7', 'm7', 'm7♭5', 'Maj7', 'm7'],
+                lydian: ['Maj7', '7', 'm7', 'm7♭5', 'Maj7', 'm7', 'm7'],
+                mixolydian: ['7', 'm7', 'm7♭5', 'Maj7', 'm7', 'm7', 'Maj7'],
+                locrian: ['m7♭5', 'Maj7', 'm7', 'm7', 'Maj7', '7', 'm7']
+            };
+            
+            const qualities = chordQualities[currentScale] || chordQualities.major;
+            
+            if (scaleNotes.length >= 7) {
+                chordsDisplay.innerHTML = scaleNotes.slice(0, 7).map((note, i) => 
+                    `${i + 1}. ${note}${qualities[i]}<br>`
+                ).join('');
+            } else {
+                chordsDisplay.innerHTML = 'N/A para esta escala';
+            }
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🎵 Academia de Armonía Moderna - Versión Simplificada');
+            
+            // Load user data
+            loadUserData();
+            
+            // Welcome message
+            const hour = new Date().getHours();
+            let greeting = 'Buenos días';
+            if (hour >= 12 && hour < 19) greeting = 'Buenas tardes';
+            if (hour >= 19) greeting = 'Buenas noches';
+            
+            console.log(`${greeting}! Bienvenido a la Academia de Armonía Moderna 🎵`);
+            
+            // Check for achievements
+            setTimeout(checkAchievements, 1000);
+        });
+
+        // Achievement system
+        function checkAchievements() {
+            const achievements = [
+                { id: 'first_lesson', name: 'Primera Lección', condition: () => userData.completedLessons.length >= 1 },
+                { id: 'theory_novice', name: 'Teórico Novato', condition: () => userData.completedLessons.length >= 5 },
+                { id: 'quiz_starter', name: 'Primer Quiz', condition: () => userData.quizScores.length >= 1 },
+                { id: 'quiz_champion', name: 'Campeón del Quiz', condition: () => userData.quizScores.filter(s => s >= 90).length >= 3 },
+                { id: 'scale_explorer', name: 'Explorador de Escalas', condition: () => userData.level >= 3 }
+            ];
+            
+            achievements.forEach(achievement => {
+                if (!userData.achievements.includes(achievement.id) && achievement.condition()) {
+                    userData.achievements.push(achievement.id);
+                    showAchievement(achievement.name);
+                    addXP(10);
+                }
+            });
+        }
+
+        function showAchievement(name) {
+            const notification = document.createElement('div');
+            notification.className = 'achievement';
+            notification.style.position = 'fixed';
+            notification.style.top = '100px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '1000';
+            notification.innerHTML = `
+                <div class="achievement-icon">🏆</div>
+                <div class="achievement-content">
+                    <h4>¡Logro Desbloqueado!</h4>
+                    <p>${name}</p>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.5s ease';
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+
+        // Auto-save
+        setInterval(() => {
+            saveUserData();
+        }, 30000); // Save every 30 seconds
+
+        console.log('✅ Academia de Armonía Moderna - Carga completa');
+    </script>
+  <script>
+    // ======================================================================
+    //  SO EN DIRECTE (sintetitzador propi, sense dependencies ni fitxers)
+    //
+    //  El mateix motor que fa servir EmotiChords: cada nota porta tres
+    //  harmonics i una caiguda de piano de mes de dos segons (mesurat:
+    //  -23 dB a l'inici, -41 dB al segon i mig).
+    //
+    //  Ofereix:
+    //    window.__so.tocaAcords(["Cmaj7","G7alt"])   -> sona la progressio
+    //    window.__so.tocaNotes(["C","D","Eb"])       -> sona una escala
+    //    window.__so.extreuAcords(text)              -> treu els acords d'un text
+    //    window.__so.boto(text, acords)              -> boto llest per posar
+    // ======================================================================
+    (function () {
+      const SEMI = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+      const QUALITATS = [
+        ["maj7#5#11", [0, 4, 8, 11, 18]], ["maj7#11#5", [0, 4, 8, 11, 18]],
+        ["maj7add#11", [0, 4, 7, 11, 18]], ["maj7#11", [0, 4, 7, 11, 18]],
+        ["maj7#5", [0, 4, 8, 11]], ["maj7add13", [0, 4, 7, 11, 9]],
+        ["maj13#11", [0, 4, 11, 14, 21]], ["maj13", [0, 4, 11, 14, 21]],
+        ["maj11", [0, 4, 7, 11, 14, 17]], ["maj9#11", [0, 4, 7, 11, 14, 18]],
+        ["maj9#5", [0, 4, 8, 11, 14]], ["maj9", [0, 4, 7, 11, 14]],
+        ["maj7", [0, 4, 7, 11]], ["maj", [0, 4, 7]],
+        ["m11", [0, 3, 10, 14, 17]], ["m9", [0, 3, 7, 10, 14]], ["m6", [0, 3, 7, 9]],
+        ["m7b5", [0, 3, 6, 10]], ["m7#5", [0, 3, 8, 10]], ["m7", [0, 3, 7, 10]],
+        ["madd9", [0, 3, 7, 14]], ["madd11", [0, 3, 7, 17]],
+        ["m", [0, 3, 7]], ["dim7", [0, 3, 6, 9]], ["dim", [0, 3, 6]],
+        ["aug", [0, 4, 8]], ["sus4", [0, 5, 7]], ["sus2", [0, 2, 7]], ["sus", [0, 5, 7]],
+        ["add9", [0, 4, 7, 14]], ["6", [0, 4, 7, 9]], ["9", [0, 4, 7, 10, 14]],
+        ["13", [0, 4, 7, 10, 14, 21]], ["11", [0, 4, 7, 10, 14, 17]],
+        ["7b9#11", [0, 4, 10, 13, 18]], ["7#5b9", [0, 4, 8, 10, 13]],
+        ["7alt", [0, 4, 10, 13, 20]], ["7b9", [0, 4, 7, 10, 13]], ["7#9", [0, 4, 7, 10, 15]],
+        ["7b13", [0, 4, 7, 10, 20]], ["7#11", [0, 4, 10, 18]], ["7b5", [0, 4, 6, 10]],
+        ["7#5", [0, 4, 8, 10]], ["7sus4", [0, 5, 7, 10]], ["7sus", [0, 5, 7, 10]],
+        ["7", [0, 4, 7, 10]], ["", [0, 4, 7]]
+      ];
+      const PARCIALS = [[1, 1.0], [2, 0.45], [3, 0.22]];
+      const DUR = 2.3, ATA = 0.008, RELEASE = 0.12, VOL = 0.16;
+
+      function notes(simbol) {
+        let s = String(simbol).trim().replace(/♯/g, "#").replace(/♭/g, "b").replace(/[()]/g, "");
+        s = s.replace(/no5/g, "").replace(/\s+/g, "");
+        if (s.indexOf("/") >= 0) s = s.split("/")[0];
+        const m = s.match(/^([A-G])([#b]?)(.*)$/);
+        if (!m) return null;
+        const arrel = SEMI[m[1]] + (m[2] === "#" ? 1 : m[2] === "b" ? -1 : 0);
+        // la resta en minuscules: "CMaj7" i "Cmaj7" son el mateix
+        let resta = m[3].toLowerCase().replace("min", "m").replace("Δ", "maj");
+        for (const [clau, intervals] of QUALITATS) {
+          if (resta === clau) {
+            const base = 57 + arrel;
+            return intervals.map(i => 440 * Math.pow(2, (base + i - 69) / 12));
+          }
+        }
+        return null;
+      }
+
+      let ctx = null, actius = [];
+      function context() {
+        if (!ctx) {
+          ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const filtre = ctx.createBiquadFilter();
+          filtre.type = "lowpass"; filtre.frequency.value = 5200; filtre.Q.value = 0.4;
+          const master = ctx.createGain(); master.gain.value = 1.7;
+          filtre.connect(master); master.connect(ctx.destination);
+          ctx.__desti = filtre;
+        }
+        if (ctx.state === "suspended") ctx.resume();
+        return ctx;
+      }
+
+      function programa(ctx2, desti, fs, inici, dur, volBase) {
+        const durAc = dur || DUR;
+        const vol = (volBase || VOL) / Math.sqrt(Math.max(1, fs.length));
+        fs.forEach((f, j) => {
+          PARCIALS.forEach(([mult, g]) => {
+            const f2 = f * mult;
+            if (f2 > ctx2.sampleRate / 2 - 500) return;
+            const osc = ctx2.createOscillator(), gan = ctx2.createGain();
+            osc.type = "triangle"; osc.frequency.value = f2;
+            const pic = vol * g, t0 = inici + ATA * (1 + j * 0.35);
+            gan.gain.setValueAtTime(0.0001, Math.max(0, t0 - 0.001));
+            gan.gain.linearRampToValueAtTime(pic, t0);
+            gan.gain.exponentialRampToValueAtTime(pic * 0.30, t0 + durAc * 0.10);
+            gan.gain.exponentialRampToValueAtTime(pic * 0.12, t0 + durAc * 0.55);
+            gan.gain.exponentialRampToValueAtTime(pic * 0.02, t0 + durAc);
+            gan.gain.linearRampToValueAtTime(0.0001, t0 + durAc + RELEASE);
+            osc.connect(gan); gan.connect(desti);
+            osc.start(Math.max(0, t0 - 0.001)); osc.stop(t0 + durAc + RELEASE + 0.02);
+          });
+        });
+      }
+
+      function tocaAcords(acords, etiqueta) {
+        try {
+          const c = context();
+          actius.forEach(o => { try { o.stop(); } catch (e) {} });
+          actius = [];
+          const t0 = c.currentTime + 0.06, fets = [];
+          acords.forEach((s, k) => {
+            const fs = notes(s);
+            if (!fs) return;
+            programa(c, c.__desti, fs, t0 + k * DUR, DUR, VOL);
+            fets.push(s);
+          });
+          window.__so = Object.assign(window.__so || {}, {
+            ultim: { acords: fets, etiqueta: etiqueta || "", durada: fets.length * DUR, quan: Date.now() }
+          });
+          return fets.length;
+        } catch (e) { console.warn("so: error", e); return 0; }
+      }
+
+      // escala: notes una darrere l'altra, mes curtes
+      function tocaNotes(notes_, etiqueta, dura) {
+        try {
+          const c = context();
+          actius.forEach(o => { try { o.stop(); } catch (e) {} });
+          actius = [];
+          const d = dura || 0.85;
+          const t0 = c.currentTime + 0.06;
+          let n = 0;
+          notes_.forEach((s, k) => {
+            const fs = notes(s);
+            if (!fs) return;
+            programa(c, c.__desti, [fs[0]], t0 + k * d, d, VOL * 1.5);
+            n++;
+          });
+          window.__so = Object.assign(window.__so || {}, {
+            ultim: { notes: notes_.length, etiqueta: etiqueta || "", quan: Date.now() }
+          });
+          return n;
+        } catch (e) { console.warn("so: error", e); return 0; }
+      }
+
+      function atura() {
+        actius.forEach(o => { try { o.stop(); } catch (e) {} });
+        actius = [];
+      }
+
+      // Treu els simbols d'acord d'un text (per exemple d'una explicacio).
+      // Nomes accepta simbols amb qualitat o extensio (Cmaj7, Em7, F#m7b5, G/B):
+      // una lletra sola es una NOTA, no un acord, i es descarta.
+      const NOM = "[A-G][#b♯♭]?(?:maj|min|m|dim|aug|sus|add)?\\d*(?:[#b♯♭]\\d+)*(?:\\((?:no|add)\\d+\\))?(?:/(?:[A-G][#b♯♭]?))?";
+      function extreuAcords(text) {
+        const vistos = [], out = [];
+        const re = new RegExp("(^|[\\s(>,·-])(" + NOM + ")(?=[\\s:)-]|$)", "gi");
+        let m;
+        while ((m = re.exec(text)) !== null) {
+          const s = m[2];
+          if (vistos.indexOf(s) >= 0) continue;
+          if (!notes(s)) continue;
+          // ha de tenir qualitat, extensio o inversio: si no, es una nota solta
+          const teQualitat = /[A-G][#b♯♭]?/.test(s) && s.replace(/^[A-G][#b♯♭]?/, "").length > 0;
+          if (!teQualitat && s.indexOf("/") < 0) continue;
+          vistos.push(s); out.push(s);
+        }
+        return out;
+      }
+
+      function boto(text, acords, etiqueta) {
+        const b = document.createElement("button");
+        b.textContent = text;
+        b.setAttribute("data-so", "1");
+        b.style.cssText = "margin:6px 4px; padding:7px 12px; background:#f39c12; color:#fff;" +
+                          "border:none; border-radius:6px; cursor:pointer; font-size:12.5px; font-weight:600;";
+        b.addEventListener("click", () => {
+          const n = tocaAcords(acords, etiqueta);
+          if (n) { b.textContent = "▶ Sonant " + n + " acords";
+                   setTimeout(() => { b.textContent = text; }, n * DUR * 1000); }
+        });
+        return b;
+      }
+
+      window.__so = { notes: notes, tocaAcords: tocaAcords, tocaNotes: tocaNotes,
+                      atura: atura, extreuAcords: extreuAcords, boto: boto, programa: programa };
+    })();
+
+    // ------------------------------------------------------------------
+    //  Botons de so: a cada pestanya de teoria s'hi posa un boto que toca
+    //  els acords que hi surten escrits, i a la seccio d'escales un boto
+    //  per sentir la escala que hi ha a cada fitxa.
+    // ------------------------------------------------------------------
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+        if (!window.__so) { console.warn("so: no trobo el motor"); return; }
+
+        function afegeixAPestanyes() {
+          document.querySelectorAll(".tab-content").forEach(function (pest) {
+            if (pest.querySelector("[data-so]")) return;
+            const acords = window.__so.extreuAcords(pest.innerText || pest.textContent || "");
+            if (acords.length < 2) return;
+            const b = window.__so.boto("▶ Escoltar els " + acords.length + " acords d'aquesta pestanya",
+                                       acords.slice(0, 14), "pestanya");
+            pest.insertBefore(b, pest.firstChild);
+          });
+        }
+
+        function afegeixAEscales() {
+          document.querySelectorAll(".scale-display, .chord-example, .card").forEach(function (bloc) {
+            if (bloc.querySelector("[data-so]")) return;
+            const text = bloc.innerText || bloc.textContent || "";
+            const m = text.match(/Escala\s*:\s*([^\n]+)/i);
+            const acords = window.__so.extreuAcords(text);
+            if (m) {
+              const notes_ = m[1].split(/[-–,·]/).map(s => s.trim())
+                                  .filter(s => /^[A-G][#b♯♭]?$/.test(s));
+              if (notes_.length >= 4) {
+                const b = document.createElement("button");
+                b.textContent = "▶ Escoltar l'escala";
+                b.setAttribute("data-so", "1");
+                b.style.cssText = "margin:6px 4px; padding:7px 12px; background:#9b59b6; color:#fff;" +
+                                  "border:none; border-radius:6px; cursor:pointer; font-size:12.5px; font-weight:600;";
+                b.addEventListener("click", function () { window.__so.tocaNotes(notes_, "escala"); });
+                bloc.insertBefore(b, bloc.firstChild);
+                return;
+              }
+            }
+            if (acords.length >= 2) {
+              bloc.insertBefore(window.__so.boto("▶ Escoltar", acords.slice(0, 12), "bloc"), bloc.firstChild);
+            }
+          });
+        }
+
+        function tot() { afegeixAPestanyes(); afegeixAEscales(); }
+        const origShowTab = window.showTab;
+        if (typeof origShowTab === "function") {
+          window.showTab = function () { const r = origShowTab.apply(null, arguments); setTimeout(tot, 60); return r; };
+        }
+        const origShowSection = window.showSection;
+        if (typeof origShowSection === "function") {
+          window.showSection = function () { const r = origShowSection.apply(null, arguments); setTimeout(tot, 60); return r; };
+        }
+        tot();
+        setInterval(tot, 2000);
+      }, 150);
+    });
+
+  </script>
+</body>
+</html>

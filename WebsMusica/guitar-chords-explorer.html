@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guitar Chords Explorer - Acords Oberts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .chord-dot {
+            transition: all 0.3s ease;
+        }
+        .chord-dot:hover {
+            transform: scale(1.2);
+        }
+        .string-line {
+            stroke: #94a3b8;
+            stroke-width: 2;
+        }
+        .fret-line {
+            stroke: #cbd5e1;
+            stroke-width: 1;
+        }
+        .open-string {
+            fill: white;
+            stroke: #22c55e;
+            stroke-width: 3;
+        }
+        .muted-string {
+            stroke: #ef4444;
+            stroke-width: 3;
+        }
+        .root-note {
+            fill: #f59e0b;
+            stroke: #d97706;
+            stroke-width: 3;
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        .pulse-slow {
+            animation: pulse-slow 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-bold text-white mb-3">🎸 Open Strings Chord Explorer</h1>
+            <p class="text-xl text-purple-100">Descobreix sonoritats úniques amb cordes obertes per tot el màstil</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Left Panel: Chord Library -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-2xl p-6 mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">📚 Biblioteca d'Acords</h2>
+                    
+                    <!-- Search Bar -->
+                    <div class="mb-4">
+                        <input type="text" id="searchInput" placeholder="🔍 Cerca acords..." 
+                               class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    </div>
+
+                    <!-- Favorites Toggle -->
+                    <div class="mb-4 flex gap-2">
+                        <button id="showAllBtn" class="flex-1 bg-purple-500 text-white py-2 px-3 rounded-lg text-sm font-semibold">
+                            Tots
+                        </button>
+                        <button id="showFavoritesBtn" class="flex-1 bg-gray-300 text-gray-700 py-2 px-3 rounded-lg text-sm font-semibold">
+                            ⭐ Favorits
+                        </button>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Zona del Màstil</label>
+                        <select id="fretZoneFilter" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <option value="all">Totes les zones</option>
+                            <option value="low">Trasts 0-5 (Posició baixa)</option>
+                            <option value="mid">Trasts 5-9 (Posició mitjana)</option>
+                            <option value="high">Trasts 9-12 (Posició alta)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Cordes Obertes</label>
+                        <select id="openStringsFilter" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <option value="all">Qualsevol quantitat</option>
+                            <option value="many">3+ cordes obertes</option>
+                            <option value="some">1-2 cordes obertes</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Sonoritat</label>
+                        <select id="moodFilter" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <option value="all">Totes</option>
+                            <option value="bright">Brillant</option>
+                            <option value="mellow">Suau</option>
+                            <option value="mysterious">Misteriós</option>
+                            <option value="jazzy">Jazzístic</option>
+                        </select>
+                    </div>
+
+                    <!-- Playability Toggle -->
+                    <div class="mb-4 flex items-center gap-2">
+                        <input type="checkbox" id="playableOnlyToggle" class="h-4 w-4" checked>
+                        <label for="playableOnlyToggle" class="text-sm text-gray-700">Només acords tocables</label>
+                    </div>
+
+                    <!-- Playability Level -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nivell de Tocabilitat</label>
+                        <select id="playabilityLevel" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <option value="conservador" selected>Conservador (abast ≤ 4)</option>
+                            <option value="relaxat">Relaxat (abast ≤ 5)</option>
+                            <option value="estricte">Estricte (abast ≤ 3)</option>
+                        </select>
+                    </div>
+
+                    <!-- Avoid Barre -->
+                    <div class="mb-4 flex items-center gap-2">
+                        <input type="checkbox" id="avoidBarreToggle" class="h-4 w-4" checked>
+                        <label for="avoidBarreToggle" class="text-sm text-gray-700">Evitar acord amb barré</label>
+                    </div>
+
+                    <!-- Chord List -->
+                    <div id="chordList" class="space-y-2 max-h-96 overflow-y-auto">
+                        <!-- Chords will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Audio Controls -->
+                <div class="bg-white rounded-xl shadow-2xl p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">🔊 Controls d'Àudio</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tempo (BPM)</label>
+                            <input type="range" id="tempoSlider" min="40" max="200" value="90" 
+                                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            <div class="text-center text-sm text-gray-600 mt-1">
+                                <span id="tempoValue">90</span> BPM
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Estil de Reproducció</label>
+                            <select id="playStyle" class="w-full p-2 border border-gray-300 rounded-lg">
+                                <option value="strum">Rascat</option>
+                                <option value="arpeggio">Arpegiat</option>
+                            </select>
+                        </div>
+                        <button id="playChordBtn" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 px-4 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all font-semibold shadow-lg">
+                            ▶️ Reproduir Acord
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preset Progressions -->
+                <div class="bg-white rounded-xl shadow-2xl p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">🎼 Progressions Predefinides</h2>
+                    <select id="presetProgressions" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 mb-3">
+                        <option value="">Selecciona una progressió...</option>
+                        <optgroup label="Clàssiques">
+                            <option value="pop">🎵 Pop Clàssic (I-V-vi-IV)</option>
+                            <option value="jazz">🎷 Jazz Standard (ii-V-I)</option>
+                            <option value="andalusa">🎸 Andalusa</option>
+                        </optgroup>
+                        <optgroup label="Modernes">
+                            <option value="folk">🌲 Folk Oberta</option>
+                            <option value="modal">🌌 Exploració Modal</option>
+                            <option value="ethereal">✨ Etèria</option>
+                            <option value="suspended">💫 Suspesa</option>
+                        </optgroup>
+                        <optgroup label="Avançades">
+                            <option value="slash">📐 Slash Chords</option>
+                            <option value="descending">⬇️ Baix Descendent</option>
+                            <option value="bossa">🇧🇷 Bossa Nova</option>
+                        </optgroup>
+                    </select>
+                    <button id="playPresetBtn" class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 px-4 rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all font-semibold">
+                        ▶️ Reproduir Progressió
+                    </button>
+                </div>
+            </div>
+
+            <!-- Center Panel: Guitar Neck Visualization -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-2xl p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-800" id="currentChordName">Selecciona un acord</h2>
+                            <p class="text-sm text-gray-600 mt-1" id="chordTheory">Explora la biblioteca per començar</p>
+                        </div>
+                        <div class="text-right flex items-center gap-3">
+                            <button id="favoriteBtn" class="text-3xl hover:scale-110 transition-transform" title="Afegir a favorits">
+                                ☆
+                            </button>
+                            <div>
+                                <div class="text-sm text-gray-600">Voicing</div>
+                                <div class="text-lg font-semibold text-purple-600" id="chordVoicing">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guitar Neck Canvas -->
+                    <div class="bg-gradient-to-b from-amber-800 to-amber-900 rounded-lg p-6 mb-4">
+                        <svg id="guitarNeck" width="100%" height="400" viewBox="0 0 800 400">
+                            <!-- Guitar neck will be drawn here -->
+                        </svg>
+                    </div>
+
+                    <!-- Chord Info -->
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="bg-purple-50 rounded-lg p-4">
+                            <h3 class="font-semibold text-purple-900 mb-2">🎵 Notes de l'Acord</h3>
+                            <div id="chordNotes" class="text-gray-700 flex flex-wrap gap-2">-</div>
+                        </div>
+                        <div class="bg-blue-50 rounded-lg p-4">
+                            <h3 class="font-semibold text-blue-900 mb-2">🔄 Transicions Recomanades</h3>
+                            <div id="chordTransitions" class="flex flex-wrap gap-1">
+                                <!-- Transitions will appear here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Theory Explanation -->
+                    <div class="bg-amber-50 rounded-lg p-4">
+                        <h3 class="font-semibold text-amber-900 mb-2">📖 Teoria Musical</h3>
+                        <p id="theoryExplanation" class="text-gray-700 text-sm leading-relaxed">
+                            Selecciona un acord per veure explicacions teòriques sobre la seva construcció i ús.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Training Mode -->
+                <div class="bg-white rounded-xl shadow-2xl p-6 mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">🎓 Mode d'Entrenament</h2>
+                    
+                    <div class="space-y-3">
+                        <button id="quizChordBtn" class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 px-4 rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all font-semibold shadow-lg">
+                            🎯 Quiz: Identifica l'Acord
+                        </button>
+                        
+                        <button id="transitionChallengeBtn" class="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white py-3 px-4 rounded-lg hover:from-green-600 hover:to-teal-600 transition-all font-semibold shadow-lg">
+                            🔄 Desafiament de Transicions
+                        </button>
+                        
+                        <button id="earTrainingBtn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all font-semibold shadow-lg">
+                            👂 Entrenament d'Orella
+                        </button>
+                    </div>
+                    
+                    <div id="trainingResult" class="mt-4 p-4 rounded-lg bg-gray-50 hidden">
+                        <div id="trainingMessage" class="text-center font-semibold mb-2"></div>
+                        <div id="trainingScore" class="text-center text-sm text-gray-600"></div>
+                    </div>
+                </div>
+
+                <!-- Chord Variations & Exploration -->
+                <div class="bg-white rounded-xl shadow-2xl p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">🔍 Exploració de Variacions</h2>
+                    
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 mb-4">
+                        <p class="text-sm text-gray-700 mb-3">
+                            <strong>🎯 Consell:</strong> Compara diferents voicings del mateix acord per trobar sonoritats úniques!
+                        </p>
+                        <button id="showVariationsBtn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all font-semibold">
+                            🎸 Mostra Variacions de l'Acord Actual
+                        </button>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">🎲 Descobriment Aleatori</h3>
+                        <div class="flex gap-2">
+                            <button id="randomBrightBtn" class="flex-1 bg-yellow-400 text-gray-800 py-2 px-3 rounded-lg hover:bg-yellow-500 transition-all text-sm font-semibold">
+                                ☀️ Brillant
+                            </button>
+                            <button id="randomMellowBtn" class="flex-1 bg-blue-400 text-white py-2 px-3 rounded-lg hover:bg-blue-500 transition-all text-sm font-semibold">
+                                🌙 Suau
+                            </button>
+                            <button id="randomMysteriousBtn" class="flex-1 bg-purple-400 text-white py-2 px-3 rounded-lg hover:bg-purple-500 transition-all text-sm font-semibold">
+                                🌌 Misteriós
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Tool -->
+                    <div class="bg-amber-50 rounded-lg p-4">
+                        <h3 class="font-semibold text-amber-900 mb-2">⚖️ Comparador d'Acords</h3>
+                        <p class="text-xs text-gray-600 mb-3">Afegeix acords per comparar les seves sonoritats</p>
+                        <div class="flex gap-2 mb-3">
+                            <button id="addToCompareBtn" class="flex-1 bg-amber-500 text-white py-2 px-4 rounded-lg hover:bg-amber-600 transition-all text-sm">
+                                ➕ Afegir
+                            </button>
+                            <button id="clearCompareBtn" class="flex-1 bg-gray-400 text-white py-2 px-4 rounded-lg hover:bg-gray-500 transition-all text-sm">
+                                🗑️ Netejar
+                            </button>
+                        </div>
+                        <div id="compareList" class="space-y-2 max-h-48 overflow-y-auto">
+                            <span class="text-gray-400 text-xs">Cap acord afegit...</span>
+                        </div>
+                        <button id="playCompareBtn" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white py-2 px-4 rounded-lg hover:from-amber-600 hover:to-orange-600 transition-all font-semibold mt-3 text-sm">
+                            ▶️ Reproduir Comparació
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CHORD DATABASE - OPEN STRINGS FOCUS
+        // Acords amb cordes obertes per tot el màstil
+        // ============================================
+        const chordDatabase = [
+            // G Major Voicings
+            {
+                name: "G (Open)", root: "G", type: "major",
+                frets: [3, 2, 0, 0, 0, 3],
+                fingers: [2, 1, 0, 0, 0, 3],
+                openStrings: [false, false, true, true, true, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["G", "B", "D", "G", "B", "G"],
+                openStringCount: 3,
+                theory: "La posició clàssica de G amb 3 cordes obertes (D, G, B) crea un so ple i ressonant. Perfecte per començar a explorar sonoritats obertes.",
+                transitions: ["G (7è trast)", "Gmaj7", "G6"]
+            },
+            {
+                name: "G (7è trast)", root: "G", type: "major",
+                frets: [3, 2, 0, 0, 7, 7],
+                fingers: [2, 1, 0, 0, 3, 4],
+                openStrings: [false, false, true, true, false, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 7, voicing: "Posició 0-7", zone: "mid",mood: "bright",
+                notes: ["G", "B", "D", "G", "D", "G"],
+                openStringCount: 2,
+                theory: "Variació de G que porta les dues cordes agudes al 7è trast, mantenint D i G obertes. Crea un so més compacte a l'agut amb ressonància al greu.",
+                transitions: ["G (Open)", "D (Open)", "Em7 (7è)"]
+            },
+            {
+                name: "G6", root: "G", type: "extended",
+                frets: [3, 2, 0, 0, 0, 0],
+                fingers: [3, 2, 0, 0, 0, 0],
+                openStrings: [false, false, true, true, true, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["G", "B", "D", "G", "B", "E"],
+                openStringCount: 4,
+                theory: "G6 amb 4 cordes obertes crea una sonoritat lluminosa i etèria. La sisena (E) afegida per la corda oberta aguda dona un color modern i sofisticat.",
+                transitions: ["Em7", "Am7", "Cmaj7"]
+            },
+            {
+                name: "Gmaj7 (Low)", root: "G", type: "extended",
+                frets: [3, 2, 0, 0, 0, 2],
+                fingers: [3, 2, 0, 0, 0, 1],
+                openStrings: [false, false, true, true, true, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "jazzy",
+                notes: ["G", "B", "D", "G", "B", "F#"],
+                openStringCount: 3,
+                theory: "Gmaj7 amb 3 cordes obertes crea una sonoritat sofisticada i jazzística. La setena major (F#) amb les cordes obertes dona un so contemplatiu.",
+                transitions: ["Cmaj7", "Am7", "D9"]
+            },
+            {
+                name: "Gmaj7 (Mid)", root: "G", type: "extended",
+                frets: [3, 5, 4, 0, 0, 2],
+                fingers: [2, 4, 3, 0, 0, 1],
+                openStrings: [false, false, false, true, true, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 5, voicing: "Posició 2-5", zone: "mid", mood: "jazzy",
+                notes: ["G", "D", "F#", "G", "B", "F#"],
+                openStringCount: 2,
+                theory: "Voicing alternatiu de Gmaj7 al mig del màstil amb cordes G i B obertes. Crea una textura rica amb harmònics naturals que ressonen magníficament.",
+                transitions: ["Em9", "Am11", "D6"]
+            },
+            // C Voicings
+            {
+                name: "C (Open)", root: "C", type: "major",
+                frets: [-1, 3, 2, 0, 1, 0],
+                fingers: [0, 3, 2, 0, 1, 0],
+                openStrings: [false, false, false, true, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["X", "C", "E", "G", "C", "E"],
+                openStringCount: 2,
+                theory: "C major clàssic amb dues cordes obertes (G i Mi aguda) que creen brillantor natural. Ideal per començar l'exploració de sonoritats obertes.",
+                transitions: ["C (5è)", "Cadd9", "Cmaj7"]
+            },
+            {
+                name: "C (5è trast)", root: "C", type: "major",
+                frets: [-1, 3, 2, 0, 5, 5],
+                fingers: [0, 2, 1, 0, 3, 4],
+                openStrings: [false, false, false, true, false, false],
+                muted: [true, false, false, false, false, false],
+                bassFret: 5, voicing: "Posició 2-5", zone: "mid", mood: "bright",
+                notes: ["X", "C", "E", "G", "E", "G"],
+                openStringCount: 1,
+                theory: "C amb la corda G oberta i les agudes al 5è trast. Sonoritat més compacta mantenint la ressonància central - perfecte per descobrir noves textures.",
+                transitions: ["G (7è)", "Am (5è)", "Em7"]
+            },
+            {
+                name: "Cadd9", root: "C", type: "extended",
+                frets: [-1, 3, 2, 0, 3, 0],
+                fingers: [0, 2, 1, 0, 3, 0],
+                openStrings: [false, false, false, true, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "mellow",
+                notes: ["X", "C", "E", "G", "D", "E"],
+                openStringCount: 2,
+                theory: "Cadd9 amb la novena (D) incorporada. Les dues cordes obertes (G i Mi) creen una base ressonant per aquesta extensió moderna i etèria.",
+                transitions: ["G6", "Am7", "Dsus4"]
+            },
+            {
+                name: "Cmaj7", root: "C", type: "extended",
+                frets: [-1, 3, 2, 0, 0, 0],
+                fingers: [0, 3, 2, 0, 0, 0],
+                openStrings: [false, false, false, true, true, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "jazzy",
+                notes: ["X", "C", "E", "G", "B", "E"],
+                openStringCount: 3,
+                theory: "Cmaj7 amb 3 cordes obertes! La setena major (B) oberta crea un so ric i jazzístic amb màxima ressonància. Una joia harmònica.",
+                transitions: ["Fmaj7", "Am7", "Gmaj7"]
+            },
+            // D Voicings
+            {
+                name: "D (Open)", root: "D", type: "major",
+                frets: [-1, -1, 0, 2, 3, 2],
+                fingers: [0, 0, 0, 1, 3, 2],
+                openStrings: [false, false, true, false, false, false],
+                muted: [true, true, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["X", "X", "D", "A", "D", "F#"],
+                openStringCount: 1,
+                theory: "D major clàssic amb la corda D oberta com a fonamental. Compact i brillant - la base per explorar variations més riques del màstil.",
+                transitions: ["D (7è)", "Dsus4", "D9"]
+            },
+            {
+                name: "D (7è trast)", root: "D", type: "major",
+                frets: [-1, -1, 0, 7, 7, 7],
+                fingers: [0, 0, 0, 1, 2, 3],
+                openStrings: [false, false, true, false, false, false],
+                muted: [true, true, false, false, false, false],
+                bassFret: 7, voicing: "Posició 0-7", zone: "mid", mood: "bright",
+                notes: ["X", "X", "D", "A", "D", "F#"],
+                openStringCount: 1,
+                theory: "D amb les tres cordes agudes al 7è trast i D oberta. Sonoritat més aguda i compacta mantenint la ressonància de la fonamental oberta.",
+                transitions: ["G (7è)", "Em7", "Am9"]
+            },
+            {
+                name: "Dsus4", root: "D", type: "sus",
+                frets: [-1, -1, 0, 2, 3, 3],
+                fingers: [0, 0, 0, 1, 3, 4],
+                openStrings: [false, false, true, false, false, false],
+                muted: [true, true, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-3", zone: "low", mood: "mellow",
+                notes: ["X", "X", "D", "A", "D", "G"],
+                openStringCount: 1,
+                theory: "Dsus4 amb D oberta crea una suspensió harmònica amb tensió que busca resolució. La corda oberta dona profunditat al so suspès.",
+                transitions: ["D (Open)", "G6", "Cadd9"]
+            },
+            {
+                name: "D9", root: "D", type: "extended",
+                frets: [-1, -1, 0, 2, 1, 0],
+                fingers: [0, 0, 0, 2, 1, 0],
+                openStrings: [false, false, true, false, false, true],
+                muted: [true, true, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "jazzy",
+                notes: ["X", "X", "D", "A", "C", "E"],
+                openStringCount: 2,
+                theory: "D9 amb dues cordes obertes (D i Mi aguda). La novena (E) oberta crea una sonoritat jazzística i espaciosa amb ressonància natural.",
+                transitions: ["Gmaj7", "Em7", "Am11"]
+            },
+            // A Voicings
+            {
+                name: "A (Open)", root: "A", type: "major",
+                frets: [-1, 0, 2, 2, 2, 0],
+                fingers: [0, 0, 1, 2, 3, 0],
+                openStrings: [false, true, false, false, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "bright",
+                notes: ["X", "A", "E", "A", "C#", "E"],
+                openStringCount: 2,
+                theory: "A major amb dues cordes obertes (A i Mi aguda) crea un so equilibrat i ressonant. La base perfecta per explorar variacions per tot el màstil.",
+                transitions: ["A (5è)", "A (9è)", "Aadd9"]
+            },
+            {
+                name: "A (5è trast)", root: "A", type: "major",
+                frets: [-1, 0, 2, 2, 5, 5],
+                fingers: [0, 0, 1, 2, 3, 4],
+                openStrings: [false, true, false, false, false, false],
+                muted: [true, false, false, false, false, false],
+                bassFret: 5, voicing: "Posició 2-5", zone: "mid", mood: "bright",
+                notes: ["X", "A", "E", "A", "E", "A"],
+                openStringCount: 1,
+                theory: "A amb la corda A oberta i les dues agudes al 5è trast. Crea una sonoritat més tancada a l'agut mantenint la fonamental oberta ressonant.",
+                transitions: ["D (7è)", "E9", "F#m7"]
+            },
+            {
+                name: "A (9è trast)", root: "A", type: "major",
+                frets: [-1, 0, 2, 2, 10, 9],
+                fingers: [0, 0, 1, 2, 4, 3],
+                openStrings: [false, true, false, false, false, false],
+                muted: [true, false, false, false, false, false],
+                bassFret: 10, voicing: "Posició 2-10", zone: "high", mood: "mysterious",
+                notes: ["X", "A", "E", "A", "A", "F#"],
+                openStringCount: 1,
+                theory: "A amb les agudes al 9è-10è trast i A oberta. Sonoritat única a la zona alta del màstil amb la profunditat de la corda oberta.",
+                transitions: ["G (7è)", "D (7è)", "Em9"]
+            },
+            {
+                name: "Aadd9", root: "A", type: "extended",
+                frets: [-1, 0, 2, 4, 2, 0],
+                fingers: [0, 0, 1, 4, 2, 0],
+                openStrings: [false, true, false, false, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 4, voicing: "Posició 2-4", zone: "low", mood: "mellow",
+                notes: ["X", "A", "E", "B", "C#", "E"],
+                openStringCount: 2,
+                theory: "Aadd9 amb dues cordes obertes (A i Mi). La novena (B) al 4t trast crea una extensió moderna amb ressonància natural amplificada.",
+                transitions: ["D9", "E9", "F#m7"]
+            },
+            {
+                name: "Amaj7", root: "A", type: "extended",
+                frets: [-1, 0, 2, 1, 2, 0],
+                fingers: [0, 0, 3, 1, 4, 0],
+                openStrings: [false, true, false, false, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 1-2", zone: "low", mood: "jazzy",
+                notes: ["X", "A", "E", "G#", "C#", "E"],
+                openStringCount: 2,
+                theory: "Amaj7 amb dues cordes obertes. La setena major (G#) crea una sonoritat jazzística elegant amb la ressonància de les cordes obertes.",
+                transitions: ["Dmaj7", "F#m7", "Bm7"]
+            },
+            // E Voicings
+            {
+                name: "E (Open)", root: "E", type: "major",
+                frets: [0, 2, 2, 1, 0, 0],
+                fingers: [0, 2, 3, 1, 0, 0],
+                openStrings: [true, false, false, false, true, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "bright",
+                notes: ["E", "B", "E", "G#", "B", "E"],
+                openStringCount: 3,
+                theory: "E major amb 3 cordes obertes (Mi greu, Si, Mi aguda) és un dels acords més potents. Màxima ressonància per rock i blues.",
+                transitions: ["E (7è)", "E (9è)", "Esus4"]
+            },
+            {
+                name: "E (7è trast)", root: "E", type: "major",
+                frets: [0, 2, 2, 1, 0, 7],
+                fingers: [0, 2, 3, 1, 0, 4],
+                openStrings: [true, false, false, false, true, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 7, voicing: "Posició 0-7", zone: "mid", mood: "bright",
+                notes: ["E", "B", "E", "G#", "B", "B"],
+                openStringCount: 2,
+                theory: "E amb Mi greu i Si obertes, la corda aguda al 7è trast. Combina la profunditat del baix obert amb brillantor a l'agut.",
+                transitions: ["A (5è)", "B7", "C#m7"]
+            },
+            {
+                name: "E (9è trast)", root: "E", type: "major",
+                frets: [0, 2, 2, 9, 9, 9],
+                fingers: [0, 1, 2, 3, 3, 3],
+                openStrings: [true, false, false, false, false, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 9, voicing: "Posició 2-9", zone: "high", mood: "mysterious",
+                notes: ["E", "B", "E", "C#", "E", "G#"],
+                openStringCount: 1,
+                theory: "E amb Mi greu oberta i les tres agudes al 9è trast. Sonoritat única que combina la profunditat del baix obert amb textura alta.",
+                transitions: ["Amaj7", "F#m9", "B7"]
+            },
+            {
+                name: "E6", root: "E", type: "extended",
+                frets: [0, 2, 2, 1, 2, 0],
+                fingers: [0, 2, 3, 1, 4, 0],
+                openStrings: [true, false, false, false, false, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 1-2", zone: "low", mood: "bright",
+                notes: ["E", "B", "E", "G#", "C#", "E"],
+                openStringCount: 2,
+                theory: "E6 amb dues cordes obertes (Mi greu i aguda). La sisena (C#) afegeix color brillant amb ressonància amplificada.",
+                transitions: ["A6", "C#m7", "F#m7"]
+            },
+            {
+                name: "E9", root: "E", type: "extended",
+                frets: [0, 2, 0, 1, 0, 0],
+                fingers: [0, 2, 0, 1, 0, 0],
+                openStrings: [true, false, true, false, true, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "jazzy",
+                notes: ["E", "B", "D", "G#", "B", "E"],
+                openStringCount: 4,
+                theory: "E9 amb 4 cordes obertes! La novena (F#) implícita i setena menor creen un so bluesy i ressonant. Una joia harmònica per explorar.",
+                transitions: ["A9", "Am9", "B7"]
+            },
+            {
+                name: "Esus4", root: "E", type: "sus",
+                frets: [0, 2, 2, 2, 0, 0],
+                fingers: [0, 1, 2, 3, 0, 0],
+                openStrings: [true, false, false, false, true, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "mellow",
+                notes: ["E", "B", "E", "A", "B", "E"],
+                openStringCount: 3,
+                theory: "Esus4 amb 3 cordes obertes suspèn la tercera per la quarta (A), creant tensió harmònica que busca resolució amb ressonància natural.",
+                transitions: ["E (Open)", "Asus2", "A (Open)"]
+            },
+            // Em Voicings
+            {
+                name: "Em (Open)", root: "E", type: "minor",
+                frets: [0, 2, 2, 0, 0, 0],
+                fingers: [0, 2, 3, 0, 0, 0],
+                openStrings: [true, false, false, true, true, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "mellow",
+                notes: ["E", "B", "E", "G", "B", "E"],
+                openStringCount: 4,
+                theory: "Em amb 4 cordes obertes és l'acord menor més ressonant. El so ample i melancòlic és perfecte per balades i exploració emocional.",
+                transitions: ["Em7", "Em9", "Em (7è)"]
+            },
+            {
+                name: "Em (7è trast)", root: "E", type: "minor",
+                frets: [0, 2, 2, 0, 7, 7],
+                fingers: [0, 2, 3, 0, 4, 4],
+                openStrings: [true, false, false, true, false, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 7, voicing: "Posició 0-7", zone: "mid", mood: "mysterious",
+                notes: ["E", "B", "E", "G", "E", "G"],
+                openStringCount: 2,
+                theory: "Em amb Mi greu i G obertes, agudes al 7è. Combina la profunditat menor amb brillantor a la zona mitjana del màstil.",
+                transitions: ["Am (5è)", "Cmaj7", "D9"]
+            },
+            {
+                name: "Em7", root: "E", type: "extended",
+                frets: [0, 2, 2, 0, 3, 0],
+                fingers: [0, 2, 3, 0, 4, 0],
+                openStrings: [true, false, false, true, false, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "jazzy",
+                notes: ["E", "B", "E", "G", "D", "E"],
+                openStringCount: 3,
+                theory: "Em7 amb 3 cordes obertes (Mi greu, G, Mi aguda). La setena menor (D) amb cordes obertes crea un color jazzístic i contemplatiu.",
+                transitions: ["Am7", "Cmaj7", "D9"]
+            },
+            {
+                name: "Em9", root: "E", type: "extended",
+                frets: [0, 2, 0, 0, 0, 0],
+                fingers: [0, 1, 0, 0, 0, 0],
+                openStrings: [true, false, true, true, true, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "mysterious",
+                notes: ["E", "B", "D", "G", "B", "E"],
+                openStringCount: 5,
+                theory: "Em9 amb 5 cordes obertes! Només un dit premut crea una sonoritat etèria i espaciosa. Perfecte per ambients misteriosos i contemplatius.",
+                transitions: ["Am11", "Cmaj7", "G6"]
+            },
+            // Am Voicings
+            {
+                name: "Am (Open)", root: "A", type: "minor",
+                frets: [-1, 0, 2, 2, 1, 0],
+                fingers: [0, 0, 2, 3, 1, 0],
+                openStrings: [false, true, false, false, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "mellow",
+                notes: ["X", "A", "E", "A", "C", "E"],
+                openStringCount: 2,
+                theory: "Am amb dues cordes obertes (A i Mi aguda). El parent menor de C major amb profunditat i ressonància natural.",
+                transitions: ["Am7", "Am (5è)", "Am11"]
+            },
+            {
+                name: "Am (5è trast)", root: "A", type: "minor",
+                frets: [-1, 0, 2, 2, 5, 5],
+                fingers: [0, 0, 1, 2, 3, 4],
+                openStrings: [false, true, false, false, false, false],
+                muted: [true, false, false, false, false, false],
+                bassFret: 5, voicing: "Posició 2-5", zone: "mid", mood: "mellow",
+                notes: ["X", "A", "E", "A", "E", "A"],
+                openStringCount: 1,
+                theory: "Am amb A oberta i les dues agudes al 5è trast. Sonoritat menor compacta mantenint la ressonància de la fonamental oberta.",
+                transitions: ["Em (7è)", "Dm7", "G (7è)"]
+            },
+            {
+                name: "Am7", root: "A", type: "extended",
+                frets: [-1, 0, 2, 0, 1, 0],
+                fingers: [0, 0, 2, 0, 1, 0],
+                openStrings: [false, true, false, true, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "jazzy",
+                notes: ["X", "A", "E", "G", "C", "E"],
+                openStringCount: 3,
+                theory: "Am7 amb 3 cordes obertes (A, G, Mi aguda) crea un acord contemplatiu i versàtil. La setena menor (G) oberta amplifica el caràcter jazzístic.",
+                transitions: ["Dm7", "Fmaj7", "Cmaj7"]
+            },
+            {
+                name: "Am11", root: "A", type: "extended",
+                frets: [-1, 0, 0, 0, 1, 0],
+                fingers: [0, 0, 0, 0, 1, 0],
+                openStrings: [false, true, true, true, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 1, voicing: "Posició 0-1", zone: "low", mood: "mysterious",
+                notes: ["X", "A", "D", "G", "C", "E"],
+                openStringCount: 4,
+                theory: "Am11 amb 4 cordes obertes! Només un dit premut crea una sonoritat expandida i atmosfèrica. La onzena (D) oberta dona profunditat modal.",
+                transitions: ["Em9", "Fmaj7", "G6"]
+            },
+            // Dm Voicings
+            {
+                name: "Dm (Open)", root: "D", type: "minor",
+                frets: [-1, -1, 0, 2, 3, 1],
+                fingers: [0, 0, 0, 2, 3, 1],
+                openStrings: [false, false, true, false, false, false],
+                muted: [true, true, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "mellow",
+                notes: ["X", "X", "D", "A", "D", "F"],
+                openStringCount: 1,
+                theory: "Dm amb D oberta té caràcter introspectiu i melancòlic. La corda oberta proporciona estabilitat mentre completa l'harmonia menor.",
+                transitions: ["Dm7", "Dm (5è)", "Am7"]
+            },
+            {
+                name: "Dm (5è trast)", root: "D", type: "minor",
+                frets: [-1, -1, 0, 2, 6, 5],
+                fingers: [0, 0, 0, 1, 4, 3],
+                openStrings: [false, false, true, false, false, false],
+                muted: [true, true, false, false, false, false],
+                bassFret: 6, voicing: "Posició 2-6", zone: "mid", mood: "mysterious",
+                notes: ["X", "X", "D", "A", "F", "C"],
+                openStringCount: 1,
+                theory: "Dm amb D oberta i les agudes al 5è-6è trast. Voicing alternatiu que explora la zona mitjana mantenint la fonamental oberta.",
+                transitions: ["Am (5è)", "G (7è)", "Em (7è)"]
+            },
+            {
+                name: "Dm7", root: "D", type: "extended",
+                frets: [-1, -1, 0, 2, 1, 1],
+                fingers: [0, 0, 0, 3, 1, 2],
+                openStrings: [false, false, true, false, false, false],
+                muted: [true, true, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "jazzy",
+                notes: ["X", "X", "D", "A", "C", "F"],
+                openStringCount: 1,
+                theory: "Dm7 amb D oberta afegeix profunditat amb la setena menor (C). Essencial per jazz i música latina amb ressonància natural.",
+                transitions: ["G7", "Cmaj7", "Am7"]
+            },
+            // Acords de 7a amb cordes obertes
+            {
+                name: "G7 (Open)", root: "G", type: "7th",
+                frets: [3, 2, 0, 0, 0, 1],
+                fingers: [3, 2, 0, 0, 0, 1],
+                openStrings: [false, false, true, true, true, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["G", "B", "D", "G", "B", "F"],
+                openStringCount: 3,
+                theory: "G7 amb 3 cordes obertes és el dominant en C. La setena menor (F) amb cordes obertes crea tensió ressonant que busca resolució.",
+                transitions: ["Cmaj7", "Am7", "D7"]
+            },
+            {
+                name: "D7 (Open)", root: "D", type: "7th",
+                frets: [-1, -1, 0, 2, 1, 2],
+                fingers: [0, 0, 0, 2, 1, 3],
+                openStrings: [false, false, true, false, false, false],
+                muted: [true, true, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "bright",
+                notes: ["X", "X", "D", "A", "C", "F#"],
+                openStringCount: 1,
+                theory: "D7 amb D oberta és el dominant de G. El trítono característic amb la ressonància de la fonamental oberta crea tensió potent.",
+                transitions: ["Gmaj7", "Em7", "A7"]
+            },
+            {
+                name: "A7 (Open)", root: "A", type: "7th",
+                frets: [-1, 0, 2, 0, 2, 0],
+                fingers: [0, 0, 2, 0, 3, 0],
+                openStrings: [false, true, false, true, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "bright",
+                notes: ["X", "A", "E", "G", "C#", "E"],
+                openStringCount: 3,
+                theory: "A7 amb 3 cordes obertes domina cap a D. El so bluesy i ressonant és perfecte per progressions de 12 compassos amb màxima amplitud.",
+                transitions: ["D9", "Dm7", "G7"]
+            },
+            {
+                name: "E7 (Open)", root: "E", type: "7th",
+                frets: [0, 2, 0, 1, 0, 0],
+                fingers: [0, 2, 0, 1, 0, 0],
+                openStrings: [true, false, true, false, true, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "bright",
+                notes: ["E", "B", "D", "G#", "B", "E"],
+                openStringCount: 4,
+                theory: "E7 amb 4 cordes obertes és potent i directe. Dominant d'A amb ressonància màxima - ideal per blues i rock amb textura oberta.",
+                transitions: ["Amaj7", "Am7", "D9"]
+            },
+            {
+                name: "B7 (Open)", root: "B", type: "7th",
+                frets: [-1, 2, 1, 2, 0, 2],
+                fingers: [0, 2, 1, 3, 0, 4],
+                openStrings: [false, false, false, false, true, false],
+                muted: [true, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 1-2", zone: "low", mood: "bright",
+                notes: ["X", "B", "F#", "B", "D#", "F#"],
+                openStringCount: 1,
+                theory: "B7 amb la corda Si oberta al mig és el dominant d'E. La corda oberta central crea una sonoritat particular i ressonant.",
+                transitions: ["E (Open)", "Em9", "Amaj7"]
+            },
+            // Acords suspesos amb màximes cordes obertes
+            {
+                name: "Asus2", root: "A", type: "sus",
+                frets: [-1, 0, 2, 2, 0, 0],
+                fingers: [0, 0, 1, 2, 0, 0],
+                openStrings: [false, true, false, false, true, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "mellow",
+                notes: ["X", "A", "E", "A", "B", "E"],
+                openStringCount: 3,
+                theory: "Asus2 amb 3 cordes obertes substitueix la tercera per la segona (B). So obert i ambivalent amb ressonància amplificada.",
+                transitions: ["A (Open)", "D9", "Esus4"]
+            },
+            {
+                name: "Asus4", root: "A", type: "sus",
+                frets: [-1, 0, 2, 2, 3, 0],
+                fingers: [0, 0, 1, 2, 3, 0],
+                openStrings: [false, true, false, false, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "mellow",
+                notes: ["X", "A", "E", "A", "D", "E"],
+                openStringCount: 2,
+                theory: "Asus4 amb 2 cordes obertes suspèn la tercera per la quarta (D). Tensió que busca resolució amb profunditat natural.",
+                transitions: ["A (Open)", "Dsus4", "G6"]
+            },
+            {
+                name: "Dsus2", root: "D", type: "sus",
+                frets: [-1, -1, 0, 2, 3, 0],
+                fingers: [0, 0, 0, 1, 2, 0],
+                openStrings: [false, false, true, false, false, true],
+                muted: [true, true, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["X", "X", "D", "A", "D", "E"],
+                openStringCount: 2,
+                theory: "Dsus2 amb dues cordes obertes (D i Mi aguda). La segona (E) oberta crea un so lluminós i suspès amb ressonància natural.",
+                transitions: ["D (Open)", "Asus2", "G6"]
+            },
+            {
+                name: "Gsus4", root: "G", type: "sus",
+                frets: [3, 3, 0, 0, 3, 3],
+                fingers: [1, 2, 0, 0, 3, 4],
+                openStrings: [false, false, true, true, false, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "mellow",
+                notes: ["G", "C", "D", "G", "D", "G"],
+                openStringCount: 2,
+                theory: "Gsus4 amb dues cordes obertes (D i G) crea una suspensió rica. La quarta (C) amb cordes obertes dona profunditat i amplitud.",
+                transitions: ["G (Open)", "Cadd9", "Dsus4"]
+            },
+            // Acords oberts experimentals i modals
+            {
+                name: "Fmaj7#11", root: "F", type: "extended",
+                frets: [1, 3, 2, 0, 0, 0],
+                fingers: [1, 4, 2, 0, 0, 0],
+                openStrings: [false, false, false, true, true, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "mysterious",
+                notes: ["F", "C", "E", "G", "B", "E"],
+                openStringCount: 3,
+                theory: "Fmaj7#11 amb 3 cordes obertes és un acord lidi màgic! La onzena augmentada (B) oberta crea una sonoritat etèria i moderna única.",
+                transitions: ["Cmaj7", "Em9", "G6"]
+            },
+            {
+                name: "Cadd9/G", root: "C", type: "extended",
+                frets: [3, 3, 2, 0, 3, 3],
+                fingers: [2, 3, 1, 0, 3, 4],
+                openStrings: [false, false, false, true, false, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["G", "C", "E", "G", "D", "G"],
+                openStringCount: 1,
+                theory: "Cadd9 amb baix en G i corda G oberta. Inversió que crea una sonoritat càlida amb la novena integrada i ressonància central.",
+                transitions: ["G6", "Am11", "Dsus4"]
+            },
+            // Acords experimentals amb màximes cordes obertes
+            {
+                name: "Dadd11/A", root: "D", type: "extended",
+                frets: [-1, 0, 0, 2, 3, 0],
+                fingers: [0, 0, 0, 1, 2, 0],
+                openStrings: [false, true, true, false, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "mysterious",
+                notes: ["X", "A", "D", "A", "D", "E"],
+                openStringCount: 4,
+                theory: "Acord amb 4 cordes obertes que crea una sonoritat modal suspesa. La onzena (G implícita) amb el baix en A dona un caràcter etèric únic.",
+                transitions: ["Em9", "Asus2", "G6"]
+            },
+            {
+                name: "Emadd9", root: "E", type: "extended",
+                frets: [0, 2, 2, 0, 0, 2],
+                fingers: [0, 2, 3, 0, 0, 1],
+                openStrings: [true, false, false, true, true, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "mellow",
+                notes: ["E", "B", "E", "G", "B", "F#"],
+                openStringCount: 3,
+                theory: "Em amb la novena (F#) afegida. Tres cordes obertes creen una sonoritat melancòlica moderna, perfecta per balades contemporànies.",
+                transitions: ["Am11", "Cmaj7", "D9"]
+            },
+            {
+                name: "Gsus2", root: "G", type: "sus",
+                frets: [3, 0, 0, 0, 3, 3],
+                fingers: [2, 0, 0, 0, 3, 4],
+                openStrings: [false, true, true, true, false, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["G", "A", "D", "G", "D", "G"],
+                openStringCount: 3,
+                theory: "Gsus2 amb 3 cordes obertes al mig del màstil. La segona (A) oberta crea un so ampli i lluminós amb suspensió harmònica.",
+                transitions: ["G (Open)", "Cadd9", "Dsus2"]
+            },
+            {
+                name: "Am9/E", root: "A", type: "extended",
+                frets: [0, 0, 2, 0, 1, 0],
+                fingers: [0, 0, 2, 0, 1, 0],
+                openStrings: [true, true, false, true, false, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "jazzy",
+                notes: ["E", "A", "E", "G", "C", "E"],
+                openStringCount: 4,
+                theory: "Am9 amb baix en E i 4 cordes obertes! Sonoritat jazzística expansiva amb la novena (B implícita) i ressonància màxima.",
+                transitions: ["Em9", "Fmaj7#11", "G6"]
+            },
+            {
+                name: "D6/9", root: "D", type: "extended",
+                frets: [-1, -1, 0, 2, 0, 0],
+                fingers: [0, 0, 0, 1, 0, 0],
+                openStrings: [false, false, true, false, true, true],
+                muted: [true, true, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "bright",
+                notes: ["X", "X", "D", "A", "B", "E"],
+                openStringCount: 3,
+                theory: "D6/9 amb 3 cordes obertes. La sisena (B) i novena (E) obertes creen un color brillant i sofisticat, molt usat en bossa nova.",
+                transitions: ["Gmaj7", "Em7", "A9"]
+            },
+            {
+                name: "C#m7b5", root: "C#", type: "extended",
+                frets: [-1, -1, 0, 1, 0, 0],
+                fingers: [0, 0, 0, 1, 0, 0],
+                openStrings: [false, false, true, false, true, true],
+                muted: [true, true, false, false, false, false],
+                bassFret: 1, voicing: "Posició 0-1", zone: "low", mood: "mysterious",
+                notes: ["X", "X", "D", "C#", "B", "E"],
+                openStringCount: 3,
+                theory: "C#m7b5 (semi-disminuït) amb 3 cordes obertes. Acord de tensió per jazz amb sonoritat misteriosa gràcies a les obertes.",
+                transitions: ["F#7", "Bm7", "Em9"]
+            },
+            {
+                name: "Gadd9/B", root: "G", type: "extended",
+                frets: [-1, 2, 0, 0, 0, 3],
+                fingers: [0, 2, 0, 0, 0, 4],
+                openStrings: [false, false, true, true, true, false],
+                muted: [true, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["X", "B", "D", "G", "B", "G"],
+                openStringCount: 3,
+                theory: "G amb baix en B i 3 cordes obertes. Primera inversió que crea un moviment melòdic suau al baix amb ressonància natural.",
+                transitions: ["Cadd9", "Em7", "Am7"]
+            },
+            // Slash Chords amb cordes obertes
+            {
+                name: "D/F#", root: "D", type: "major",
+                frets: [2, 0, 0, 2, 3, 2],
+                fingers: [1, 0, 0, 2, 4, 3],
+                openStrings: [false, true, true, false, false, false],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["F#", "A", "D", "A", "D", "F#"],
+                openStringCount: 2,
+                theory: "D amb baix en F# (tercera al baix). Dues cordes obertes creen una primera inversió suau i ressonant, perfecte per línies de baix melòdiques.",
+                transitions: ["G (Open)", "Em7", "A (Open)"]
+            },
+            {
+                name: "Em/D", root: "E", type: "minor",
+                frets: [-1, -1, 0, 0, 0, 0],
+                fingers: [0, 0, 0, 0, 0, 0],
+                openStrings: [false, false, true, true, true, true],
+                muted: [true, true, false, false, false, false],
+                bassFret: 0, voicing: "Posició oberta", zone: "low", mood: "mellow",
+                notes: ["X", "X", "D", "G", "B", "E"],
+                openStringCount: 4,
+                theory: "Em amb D al baix - 4 cordes completament obertes! Cap dit premut crea una sonoritat màgica i resonant. Perfecte per ambients etèris.",
+                transitions: ["Cmaj7", "Am7", "G6"]
+            },
+            {
+                name: "C/B", root: "C", type: "major",
+                frets: [-1, 2, 2, 0, 1, 0],
+                fingers: [0, 2, 3, 0, 1, 0],
+                openStrings: [false, false, false, true, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "mellow",
+                notes: ["X", "B", "E", "G", "C", "E"],
+                openStringCount: 2,
+                theory: "C amb B al baix crea una línia de baix descendent clàssica (C-B-Am). Dues cordes obertes mantenen la ressonància característica.",
+                transitions: ["Am7", "Fmaj7#11", "G7 (Open)"]
+            },
+            {
+                name: "G/B", root: "G", type: "major",
+                frets: [-1, 2, 0, 0, 3, 3],
+                fingers: [0, 1, 0, 0, 3, 4],
+                openStrings: [false, false, true, true, false, false],
+                muted: [true, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["X", "B", "D", "G", "D", "G"],
+                openStringCount: 2,
+                theory: "G amb tercera (B) al baix. Primera inversió clàssica amb dues cordes obertes que crea suavitat en progressions ascendents.",
+                transitions: ["C (Open)", "Am7", "D9"]
+            },
+            // Acords Modals i Suspension
+            {
+                name: "Emadd9/G", root: "E", type: "extended",
+                frets: [3, 2, 2, 0, 0, 0],
+                fingers: [3, 1, 2, 0, 0, 0],
+                openStrings: [false, false, false, true, true, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "mysterious",
+                notes: ["G", "B", "E", "G", "B", "E"],
+                openStringCount: 3,
+                theory: "Em amb G al baix i novena. Tres cordes obertes creen una sonoritat modal misteriosa amb sabor de cançó folk moderna.",
+                transitions: ["Am11", "D9", "Cmaj7"]
+            },
+            {
+                name: "Dsus2/A", root: "D", type: "sus",
+                frets: [-1, 0, 0, 2, 3, 0],
+                fingers: [0, 0, 0, 1, 2, 0],
+                openStrings: [false, true, true, false, false, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "bright",
+                notes: ["X", "A", "D", "A", "D", "E"],
+                openStringCount: 3,
+                theory: "Dsus2 amb A al baix i 3 cordes obertes. Suspensió harmònica amb ressonància natural que crea un so obert i ampli.",
+                transitions: ["G6", "Em9", "Asus2"]
+            },
+            {
+                name: "Am7/G", root: "A", type: "extended",
+                frets: [3, 0, 2, 0, 1, 0],
+                fingers: [3, 0, 2, 0, 1, 0],
+                openStrings: [false, true, false, true, false, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició 0-3", zone: "low", mood: "jazzy",
+                notes: ["G", "A", "E", "G", "C", "E"],
+                openStringCount: 3,
+                theory: "Am7 amb G al baix. Tres cordes obertes creen una sonoritat jazzística descendent típica en progressions ii-V-I amb moviment cromàtic.",
+                transitions: ["Fmaj7#11", "Dm7", "G7 (Open)"]
+            },
+            {
+                name: "Cmaj9", root: "C", type: "extended",
+                frets: [-1, 3, 0, 0, 0, 0],
+                fingers: [0, 1, 0, 0, 0, 0],
+                openStrings: [false, false, true, true, true, true],
+                muted: [true, false, false, false, false, false],
+                bassFret: 3, voicing: "Posició oberta", zone: "low", mood: "jazzy",
+                notes: ["X", "C", "D", "G", "B", "E"],
+                openStringCount: 4,
+                theory: "Cmaj9 amb 4 cordes obertes! Només un dit premut per una sonoritat luxosa i sofisticada. La novena (D) oberta dona màgia al so.",
+                transitions: ["Fmaj7#11", "Am9/E", "G6"]
+            },
+            {
+                name: "Bm7/D", root: "B", type: "extended",
+                frets: [-1, -1, 0, 2, 0, 2],
+                fingers: [0, 0, 0, 2, 0, 3],
+                openStrings: [false, false, true, false, true, false],
+                muted: [true, true, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "mellow",
+                notes: ["X", "X", "D", "B", "D", "A"],
+                openStringCount: 2,
+                theory: "Bm7 amb D al baix. Dues cordes obertes faciliten aquest acord difícil, creant una sonoritat suau per progressions en tonalitat de G.",
+                transitions: ["Em7", "A7 (Open)", "Gmaj7 (Low)"]
+            },
+            {
+                name: "F#m7b5/E", root: "F#", type: "extended",
+                frets: [0, 0, 2, 2, 1, 0],
+                fingers: [0, 0, 3, 4, 1, 0],
+                openStrings: [true, true, false, false, false, true],
+                muted: [false, false, false, false, false, false],
+                bassFret: 2, voicing: "Posició 0-2", zone: "low", mood: "mysterious",
+                notes: ["E", "A", "E", "F#", "C", "E"],
+                openStringCount: 3,
+                theory: "F#m7b5 amb E al baix i 3 cordes obertes. Acord de tensió semi-disminuït amb sonoritat misteriosa per jazz i harmonies complexes.",
+                transitions: ["B7 (Open)", "Em9", "Am9/E"]
+            }
+        ];
+
+        // ============================================
+        // STATE MANAGEMENT
+        // ============================================
+        let currentChord = null;
+        let compareList = [];
+        let favorites = [];
+        let showingFavorites = false;
+        let audioContext = null;
+        let synth = null;
+        let reverb = null;
+        let tempo = 90;
+        let isPlaying = false;
+        let trainingMode = null;
+        let trainingScore = 0;
+        let trainingTotal = 0;
+        let trainingCurrentChord = null;
+        
+        // Preset Progressions amb més varietat
+        const presetProgressions = {
+            pop: ["G (Open)", "D (Open)", "Em (Open)", "C (Open)"],
+            jazz: ["Am7", "D9", "Gmaj7 (Low)"],
+            andalusa: ["Am (Open)", "G7 (Open)", "Fmaj7#11", "Em (Open)"],
+            folk: ["G6", "Cadd9", "D9", "Em9"],
+            modal: ["Em9", "Dadd11/A", "Gmaj7 (Mid)", "Am11"],
+            slash: ["G/B", "C/B", "Am7/G", "D/F#"],
+            ethereal: ["Em/D", "Cmaj9", "G6", "Am11"],
+            descending: ["C (Open)", "C/B", "Am7", "Am7/G"],
+            bossa: ["Gmaj7 (Low)", "E7 (Open)", "Am7", "D9"],
+            suspended: ["Dsus2/A", "Asus2", "Gsus2", "Em9"]
+        };
+
+        // String names (from lowest to highest)
+        const stringNames = ['E', 'A', 'D', 'G', 'B', 'E'];
+        const stringNotes = [
+            ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#'],
+            ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
+            ['D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E'],
+            ['G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A'],
+            ['B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#'],
+            ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#']
+        ];
+
+        // ============================================
+        // AUDIO INITIALIZATION
+        // ============================================
+        async function initAudio() {
+            if (!synth) {
+                // Create reverb for ambient guitar sound
+                reverb = new Tone.Reverb({
+                    decay: 2.5,
+                    wet: 0.3
+                }).toDestination();
+                
+                synth = new Tone.PolySynth(Tone.Synth, {
+                    oscillator: { type: 'triangle' },
+                    envelope: {
+                        attack: 0.005,
+                        decay: 0.3,
+                        sustain: 0.4,
+                        release: 2.0 // Longer release for open strings
+                    }
+                });
+                
+                synth.connect(reverb);
+                await reverb.generate();
+            }
+        }
+
+        // ============================================
+        // GUITAR NECK RENDERING
+        // ============================================
+        function drawGuitarNeck(chord = null) {
+            const svg = document.getElementById('guitarNeck');
+            svg.innerHTML = '';
+
+            const width = 800;
+            const height = 400;
+            const numFrets = 12;
+            const numStrings = 6;
+            const fretWidth = (width - 100) / numFrets;
+            const stringSpacing = (height - 100) / (numStrings - 1);
+            const startX = 50;
+            const startY = 50;
+
+            // Draw frets
+            for (let i = 0; i <= numFrets; i++) {
+                const x = startX + i * fretWidth;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x);
+                line.setAttribute('y1', startY);
+                line.setAttribute('x2', x);
+                line.setAttribute('y2', startY + (numStrings - 1) * stringSpacing);
+                line.setAttribute('class', i === 0 ? 'fret-line' : 'fret-line');
+                line.setAttribute('stroke-width', i === 0 ? '4' : '1');
+                svg.appendChild(line);
+
+                // Fret numbers
+                if (i > 0) {
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', x - fretWidth / 2);
+                    text.setAttribute('y', startY - 15);
+                    text.setAttribute('text-anchor', 'middle');
+                    text.setAttribute('fill', '#f59e0b');
+                    text.setAttribute('font-size', '12');
+                    text.setAttribute('font-weight', 'bold');
+                    text.textContent = i;
+                    svg.appendChild(text);
+                }
+
+                // Fret markers (dots)
+                if ([3, 5, 7, 9].includes(i)) {
+                    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    dot.setAttribute('cx', x - fretWidth / 2);
+                    dot.setAttribute('cy', startY + ((numStrings - 1) * stringSpacing) / 2);
+                    dot.setAttribute('r', '6');
+                    dot.setAttribute('fill', '#fcd34d');
+                    dot.setAttribute('opacity', '0.3');
+                    svg.appendChild(dot);
+                }
+                if (i === 12) {
+                    for (let d = 0; d < 2; d++) {
+                        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        dot.setAttribute('cx', x - fretWidth / 2);
+                        dot.setAttribute('cy', startY + ((numStrings - 1) * stringSpacing) / 2 + (d === 0 ? -30 : 30));
+                        dot.setAttribute('r', '6');
+                        dot.setAttribute('fill', '#fcd34d');
+                        dot.setAttribute('opacity', '0.3');
+                        svg.appendChild(dot);
+                    }
+                }
+            }
+
+            // Draw strings
+            for (let i = 0; i < numStrings; i++) {
+                const y = startY + i * stringSpacing;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', startX);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', startX + numFrets * fretWidth);
+                line.setAttribute('y2', y);
+                line.setAttribute('class', 'string-line');
+                line.setAttribute('stroke-width', 1 + i * 0.5);
+                svg.appendChild(line);
+
+                // String names (at the left)
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', startX - 25);
+                text.setAttribute('y', y + 5);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('fill', 'white');
+                text.setAttribute('font-size', '14');
+                text.setAttribute('font-weight', 'bold');
+                text.textContent = stringNames[numStrings - 1 - i];
+                svg.appendChild(text);
+            }
+
+            // Draw chord if provided
+            if (chord) {
+                for (let stringIdx = 0; stringIdx < chord.frets.length; stringIdx++) {
+                    const fret = chord.frets[stringIdx];
+                    const y = startY + (numStrings - 1 - stringIdx) * stringSpacing;
+
+                    if (chord.muted[stringIdx]) {
+                        // Draw X for muted strings
+                        const size = 12;
+                        const x = startX - 25;
+                        const line1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                        line1.setAttribute('x1', x - size / 2);
+                        line1.setAttribute('y1', y - size / 2);
+                        line1.setAttribute('x2', x + size / 2);
+                        line1.setAttribute('y2', y + size / 2);
+                        line1.setAttribute('class', 'muted-string');
+                        svg.appendChild(line1);
+
+                        const line2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                        line2.setAttribute('x1', x - size / 2);
+                        line2.setAttribute('y1', y + size / 2);
+                        line2.setAttribute('x2', x + size / 2);
+                        line2.setAttribute('y2', y - size / 2);
+                        line2.setAttribute('class', 'muted-string');
+                        svg.appendChild(line2);
+                    } else if (fret === 0) {
+                        // Open string - draw circle at the left
+                        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        circle.setAttribute('cx', startX - 25);
+                        circle.setAttribute('cy', y);
+                        circle.setAttribute('r', '10');
+                        circle.setAttribute('class', 'open-string');
+                        svg.appendChild(circle);
+                    } else if (fret > 0) {
+                        // Draw finger position
+                        const x = startX + (fret - 0.5) * fretWidth;
+                        const isRoot = chord.notes[stringIdx] === chord.root;
+                        
+                        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        circle.setAttribute('cx', x);
+                        circle.setAttribute('cy', y);
+                        circle.setAttribute('r', '15');
+                        circle.setAttribute('class', isRoot ? 'root-note chord-dot' : 'chord-dot');
+                        circle.setAttribute('fill', isRoot ? '#f59e0b' : '#8b5cf6');
+                        circle.setAttribute('stroke', isRoot ? '#d97706' : '#6d28d9');
+                        circle.setAttribute('stroke-width', '3');
+                        svg.appendChild(circle);
+
+                        // Finger number
+                        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                        text.setAttribute('x', x);
+                        text.setAttribute('y', y + 5);
+                        text.setAttribute('text-anchor', 'middle');
+                        text.setAttribute('fill', 'white');
+                        text.setAttribute('font-size', '14');
+                        text.setAttribute('font-weight', 'bold');
+                        text.textContent = chord.fingers[stringIdx] || '';
+                        svg.appendChild(text);
+                    }
+                }
+            }
+        }
+
+        // ============================================
+        // CHORD SELECTION
+        // ============================================
+        function selectChord(chord) {
+            currentChord = chord;
+            
+            // Check if in training mode and verify answer
+            if (trainingMode && trainingCurrentChord) {
+                checkTrainingAnswer(chord);
+                return;
+            }
+            
+            // Update UI
+            document.getElementById('currentChordName').textContent = chord.name;
+            document.getElementById('chordTheory').textContent = chord.type.charAt(0).toUpperCase() + chord.type.slice(1);
+            {
+                const rating = getPlayabilityRating(chord);
+                const ratingText = rating === 'good' ? ' · Tocabilitat: Bona' : rating === 'challenging' ? ' · Tocabilitat: Exigent' : ' · Tocabilitat: Extrema';
+                document.getElementById('chordVoicing').textContent = chord.voicing + ratingText;
+            }
+            
+            // Update chord notes with badges
+            const notesDiv = document.getElementById('chordNotes');
+            notesDiv.innerHTML = '';
+            const uniqueNotes = [...new Set(chord.notes.filter(n => n !== 'X'))];
+            uniqueNotes.forEach((note, idx) => {
+                const badge = document.createElement('span');
+                const isRoot = note === chord.root;
+                badge.className = `px-3 py-1 rounded-full text-sm font-semibold ${isRoot ? 'bg-orange-500 text-white' : 'bg-purple-200 text-purple-800'}`;
+                badge.textContent = note;
+                if (isRoot) badge.textContent += ' (Root)';
+                notesDiv.appendChild(badge);
+            });
+            
+            document.getElementById('theoryExplanation').textContent = chord.theory;
+
+            // Update favorite button
+            updateFavoriteButton();
+
+            // Update transitions
+            const transitionsDiv = document.getElementById('chordTransitions');
+            transitionsDiv.innerHTML = '';
+            chord.transitions.forEach(transName => {
+                const badge = document.createElement('span');
+                badge.className = 'bg-blue-500 text-white px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-blue-600 transition-all';
+                badge.textContent = transName;
+                badge.onclick = () => {
+                    const targetChord = chordDatabase.find(c => c.name === transName);
+                    if (targetChord) selectChord(targetChord);
+                };
+                transitionsDiv.appendChild(badge);
+            });
+
+            // Redraw guitar neck
+            drawGuitarNeck(chord);
+        }
+
+        // ============================================
+        // CHORD LIST RENDERING WITH NEW FILTERS
+        // ============================================
+        // Playability helpers
+        function hasBarre(chord) {
+            // Barre if same fret appears on 3+ strings, or same finger on >=2 strings with same fret
+            const fretCounts = {};
+            for (let i = 0; i < chord.frets.length; i++) {
+                const f = chord.frets[i];
+                if (f > 0) fretCounts[f] = (fretCounts[f] || 0) + 1;
+            }
+            if (Object.values(fretCounts).some(c => c >= 3)) return true;
+            // Finger-based detection
+            const fingerMap = {};
+            for (let i = 0; i < chord.frets.length; i++) {
+                const finger = chord.fingers[i];
+                const fret = chord.frets[i];
+                if (finger && fret > 0) {
+                    const key = `${finger}:${fret}`;
+                    fingerMap[key] = (fingerMap[key] || 0) + 1;
+                    if (fingerMap[key] >= 2) return true;
+                }
+            }
+            return false;
+        }
+
+        function isPlayable(chord, level = null, avoidBarre = null) {
+            // Defaults from UI if not provided
+            if (level === null) {
+                const lvlEl = document.getElementById('playabilityLevel');
+                level = lvlEl ? lvlEl.value : 'conservador';
+            }
+            if (avoidBarre === null) {
+                const barreEl = document.getElementById('avoidBarreToggle');
+                avoidBarre = barreEl ? barreEl.checked : true;
+            }
+
+            const maxSpan = level === 'estricte' ? 3 : level === 'conservador' ? 4 : 5;
+
+            // Consider only fretted strings (>0)
+            const fretted = chord.frets.filter(f => f > 0);
+            if (fretted.length > 4) return false; // Max 4 fingers
+            if (fretted.length === 0) return true; // All open or muted
+
+            // Barre check
+            if (avoidBarre && hasBarre(chord)) return false;
+
+            const minFret = Math.min(...fretted);
+            const maxFret = Math.max(...fretted);
+            const span = maxFret - minFret;
+            if (span > maxSpan) return false; // Limit stretch by level
+            if (maxFret > 12) return false; // Keep within 12th fret area
+            return true;
+        }
+
+        function getPlayabilityRating(chord) {
+            const fretted = chord.frets.filter(f => f > 0);
+            if (fretted.length === 0) return 'good';
+            const minFret = Math.min(...fretted);
+            const maxFret = Math.max(...fretted);
+            const span = maxFret - minFret;
+            if (hasBarre(chord)) return 'challenging';
+            if (fretted.length <= 3 && span <= 3) return 'good';
+            if (fretted.length <= 4 && span <= 5) return 'challenging';
+            return 'extreme';
+        }
+
+        function renderChordList() {
+            const chordList = document.getElementById('chordList');
+            const fretZoneFilter = document.getElementById('fretZoneFilter').value;
+            const openStringsFilter = document.getElementById('openStringsFilter').value;
+            const moodFilter = document.getElementById('moodFilter').value;
+            const playableOnly = document.getElementById('playableOnlyToggle') ? document.getElementById('playableOnlyToggle').checked : true;
+            const playabilityLevel = document.getElementById('playabilityLevel') ? document.getElementById('playabilityLevel').value : 'conservador';
+            const avoidBarre = document.getElementById('avoidBarreToggle') ? document.getElementById('avoidBarreToggle').checked : true;
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+            let filteredChords = chordDatabase;
+
+            // Apply favorites filter
+            if (showingFavorites) {
+                filteredChords = favorites;
+            }
+
+            // Apply other filters
+            filteredChords = filteredChords.filter(chord => {
+                // Zone filter
+                let zoneMatch = true;
+                if (fretZoneFilter !== 'all') {
+                    zoneMatch = chord.zone === fretZoneFilter;
+                }
+
+                // Open strings filter
+                let openMatch = true;
+                if (openStringsFilter === 'many') {
+                    openMatch = chord.openStringCount >= 3;
+                } else if (openStringsFilter === 'some') {
+                    openMatch = chord.openStringCount >= 1 && chord.openStringCount <= 2;
+                }
+
+                // Mood filter
+                let moodMatch = true;
+                if (moodFilter !== 'all') {
+                    moodMatch = chord.mood === moodFilter;
+                }
+
+                // Search filter
+                let searchMatch = true;
+                if (searchQuery) {
+                    searchMatch = chord.name.toLowerCase().includes(searchQuery) ||
+                                chord.theory.toLowerCase().includes(searchQuery) ||
+                                chord.voicing.toLowerCase().includes(searchQuery);
+                }
+
+                // Playability filter
+                const playableMatch = playableOnly ? isPlayable(chord, playabilityLevel, avoidBarre) : true;
+
+                return zoneMatch && openMatch && moodMatch && searchMatch && playableMatch;
+            });
+
+            chordList.innerHTML = '';
+            if (filteredChords.length === 0) {
+                chordList.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">No s\'han trobat acords amb aquests filtres</p>';
+                return;
+            }
+
+            filteredChords.forEach(chord => {
+                const button = document.createElement('button');
+                const isFavorite = favorites.some(f => f.name === chord.name);
+                button.className = 'w-full text-left p-3 rounded-lg hover:bg-purple-50 transition-all border border-gray-200 card-hover';
+                
+                // Icon based on open string count
+                let icon = '🎸';
+                if (chord.openStringCount >= 4) icon = '✨';
+                else if (chord.openStringCount >= 3) icon = '⭐';
+                else if (chord.openStringCount >= 2) icon = '💫';
+                
+                button.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-semibold text-purple-700">${icon} ${chord.name} ${isFavorite ? '⭐' : ''}</div>
+                            <div class="text-xs text-gray-600">${chord.voicing}</div>
+                            <div class="text-[11px] mt-1 ${getPlayabilityRating(chord) === 'good' ? 'text-green-600' : getPlayabilityRating(chord) === 'challenging' ? 'text-amber-600' : 'text-red-600'}">
+                                Tocabilitat: ${getPlayabilityRating(chord) === 'good' ? 'Bona' : getPlayabilityRating(chord) === 'challenging' ? (hasBarre(chord) ? 'Exigent (Barré)' : 'Exigent') : 'Extrema'}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-purple-600 font-medium">${chord.openStringCount} obertes</div>
+                        </div>
+                    </div>
+                `;
+                button.onclick = () => selectChord(chord);
+                chordList.appendChild(button);
+            });
+        }
+
+        // ============================================
+        // FAVORITES SYSTEM WITH LOCALSTORAGE
+        // ============================================
+        function loadFavoritesFromStorage() {
+            try {
+                const stored = localStorage.getItem('guitarChordsFavorites');
+                if (stored) {
+                    const favoriteNames = JSON.parse(stored);
+                    favorites = chordDatabase.filter(c => favoriteNames.includes(c.name));
+                }
+            } catch (e) {
+                console.log('No s\'han pogut carregar els favorits');
+            }
+        }
+
+        function saveFavoritesToStorage() {
+            try {
+                const favoriteNames = favorites.map(f => f.name);
+                localStorage.setItem('guitarChordsFavorites', JSON.stringify(favoriteNames));
+            } catch (e) {
+                console.log('No s\'han pogut guardar els favorits');
+            }
+        }
+
+        function toggleFavorite() {
+            if (!currentChord) return;
+            
+            const idx = favorites.findIndex(f => f.name === currentChord.name);
+            if (idx === -1) {
+                favorites.push(currentChord);
+            } else {
+                favorites.splice(idx, 1);
+            }
+            
+            saveFavoritesToStorage();
+            updateFavoriteButton();
+            renderChordList();
+        }
+
+        function updateFavoriteButton() {
+            const btn = document.getElementById('favoriteBtn');
+            if (!currentChord) {
+                btn.textContent = '☆';
+                return;
+            }
+            
+            const isFavorite = favorites.some(f => f.name === currentChord.name);
+            btn.textContent = isFavorite ? '⭐' : '☆';
+            btn.style.color = isFavorite ? '#f59e0b' : '#9ca3af';
+        }
+
+        function showAllChords() {
+            showingFavorites = false;
+            document.getElementById('showAllBtn').className = 'flex-1 bg-purple-500 text-white py-2 px-3 rounded-lg text-sm font-semibold';
+            document.getElementById('showFavoritesBtn').className = 'flex-1 bg-gray-300 text-gray-700 py-2 px-3 rounded-lg text-sm font-semibold';
+            renderChordList();
+        }
+
+        function showFavoriteChords() {
+            showingFavorites = true;
+            document.getElementById('showAllBtn').className = 'flex-1 bg-gray-300 text-gray-700 py-2 px-3 rounded-lg text-sm font-semibold';
+            document.getElementById('showFavoritesBtn').className = 'flex-1 bg-purple-500 text-white py-2 px-3 rounded-lg text-sm font-semibold';
+            renderChordList();
+        }
+
+        // ============================================
+        // AUDIO PLAYBACK
+        // ============================================
+        async function playChord(chord, style = 'strum') {
+            await initAudio();
+            await Tone.start();
+
+            const notes = [];
+            for (let i = 0; i < chord.frets.length; i++) {
+                if (!chord.muted[i]) {
+                    const fret = chord.frets[i];
+                    const note = stringNotes[i][fret];
+                    const octave = i <= 2 ? 2 : 3;
+                    notes.push(`${note}${octave}`);
+                }
+            }
+
+            if (style === 'strum') {
+                // Strum effect - play notes with slight delay
+                notes.forEach((note, idx) => {
+                    synth.triggerAttackRelease(note, '2n', Tone.now() + idx * 0.05);
+                });
+            } else {
+                // Arpeggio - play notes sequentially
+                notes.forEach((note, idx) => {
+                    synth.triggerAttackRelease(note, '4n', Tone.now() + idx * 0.15);
+                });
+            }
+        }
+
+        async function playProgression(progression) {
+            if (isPlaying || progression.length === 0) return;
+            
+            isPlaying = true;
+            await initAudio();
+            await Tone.start();
+
+            const style = document.getElementById('playStyle').value;
+            const beatDuration = 60 / tempo; // Duration of one beat in seconds
+
+            for (let i = 0; i < progression.length; i++) {
+                const chord = progression[i];
+                selectChord(chord);
+                await playChord(chord, style);
+                await new Promise(resolve => setTimeout(resolve, beatDuration * 1000 * 4)); // 4 beats per chord
+            }
+
+            isPlaying = false;
+        }
+
+        // ============================================
+        // PRESET PROGRESSIONS
+        // ============================================
+        async function playPresetProgression() {
+            const presetSelect = document.getElementById('presetProgressions');
+            const presetKey = presetSelect.value;
+            
+            if (!presetKey || isPlaying) return;
+            
+            const chordNames = presetProgressions[presetKey];
+            if (!chordNames) return;
+            
+            const progression = [];
+            chordNames.forEach(name => {
+                const chord = chordDatabase.find(c => c.name === name);
+                if (chord) progression.push(chord);
+            });
+            
+            if (progression.length === 0) return;
+            
+            isPlaying = true;
+            await initAudio();
+            await Tone.start();
+
+            const style = document.getElementById('playStyle').value;
+            const beatDuration = 60 / tempo;
+
+            for (let i = 0; i < progression.length; i++) {
+                const chord = progression[i];
+                selectChord(chord);
+                await playChord(chord, style);
+                await new Promise(resolve => setTimeout(resolve, beatDuration * 1000 * 4));
+            }
+
+            isPlaying = false;
+        }
+
+        // ============================================
+        // EXPLORATION & COMPARISON TOOLS
+        // ============================================
+        function showVariations() {
+            if (!currentChord) return;
+            
+            // Find chords with same root
+            const variations = chordDatabase.filter(c => 
+                c.root === currentChord.root && c.name !== currentChord.name
+            );
+            
+            if (variations.length === 0) {
+                alert('No hi ha més variacions disponibles per aquest acord.');
+                return;
+            }
+            
+            // Clear chord list and show variations
+            const chordList = document.getElementById('chordList');
+            chordList.innerHTML = '<div class="bg-purple-100 p-2 rounded mb-2 text-sm font-semibold text-purple-800">Variacions de ' + currentChord.root + '</div>';
+            
+            variations.forEach(chord => {
+                const button = document.createElement('button');
+                button.className = 'w-full text-left p-3 rounded-lg hover:bg-purple-50 transition-all border border-purple-300 card-hover mb-2';
+                
+                let icon = '🎸';
+                if (chord.openStringCount >= 4) icon = '✨';
+                else if (chord.openStringCount >= 3) icon = '⭐';
+                else if (chord.openStringCount >= 2) icon = '💫';
+                
+                button.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-semibold text-purple-700">${icon} ${chord.name}</div>
+                            <div class="text-xs text-gray-600">${chord.voicing}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-purple-600 font-medium">${chord.openStringCount} obertes</div>
+                        </div>
+                    </div>
+                `;
+                button.onclick = () => selectChord(chord);
+                chordList.appendChild(button);
+            });
+            
+            // Add button to return to full list
+            const backBtn = document.createElement('button');
+            backBtn.className = 'w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-all mt-2 text-sm';
+            backBtn.textContent = '← Tornar a tots els acords';
+            backBtn.onclick = renderChordList;
+            chordList.appendChild(backBtn);
+        }
+
+        function getRandomChordByMood(mood) {
+            const moodChords = chordDatabase.filter(c => c.mood === mood);
+            if (moodChords.length === 0) return null;
+            return moodChords[Math.floor(Math.random() * moodChords.length)];
+        }
+
+        function addToCompare() {
+            if (currentChord && !compareList.find(c => c.name === currentChord.name)) {
+                compareList.push(currentChord);
+                updateCompareDisplay();
+            }
+        }
+
+        function clearCompare() {
+            compareList = [];
+            updateCompareDisplay();
+        }
+
+        function updateCompareDisplay() {
+            const compareDiv = document.getElementById('compareList');
+            if (compareList.length === 0) {
+                compareDiv.innerHTML = '<span class="text-gray-400 text-xs">Cap acord afegit...</span>';
+            } else {
+                compareDiv.innerHTML = '';
+                compareList.forEach((chord, idx) => {
+                    const item = document.createElement('div');
+                    item.className = 'flex justify-between items-center bg-amber-100 p-2 rounded text-sm';
+                    item.innerHTML = `
+                        <span class="font-semibold text-amber-800">${chord.name}</span>
+                        <button class="text-red-600 hover:text-red-800 font-bold" onclick="removeFromCompare(${idx})">✕</button>
+                    `;
+                    compareDiv.appendChild(item);
+                });
+            }
+        }
+
+        function removeFromCompare(index) {
+            compareList.splice(index, 1);
+            updateCompareDisplay();
+        }
+
+        async function playComparison() {
+            if (isPlaying || compareList.length === 0) return;
+            
+            isPlaying = true;
+            await initAudio();
+            await Tone.start();
+
+            const style = document.getElementById('playStyle').value;
+
+            for (let i = 0; i < compareList.length; i++) {
+                const chord = compareList[i];
+                selectChord(chord);
+                await playChord(chord, style);
+                await new Promise(resolve => setTimeout(resolve, 2000)); // 2 seconds between chords
+            }
+
+            isPlaying = false;
+        }
+
+        // ============================================
+        // TRAINING MODE INTERACTIVE
+        // ============================================
+        function startChordQuiz() {
+            trainingMode = 'quiz';
+            const level = document.getElementById('playabilityLevel') ? document.getElementById('playabilityLevel').value : 'conservador';
+            const avoidBarre = document.getElementById('avoidBarreToggle') ? document.getElementById('avoidBarreToggle').checked : true;
+            let pool = chordDatabase.filter(c => isPlayable(c, level, avoidBarre));
+            if (pool.length === 0) pool = chordDatabase;
+            trainingCurrentChord = pool[Math.floor(Math.random() * pool.length)];
+            
+            // Show chord on neck without name
+            drawGuitarNeck(trainingCurrentChord);
+            document.getElementById('currentChordName').textContent = '❓ Quin acord és aquest?';
+            document.getElementById('chordTheory').textContent = 'Observa el màstil i intenta identificar-lo';
+            document.getElementById('chordVoicing').textContent = '???';
+            document.getElementById('chordNotes').innerHTML = '<span class="text-gray-400">Identifica primer l\'acord</span>';
+            document.getElementById('theoryExplanation').textContent = 'Clica sobre un acord de la biblioteca per comprovar la teva resposta!';
+            
+            showTrainingMessage('🎯 Identifica aquest acord observant el màstil!', 'info');
+        }
+
+        function startTransitionChallenge() {
+            trainingMode = 'transition';
+            const level = document.getElementById('playabilityLevel') ? document.getElementById('playabilityLevel').value : 'conservador';
+            const avoidBarre = document.getElementById('avoidBarreToggle') ? document.getElementById('avoidBarreToggle').checked : true;
+            let pool = chordDatabase.filter(c => isPlayable(c, level, avoidBarre));
+            if (pool.length === 0) pool = chordDatabase;
+            const startChord = pool[Math.floor(Math.random() * pool.length)];
+            selectChord(startChord);
+            
+            showTrainingMessage(`🔄 Troba un acord que combini bé amb <strong>${startChord.name}</strong>. Pista: mira les transicions recomanades!`, 'info');
+        }
+
+        async function startEarTraining() {
+            trainingMode = 'ear';
+            const level = document.getElementById('playabilityLevel') ? document.getElementById('playabilityLevel').value : 'conservador';
+            const avoidBarre = document.getElementById('avoidBarreToggle') ? document.getElementById('avoidBarreToggle').checked : true;
+            let pool = chordDatabase.filter(c => isPlayable(c, level, avoidBarre));
+            if (pool.length === 0) pool = chordDatabase;
+            trainingCurrentChord = pool[Math.floor(Math.random() * pool.length)];
+            
+            // Clear display
+            drawGuitarNeck();
+            document.getElementById('currentChordName').textContent = '👂 Escolta l\'acord...';
+            document.getElementById('chordTheory').textContent = 'Quin acord sona?';
+            document.getElementById('chordVoicing').textContent = '???';
+            document.getElementById('chordNotes').innerHTML = '<span class="text-gray-400">Escolta i identifica</span>';
+            document.getElementById('theoryExplanation').textContent = 'Reproduint l\'acord... intenta identificar-lo!';
+            
+            // Play the chord
+            await initAudio();
+            await Tone.start();
+            const style = document.getElementById('playStyle').value;
+            await playChord(trainingCurrentChord, style);
+            
+            showTrainingMessage('👂 Acord reproduït! Clica sobre l\'acord que creus que és a la biblioteca.', 'info');
+        }
+
+        function checkTrainingAnswer(selectedChord) {
+            if (!trainingMode || !trainingCurrentChord) return;
+            
+            trainingTotal++;
+            const isCorrect = selectedChord.name === trainingCurrentChord.name;
+            
+            if (isCorrect) {
+                trainingScore++;
+                showTrainingMessage(`✅ <strong>Correcte!</strong> És ${selectedChord.name}`, 'success');
+                playSuccessSound();
+            } else {
+                showTrainingMessage(`❌ Incorrecte. Era <strong>${trainingCurrentChord.name}</strong>, has escollit <strong>${selectedChord.name}</strong>`, 'error');
+            }
+            
+            // Update score display
+            document.getElementById('trainingScore').textContent = `Puntuació: ${trainingScore}/${trainingTotal} (${Math.round(trainingScore/trainingTotal*100)}%)`;
+            
+            // Reset training mode after 3 seconds
+            setTimeout(() => {
+                trainingMode = null;
+                trainingCurrentChord = null;
+            }, 3000);
+        }
+
+        function showTrainingMessage(message, type) {
+            const resultDiv = document.getElementById('trainingResult');
+            const messageDiv = document.getElementById('trainingMessage');
+            
+            resultDiv.classList.remove('hidden', 'bg-green-100', 'bg-red-100', 'bg-blue-100');
+            
+            if (type === 'success') {
+                resultDiv.classList.add('bg-green-100');
+            } else if (type === 'error') {
+                resultDiv.classList.add('bg-red-100');
+            } else {
+                resultDiv.classList.add('bg-blue-100');
+            }
+            
+            messageDiv.innerHTML = message;
+        }
+
+        async function playSuccessSound() {
+            await initAudio();
+            await Tone.start();
+            synth.triggerAttackRelease(['C5', 'E5', 'G5'], '8n');
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load favorites from localStorage
+            loadFavoritesFromStorage();
+            
+            // Initialize
+            drawGuitarNeck();
+            renderChordList();
+
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', renderChordList);
+
+            // Favorites toggles
+            document.getElementById('showAllBtn').addEventListener('click', showAllChords);
+            document.getElementById('showFavoritesBtn').addEventListener('click', showFavoriteChords);
+            document.getElementById('favoriteBtn').addEventListener('click', toggleFavorite);
+
+            // Filters
+            document.getElementById('fretZoneFilter').addEventListener('change', renderChordList);
+            document.getElementById('openStringsFilter').addEventListener('change', renderChordList);
+            document.getElementById('moodFilter').addEventListener('change', renderChordList);
+            const playableToggle = document.getElementById('playableOnlyToggle');
+            if (playableToggle) playableToggle.addEventListener('change', renderChordList);
+            const playabilityLevel = document.getElementById('playabilityLevel');
+            if (playabilityLevel) playabilityLevel.addEventListener('change', renderChordList);
+            const avoidBarreToggle = document.getElementById('avoidBarreToggle');
+            if (avoidBarreToggle) avoidBarreToggle.addEventListener('change', renderChordList);
+
+            // Tempo slider
+            document.getElementById('tempoSlider').addEventListener('input', (e) => {
+                tempo = parseInt(e.target.value);
+                document.getElementById('tempoValue').textContent = tempo;
+            });
+
+            // Play chord button
+            document.getElementById('playChordBtn').addEventListener('click', () => {
+                if (currentChord) {
+                    const style = document.getElementById('playStyle').value;
+                    playChord(currentChord, style);
+                }
+            });
+
+            // Preset progressions
+            document.getElementById('playPresetBtn').addEventListener('click', playPresetProgression);
+
+            // Training mode buttons
+            document.getElementById('quizChordBtn').addEventListener('click', startChordQuiz);
+            document.getElementById('transitionChallengeBtn').addEventListener('click', startTransitionChallenge);
+            document.getElementById('earTrainingBtn').addEventListener('click', startEarTraining);
+
+            // Exploration controls
+            document.getElementById('showVariationsBtn').addEventListener('click', showVariations);
+            
+            document.getElementById('randomBrightBtn').addEventListener('click', () => {
+                const chord = getRandomChordByMood('bright');
+                if (chord) selectChord(chord);
+            });
+            
+            document.getElementById('randomMellowBtn').addEventListener('click', () => {
+                const chord = getRandomChordByMood('mellow');
+                if (chord) selectChord(chord);
+            });
+            
+            document.getElementById('randomMysteriousBtn').addEventListener('click', () => {
+                const chord = getRandomChordByMood('mysterious');
+                if (chord) selectChord(chord);
+            });
+
+            // Comparison controls
+            document.getElementById('addToCompareBtn').addEventListener('click', addToCompare);
+            document.getElementById('clearCompareBtn').addEventListener('click', clearCompare);
+            document.getElementById('playCompareBtn').addEventListener('click', playComparison);
+
+            // Select first chord
+            if (chordDatabase.length > 0) {
+                selectChord(chordDatabase[0]);
+            }
+        });
+    </script>
+</body>
+</html>
