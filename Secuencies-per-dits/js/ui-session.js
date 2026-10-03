@@ -57,7 +57,9 @@ export function viewSessio(ctx) {
              <p class="muted small">Patró: <strong>${esc(M.patternHelp(pattern))}</strong>. Un dit per traste.</p>
              <div class="row" style="margin-top:.4rem">
                <button id="s-listen">🔊 Escolta el patró</button>
-               <span class="muted small" id="s-listen-info">una nota per clic, amb el so real de cada traste</span>
+               <label class="field" style="max-width:150px;flex:1">Volum del patró
+                 <input type="range" id="s-pat-vol" min="0" max="1" step="0.02" value="${st.settings.patternVolume}"></label>
+               <span class="muted small" id="s-pat-pct">${Math.round(st.settings.patternVolume * 100)}%</span>
              </div>
              <div class="notes-dots" id="s-dots"></div>`,
     },
@@ -69,6 +71,8 @@ export function viewSessio(ctx) {
       hint: 'Un clic per nota. Toca el patró per tot el mànec, relaxat i net.',
       body: `<div class="row">
                <button class="big primary" id="s-play">▶︎ Comença la sèrie</button>
+               <label class="field" style="max-width:150px;flex:1">Volum del metrònom
+                 <input type="range" id="s-metro-vol" min="0" max="1" step="0.05" value="${st.settings.volume}"></label>
                <span class="muted small" id="s-status">Aturat</span>
              </div>
              <div class="beats" id="s-beats">${'<span class="beat-dot"></span>'.repeat(4)}</div>
@@ -156,6 +160,16 @@ export function viewSessio(ctx) {
   /* ----------------------------------------------------------- escoltar el patró */
   const listenBtn = root.querySelector('#s-listen');
   const listenInfo = root.querySelector('#s-listen-info');
+  const sPatVol = root.querySelector('#s-pat-vol');
+  if (sPatVol) {
+    patternAudio.setVolume(st.settings.patternVolume);
+    sPatVol.addEventListener('input', (e) => {
+      const v = patternAudio.setVolume(e.target.value);
+      st.settings.patternVolume = v;
+      root.querySelector('#s-pat-pct').textContent = `${Math.round(v * 100)}%`;
+      ctx.save();
+    });
+  }
   if (listenBtn) {
     listenBtn.addEventListener('click', () => {
       if (patternAudio.playing) {
@@ -164,7 +178,7 @@ export function viewSessio(ctx) {
       }
       const steps = stepsFromSystems([systems[0]]);
       const bpm = plan.tempos[0];
-      patternAudio.setVolume(Number(st.settings.volume));
+      patternAudio.setVolume(st.settings.patternVolume);
       const dots = [...root.querySelectorAll('#s-dots .note-dot')];
       root.querySelector('#s-dots').innerHTML = '<span class="note-dot"></span>'.repeat(steps.length);
       const all = [...root.querySelectorAll('#s-dots .note-dot')];
@@ -179,6 +193,16 @@ export function viewSessio(ctx) {
         },
         onEnd: () => { listenBtn.textContent = '🔊 Escolta el patró'; listenInfo.textContent = 'seqüència acabada ✓'; },
       });
+    });
+  }
+
+  const sMetroVol = root.querySelector('#s-metro-vol');
+  if (sMetroVol) {
+    metronome.setVolume(Number(st.settings.volume));
+    sMetroVol.addEventListener('input', (e) => {
+      metronome.setVolume(Number(e.target.value));
+      st.settings.volume = Number(e.target.value);
+      ctx.save();
     });
   }
 

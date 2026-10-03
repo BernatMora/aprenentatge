@@ -51,7 +51,7 @@ export class PatternAudio {
     this.nodes = [];
     this.timers = [];
     this.playing = false;
-    this.volume = 0.6;
+    this.volume = 0.28;          // el so de corda polsada suma molt: de base fluix
   }
 
   init() {
@@ -60,13 +60,27 @@ export class PatternAudio {
     this.ctx = new Ctx();
     this.master = this.ctx.createGain();
     this.master.gain.value = this.volume;
-    this.master.connect(this.ctx.destination);
+    // limitador: quan sonen sis cordes alhora el senyal se sumaria i clipsaria
+    if (this.ctx.createDynamicsCompressor) {
+      this.limiter = this.ctx.createDynamicsCompressor();
+      this.limiter.threshold.value = -12;
+      this.limiter.knee.value = 6;
+      this.limiter.ratio.value = 12;
+      this.limiter.attack.value = 0.003;
+      this.limiter.release.value = 0.25;
+      this.master.connect(this.limiter).connect(this.ctx.destination);
+    } else {
+      this.master.connect(this.ctx.destination);
+    }
     return this.ctx;
   }
 
+  /** Volum 0..1, amb efecte immediat (també mentre sona). */
   setVolume(v) {
-    this.volume = v;
-    if (this.master) this.master.gain.value = v;
+    const vol = Math.max(0, Math.min(1, Number(v) || 0));
+    this.volume = vol;
+    if (this.master) this.master.gain.value = vol;   // canvi en directe
+    return vol;
   }
 
   buffer(freq) {
@@ -93,7 +107,7 @@ export class PatternAudio {
       const src = this.ctx.createBufferSource();
       src.buffer = this.buffer(fretToFreq(step.string, step.fret));
       const g = this.ctx.createGain();
-      g.gain.value = 0.9;
+      g.gain.value = 0.5;          // cada nota, per sota del límitador
       src.connect(g).connect(this.master);
       src.start(t);
       src.stop(t + 1.2);

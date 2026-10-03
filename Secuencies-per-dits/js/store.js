@@ -18,7 +18,8 @@ export function defaultState() {
       subdivision: 'note',           // 'note' = un clic per nota | 'sixteenths' = 16es
       notesPerClick: 1,
       accent: true,
-      volume: 0.6,
+      volume: 0.45,                 // metrònom
+      patternVolume: 0.28,          // escoltar les seqüències d'exercici
       position: 1,
       extend: false,
       strings: [1, 2, 3, 4, 5, 6],

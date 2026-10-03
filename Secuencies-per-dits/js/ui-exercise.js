@@ -182,8 +182,12 @@ export function viewExerciseDetail(ctx, id) {
 
         <div class="row" style="margin-top:.6rem">
           <button id="listen">🔊 Escolta el patró</button>
-          <span class="muted small" id="listen-info">una nota per clic, amb el so real de la corda i el traste</span>
+          <label class="field" style="max-width:170px;flex:1">Volum del patró
+            <input type="range" id="pat-vol" min="0" max="1" step="0.02" value="${st.settings.patternVolume}"></label>
+          <button id="pat-mute" class="small" title="Silencia o torna el volum">🔇</button>
+          <span class="muted small" id="pat-vol-pct">${Math.round(st.settings.patternVolume * 100)}%</span>
         </div>
+        <div class="row"><span class="muted small" id="listen-info">una nota per clic, amb el so real de la corda i el traste</span></div>
         <div class="notes-dots" id="listen-dots"></div>
 
         <div class="row" style="margin-top:.5rem">
@@ -364,6 +368,28 @@ export function viewExerciseDetail(ctx, id) {
     el('#listen-dots').innerHTML = '<span class="note-dot"></span>'.repeat(n);
     listenDots = [...root.querySelectorAll('.note-dot')];
   };
+  const patVol = el('#pat-vol');
+  const patPct = el('#pat-vol-pct');
+  let volAbans = ctx.state.settings.patternVolume || 0.28;
+  patternAudio.setVolume(volAbans);
+  patVol.addEventListener('input', (e) => {
+    const v = patternAudio.setVolume(e.target.value);      // efecte immediat, també sonant
+    ctx.state.settings.patternVolume = v;
+    if (v > 0) volAbans = v;
+    patPct.textContent = `${Math.round(v * 100)}%`;
+    ctx.save();
+  });
+  el('#pat-mute').addEventListener('click', () => {
+    const ara = patternAudio.volume;
+    const v = ara > 0 ? 0 : volAbans;
+    patternAudio.setVolume(v);
+    patVol.value = v;
+    patPct.textContent = `${Math.round(v * 100)}%`;
+    ctx.state.settings.patternVolume = v;
+    if (v > 0) volAbans = v;
+    ctx.save();
+  });
+
   listenBtn.addEventListener('click', () => {
     if (patternAudio.playing) {
       patternAudio.stop();
@@ -374,7 +400,7 @@ export function viewExerciseDetail(ctx, id) {
     const systems = currentSystems(ctx, ex, ctx.state);
     const steps = stepsFromSystems(systems);
     const bpm = readTempos()[0] || 88;
-    patternAudio.setVolume(Number(el('#vol')?.value ?? ctx.state.settings.volume));
+    patternAudio.setVolume(ctx.state.settings.patternVolume);
     paintDots(steps.length);
     listenBtn.textContent = '■ Atura';
     listenInfo.textContent = `${steps.length} notes · ${Math.round(sequenceSeconds(steps, bpm))} s a ${bpm} bpm`;
