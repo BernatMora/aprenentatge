@@ -1,0 +1,16 @@
+{
+  "name": "Pràctica de guitarra · Sam Russell",
+  "short_name": "Pràctica",
+  "description": "58 exercicis cromàtics amb metrònom i entrenament per graons, i el llibre de Sam Russell amb àudio i text en català.",
+  "lang": "ca",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0e0f14",
+  "theme_color": "#0e0f14",
+  "icons": [
+    { "src": "media/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "media/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "media/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
