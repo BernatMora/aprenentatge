@@ -8,6 +8,14 @@
 <meta property="og:title" content="Aula BernatLab · cursos de música i d'IA en català" />
 <meta property="og:description" content="Novetat: pràctica de guitarra amb seqüències per dits (58 exercicis, metrònom i el llibre de Sam Russell en català). Cursos en català amb àudio: harmonia avançada (45 capítols), exercicis d'oïda, cursos d'IA i eines de música." />
 <meta property="og:type" content="website" />
+<link rel="icon" type="image/png" sizes="32x32" href="icons/aula-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="icons/aula-16.png" />
+<link rel="apple-touch-icon" href="icons/aula-180.png" />
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="theme-color" content="#0b1220" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Aula BernatLab" />
 <style>
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
@@ -47,6 +55,14 @@
          border-top: 1px solid rgba(255,255,255,.08); padding-top: 16px; }
   code { background: rgba(255,255,255,.07); padding: 1px 6px; border-radius: 6px; }
 
+  /* avís d'instal·lació al mòbil */
+  .installar { display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+               border: 1px solid rgba(56,189,248,.35); background: rgba(14,165,233,.10);
+               border-radius: 16px; padding: 12px 16px; margin: 0 0 16px; }
+  .installar img { border-radius: 12px; flex: none; }
+  .installar .titol { font-size: 16px; font-weight: 700; color: #fff; }
+  .installar .text { color: #94a3b8; font-size: 13.5px; margin-top: 3px; }
+
   /* avís de material nou */
   .novetat { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
              border: 1px solid rgba(74,222,128,.45); background: rgba(34,197,94,.12);
@@ -84,6 +100,17 @@
     <div><b>307</b> exemples de so</div>
     <div><b>135</b> exercicis d'oïda</div>
     <div><b>3</b> nivells per capítol</div>
+  </div>
+
+  <div class="installar">
+    <img src="icons/aula-180.png" alt="" width="54" height="54" />
+    <div>
+      <div class="titol">📱 Instal·la l'Aula al mòbil</div>
+      <div class="text">Obre aquesta pàgina al telèfon i afegeix-la a la pantalla d'inici:
+        <strong>iPhone/iPad</strong> (Safari) → Compartir → «Afegeix a la pantalla d'inici» ·
+        <strong>Android</strong> (Chrome) → ⋮ → «Instal·la l'aplicació».
+        Queda amb la icona del brot i s'obre a pantalla completa, com una app.</div>
+    </div>
   </div>
 
   <div class="novetat">
