@@ -1,0 +1,349 @@
+{
+ "count": 43,
+ "figures": [
+  {
+   "number": 1,
+   "title": "Linear Theory of Knowledge",
+   "bookPage": 1,
+   "file": "media/figures/fig_p01_1.png",
+   "pageImage": "media/pages/figures/p01.jpg",
+   "ca": "Teoria lineal del coneixement"
+  },
+  {
+   "number": 2,
+   "title": "Spiral Theory of Knowledge",
+   "bookPage": 1,
+   "file": "media/figures/fig_p01_2.png",
+   "pageImage": "media/pages/figures/p01.jpg",
+   "ca": "Teoria espiral del coneixement"
+  },
+  {
+   "number": 3,
+   "title": "Tab example",
+   "bookPage": 2,
+   "file": "media/figures/fig_p02_1.png",
+   "pageImage": "media/pages/figures/p02.jpg",
+   "ca": "Exemple de tablatura"
+  },
+  {
+   "number": 4,
+   "title": "Tab example",
+   "bookPage": 3,
+   "file": "media/figures/fig_p03_1.png",
+   "pageImage": "media/pages/figures/p03.jpg",
+   "ca": "Exemple de tablatura"
+  },
+  {
+   "number": 5,
+   "title": "Tab example",
+   "bookPage": 4,
+   "file": "media/figures/fig_p04_1.png",
+   "pageImage": "media/pages/figures/p04.jpg",
+   "ca": "Exemple de tablatura"
+  },
+  {
+   "number": 6,
+   "title": "Example of keeping notes",
+   "bookPage": 5,
+   "file": "media/figures/fig_p05_1.png",
+   "pageImage": "media/pages/figures/p05.jpg",
+   "ca": "Exemple de mantenir les notes"
+  },
+  {
+   "number": 7,
+   "title": "Graph showing expectations of results",
+   "bookPage": 5,
+   "file": "media/figures/fig_p05_2.jpg",
+   "pageImage": "media/pages/figures/p05.jpg",
+   "ca": "Gràfic de les expectatives de resultats"
+  },
+  {
+   "number": 8,
+   "title": "Tab example",
+   "bookPage": 6,
+   "file": "media/figures/fig_p06_1.png",
+   "pageImage": "media/pages/figures/p06.jpg",
+   "ca": "Exemple de tablatura"
+  },
+  {
+   "number": 9,
+   "title": "Tab example",
+   "bookPage": 6,
+   "file": "media/figures/fig_p06_2.png",
+   "pageImage": "media/pages/figures/p06.jpg",
+   "ca": "Exemple de tablatura"
+  },
+  {
+   "number": 10,
+   "title": "Perceptual and conceptual thinking",
+   "bookPage": 7,
+   "file": "media/figures/fig_p07_1.png",
+   "pageImage": "media/pages/figures/p07.jpg",
+   "ca": "Pensament perceptiu i conceptual"
+  },
+  {
+   "number": 11,
+   "title": "The grid lines are the faint white vertical lines. You can see",
+   "bookPage": 7,
+   "file": "media/figures/fig_p07_2.png",
+   "pageImage": "media/pages/figures/p07.jpg",
+   "ca": "Les línies de la quadrícula són les línies verticals blanques tènues. Es pot veure"
+  },
+  {
+   "number": 12,
+   "title": "Notated chords",
+   "bookPage": 8,
+   "file": "media/figures/fig_p08_1.png",
+   "pageImage": "media/pages/figures/p08.jpg",
+   "ca": "Acords en notació"
+  },
+  {
+   "number": 13,
+   "title": "Melody template",
+   "bookPage": 8,
+   "file": "media/figures/fig_p08_2.png",
+   "pageImage": "media/pages/figures/p08.jpg",
+   "ca": "Plantilla de melodia"
+  },
+  {
+   "number": 14,
+   "title": "Melody sketch",
+   "bookPage": 8,
+   "file": "media/figures/fig_p08_3.png",
+   "pageImage": "media/pages/figures/p08.jpg",
+   "ca": "Esbós de melodia"
+  },
+  {
+   "number": 15,
+   "title": "Notated melody",
+   "bookPage": 9,
+   "file": "media/figures/fig_p09_1.png",
+   "pageImage": "media/pages/figures/p09.jpg",
+   "ca": "Melodia en notació"
+  },
+  {
+   "number": 16,
+   "title": "Rhythms",
+   "bookPage": 9,
+   "file": "media/figures/fig_p09_2.png",
+   "pageImage": "media/pages/figures/p09.jpg",
+   "ca": "Ritmes"
+  },
+  {
+   "number": 17,
+   "title": "Melody with rhythms",
+   "bookPage": 9,
+   "file": "media/figures/fig_p09_3.png",
+   "pageImage": "media/pages/figures/p09.jpg",
+   "ca": "Melodia amb ritmes"
+  },
+  {
+   "number": 18,
+   "title": "Ignore the pitches, here we are solely",
+   "bookPage": 10,
+   "file": "media/figures/fig_p10_1.png",
+   "pageImage": "media/pages/figures/p10.jpg",
+   "ca": "Ignoreu les altures, aquí només"
+  },
+  {
+   "number": 19,
+   "title": "Song example",
+   "bookPage": 11,
+   "file": "media/figures/fig_p11_1.png",
+   "pageImage": "media/pages/figures/p11.jpg",
+   "ca": "Exemple de cançó"
+  },
+  {
+   "number": 20,
+   "title": "Song using functional harmony",
+   "bookPage": 13,
+   "file": "media/figures/fig_p13_1.png",
+   "pageImage": "media/pages/figures/p13.jpg",
+   "ca": "Cançó amb harmonia funcional"
+  },
+  {
+   "number": 21,
+   "title": "Chord exercise example",
+   "bookPage": 12,
+   "file": "media/figures/fig_p12_1.png",
+   "pageImage": "media/pages/figures/p12.jpg",
+   "ca": "Exemple d'exercici d'acords"
+  },
+  {
+   "number": 22,
+   "title": "Metronome",
+   "bookPage": 14,
+   "file": "media/figures/fig_p14_1.png",
+   "pageImage": "media/pages/figures/p14.jpg",
+   "ca": "Metrònom"
+  },
+  {
+   "number": 23,
+   "title": "Metronome",
+   "bookPage": 15,
+   "file": "media/figures/fig_p15_1.png",
+   "pageImage": "media/pages/figures/p15.jpg",
+   "ca": "Metrònom"
+  },
+  {
+   "number": 24,
+   "title": "Guitar Pro Example",
+   "bookPage": 16,
+   "file": "media/figures/fig_p16_1.png",
+   "pageImage": "media/pages/figures/p16.jpg",
+   "ca": "Exemple de Guitar Pro"
+  },
+  {
+   "number": 25,
+   "title": "Arpeggio example",
+   "bookPage": 17,
+   "file": "media/figures/fig_p17_1.png",
+   "pageImage": "media/pages/figures/p17.jpg",
+   "ca": "Exemple d'arpegi"
+  },
+  {
+   "number": 26,
+   "title": "Arpeggios with drum metronome",
+   "bookPage": 18,
+   "file": "media/figures/fig_p18_1.png",
+   "pageImage": "media/pages/figures/p18.jpg",
+   "ca": "Arpegis amb metrònom de bateria"
+  },
+  {
+   "number": 27,
+   "title": "Arpeggios with drum metronome 2",
+   "bookPage": 19,
+   "file": "media/figures/fig_p19_1.png",
+   "pageImage": "media/pages/figures/p19.jpg",
+   "ca": "Arpegis amb metrònom de bateria 2"
+  },
+  {
+   "number": 28,
+   "title": "Soundbrenner",
+   "bookPage": 20,
+   "file": "media/figures/fig_p20_1.png",
+   "pageImage": "media/pages/figures/p20.jpg",
+   "ca": "Soundbrenner"
+  },
+  {
+   "number": 29,
+   "title": "Soundbrenner",
+   "bookPage": 21,
+   "file": "media/figures/fig_p21_1.png",
+   "pageImage": "media/pages/figures/p21.jpg",
+   "ca": "Soundbrenner"
+  },
+  {
+   "number": 30,
+   "title": "Scale exercise",
+   "bookPage": 22,
+   "file": "media/figures/fig_p22_1.png",
+   "pageImage": "media/pages/figures/p22.jpg",
+   "ca": "Exercici d'escales"
+  },
+  {
+   "number": 31,
+   "title": "Scale exercise with drum metronome",
+   "bookPage": 23,
+   "file": "media/figures/fig_p23_1.png",
+   "pageImage": "media/pages/figures/p23.jpg",
+   "ca": "Exercici d'escales amb metrònom de bateria"
+  },
+  {
+   "number": 32,
+   "title": "Soundbrenner example",
+   "bookPage": 24,
+   "file": "media/figures/fig_p24_1.png",
+   "pageImage": "media/pages/figures/p24.jpg",
+   "ca": "Exemple de Soundbrenner"
+  },
+  {
+   "number": 33,
+   "title": "How to sit holding an electric guitar.",
+   "bookPage": 25,
+   "file": "media/figures/fig_p25_1.jpg",
+   "pageImage": "media/pages/figures/p25.jpg",
+   "ca": "Com seure amb una guitarra elèctrica."
+  },
+  {
+   "number": 34,
+   "title": "When sitting with an electric guitar, keep your back",
+   "bookPage": 26,
+   "file": "media/figures/fig_p26_1.jpg",
+   "pageImage": "media/pages/figures/p26.jpg",
+   "ca": "Quan seguis amb una guitarra elèctrica, mantén l'esquena"
+  },
+  {
+   "number": 35,
+   "title": "Beginner guitarists should ensure their",
+   "bookPage": 27,
+   "file": "media/figures/fig_p27_1.jpg",
+   "pageImage": "media/pages/figures/p27.jpg",
+   "ca": "Els guitarristes principiants haurien de procurar que el seu"
+  },
+  {
+   "number": 36,
+   "title": "Your thumb should be straight on the",
+   "bookPage": 28,
+   "file": "media/figures/fig_p28_1.jpg",
+   "pageImage": "media/pages/figures/p28.jpg",
+   "ca": "El polze ha d'anar recte al"
+  },
+  {
+   "number": 37,
+   "title": "Wrist under neck",
+   "bookPage": 29,
+   "file": "media/figures/fig_p29_1.jpg",
+   "pageImage": "media/pages/figures/p29.jpg",
+   "ca": "Canell sota el mànec"
+  },
+  {
+   "number": 38,
+   "title": "Use the tip of your ﬁnger, close to the nail.",
+   "bookPage": 30,
+   "file": "media/figures/fig_p30_1.jpg",
+   "pageImage": "media/pages/figures/p30.jpg",
+   "ca": "Utilitzeu la punta del dit, a prop de l'ungla."
+  },
+  {
+   "number": 39,
+   "title": "Holding down the strings with the pads of",
+   "bookPage": 31,
+   "file": "media/figures/fig_p31_1.jpg",
+   "pageImage": "media/pages/figures/p31.jpg",
+   "ca": "Prémer les cordes amb la polpa dels"
+  },
+  {
+   "number": 40,
+   "title": "Elbow should hand loose next to the body.",
+   "bookPage": 32,
+   "file": "media/figures/fig_p32_1.jpg",
+   "pageImage": "media/pages/figures/p32.jpg",
+   "ca": "El colze ha d'anar relaxat arran del cos."
+  },
+  {
+   "number": 41,
+   "title": "Here the arm is too tense causing the elbow to",
+   "bookPage": 33,
+   "file": "media/figures/fig_p33_1.jpg",
+   "pageImage": "media/pages/figures/p33.jpg",
+   "ca": "Aquí el braç està massa tens, cosa que fa que el colze"
+  },
+  {
+   "number": 42,
+   "title": "How to hold the pick 1",
+   "bookPage": 34,
+   "file": "media/figures/fig_p34_1.jpg",
+   "pageImage": "media/pages/figures/p34.jpg",
+   "ca": "Com agafar la pua 1"
+  },
+  {
+   "number": 43,
+   "title": "How to hold the pick 2",
+   "bookPage": 35,
+   "file": "media/figures/fig_p35_1.jpg",
+   "pageImage": "media/pages/figures/p35.jpg",
+   "ca": "Com agafar la pua 2"
+  }
+ ]
+}

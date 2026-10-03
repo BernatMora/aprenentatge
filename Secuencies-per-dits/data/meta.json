@@ -1,0 +1,15 @@
+{
+ "book": {
+  "title": "How to Practice Guitar and Train Your Creativity",
+  "author": "Sam Russell",
+  "audiobookMinutes": 288,
+  "figures": 43
+ },
+ "chromatic": {
+  "title": "Chromatic Exercises for Guitar",
+  "author": "Sam Russell",
+  "year": 2023,
+  "pages": 78
+ },
+ "builtFrom": "~/Desktop/How to Practice Guitar and Train Your Creativity"
+}
