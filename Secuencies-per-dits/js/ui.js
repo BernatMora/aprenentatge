@@ -80,6 +80,15 @@ export function viewAvui(ctx) {
     </div>
   </div>
 
+  <div class="card tight" style="margin-top:.8rem;border-color:rgba(123,223,242,.35)">
+    <div class="spread">
+      <span>📱 <strong>Vols tenir-la al mòbil?</strong>
+        <span class="muted small">Obre-la al telèfon i afegeix-la a la pantalla d'inici: queda amb la icona
+        pròpia i a pantalla completa. Amb codi QR per passar-la del Mac.</span></span>
+      <a class="btn small primary" href="mobil.html">Passos i QR</a>
+    </div>
+  </div>
+
   <div class="section-head"><h2>El mètode en quatre línies</h2></div>
   <div class="grid">
     <div class="card tight"><strong>10-15 min al dia</strong><p class="muted small" style="margin:.2rem 0 0">6 dies de 7, no més. Millor poc i cada dia.</p></div>

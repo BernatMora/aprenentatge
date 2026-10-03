@@ -56,6 +56,9 @@ p { margin: .5rem 0; }
 }
 .nav a:hover { background: var(--bg-3); color: var(--text); text-decoration: none; }
 .nav a.active { background: var(--accent); color: #17181f; font-weight: 650; }
+.nav a.nav-mobil { background: rgba(123,223,242,.14); color: var(--accent-2); font-weight: 650; }
+.nav a.nav-mobil:hover { background: rgba(123,223,242,.28); color: var(--text); }
+.footer .btn.small { text-decoration: none; color: var(--text); }
 
 /* -------------------------------------------------------------------- view */
 .view { max-width: 1060px; margin: 0 auto; padding: 1.2rem 1rem 4rem; }
