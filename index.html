@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Aula BernatLab · cursos de música i d'IA en català</title>
-<meta name="description" content="Aula BernatLab: cursos de música i d'intel·ligència artificial en català, amb àudio per escoltar. Harmonia avançada de guitarra (45 capítols), exercicis d'oïda, cursos d'IA i eines de música." />
+<meta name="description" content="Aula BernatLab: cursos de música i d'intel·ligència artificial en català, amb àudio per escoltar. NOVETAT: pràctica de guitarra amb seqüències per dits (58 exercicis, metrònom amb entrenament per graons i el llibre de Sam Russell en català). També harmonia avançada (45 capítols), exercicis d'oïda, cursos d'IA i eines de música." />
 <meta property="og:title" content="Aula BernatLab · cursos de música i d'IA en català" />
-<meta property="og:description" content="Cursos en català amb àudio: harmonia avançada de guitarra (45 capítols), exercicis d'oïda amb tres nivells, cursos d'IA i eines de música." />
+<meta property="og:description" content="Novetat: pràctica de guitarra amb seqüències per dits (58 exercicis, metrònom i el llibre de Sam Russell en català). Cursos en català amb àudio: harmonia avançada (45 capítols), exercicis d'oïda, cursos d'IA i eines de música." />
 <meta property="og:type" content="website" />
 <style>
   :root { color-scheme: dark; }
@@ -46,6 +46,23 @@
   .peu { margin-top: 34px; color: #64748b; font-size: 12.5px; line-height: 1.8;
          border-top: 1px solid rgba(255,255,255,.08); padding-top: 16px; }
   code { background: rgba(255,255,255,.07); padding: 1px 6px; border-radius: 6px; }
+
+  /* avís de material nou */
+  .novetat { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+             border: 1px solid rgba(74,222,128,.45); background: rgba(34,197,94,.12);
+             border-radius: 16px; padding: 14px 16px; margin: 4px 0 22px; }
+  .novetat .punt { width: 10px; height: 10px; border-radius: 50%; background: #4ade80; margin-top: 7px;
+                   box-shadow: 0 0 0 0 rgba(74,222,128,.7); animation: pols 2s infinite; }
+  @keyframes pols { 70% { box-shadow: 0 0 0 9px rgba(74,222,128,0); } 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); } }
+  .novetat .cos { flex: 1; min-width: 220px; }
+  .novetat .titol { font-size: 17px; font-weight: 700; color: #fff; }
+  .novetat .text { color: #94a3b8; font-size: 13.5px; margin-top: 4px; }
+  .novetat a.boto { display: inline-block; background: #22c55e; color: #06240f; font-weight: 700;
+                    border-radius: 999px; padding: 6px 14px; text-decoration: none; white-space: nowrap;
+                    align-self: center; }
+  .novetat a.boto:hover { background: #4ade80; }
+  .etiqueta.verd { background: rgba(34,197,94,.4); color: #dcfce7; }
+  @media (prefers-reduced-motion: reduce) { .novetat .punt { animation: none; } }
 </style>
 </head>
 <body>
@@ -61,6 +78,19 @@
     <div><b>307</b> exemples de so</div>
     <div><b>135</b> exercicis d'oïda</div>
     <div><b>3</b> nivells per capítol</div>
+  </div>
+
+  <div class="novetat">
+    <span class="punt" aria-hidden="true"></span>
+    <div class="cos">
+      <div class="titol">🆕 Material nou: Pràctica de guitarra · seqüències per dits</div>
+      <div class="text">58 exercicis cromàtics per a la independència de dits, amb <strong>tablatura generada</strong>
+        per a qualsevol posició del mànec, <strong>metrònom</strong> amb entrenament per graons (+2 bpm cada setmana),
+        <strong>àudio de cada seqüència</strong>, pla anual de 52 setmanes i registre del progrés.
+        Amb el llibre de Sam Russell <em>How to Practice Guitar and Train Your Creativity</em>: 29 capítols
+        d'àudio amb el text <strong>en català</strong> i les 43 figures.</div>
+    </div>
+    <a class="boto" href="./Secuencies-per-dits/index.html">Obre-la →</a>
   </div>
 
   <h2>🎓 Cursos</h2>
@@ -115,7 +145,7 @@
   <h2>🖐️ Guitarra</h2>
 
   <a class="targeta musica" href="./Secuencies-per-dits/index.html">
-    <div class="t">🎯 Pràctica de guitarra · seqüències per dits <span class="etiqueta groc">58 exercicis · 29 capítols</span></div>
+    <div class="t">🎯 Pràctica de guitarra · seqüències per dits <span class="etiqueta verd">nou</span> <span class="etiqueta groc">58 exercicis · 29 capítols</span></div>
     <div class="d">El mètode de <strong>chromatics</strong> per a la independència de dits: les 24 permutacions de
       1-2-3-4 i les frases amb pedal, amb <strong>tablatura generada</strong> per a qualsevol posició del mànec,
       <strong>metrònom</strong> amb entrenament per graons (+2 bpm cada setmana i baixada de 10 bpm quan t'encalles),
