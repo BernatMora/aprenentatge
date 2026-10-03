@@ -55,13 +55,16 @@
          border-top: 1px solid rgba(255,255,255,.08); padding-top: 16px; }
   code { background: rgba(255,255,255,.07); padding: 1px 6px; border-radius: 6px; }
 
-  /* avís d'instal·lació al mòbil */
-  .installar { display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
-               border: 1px solid rgba(56,189,248,.35); background: rgba(14,165,233,.10);
-               border-radius: 16px; padding: 12px 16px; margin: 0 0 16px; }
-  .installar img { border-radius: 12px; flex: none; }
-  .installar .titol { font-size: 16px; font-weight: 700; color: #fff; }
-  .installar .text { color: #94a3b8; font-size: 13.5px; margin-top: 3px; }
+  /* codis QR per al mòbil */
+  .qr-grid { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 26px; }
+  .qr-card { flex: 1 1 240px; max-width: 320px; text-align: center; text-decoration: none;
+             border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04);
+             border-radius: 16px; padding: 14px; }
+  .qr-card:hover { border-color: #0ea5e9; background: rgba(14,165,233,.10); }
+  .qr-card img { width: 132px; height: 132px; background: #fff; padding: 8px; border-radius: 12px; }
+  .qr-card .t { color: #fff; font-weight: 700; margin-top: 8px; font-size: 15px; }
+  .qr-card .d { color: #94a3b8; font-size: 12.5px; margin: 2px 0 4px; }
+  .qr-card a { color: #7dd3fc; font-size: 12px; text-decoration: none; word-break: break-all; }
 
   /* avís de material nou */
   .novetat { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
@@ -102,17 +105,6 @@
     <div><b>3</b> nivells per capítol</div>
   </div>
 
-  <div class="installar">
-    <img src="icons/aula-180.png" alt="" width="54" height="54" />
-    <div>
-      <div class="titol">📱 Instal·la l'Aula al mòbil</div>
-      <div class="text">Obre aquesta pàgina al telèfon i afegeix-la a la pantalla d'inici:
-        <strong>iPhone/iPad</strong> (Safari) → Compartir → «Afegeix a la pantalla d'inici» ·
-        <strong>Android</strong> (Chrome) → ⋮ → «Instal·la l'aplicació».
-        Queda amb la icona del brot i s'obre a pantalla completa, com una app.</div>
-    </div>
-  </div>
-
   <div class="novetat">
     <span class="punt" aria-hidden="true"></span>
     <div class="cos">
@@ -124,12 +116,8 @@
         d'àudio amb el text <strong>en català</strong> i les 43 figures.
         <br><strong>També la pots tenir al mòbil com una app:</strong> obre-la-hi i afegeix-la a la pantalla d'inici
         (iPhone: Compartir → Afegeix a la pantalla d'inici · Android: ⋮ → Instal·la l'aplicació).
-        <a href="./Secuencies-per-dits/mobil.html">📱 Passos i codi QR per al mòbil →</a></div>
+        <a href="#mobil">📱 Instal·la-la al mòbil (codi QR) ↓</a></div>
     </div>
-    <a class="qr" href="./Secuencies-per-dits/mobil.html" title="Obre-la al mòbil: passos i codi QR">
-      <img src="./Secuencies-per-dits/media/qr-mobil.svg" alt="Codi QR per obrir l'app de pràctica de guitarra al mòbil" loading="lazy">
-      <span>📱 Escaneja'l amb el mòbil<br><span style="font-weight:400;font-size:11px">passos per a iPhone i Android</span></span>
-    </a>
     <a class="boto" href="./Secuencies-per-dits/index.html">Obre-la →</a>
   </div>
 
