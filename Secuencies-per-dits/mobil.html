@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="media/icon-32.png">
 <link rel="apple-touch-icon" href="media/icon-180.png">
 <style>
-  .qr { display: block; width: min(320px, 78vw); margin: 1rem auto; border-radius: 14px; background: #fff; padding: 10px; }
+  .qr { display: block; width: min(440px, 88vw); margin: 1rem auto; border-radius: 16px; background: #fff; padding: 14px; }
   .pas { display: flex; gap: .6rem; align-items: flex-start; margin: .5rem 0; }
   .pas .n { flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--accent); color: #17181f;
             font-weight: 700; display: grid; place-items: center; font-size: .85rem; }
@@ -24,7 +24,9 @@
 
   <div class="card">
     <h2 style="margin-top:0">Escaneja aquest codi</h2>
-    <img class="qr" src="media/qr-mobil.png" alt="Codi QR per obrir l'app de pràctica de guitarra">
+    <img class="qr" src="media/qr-mobil.svg" alt="Codi QR per obrir l'app de pràctica de guitarra">
+    <p class="center muted small" style="margin-top:0">Si el vols enviar a algú, baixa'l:
+      <a href="media/qr-mobil.png" download>PNG</a> · <a href="media/qr-mobil.svg" download>SVG</a></p>
     <p class="center url" id="url">https://bernatmora.github.io/aprenentatge/Secuencies-per-dits/</p>
     <div class="row center" style="justify-content:center">
       <button id="copia">Copiar l'enllaç</button>

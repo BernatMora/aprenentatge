@@ -62,10 +62,12 @@
                     align-self: center; }
   .novetat a.boto:hover { background: #4ade80; }
   .etiqueta.verd { background: rgba(34,197,94,.4); color: #dcfce7; }
-  .novetat .qr { flex: none; text-align: center; text-decoration: none; color: #94a3b8; font-size: 11px; }
-  .novetat .qr img { display: block; width: 96px; height: 96px; background: #fff; padding: 5px;
-                     border-radius: 10px; margin: 0 auto 4px; }
-  .novetat .qr:hover img { outline: 2px solid #4ade80; }
+  .novetat .qr { flex: none; text-align: center; text-decoration: none; color: #cbd5e1; font-size: 12.5px;
+                 font-weight: 600; }
+  .novetat .qr img { display: block; width: 184px; height: 184px; background: #fff; padding: 10px;
+                     border-radius: 14px; margin: 0 auto 6px; }
+  .novetat .qr:hover img { outline: 3px solid #4ade80; }
+  @media (max-width: 620px) { .novetat .qr img { width: 150px; height: 150px; } }
   @media (prefers-reduced-motion: reduce) { .novetat .punt { animation: none; } }
 </style>
 </head>
@@ -98,8 +100,8 @@
         <a href="./Secuencies-per-dits/mobil.html">📱 Passos i codi QR per al mòbil →</a></div>
     </div>
     <a class="qr" href="./Secuencies-per-dits/mobil.html" title="Obre-la al mòbil: passos i codi QR">
-      <img src="./Secuencies-per-dits/media/qr-mobil.png" alt="Codi QR per obrir l'app de pràctica de guitarra al mòbil" loading="lazy">
-      <span>Escaneja'l amb el mòbil</span>
+      <img src="./Secuencies-per-dits/media/qr-mobil.svg" alt="Codi QR per obrir l'app de pràctica de guitarra al mòbil" loading="lazy">
+      <span>📱 Escaneja'l amb el mòbil<br><span style="font-weight:400;font-size:11px">passos per a iPhone i Android</span></span>
     </a>
     <a class="boto" href="./Secuencies-per-dits/index.html">Obre-la →</a>
   </div>
