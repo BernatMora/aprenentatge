@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obre-la al mòbil · Pràctica de guitarra</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/png" sizes="32x32" href="media/icon-32.png">
+<link rel="apple-touch-icon" href="media/icon-180.png">
+<style>
+  .qr { display: block; width: min(320px, 78vw); margin: 1rem auto; border-radius: 14px; background: #fff; padding: 10px; }
+  .pas { display: flex; gap: .6rem; align-items: flex-start; margin: .5rem 0; }
+  .pas .n { flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--accent); color: #17181f;
+            font-weight: 700; display: grid; place-items: center; font-size: .85rem; }
+  .url { font-family: var(--mono); font-size: .82rem; word-break: break-all; color: var(--accent-2); }
+</style>
+</head>
+<body>
+<main class="view">
+  <h1>📱 Tenir-la al mòbil</h1>
+  <p class="muted">L'app funciona al navegador del mòbil, sense instal·lar res. Si vols que quedi com una app
+    (icona pròpia, pantalla completa i es carrega a demanda l'àudio), afegeix-la a la pantalla d'inici.</p>
+
+  <div class="card">
+    <h2 style="margin-top:0">Escaneja aquest codi</h2>
+    <img class="qr" src="media/qr-mobil.png" alt="Codi QR per obrir l'app de pràctica de guitarra">
+    <p class="center url" id="url">https://bernatmora.github.io/aprenentatge/Secuencies-per-dits/</p>
+    <div class="row center" style="justify-content:center">
+      <button id="copia">Copiar l'enllaç</button>
+      <a class="btn primary" href="./">Obrir l'app en aquest dispositiu</a>
+    </div>
+  </div>
+
+  <div class="grid two" style="margin-top:.8rem">
+    <div class="card">
+      <h2 style="margin-top:0">iPhone / iPad (Safari)</h2>
+      <div class="pas"><span class="n">1</span><span>Obre l'enllaç amb <strong>Safari</strong> (si l'obres des d'un altre navegador, la icona no sortirà igual de bé).</span></div>
+      <div class="pas"><span class="n">2</span><span>Toca el botó <strong>Compartir</strong> (el quadrat amb la fletxa).</span></div>
+      <div class="pas"><span class="n">3</span><span>Tria <strong>«Afegeix a la pantalla d'inici»</strong> i posa-li el nom que vulguis.</span></div>
+      <p class="muted small">A partir d'aquí s'obre a pantalla completa, com una app, amb la icona dels quatre dits.</p>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">Android (Chrome)</h2>
+      <div class="pas"><span class="n">1</span><span>Obre l'enllaç amb <strong>Chrome</strong>.</span></div>
+      <div class="pas"><span class="n">2</span><span>Menú <strong>⋮</strong> (a dalt a la dreta).</span></div>
+      <div class="pas"><span class="n">3</span><span>Tria <strong>«Instal·la l'aplicació»</strong> o <strong>«Afegeix a la pantalla d'inici»</strong>.</span></div>
+      <p class="muted small">Chrome fa servir el manifest de l'app, així que la icona i el nom surten sols.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:.8rem">
+    <h2 style="margin-top:0">Consells per practicar amb el mòbil</h2>
+    <ul class="small muted" style="margin:.3rem 0 0 1rem; padding:0">
+      <li>Deixa el mòbil en horitzontal o vertical; la interfície s'adapta.</li>
+      <li>L'àudio dels capítols es carrega a demanda (uns 7 MB per capítol), així que no cal esperar res.</li>
+      <li>El volum de les seqüències d'exercici té el seu propi control, i a la sessió guiada també el del metrònom.</li>
+      <li>Si el so del mòbil et molesta, pots practicar només amb el metrònom i el tab a la pantalla.</li>
+    </ul>
+  </div>
+
+  <p class="center" style="margin-top:1rem"><a href="./">← Torna a l'app</a> · <a href="https://bernatmora.github.io/aprenentatge/">Aula BernatLab</a></p>
+</main>
+<script>
+  document.getElementById('copia').addEventListener('click', async (e) => {
+    const url = document.getElementById('url').textContent.trim();
+    try {
+      await navigator.clipboard.writeText(url);
+      e.target.textContent = 'Copiat ✓';
+    } catch {
+      e.target.textContent = 'Copia-la a mà';
+    }
+    setTimeout(() => { e.target.textContent = 'Copiar l\'enllaç'; }, 2000);
+  });
+</script>
+</body>
+</html>
