@@ -1,0 +1,1049 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ràdio · Aula BernatLab</title>
+<meta name="description" content="Ràdio en directe per escoltar mentre treballes: 53 emissores triades, amb el títol de la cançó que sona." />
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="theme-color" content="#0b1020" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Ràdio" />
+<link rel="apple-touch-icon" href="icon-256.png" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%230f172a'/%3E%3Ccircle%20cx='24'%20cy='32'%20r='9'%20fill='none'%20stroke='%2360a5fa'%20stroke-width='4'/%3E%3Cpath%20d='M38%2024l14%208-14%208z'%20fill='%23f472b6'/%3E%3C/svg%3E" />
+<style>
+  :root{
+    --bg:#0b1020; --bg2:#101a33; --fg:#eef2ff; --muted:#93a1c4;
+    --line:rgba(255,255,255,.10); --card:rgba(255,255,255,.045); --card-hi:rgba(255,255,255,.09);
+    --accent:#60a5fa;
+  }
+  body.clar{
+    --bg:#f4f6fc; --bg2:#e9edf9; --fg:#131a2c; --muted:#5b6785;
+    --line:rgba(15,23,42,.12); --card:rgba(15,23,42,.035); --card-hi:rgba(15,23,42,.07);
+    --accent:#2563eb;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);
+    background-attachment:fixed; -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .torna{
+    display:inline-flex; align-items:center; gap:6px; flex:none;
+    font:600 12.5px/1 inherit; color:var(--fg); text-decoration:none; white-space:nowrap;
+    padding:9px 12px; border-radius:11px; background:var(--card); border:1px solid var(--line);
+  }
+  .torna:hover{background:var(--card-hi); border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+  .torna + .marca{margin-right:auto}
+
+  /* ---------- capçalera i reproductor ---------- */
+  header{
+    position:sticky; top:0; z-index:20; display:flex; flex-wrap:wrap; gap:10px;
+    align-items:center; justify-content:space-between;
+    padding:12px 18px; border-bottom:1px solid var(--line);
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(12px) saturate(140%);
+  }
+  .marca{display:flex; align-items:center; gap:10px; min-width:0}
+  .marca svg{flex:none}
+  .marca h1{margin:0; font-size:16px; letter-spacing:.3px}
+  .marca small{display:block; color:var(--muted); font-size:11.5px; margin-top:1px}
+  .eines{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+  .boto{
+    font:600 12.5px/1 inherit; color:var(--fg); cursor:pointer; white-space:nowrap;
+    padding:9px 12px; border-radius:11px; background:var(--card); border:1px solid var(--line);
+    transition:background .15s,border-color .15s,transform .12s;
+  }
+  .boto:hover{background:var(--card-hi); border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+  .boto:active{transform:translateY(1px)}
+  select.boto{padding:8px 10px}
+
+  .reproductor{
+    position:sticky; top:57px; z-index:19;
+    display:flex; flex-wrap:wrap; gap:12px; align-items:center;
+    padding:12px 18px; border-bottom:1px solid var(--line);
+    background:color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter:blur(12px);
+  }
+  .play{
+    width:50px; height:50px; flex:none; border:0; border-radius:50%; cursor:pointer;
+    display:grid; place-items:center; font-size:17px; color:#08111f;
+    background:linear-gradient(180deg,#bfdbfe,#93c5fd);
+  }
+  body.clar .play{color:#08111f}
+  .info{display:flex; flex-direction:column; gap:2px; min-width:0; flex:1 1 220px}
+  .info strong{font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .info small{color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  /* la cançó que sona: es veu també al mòbil */
+  .info small#canco{display:block; color:var(--fg); font-size:12.5px; font-weight:600;
+                    opacity:0; transition:opacity .35s ease}
+  .info small#canco.viu{opacity:.92}
+  .info small#canco.nota{opacity:.55; font-weight:400; color:var(--muted)}
+  .viu{display:none; align-items:center; gap:6px; font-size:11px; font-weight:800; letter-spacing:.8px; color:#22c55e}
+  .viu.on{display:inline-flex}
+  .viu i{width:8px; height:8px; border-radius:50%; background:#22c55e; animation:pols 1.5s infinite}
+  @keyframes pols{0%,100%{opacity:1}50%{opacity:.2}}
+  .volum{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12px}
+  input[type=range]{width:110px; accent-color:var(--accent)}
+
+  /* ---------- filtres ---------- */
+  .zona{max-width:1180px; margin:0 auto; padding:16px 18px 30px}
+  .cerca{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px}
+  .cerca input{
+    flex:1 1 240px; min-width:0; padding:11px 14px; border-radius:12px; font-size:14px;
+    background:var(--card); border:1px solid var(--line); color:var(--fg); outline:0;
+  }
+  .cerca input:focus{border-color:color-mix(in srgb,var(--accent) 70%,transparent)}
+  .chips{display:flex; flex-wrap:wrap; gap:7px}
+  .chip{
+    font:600 12.5px/1 inherit; color:var(--muted); cursor:pointer;
+    padding:8px 12px; border-radius:999px; background:var(--card); border:1px solid var(--line);
+  }
+  .chip:hover{color:var(--fg); background:var(--card-hi)}
+  .chip[aria-pressed="true"]{color:#08111f; background:linear-gradient(180deg,#bfdbfe,#93c5fd); border-color:#bfdbfe}
+  .chip .n{opacity:.6; margin-left:5px; font-weight:500}
+
+  /* ---------- graella ---------- */
+  h2.sec{
+    margin:20px 0 10px; font-size:11.5px; letter-spacing:1.3px; text-transform:uppercase;
+    color:var(--muted); font-weight:700;
+  }
+  h2.sec:first-of-type{margin-top:4px}
+  .graella{display:grid; gap:10px; grid-template-columns:repeat(auto-fill,minmax(212px,1fr))}
+  .card{
+    position:relative; display:flex; align-items:center; gap:12px; padding:12px 14px;
+    border-radius:14px; background:var(--card); border:1px solid var(--line);
+    cursor:pointer; transition:transform .14s,border-color .14s,background .14s,box-shadow .16s;
+    min-width:0; text-align:left; font:inherit; color:inherit;
+  }
+  .card:hover,.card:focus-visible{
+    transform:translateY(-2px); border-color:var(--c);
+    background:var(--card-hi); box-shadow:0 12px 26px -20px var(--cg); outline:none;
+  }
+  .card:focus-visible{box-shadow:0 0 0 2px var(--c)}
+  .card.sonant{border-color:var(--c); box-shadow:0 0 0 1px var(--c),0 12px 26px -20px var(--cg)}
+  .ico{
+    width:44px; height:44px; flex:none; border-radius:13px; display:grid; place-items:center;
+    background:color-mix(in srgb,var(--c) 18%,transparent);
+    box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 40%,transparent);
+  }
+  .ico b{font-size:15px; font-weight:800; color:var(--c); letter-spacing:.3px}
+  .txt{display:flex; flex-direction:column; gap:2px; min-width:0; flex:1}
+  .txt strong{font-size:13.5px; font-weight:650; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .txt small{font-size:11.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .fav{
+    position:absolute; top:6px; right:6px; width:24px; height:24px; border-radius:8px;
+    display:grid; place-items:center; cursor:pointer; padding:0; line-height:1;
+    background:transparent; border:1px solid transparent; color:var(--muted); font-size:13px;
+  }
+  .fav:hover{background:var(--card-hi); border-color:var(--line)}
+  .fav.on{color:#fbbf24}
+  .card.ko .ico{opacity:.45}
+  .card.ko .txt small{color:#f87171}
+  .buit{margin:44px auto; max-width:520px; text-align:center; color:var(--muted); font-size:14px}
+  footer{max-width:1180px; margin:0 auto; padding:0 18px 34px; color:var(--muted); font-size:12px; line-height:1.7}
+  kbd{
+    font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--fg);
+    border:1px solid var(--line); border-radius:6px; padding:3px 6px; background:var(--card);
+  }
+  @media (max-width:640px){
+    .graella{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+    .reproductor{padding:10px 14px}
+    .zona{padding:14px 14px 24px}
+    .info small{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="torna" href="../index.html" title="Torna a l'Aula BernatLab">← Aula BernatLab</a>
+  <div class="marca">
+    <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+      <rect width="64" height="64" rx="14" fill="none" stroke="#60a5fa" stroke-width="4"/>
+      <circle cx="24" cy="32" r="8" fill="none" stroke="#60a5fa" stroke-width="3"/>
+      <path d="M38 24l14 8-14 8z" fill="#f472b6"/>
+    </svg>
+    <div>
+      <h1>Ràdio</h1>
+      <small id="recompte">carregant…</small>
+    </div>
+  </div>
+  <div class="eines">
+    <label class="volum" for="volum">🔊</label>
+    <input id="volum" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volum" />
+    <button class="boto" id="mut" type="button" title="Silenci (M)">Silenci</button>
+    <select class="boto" id="temporitzador" aria-label="Atura automàtica" title="Atura la ràdio al cap d'una estona">
+      <option value="0">No aturar</option>
+      <option value="15">Atura en 15 min</option>
+      <option value="30">Atura en 30 min</option>
+      <option value="60">Atura en 1 h</option>
+      <option value="90">Atura en 1,5 h</option>
+    </select>
+    <button class="boto" id="tema" type="button" title="Canvia entre fosc i clar">☀︎ Clar</button>
+  </div>
+</header>
+
+<div class="reproductor">
+  <button class="play" id="play" type="button" aria-label="Reprodueix o atura">▶</button>
+  <div class="info">
+    <strong id="ara">Tria una emissora</strong>
+    <small id="detall">Ràdio en directe · l'àudio es reprodueix directament des d'aquest ordinador</small>
+    <small id="canco"></small>
+  </div>
+  <span class="viu" id="viu"><i></i>EN DIRECTE</span>
+  <span id="temporitzador-estat" style="color:var(--muted); font-size:12px"></span>
+</div>
+
+<div class="zona">
+  <div class="cerca">
+    <input id="q" type="search" placeholder="Cerca (jazz, chill, notícies, FIP…)" autocomplete="off" spellcheck="false" />
+    <div class="chips" id="chips"></div>
+  </div>
+  <div id="llista"></div>
+  <p class="buit" id="buit" hidden><b>Cap emissora</b>Prova una altra paraula o tria una altra categoria.</p>
+</div>
+
+<footer>
+  Dreceres: <kbd>espai</kbd> reproduir/aturar · <kbd>←</kbd> <kbd>→</kbd> emissora anterior/següent ·
+  <kbd>↑</kbd> <kbd>↓</kbd> volum · <kbd>M</kbd> silenci · <kbd>S</kbd> afegir als preferits ·
+  <kbd>/</kbd> cercar · <kbd>Esc</kbd> netejar<br />
+  Els preferits i el volum es guarden en aquest navegador. No s'envia res enlloc: l'àudio va
+  directament de l'emissora a aquest ordinador.
+</footer>
+
+<script>
+/* ============================================================
+   Emissores — totes comprovades una per una (resposta 200/206 amb àudio)
+   i totes amb adreça https, perque el navegador no bloquegi l'àudio.
+   n = nom · u = adreça · c = color · d = descripció · g = categoria · t = per cercar
+   ============================================================ */
+const EMISSORES = [
+  /* --- Per treballar: chill, ambient, instrumental --- */
+  { n:'Groove Salad',        u:'https://ice1.somafm.com/groovesalad-128-mp3',   c:'#22c55e', g:'Per treballar', d:'Downtempo i ambient, sense lletra', t:'chill ambient relax downtempo somafm' },
+  { n:'Fluid',               u:'https://ice1.somafm.com/fluid-128-mp3',         c:'#a855f7', g:'Per treballar', d:'Instrumental hip-hop, ritme suau', t:'instrumental hip hop beats chill' },
+  { n:'Lush',                u:'https://ice1.somafm.com/lush-128-mp3',          c:'#ec4899', g:'Per treballar', d:'Veus suaus i chill',               t:'chill vocals suau relax' },
+  { n:'Secret Agent',        u:'https://ice1.somafm.com/secretagent-128-mp3',   c:'#f59e0b', g:'Per treballar', d:'Lounge i espies, jazz còctel',     t:'lounge jazz cocktail setanta' },
+  { n:'Radio Paradise · Mellow', u:'https://stream.radioparadise.com/mellow-192', c:'#0ea5e9', g:'Per treballar', d:'Selecció tranquil·la, sense anuncis', t:'mellow chill relax radioparadise' },
+  { n:'Radio Swiss Classic', u:'https://livestreaming-node-1.srg-ssr.ch/srgssr/rsc_de/mp3/128', c:'#38bdf8', g:'Per treballar', d:'Clàssica suau tot el dia', t:'classica chill suau' },
+
+  /* --- Zen: ambient, meditació i relaxació profunda --- */
+  { n:'Synphaera',           u:'https://ice1.somafm.com/synphaera-128-mp3',     c:'#22d3ee', g:'Zen', d:'Ambient electrònic profund',        t:'ambient zen meditacio relax' },
+  { n:'Drone Zone',          u:'https://ice1.somafm.com/dronezone-128-mp3',     c:'#14b8a6', g:'Zen', d:'Ambient atmosfèric, molt suau',    t:'ambient chill relax concentracio' },
+  { n:'Drone Zone 2',        u:'https://ice1.somafm.com/dz2-128-mp3',           c:'#2dd4bf', g:'Zen', d:'Drone continu, sense canvis',       t:'drone ambient zen meditacio' },
+  { n:'Deep Space One',      u:'https://ice1.somafm.com/deepspaceone-128-mp3',  c:'#6366f1', g:'Zen', d:'Ambient espacial, minimal',         t:'ambient space minimal concentracio' },
+  { n:'Space Station Soma',  u:'https://ice1.somafm.com/spacestation-128-mp3',  c:'#818cf8', g:'Zen', d:'Ambient espacial, ingràvid',        t:'espai ambient zen' },
+  { n:'Mission Control',     u:'https://ice1.somafm.com/missioncontrol-128-mp3',c:'#0ea5e9', g:'Zen', d:'Ambient de la NASA',                t:'nasa espai ambient' },
+  { n:'n5MD Radio',          u:'https://ice1.somafm.com/n5md-128-mp3',          c:'#8b5cf6', g:'Zen', d:'Ambient i IDM',                     t:'ambient idm electronic' },
+  { n:'Scanner',             u:'https://ice1.somafm.com/scanner-128-mp3',       c:'#64748b', g:'Zen', d:'Ambient nocturn, sense veus',      t:'ambient nit relax' },
+  { n:'The Dark Zone',       u:'https://ice1.somafm.com/darkzone-128-mp3',      c:'#475569', g:'Zen', d:'Ambient fosc i profund',           t:'ambient fosc dark' },
+  { n:'laut.fm meditation',  u:'https://stream.laut.fm/meditation',             c:'#a3e635', g:'Zen', d:'Meditació de comunitat',            t:'meditacio zen relax' },
+
+  /* --- Jazz --- */
+  { n:'FIP Jazz',            u:'https://icecast.radiofrance.fr/fipjazz-midfi.mp3', c:'#f59e0b', g:'Jazz', d:'Jazz les 24 h, sense anuncis', t:'jazz fip' },
+  { n:'TSF Jazz',            u:'https://tsfjazz.ice.infomaniak.ch/tsfjazz-high.mp3', c:'#fbbf24', g:'Jazz', d:'Jazz clàssic i contemporani',   t:'jazz tsf' },
+  { n:'Radio Swiss Jazz',    u:'https://livestreaming-node-1.srg-ssr.ch/srgssr/rsj/mp3/128', c:'#eab308', g:'Jazz', d:'Estàndards i swing',    t:'jazz swing suissa' },
+  { n:'Sonic Universe',      u:'https://ice1.somafm.com/sonicuniverse-128-mp3', c:'#f97316', g:'Jazz', d:'Jazz d’avantguarda i fusió',      t:'jazz fusio avantguarda' },
+
+  /* --- Country i americana --- */
+  { n:'Boot Liquor',         u:'https://ice1.somafm.com/bootliquor-128-mp3',    c:'#d97706', g:'Country', d:'Americana i country d’arrel',   t:'country americana' },
+  { n:'Folk Forward',        u:'https://ice1.somafm.com/folkfwd-128-mp3',       c:'#ca8a04', g:'Country', d:'Folk i acústic',                t:'folk acustic' },
+  { n:'Bluegrass Country',   u:'https://ice24.securenetsystems.net/WAMU',       c:'#b45309', g:'Country', d:'Bluegrass i cordes',            t:'bluegrass banjo' },
+
+  /* --- Rock i indie --- */
+  { n:'FIP',                 u:'https://icecast.radiofrance.fr/fip-midfi.mp3',  c:'#ef4444', g:'Rock i indie', d:'Eclèctica, el clàssic de FIP', t:'fip eclectic' },
+  { n:'FIP Rock',            u:'https://icecast.radiofrance.fr/fiprock-midfi.mp3', c:'#dc2626', g:'Rock i indie', d:'Rock de totes les èpoques', t:'rock fip' },
+  { n:'KEXP',                u:'https://kexp-mp3-128.streamguys1.com/kexp128.mp3', c:'#f43f5e', g:'Rock i indie', d:'Indie de Seattle',        t:'indie rock seattle' },
+  { n:'Indie Pop Rocks',     u:'https://ice1.somafm.com/indiepop-128-mp3',      c:'#fb7185', g:'Rock i indie', d:'Pop independent',             t:'indie pop' },
+  { n:'Radio Paradise',      u:'https://stream.radioparadise.com/mp3-192',      c:'#7c3aed', g:'Rock i indie', d:'Selecció curada, sense anuncis', t:'rock eclectic radioparadise' },
+  { n:'Radio Paradise · Rock', u:'https://stream.radioparadise.com/rock-192',   c:'#6d28d9', g:'Rock i indie', d:'Només rock',                  t:'rock radioparadise' },
+
+  /* --- Groove, electrònica i món --- */
+  { n:'FIP Groove',          u:'https://icecast.radiofrance.fr/fipgroove-midfi.mp3', c:'#8b5cf6', g:'Groove i món', d:'Funk, soul i groove', t:'funk soul groove' },
+  { n:'FIP Electro',         u:'https://icecast.radiofrance.fr/fipelectro-midfi.mp3', c:'#a78bfa', g:'Groove i món', d:'Electrònica', t:'electro electronica dance' },
+  { n:'FIP Pop',             u:'https://icecast.radiofrance.fr/fippop-midfi.mp3', c:'#c084fc', g:'Groove i món', d:'Pop de totes les èpoques', t:'pop' },
+  { n:'FIP Reggae',          u:'https://icecast.radiofrance.fr/fipreggae-midfi.mp3', c:'#16a34a', g:'Groove i món', d:'Reggae i dancehall', t:'reggae ska' },
+  { n:'FIP Monde',           u:'https://icecast.radiofrance.fr/fipworld-midfi.mp3', c:'#0891b2', g:'Groove i món', d:'Músiques del món', t:'world musica mon' },
+  { n:'Radio Paradise · Global', u:'https://stream.radioparadise.com/global-192', c:'#0d9488', g:'Groove i món', d:'Músiques del món, curada', t:'world global radioparadise' },
+  { n:'NTS 1',               u:'https://stream-relay-geo.ntslive.net/stream',   c:'#7c3aed', g:'Groove i món', d:'Londres, sense etiquetes', t:'nts londres electronic' },
+
+  /* --- Clàssica --- */
+  { n:'France Musique',      u:'https://icecast.radiofrance.fr/francemusique-midfi.mp3', c:'#38bdf8', g:'Clàssica', d:'Clàssica i òpera', t:'classica opera' },
+  { n:'Classic FM',          u:'https://media-ssl.musicradio.com/ClassicFMMP3',  c:'#0ea5e9', g:'Clàssica', d:'Els grans clàssics',        t:'classica' },
+  { n:'Catalunya Música',    u:'https://shoutcast.ccma.cat/ccma/catalunyamusicaHD.mp3', c:'#0ea5e9', g:'Clàssica', d:'Clàssica i contemporània, en català', t:'catalunya musica classica catala' },
+
+  /* --- Notícies i paraula --- */
+  { n:'Catalunya Ràdio',     u:'https://shoutcast.ccma.cat/ccma/catalunyaradioHD.mp3', c:'#e5007d', g:'Notícies', d:'Informació i directe', t:'catalunya radio noticies directe' },
+  { n:'RAC 1',               u:'https://playerservices.streamtheworld.com/api/livestream-redirect/RAC_1.mp3', c:'#e5007d', g:'Notícies', d:'Actualitat i directe, 24 h', t:'rac1 informacio catala directe' },
+  { n:'Cadena SER',          u:'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3', c:'#f97316', g:'Notícies', d:'Informació i esports', t:'ser espanya noticies' },
+  { n:'France Inter',        u:'https://icecast.radiofrance.fr/franceinter-midfi.mp3', c:'#e11d48', g:'Notícies', d:'Ràdio pública francesa', t:'france inter noticies frances' },
+  { n:'France Info',         u:'https://icecast.radiofrance.fr/franceinfo-midfi.mp3', c:'#be123c', g:'Notícies', d:'Notícies contínues', t:'france info noticies' },
+
+  /* --- Música en català i èxits --- */
+  { n:'iCat',                u:'https://shoutcast.ccma.cat/ccma/icatHD.mp3',     c:'#e5007d', g:'Catalanes', d:'Música en català',        t:'icat musica catala' },
+  { n:'RAC105',              u:'https://playerservices.streamtheworld.com/api/livestream-redirect/RAC105.mp3', c:'#e5007d', g:'Catalanes', d:'Pop i rock amb locutors', t:'rac105 pop rock catala veu' },
+  { n:'Flaixbac',            u:'https://stream.flaixbac.cat/icecast',            c:'#e5007d', g:'Catalanes', d:'Dance i èxits, amb veu',  t:'flaixbac dance exitos catala' },
+  { n:'Flaix FM',            u:'https://stream.flaixfm.cat/icecast',             c:'#e5007d', g:'Catalanes', d:'Dance, de nit i de dia',  t:'flaix fm dance catala' },
+  { n:'LOS40',               u:'https://playerservices.streamtheworld.com/api/livestream-redirect/LOS40.mp3', c:'#f59e0b', g:'Catalanes', d:'Èxits actuals', t:'los40 exitos musica' },
+  { n:'Mouv',                u:'https://icecast.radiofrance.fr/mouv-midfi.mp3',  c:'#8b5cf6', g:'Catalanes', d:'Música urbana i jove',    t:'mouv rap urbana' },
+
+  /* --- Espanyoles: pop i rock en castellà, amb veu --- */
+  { n:'Cadena Dial',         u:'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENADIAL.mp3', c:'#f97316', g:'Espanyoles', d:'Pop en castellà, amb veu', t:'cadena dial pop castella' },
+  { n:'Cadena 100',          u:'https://cadena100-streamers-mp3.flumotion.com/cope/cadena100.mp3', c:'#ef4444', g:'Espanyoles', d:'Pop i rock en castellà', t:'cadena 100 pop rock' },
+  { n:'Rock FM',             u:'https://flucast25-h-cloud.flumotion.com/cope/rockfm-low.mp3', c:'#dc2626', g:'Espanyoles', d:'Rock de sempre i d’ara', t:'rock fm rock' }
+].map((e, i) => ({ ...e, id: 'r' + i, inicials: inicials(e.n) }));
+
+function inicials(nom) {
+  const trossos = String(nom).replace(/[^\p{L}\p{N} ]/gu, ' ').trim().split(/\s+/).filter(x => x[0] !== '·');
+  if (!trossos.length) return '?';
+  if (trossos.length === 1) return trossos[0].slice(0, 2).toUpperCase();
+  return (trossos[0][0] + trossos[1][0]).toUpperCase();
+}
+
+const CATEGORIES = ['Per treballar', 'Zen', 'Jazz', 'Country', 'Rock i indie', 'Groove i món', 'Clàssica', 'Notícies', 'Catalanes'];
+
+/* ============================================================
+   Preferències (es guarden en aquest navegador)
+   ============================================================ */
+const memoria = (() => {
+  try {
+    localStorage.setItem('__prova', '1');
+    localStorage.removeItem('__prova');
+    return localStorage;
+  } catch (e) {
+    const m = {};
+    return { getItem: k => (k in m ? m[k] : null), setItem: (k, v) => { m[k] = String(v); }, removeItem: k => { delete m[k]; } };
+  }
+})();
+
+let preferits = [];
+let volum = 0.8;
+let tema = 'fosc';
+let categoria = 'Tot';
+let minimitzat = false;
+let temporitzador = 0;
+let temporitzadorId = null;
+
+try {
+  preferits = JSON.parse(memoria.getItem('radio.preferits') || '[]') || [];
+  const v = parseFloat(memoria.getItem('radio.volum'));
+  if (!isNaN(v) && v >= 0 && v <= 1) volum = v;
+  tema = memoria.getItem('radio.tema') || 'fosc';
+  const ultima = memoria.getItem('radio.ultima') || '';
+  if (ultima) minimitzat = ultima;
+} catch (e) { /* sense preferencies desades */ }
+
+/* ============================================================
+   Reproductor
+   ============================================================ */
+const audio = new Audio();
+audio.preload = 'none';
+audio.volume = volum;
+
+let actual = null;
+let estat = 'a punt';
+let sonant = false;
+
+/* ============================================================
+   La cançó que sona (metadades ICY del propi flux)
+
+   El navegador no deixa llegir un <audio>, però sí que pot demanar el mateix
+   flux amb fetch i anar-lo llegint: cada tants bytes, l'emisor hi intercala un
+   bloc amb el títol. Llegim només el primer bloc amb contingut i tallem la
+   connexió (uns quants KB, res més). Funciona des d'un fitxer local perquè les
+   emissores responen amb Access-Control-Allow-Origin.
+   ============================================================ */
+let cancoTimer = null;
+let cancoFalles = 0;
+
+/* On pot preguntar quina cançó sona, per ordre de preferència:
+   1. el mateix servidor que serveix la pàgina (l'ajudant de cançons, el servidor
+      del Lab o qualsevol altre que també faci d'ajudant);
+   2. l'ajudant d'aquest ordinador (127.0.0.1:8765);
+   3. el servidor del Lab (port 3047), per si la pàgina s'obre des d'un altre lloc.
+   Si cap no respon, ho provem des del navegador tot sol, que només pot amb les
+   emissores que ho permeten (poques). */
+function ajudants() {
+  const llista = [];
+  const web = /^https?:$/.test(location.protocol);
+  const socLocal = ['127.0.0.1', 'localhost'].includes(location.hostname);
+  if (web) llista.push(location.origin + '/api/canco');
+  llista.push('http://127.0.0.1:8765/api/canco');
+  if (web && !socLocal) llista.push('http://' + location.hostname + ':3047/api/canco');
+  return [...new Set(llista)];
+}
+
+async function demanaCanco(base, url, msMax = 2500) {
+  const ctrl = new AbortController();
+  const rellotge = setTimeout(() => ctrl.abort(), msMax);
+  try {
+    const r = await fetch(base + '?u=' + encodeURIComponent(url),
+                          { cache: 'no-store', signal: ctrl.signal });
+    if (!r.ok) return { respost: true, ok: false, canco: null };
+    const d = await r.json();
+    return { respost: true, ok: !!d.ok, canco: d.canco || null };
+  } catch (e) {          // aquest ajudant no hi és: no passa res
+    return { respost: false, ok: false, canco: null };
+  } finally {
+    clearTimeout(rellotge);
+  }
+}
+
+function trossos(a, b) {
+  const c = new Uint8Array(a.length + b.length);
+  c.set(a); c.set(b, a.length);
+  return c;
+}
+
+function descodifica(bytes) {
+  let t = new TextDecoder('utf-8').decode(bytes);
+  if (t.includes('\uFFFD')) {
+    try { t = new TextDecoder('iso-8859-1').decode(bytes); } catch (e) { /* res */ }
+  }
+  return t.replace(/\u0000/g, '').trim();
+}
+
+async function llegeixCanco(url, msMax = 7000) {
+  if (!window.fetch || !window.AbortController || !url) return null;
+  const ctrl = new AbortController();
+  const rellotge = setTimeout(() => ctrl.abort(), msMax);
+  let lector = null;
+  try {
+    const r = await fetch(url, {
+      headers: { 'Icy-MetaData': '1' },
+      signal: ctrl.signal, cache: 'no-store', mode: 'cors', credentials: 'omit'
+    });
+    const metaInt = parseInt(r.headers.get('icy-metaint') || '0', 10);
+    if (!r.ok || !metaInt || !r.body) return null;
+    lector = r.body.getReader();
+    let buffer = new Uint8Array(0);
+    for (let bloc = 0; bloc < 4; bloc++) {      // el primer bloc sol venir buit
+      while (buffer.length < metaInt + 1) {
+        const { value, done } = await lector.read();
+        if (done) return null;
+        buffer = trossos(buffer, value);
+      }
+      const llarg = buffer[metaInt] * 16;
+      while (buffer.length < metaInt + 1 + llarg) {
+        const { value, done } = await lector.read();
+        if (done) break;
+        buffer = trossos(buffer, value);
+      }
+      const tros = buffer.slice(metaInt + 1, metaInt + 1 + llarg);
+      buffer = buffer.slice(metaInt + 1 + llarg);
+      const text = descodifica(tros);
+      const m = text.match(/StreamTitle='(.*?)';/);
+      if (m && m[1].trim()) return m[1].trim();
+    }
+    return null;
+  } catch (e) {
+    return null;                                 // sense CORS o sense metadades
+  } finally {
+    clearTimeout(rellotge);
+    try { if (lector) await lector.cancel(); } catch (e) { /* res */ }
+  }
+}
+
+function aturaCanco() {
+  if (cancoTimer) { clearTimeout(cancoTimer); cancoTimer = null; }
+  const el = $('#canco');
+  if (el) { el.textContent = ''; el.classList.remove('viu'); }
+}
+
+async function refrescaCanco() {
+  if (!sonant || !actual) { aturaCanco(); return; }
+  const url = actual.u;
+  // Primer els ajudants (ho llegeixen tot). Si cap no hi és, el navegador tot
+  // sol, que només funciona amb les emissores que exposen icy-metaint.
+  let canco = null;
+  let alguRespon = false;
+  for (const base of ajudants()) {
+    const resposta = await demanaCanco(base, url);
+    if (resposta.respost) alguRespon = true;
+    if (resposta.canco) { canco = resposta.canco; break; }
+  }
+  let nota = '';
+  if (!canco) {
+    canco = await llegeixCanco(url);
+    if (!canco) {
+      nota = alguRespon
+        ? 'aquesta emissora no diu quina cançó sona'
+        : 'engega l’ajudant de cançons per veure quina sona';
+    }
+  }
+  if (!sonant || actual.u !== url) return;         // han canviat mentre llegíem
+  const el = $('#canco');
+  if (canco) {
+    cancoFalles = 0;
+    el.textContent = '♪ ' + canco;
+    el.classList.remove('nota');
+    el.classList.add('viu');
+    const parts = canco.split(' - ');
+    const artista = parts.length > 1 ? parts.shift().trim() : '';
+    const titol = parts.join(' - ').trim() || canco;
+    if ('mediaSession' in navigator) {           // que surti a la pantalla del mòbil
+      try {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: titol, artist: artista || actual.n, album: actual.n
+        });
+      } catch (e) { /* res */ }
+    }
+    document.title = '▶ ' + (artista ? artista + ' — ' + titol : canco) + ' · Ràdio';
+  } else {
+    cancoFalles++;
+    el.textContent = '(' + nota + ')';
+    el.classList.remove('viu');
+    el.classList.add('nota');
+    if (cancoFalles >= 1) {
+      document.title = '▶ ' + (actual ? actual.n : '') + ' · Ràdio';
+    }
+  }
+  const seguent = cancoFalles === 0 ? 25000 : (cancoFalles < 4 ? 45000 : 90000);
+  if (sonant) cancoTimer = setTimeout(refrescaCanco, seguent);
+}
+
+const $ = s => document.querySelector(s);
+
+function desa() {
+  try {
+    memoria.setItem('radio.preferits', JSON.stringify(preferits));
+    memoria.setItem('radio.volum', String(volum));
+    memoria.setItem('radio.tema', tema);
+    memoria.setItem('radio.ultima', actual ? actual.id : '');
+  } catch (e) { /* res a fer */ }
+}
+
+function pintaEstat() {
+  const actives = Object.keys(capes);
+  if (actives.length && !sonant) {
+    $('#ara').textContent = '🧘 Sons zen';
+    $('#detall').textContent = actives.length === 1
+      ? 'una capa activa · generada dins del navegador'
+      : actives.length + ' capes actives · generades dins del navegador';
+    $('#play').textContent = '▶';
+    $('#viu').classList.remove('on');
+    document.title = '🧘 Sons zen · Ràdio';
+  } else {
+    $('#ara').textContent = actual ? actual.n : 'Tria una emissora';
+    $('#detall').textContent = actual
+      ? (actual.g + ' · ' + estat)
+      : 'Ràdio en directe · l’àudio es reprodueix directament des d’aquest ordinador';
+    $('#play').textContent = sonant ? '❚❚' : '▶';
+    $('#viu').classList.toggle('on', sonant);
+    document.title = (sonant ? '▶ ' : '') + (actual ? actual.n + ' · Ràdio' : 'Ràdio');
+  }
+  document.querySelectorAll('.card').forEach(c => {
+    const b = c.querySelector('.ico b');
+    if (c.dataset.capa) {
+      c.classList.toggle('sonant', !!capes[c.dataset.capa]);
+      if (b) b.textContent = capes[c.dataset.capa] ? '❚❚' : '▶';
+      return;
+    }
+    const seu = actual && c.dataset.id === actual.id;
+    c.classList.toggle('sonant', !!seu);
+    if (b) b.textContent = (seu && sonant) ? '❚❚' : (c.dataset.inicials || '▶');
+  });
+}
+
+function sona(emissora) {
+  if (actual && actual.id === emissora.id && !audio.paused) { audio.pause(); return; }
+  if (Object.keys(capes).length) aturaSons();   // la ràdio i els sons zen no es barregen
+  actual = emissora;
+  estat = 'connectant…';
+  aturaCanco();
+  cancoFalles = 0;
+  audio.src = emissora.u;
+  const p = audio.play();
+  if (p && p.catch) {
+    p.catch(() => { estat = 'no s’ha pogut reproduir'; marca(emissora, true); pintaEstat(); });
+  }
+  if ('mediaSession' in navigator) {
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({ title: emissora.n, artist: emissora.g, album: 'Ràdio' });
+      navigator.mediaSession.setActionHandler('play', () => audio.play());
+      navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+      navigator.mediaSession.setActionHandler('nexttrack', () => salta(1));
+      navigator.mediaSession.setActionHandler('previoustrack', () => salta(-1));
+    } catch (e) { /* sense suport */ }
+  }
+  desa();
+  pintaEstat();
+}
+
+function marca(emissora, dolent) {
+  const c = document.querySelector('.card[data-id="' + emissora.id + '"]');
+  if (c) c.classList.toggle('ko', !!dolent);
+}
+
+audio.addEventListener('playing', () => {
+  sonant = true; estat = 'sonant'; pintaEstat();
+  cancoFalles = 0;
+  if (cancoTimer) { clearTimeout(cancoTimer); cancoTimer = null; }
+  refrescaCanco();
+});
+audio.addEventListener('pause', () => {
+  sonant = false; estat = 'en pausa'; pintaEstat();
+  if (cancoTimer) { clearTimeout(cancoTimer); cancoTimer = null; }
+});
+audio.addEventListener('waiting', () => { estat = 'connectant…'; pintaEstat(); });
+audio.addEventListener('error', () => {
+  estat = 'no s’ha pogut connectar';
+  sonant = false;
+  if (actual) marca(actual, true);
+  aturaCanco();
+  pintaEstat();
+});
+
+function llistesVisibles() {
+  return [...document.querySelectorAll('.card')].map(c => c.dataset.id);
+}
+
+function salta(pas) {
+  const visibles = llistesVisibles();
+  if (!visibles.length) return;
+  const index = actual ? visibles.indexOf(actual.id) : -1;
+  const seguent = visibles[(index + pas + visibles.length) % visibles.length];
+  const emissora = EMISSORES.find(e => e.id === seguent);
+  if (emissora) sona(emissora);
+}
+
+/* ============================================================
+   Pintar la llista
+   ============================================================ */
+function llistaFiltrada() {
+  const q = $('#q').value.trim().toLowerCase();
+  return EMISSORES.filter(e => {
+    if (categoria === 'Preferits' && !preferits.includes(e.id)) return false;
+    if (categoria !== 'Tot' && categoria !== 'Preferits' && e.g !== categoria) return false;
+    if (q && !(e.n + ' ' + e.d + ' ' + e.g + ' ' + e.t).toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function targeta(e) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'card';
+  b.dataset.id = e.id;
+  b.dataset.inicials = e.inicials;
+  b.style.setProperty('--c', e.c);
+  b.style.setProperty('--cg', e.c + '66');
+  b.title = 'Escolta ' + e.n;
+
+  const ico = document.createElement('span');
+  ico.className = 'ico';
+  const ini = document.createElement('b');
+  ini.textContent = e.inicials;
+  ico.appendChild(ini);
+
+  const txt = document.createElement('span');
+  txt.className = 'txt';
+  const fort = document.createElement('strong');
+  fort.textContent = e.n;
+  const petita = document.createElement('small');
+  petita.textContent = e.d;
+  txt.append(fort, petita);
+
+  const fav = document.createElement('span');
+  fav.className = 'fav' + (preferits.includes(e.id) ? ' on' : '');
+  fav.textContent = preferits.includes(e.id) ? '★' : '☆';
+  fav.title = 'Afegir o treure dels preferits';
+  fav.addEventListener('click', ev => {
+    ev.stopPropagation();
+    alternaPreferit(e.id);
+  });
+
+  b.append(ico, txt, fav);
+  b.addEventListener('click', () => sona(e));
+  return b;
+}
+
+function alternaPreferit(id) {
+  preferits = preferits.includes(id) ? preferits.filter(x => x !== id) : preferits.concat([id]);
+  desa();
+  pinta();
+}
+
+function pinta() {
+  const zona = $('#llista');
+  zona.innerHTML = '';
+
+  if (categoria === 'Sons zen') {
+    pintaSons();
+    $('#buit').hidden = true;
+    $('#recompte').textContent = CAPES_ZEN.length + ' sons generats al navegador · sense baixar res';
+    actualitzaComptes();
+    pintaEstat();
+    return;
+  }
+
+  const visibles = llistaFiltrada();
+
+  if (categoria === 'Tot' && !$('#q').value.trim()) {
+    for (const cat of CATEGORIES) {
+      const grup = visibles.filter(e => e.g === cat);
+      if (!grup.length) continue;
+      const h = document.createElement('h2');
+      h.className = 'sec';
+      h.textContent = cat + ' · ' + grup.length;
+      zona.appendChild(h);
+      const g = document.createElement('div');
+      g.className = 'graella';
+      grup.forEach(e => g.appendChild(targeta(e)));
+      zona.appendChild(g);
+    }
+  } else {
+    const g = document.createElement('div');
+    g.className = 'graella';
+    visibles.forEach(e => g.appendChild(targeta(e)));
+    zona.appendChild(g);
+  }
+
+  $('#buit').hidden = visibles.length > 0;
+  $('#recompte').textContent = EMISSORES.length + ' emissores · ' + preferits.length + ' preferides';
+  actualitzaComptes();
+  pintaEstat();
+}
+
+function actualitzaComptes() {
+  document.querySelectorAll('.chip').forEach(c => {
+    const n = c.dataset.cat === 'Tot'
+      ? EMISSORES.length
+      : (c.dataset.cat === 'Preferits' ? preferits.length
+        : (c.dataset.cat === 'Sons zen' ? CAPES_ZEN.length
+          : EMISSORES.filter(e => e.g === c.dataset.cat).length));
+    const badge = c.querySelector('.n');
+    if (badge) badge.textContent = n;
+  });
+}
+
+function pintaChips() {
+  const capsa = $('#chips');
+  capsa.innerHTML = '';
+  ['Tot', 'Preferits', 'Sons zen'].concat(CATEGORIES).forEach(cat => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.dataset.cat = cat;
+    b.setAttribute('aria-pressed', String(cat === categoria));
+    b.append(document.createTextNode(cat === 'Preferits' ? '★ Preferits' : (cat === 'Sons zen' ? '🧘 Sons zen' : cat)));
+    const n = document.createElement('span');
+    n.className = 'n';
+    b.appendChild(n);
+    b.addEventListener('click', () => {
+      categoria = cat;
+      capsa.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.cat === cat)));
+      pinta();
+    });
+    capsa.appendChild(b);
+  });
+}
+
+/* ============================================================
+   Controls
+   ============================================================ */
+$('#play').addEventListener('click', () => {
+  if (!actual) { const primera = llistaFiltrada()[0]; if (primera) sona(primera); return; }
+  if (audio.paused) audio.play(); else audio.pause();
+});
+
+$('#volum').value = String(volum);
+$('#volum').addEventListener('input', ev => {
+  volum = Number(ev.target.value);
+  audio.volume = volum;
+  if (mestreZen) mestreZen.gain.value = audio.muted ? 0 : volum;
+  desa();
+});
+
+$('#mut').addEventListener('click', () => {
+  audio.muted = !audio.muted;
+  if (mestreZen) mestreZen.gain.value = audio.muted ? 0 : volum;
+  $('#mut').textContent = audio.muted ? '🔇 Silenciat' : 'Silenci';
+});
+
+$('#tema').addEventListener('click', () => {
+  tema = tema === 'fosc' ? 'clar' : 'fosc';
+  document.body.classList.toggle('clar', tema === 'clar');
+  $('#tema').textContent = tema === 'clar' ? '☾ Fosc' : '☀︎ Clar';
+  desa();
+});
+
+$('#temporitzador').addEventListener('change', ev => {
+  const minuts = Number(ev.target.value);
+  if (temporitzadorId) { clearTimeout(temporitzadorId); temporitzadorId = null; }
+  temporitzador = minuts;
+  if (!minuts) { $('#temporitzador-estat').textContent = ''; return; }
+  const quan = Date.now() + minuts * 60000;
+  const pintaRellotge = () => {
+    const resta = Math.max(0, quan - Date.now());
+    const m = Math.floor(resta / 60000);
+    const s = Math.floor((resta % 60000) / 1000);
+    $('#temporitzador-estat').textContent = '⏱ ' + m + ':' + String(s).padStart(2, '0');
+  };
+  pintaRellotge();
+  const tic = setInterval(pintaRellotge, 1000);
+  temporitzadorId = setTimeout(() => {
+    audio.pause();
+    clearInterval(tic);
+    temporitzadorId = null;
+    $('#temporitzador').value = '0';
+    $('#temporitzador-estat').textContent = '⏱ aturada';
+  }, minuts * 60000);
+});
+
+$('#q').addEventListener('input', pinta);
+
+document.addEventListener('keydown', ev => {
+  const escrivint = ['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName);
+  if (ev.key === '/' && !escrivint) { ev.preventDefault(); $('#q').focus(); $('#q').select(); return; }
+  if (ev.key === 'Escape' && document.activeElement === $('#q')) { $('#q').value = ''; pinta(); $('#q').blur(); return; }
+  if (escrivint) return;
+  if (ev.key === ' ') { ev.preventDefault(); $('#play').click(); return; }
+  if (ev.key === 'ArrowRight') { ev.preventDefault(); salta(1); return; }
+  if (ev.key === 'ArrowLeft') { ev.preventDefault(); salta(-1); return; }
+  if (ev.key === 'ArrowUp') { ev.preventDefault(); volum = Math.min(1, volum + 0.05); audio.volume = volum; $('#volum').value = String(volum); desa(); return; }
+  if (ev.key === 'ArrowDown') { ev.preventDefault(); volum = Math.max(0, volum - 0.05); audio.volume = volum; $('#volum').value = String(volum); desa(); return; }
+  if (ev.key.toLowerCase() === 'm') { $('#mut').click(); return; }
+  if (ev.key.toLowerCase() === 's' && actual) { alternaPreferit(actual.id); }
+});
+
+/* ============================================================
+   Sons zen — generats amb el navegador (Web Audio), sense baixar res.
+   Idees preses del NeuroWave: soroll marró, pluja, onades, drone harmònic
+   i binaurals amb separació estèreo real (calen auriculars per al binaural).
+   ============================================================ */
+let ctxAudio = null;
+let mestreZen = null;
+const capes = {};
+
+const CAPES_ZEN = [
+  { id:'marro',   n:'Soroll marró',       d:'Llit profund per concentrar-se',        c:'#78716c' },
+  { id:'pluja',   n:'Pluja',              d:'Pluja suau amb fons i repic',           c:'#38bdf8' },
+  { id:'onades',  n:'Onades',             d:'Mar amb pujades i baixades lentes',     c:'#0ea5e9' },
+  { id:'drone',   n:'Drone harmònic',     d:'Acord sostingut, molt suau',            c:'#8b5cf6' },
+  { id:'binauralRelax',  n:'Binaural · relax',     d:'7,83 Hz · calma (amb auriculars)',  c:'#22c55e', freq:7.83 },
+  { id:'binauralMedita', n:'Binaural · meditació',  d:'6 Hz · estat theta (amb auriculars)', c:'#a3e635', freq:6 },
+  { id:'binauralSon',    n:'Binaural · son',        d:'2 Hz · descans (amb auriculars)',    c:'#6366f1', freq:2 },
+  { id:'binauralFocus',  n:'Binaural · focus',      d:'14 Hz · atenció sostinguda (amb auriculars)', c:'#f59e0b', freq:14 }
+];
+
+function contextAudio() {
+  if (!ctxAudio) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return null;
+    ctxAudio = new Ctx();
+    mestreZen = ctxAudio.createGain();
+    mestreZen.gain.value = audio.muted ? 0 : volum;
+    mestreZen.connect(ctxAudio.destination);
+  }
+  if (ctxAudio.state === 'suspended') ctxAudio.resume();
+  return ctxAudio;
+}
+
+function bufferSoroll(tipus) {
+  const ctx = ctxAudio;
+  const llarg = Math.floor(ctx.sampleRate * 4);
+  const buf = ctx.createBuffer(1, llarg, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  if (tipus === 'marro') {
+    let ultim = 0;
+    for (let i = 0; i < llarg; i++) {
+      const blanc = Math.random() * 2 - 1;
+      ultim = (ultim + 0.02 * blanc) / 1.02;
+      d[i] = ultim * 3.2;
+    }
+  } else {
+    for (let i = 0; i < llarg; i++) d[i] = Math.random() * 2 - 1;
+  }
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  src.loop = true;
+  return src;
+}
+
+function creaCapa(id) {
+  const ctx = contextAudio();
+  if (!ctx) return null;
+  const guany = ctx.createGain();
+  guany.gain.value = 0;
+  guany.connect(mestreZen);
+  const nodes = [];
+
+  if (id === 'marro') {
+    const src = bufferSoroll('marro');
+    const filtre = ctx.createBiquadFilter();
+    filtre.type = 'lowpass';
+    filtre.frequency.value = 800;
+    src.connect(filtre).connect(guany);
+    src.start();
+    nodes.push(src);
+    guany.gain.value = 0.55;
+
+  } else if (id === 'pluja') {
+    const src = bufferSoroll('blanc');
+    const cos = ctx.createBiquadFilter();
+    cos.type = 'bandpass'; cos.frequency.value = 1400; cos.Q.value = 0.5;
+    const repic = ctx.createBiquadFilter();
+    repic.type = 'highpass'; repic.frequency.value = 5200;
+    const gRepic = ctx.createGain();
+    gRepic.gain.value = 0.25;
+    src.connect(cos).connect(guany);
+    src.connect(repic).connect(gRepic).connect(guany);
+    src.start();
+    nodes.push(src);
+    guany.gain.value = 0.5;
+
+  } else if (id === 'onades') {
+    const src = bufferSoroll('marro');
+    const filtre = ctx.createBiquadFilter();
+    filtre.type = 'lowpass'; filtre.frequency.value = 600;
+    const lfo = ctx.createOscillator();
+    lfo.frequency.value = 0.08;
+    const lfoGuany = ctx.createGain();
+    lfoGuany.gain.value = 0.28;
+    src.connect(filtre).connect(guany);
+    lfo.connect(lfoGuany).connect(guany.gain);
+    src.start(); lfo.start();
+    nodes.push(src, lfo);
+    guany.gain.value = 0.5;
+
+  } else if (id === 'drone') {
+    [110, 164.81, 220, 329.63].forEach((fq, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = i % 2 ? 'triangle' : 'sine';
+      osc.frequency.value = fq;
+      const g = ctx.createGain();
+      g.gain.value = i ? 0.3 : 0.45;
+      osc.connect(g).connect(guany);
+      osc.start();
+      nodes.push(osc);
+    });
+    const lfo = ctx.createOscillator();
+    lfo.frequency.value = 0.05;
+    const lfoG = ctx.createGain();
+    lfoG.gain.value = 0.05;
+    lfo.connect(lfoG).connect(guany.gain);
+    lfo.start();
+    nodes.push(lfo);
+    guany.gain.value = 0.14;
+
+  } else if (id.indexOf('binaural') === 0) {
+    const capa = CAPES_ZEN.find(c => c.id === id) || { freq: 6 };
+    const portadora = 180;
+    [[-1, portadora], [1, portadora + capa.freq]].forEach(par => {
+      const osc = ctx.createOscillator();
+      osc.frequency.value = par[1];
+      const g = ctx.createGain();
+      g.gain.value = 0.5;
+      osc.connect(g);
+      let sortida = g;
+      if (ctx.createStereoPanner) {
+        const pan = ctx.createStereoPanner();
+        pan.pan.value = par[0];
+        g.connect(pan);
+        sortida = pan;
+      }
+      sortida.connect(guany);
+      osc.start();
+      nodes.push(osc);
+    });
+    guany.gain.value = 0.2;
+  }
+
+  return { nodes: nodes, guany: guany };
+}
+
+function alternaCapa(id) {
+  if (capes[id]) {
+    const c = capes[id];
+    c.nodes.forEach(n => { try { n.stop(); } catch (e) {} try { n.disconnect(); } catch (e) {} });
+    try { c.guany.disconnect(); } catch (e) {}
+    delete capes[id];
+    pinta();
+    return;
+  }
+  if (!audio.paused) audio.pause();
+  const capa = creaCapa(id);
+  if (capa) capes[id] = capa;
+  pinta();
+}
+
+function aturaSons() {
+  Object.keys(capes).forEach(id => {
+    const c = capes[id];
+    c.nodes.forEach(n => { try { n.stop(); } catch (e) {} try { n.disconnect(); } catch (e) {} });
+    try { c.guany.disconnect(); } catch (e) {}
+    delete capes[id];
+  });
+}
+
+function pintaSons() {
+  const zona = $('#llista');
+  const h = document.createElement('h2');
+  h.className = 'sec';
+  h.textContent = '🧘 Sons generats aquí mateix · es poden combinar';
+  zona.appendChild(h);
+  const g = document.createElement('div');
+  g.className = 'graella';
+  CAPES_ZEN.forEach(capa => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'card' + (capes[capa.id] ? ' sonant' : '');
+    b.dataset.capa = capa.id;
+    b.style.setProperty('--c', capa.c);
+    b.style.setProperty('--cg', capa.c + '66');
+    const ico = document.createElement('span');
+    ico.className = 'ico';
+    const ini = document.createElement('b');
+    ini.textContent = capes[capa.id] ? '❚❚' : '▶';
+    ico.appendChild(ini);
+    const txt = document.createElement('span');
+    txt.className = 'txt';
+    const fort = document.createElement('strong');
+    fort.textContent = capa.n;
+    const petita = document.createElement('small');
+    petita.textContent = capa.d;
+    txt.append(fort, petita);
+    b.append(ico, txt);
+    b.addEventListener('click', () => alternaCapa(capa.id));
+    g.appendChild(b);
+  });
+  zona.appendChild(g);
+
+  const nota = document.createElement('p');
+  nota.style.cssText = 'color:var(--muted); font-size:12.5px; margin:14px 0 0; line-height:1.7';
+  nota.innerHTML = 'Els sons es generen dins del navegador: <b>no baixen ni un byte</b>. '
+    + 'Es poden combinar (per exemple, pluja + soroll marró). Els binaurals necessiten '
+    + 'auriculars perquè fan efecte; si et maregen o tens migranya o antecedents d’epilèpsia, '
+    + 'no els facis servir.';
+  zona.appendChild(nota);
+
+  if (Object.keys(capes).length) {
+    const atura = document.createElement('button');
+    atura.className = 'boto';
+    atura.type = 'button';
+    atura.textContent = '⏹ Atura-ho tot';
+    atura.style.marginTop = '14px';
+    atura.addEventListener('click', () => { aturaSons(); pinta(); });
+    zona.appendChild(atura);
+  }
+}
+
+/* ============================================================
+   Engegada
+   ============================================================ */
+if (tema === 'clar') {
+  document.body.classList.add('clar');
+  $('#tema').textContent = '☾ Fosc';
+}
+pintaChips();
+pinta();
+if (minimitzat) {
+  const ultima = EMISSORES.find(e => e.id === minimitzat);
+  if (ultima) { actual = ultima; estat = 'a punt'; pintaEstat(); }
+}
+</script>
+</body>
+</html>

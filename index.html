@@ -88,6 +88,14 @@
   .novetat .qr:hover img { outline: 3px solid #4ade80; }
   @media (max-width: 620px) { .novetat .qr img { width: 150px; height: 150px; } }
   @media (prefers-reduced-motion: reduce) { .novetat .punt { animation: none; } }
+
+  /* avís de la ràdio en directe */
+  .novetat.radio { border-color: rgba(244,114,182,.5); background: rgba(244,114,182,.13); }
+  .novetat.radio .punt { background: #f472b6; box-shadow: 0 0 0 0 rgba(244,114,182,.75); animation: pols-radio 2s infinite; }
+  .novetat.radio a.boto { background: #f472b6; color: #2a0715; }
+  .novetat.radio a.boto:hover { background: #f9a8d4; }
+  @keyframes pols-radio { 70% { box-shadow: 0 0 0 9px rgba(244,114,182,0); } 100% { box-shadow: 0 0 0 0 rgba(244,114,182,0); } }
+  @media (prefers-reduced-motion: reduce) { .novetat.radio .punt { animation: none; } }
 </style>
 </head>
 <body>
@@ -103,6 +111,19 @@
     <div><b>307</b> exemples de so</div>
     <div><b>135</b> exercicis d'oïda</div>
     <div><b>3</b> nivells per capítol</div>
+  </div>
+
+  <div class="novetat radio">
+    <span class="punt" aria-hidden="true"></span>
+    <div class="cos">
+      <div class="titol">🆕 Novetat: 📻 Ràdio en directe per treballar</div>
+      <div class="text">53 emissores triades (jazz, chill, clàssica, catalanes, notícies…) en una sola pàgina,
+        amb <strong>preferits</strong>, volum, temporitzador per aturar-la sola i <strong>el títol de la cançó
+        que sona</strong>. Sense anuncis ni comptes: l'àudio va directament de l'emissora al teu navegador.
+        <br><strong>També la pots tenir al mòbil com una app:</strong> obre-la-hi i afegeix-la a la pantalla d'inici
+        (iPhone: Compartir → Afegeix a la pantalla d'inici · Android: ⋮ → Instal·la l'aplicació).</div>
+    </div>
+    <a class="boto" href="./Radio/index.html">Escolta-la →</a>
   </div>
 
   <div class="novetat">
@@ -208,6 +229,17 @@
   <a class="targeta musica" href="./MetronomBerna/metronom.html">
     <div class="t">🥁 Metrònom amb swing humanitzat <span class="etiqueta groc">clic al 2 i al 4</span></div>
     <div class="d">Per practicar el pols com ho faria una bateria, amb subdivisió i swing.</div>
+  </a>
+
+  <h2>📻 Ràdio</h2>
+
+  <a class="targeta musica" href="./Radio/index.html">
+    <div class="t">📻 Ràdio <span class="etiqueta verd">en directe</span> <span class="etiqueta groc">53 emissores</span></div>
+    <div class="d">La ràdio per escoltar mentre treballes: jazz, chill, clàssica, catalanes i notícies,
+      totes en una sola pàgina. Amb <strong>preferits</strong>, control de volum, temporitzador perquè s'aturi
+      sola i <strong>el títol de la cançó que sona</strong> a les emissores que el publiquen.
+      Dreceres de teclat per canviar d'emissora sense deixar la feina. Sense anuncis i sense comptes.</div>
+    <div class="enllacos"><a href="./Radio/index.html">▶ Escolta-la</a></div>
   </a>
 
   <h2 id="mobil">📱 Tenir-ho al mòbil</h2>

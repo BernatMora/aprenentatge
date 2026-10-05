@@ -9,8 +9,11 @@ Cursos i eines en catala amb audio, per escoltar al navegador.
 - **Acompanyament de guitarra** · 5 capitols · amb bases per practicar.
 - **Eines**: acords de guitarra comprovats (360 acords a tot el mastill), acords i sensacions,
   progresions de jazz-fusio, metronom, explorador d'acords.
+- **Radio** · radio en directe per escoltar mentre treballes · 53 emissores triades, amb preferits,
+  temporitzador i el titol de la canco que sona. A `Radio/`.
 
 Tot el material es propi: els textos, la veu (sintetica catalana) i els exemples de so
 (generats amb sintesi d'audio). La web publicada es aquesta mateixa carpeta.
 
-L'index de la web es `index.html`.
+L'index de la web es `index.html`. La radio es a `Radio/index.html` i tambe s'hi arriba
+des de la pagina d'inici.
