@@ -365,13 +365,32 @@ let cancoFalles = 0;
    3. el servidor del Lab (port 3047), per si la pàgina s'obre des d'un altre lloc.
    Si cap no respon, ho provem des del navegador tot sol, que només pot amb les
    emissores que ho permeten (poques). */
+function socLocal() { return ['127.0.0.1', 'localhost'].includes(location.hostname); }
+
+/* Xarxa de casa o Tailscale (10.x, 192.168.x, 172.16-31.x, 100.64-127.x):
+   allà sí que pot haver-hi el servidor del Lab amb l'ajudant al port 3047. */
+function socXarxaPrivada() {
+  return /^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|100\.(6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.)/
+    .test(location.hostname);
+}
+
+/* La pàgina és en un servidor d'internet, no a l'ordinador ni a la xarxa de
+   qui l'obre: allà l'ajudant de cançons no hi és i no té sentit demanar-l'hi. */
+function paginaPublica() {
+  return /^https?:$/.test(location.protocol) && !socLocal() && !socXarxaPrivada();
+}
+
+/* L'ajudant públic (un Cloudflare Worker gratuït) llegeix el títol de la cançó a
+   una trentena d'emissores, també per a qui obre la pàgina des d'internet, on
+   l'ajudant local no hi és. El desplega _desplegament/desplega-worker.mjs. */
+const AJUDANT_PUBLIC = 'https://radio-canco.bernatlab.workers.dev';
+
 function ajudants() {
   const llista = [];
-  const web = /^https?:$/.test(location.protocol);
-  const socLocal = ['127.0.0.1', 'localhost'].includes(location.hostname);
-  if (web) llista.push(location.origin + '/api/canco');
+  if (/^https?:$/.test(location.protocol)) llista.push(location.origin + '/api/canco');
   llista.push('http://127.0.0.1:8765/api/canco');
-  if (web && !socLocal) llista.push('http://' + location.hostname + ':3047/api/canco');
+  if (socXarxaPrivada()) llista.push('http://' + location.hostname + ':3047/api/canco');
+  if (AJUDANT_PUBLIC) llista.push(AJUDANT_PUBLIC + '/api/canco');
   return [...new Set(llista)];
 }
 
@@ -381,7 +400,7 @@ async function demanaCanco(base, url, msMax = 2500) {
   try {
     const r = await fetch(base + '?u=' + encodeURIComponent(url),
                           { cache: 'no-store', signal: ctrl.signal });
-    if (!r.ok) return { respost: true, ok: false, canco: null };
+    if (!r.ok) return { respost: false, ok: false, canco: null };   // 404: aquí no hi ha ajudant
     const d = await r.json();
     return { respost: true, ok: !!d.ok, canco: d.canco || null };
   } catch (e) {          // aquest ajudant no hi és: no passa res
@@ -470,7 +489,9 @@ async function refrescaCanco() {
     if (!canco) {
       nota = alguRespon
         ? 'aquesta emissora no diu quina cançó sona'
-        : 'engega l’ajudant de cançons per veure quina sona';
+        : (paginaPublica()
+            ? 'aquesta emissora no deixa llegir quina cançó sona des del navegador'
+            : 'engega l’ajudant de cançons per veure quina sona');
     }
   }
   if (!sonant || actual.u !== url) return;         // han canviat mentre llegíem
