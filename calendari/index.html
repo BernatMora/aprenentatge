@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendari 2027 · BernatLab</title>
+<meta name="description" content="Plantilla editable del calendari A3 vertical: dibuix, escrit i dies amb les llunes.">
+<script>
+/* Si l'app es publica sota un camí (per exemple /calendari del Funnel de
+   Tailscale), cal assegurar que els camins relatius (css/, js/) es resolguin
+   bé encara que s'arribi sense la barra final. Ha d'anar ABANS del <link>. */
+(function () {
+  var p = location.pathname;
+  if (!/\/$/.test(p) && !/\.html?$/i.test(p)) {
+    var b = document.createElement('base');
+    b.href = p + '/';
+    document.head.appendChild(b);
+  }
+})();
+</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">🌙</span>
+    <span class="brand-title">Calendari <b id="yearLabel">2027</b></span>
+    <span class="brand-sub">A3 vertical · editable</span>
+  </div>
+
+  <div class="month-nav">
+    <button class="btn icon" id="prevMonth" type="button" title="Mes anterior">◀</button>
+    <select id="monthSelect" title="Mes"></select>
+    <button class="btn icon" id="nextMonth" type="button" title="Mes següent">▶</button>
+  </div>
+
+  <div class="tool-switch" role="group" aria-label="Què vols moure">
+    <button class="btn tool is-active" data-tool="quote" type="button">Mou l'escrit</button>
+    <button class="btn tool" data-tool="image" type="button">Mou el dibuix</button>
+  </div>
+
+  <label class="zoom">
+    Mida
+    <input type="range" id="zoom" min="220" max="1100" step="10" value="460">
+    <span id="zoomValue" class="zoom-value">41 %</span>
+  </label>
+
+  <label class="quality" title="Previsualitza amb els dibuixos a resolució d'impressió (més lent)">
+    <input type="checkbox" id="quality"> Alta qualitat
+  </label>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="printOne" type="button" title="Imprimeix o desa en PDF només aquest mes">Imprimeix aquest mes</button>
+    <button class="btn" id="printAll" type="button">Imprimeix els 12</button>
+    <button class="btn" id="exportOne" type="button">Exporta aquest mes</button>
+    <button class="btn" id="exportZip" type="button">Exporta els 12 (ZIP)</button>
+    <details class="menu">
+      <summary class="btn">Projecte ▾</summary>
+      <div class="menu-body">
+        <button class="btn" id="saveJson" type="button">Desa el projecte (.json)</button>
+        <button class="btn" id="loadJson" type="button">Obre un projecte (.json)</button>
+        <p class="menu-note">El .json conté els textos, els ajustos i (si vols) els dibuixos.
+          És el fitxer que es pot enviar per correu o WhatsApp per continuar la feina en un altre ordinador.</p>
+      </div>
+    </details>
+  </div>
+</header>
+
+<main>
+  <aside id="panel" class="panel"></aside>
+  <section id="preview" class="preview"></section>
+</main>
+
+<footer class="statusbar">
+  <span id="status">Carregant…</span>
+  <span id="saved" class="saved"></span>
+  <span class="status-hint">Consell: arrossega damunt la pàgina per moure el text o el dibuix; fletxes del teclat per afinar (Maj+fletxa = més ràpid).</span>
+  <details class="diag">
+    <summary>diagnòstic</summary>
+    <pre id="diag">Recollint informació…</pre>
+  </details>
+</footer>
+
+<div id="busy" class="busy" hidden>
+  <div class="busy-card">
+    <div class="spinner"></div>
+    <p id="busyText">Treballant…</p>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<input type="file" id="filePicker" accept="image/*" hidden>
+<input type="file" id="jsonPicker" accept=".json,application/json" hidden>
+
+<script src="js/moon.js"></script>
+<script src="js/data.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/placeholder.js"></script>
+<script src="js/images.js"></script>
+<script src="js/render.js"></script>
+<script src="js/zip.js"></script>
+<script src="js/exporter.js"></script>
+<script src="js/store.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

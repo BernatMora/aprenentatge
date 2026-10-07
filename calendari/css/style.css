@@ -1,0 +1,411 @@
+/* ==========================================================================
+   Calendari BernatLab · estil de l'aplicació
+   (L'estil del calendari imprès no viu aquí: es genera com a SVG a render.js)
+   ========================================================================== */
+
+:root {
+  --bg: #efece7;
+  --chrome: #ffffff;
+  --ink: #2b2b2b;
+  --muted: #8a857c;
+  --line: #e2ddd5;
+  --line-strong: #cfc8be;
+  --accent: #b4472f;
+  --accent-soft: #f6e7e2;
+  --ok: #3e6b5a;
+  --page-w: 460px;
+  --radius: 8px;
+  --font: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--bg);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------- capçalera */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding: 10px 16px;
+  background: var(--chrome);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  z-index: 5;
+}
+
+.brand { display: flex; align-items: baseline; gap: 8px; }
+.brand-mark { font-size: 20px; }
+.brand-title { font-size: 17px; letter-spacing: 0.2px; }
+.brand-sub { font-size: 12px; color: var(--muted); }
+
+.month-nav { display: flex; align-items: center; gap: 6px; }
+.month-nav select {
+  font: inherit;
+  padding: 6px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  min-width: 150px;
+}
+
+.tool-switch { display: flex; border: 1px solid var(--line-strong); border-radius: var(--radius); overflow: hidden; }
+.tool-switch .tool { border: 0; border-radius: 0; background: #fff; }
+.tool-switch .tool.is-active { background: var(--accent); color: #fff; }
+
+.zoom { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.zoom input[type=range] { width: 130px; }
+.zoom-value { font-variant-numeric: tabular-nums; width: 48px; text-align: right; }
+
+.quality { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+
+.actions { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+
+/* --------------------------------------------------------------- botons */
+
+.btn {
+  font: inherit;
+  font-size: 13px;
+  padding: 7px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn:hover { background: #faf8f5; border-color: #b9b1a5; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary:hover { background: #9d3d28; border-color: #9d3d28; }
+.btn-danger { color: #9d3d28; border-color: #e0bdb2; }
+.btn-danger:hover { background: var(--accent-soft); }
+.btn.icon { padding: 6px 10px; }
+summary.btn { list-style: none; display: inline-block; }
+summary.btn::-webkit-details-marker { display: none; }
+
+.menu { position: relative; }
+.menu-body {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  width: 300px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  z-index: 20;
+}
+.menu-note { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.45; }
+
+/* ------------------------------------------------------------------ cos */
+
+main { flex: 1; display: flex; min-height: 0; }
+
+.panel {
+  width: 384px;
+  min-width: 384px;
+  overflow-y: auto;
+  background: var(--chrome);
+  border-right: 1px solid var(--line);
+  padding: 12px 14px 40px;
+}
+
+.warn-bar {
+  background: #fdf1ec;
+  border: 1px solid #e8c4b6;
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  color: #8f3a24;
+  font-size: 12.5px;
+  line-height: 1.5;
+  padding: 9px 11px;
+  margin-bottom: 12px;
+}
+
+.welcome {
+  background: #fbf8f3;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+.welcome summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+.welcome-body { font-size: 13px; line-height: 1.55; }
+.welcome-body ol { padding-left: 18px; margin: 10px 0; }
+.welcome-body li { margin-bottom: 6px; }
+.welcome-body p { margin: 6px 0 0; color: var(--muted); }
+
+.section { border-bottom: 1px solid var(--line); padding: 6px 0 10px; }
+.section > summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 7px 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+}
+.section > summary::-webkit-details-marker { display: none; }
+.section > summary::after { content: '▾'; margin-left: auto; color: var(--muted); font-size: 12px; }
+.section[open] > summary::after { content: '▴'; }
+.sec-icon { font-size: 15px; }
+.section-body { padding: 2px 2px 6px; }
+.sec-note { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 4px 0 10px; }
+
+.field { margin-bottom: 11px; }
+.field-label { display: block; font-size: 12.5px; color: #5c574f; margin-bottom: 4px; }
+.field-label .hint { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
+
+.field input[type=text],
+.field input[type=number],
+.field select,
+.field textarea {
+  font: inherit;
+  font-size: 13px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--ink);
+}
+.field textarea { resize: vertical; line-height: 1.45; }
+.field textarea, .field input[type=text] { font-family: var(--font); }
+
+.range-row { display: flex; align-items: center; gap: 10px; }
+.range-row input[type=range] { flex: 1; }
+.range-value {
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  width: 66px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.color-row { display: flex; align-items: center; gap: 8px; }
+.color-row input[type=color] {
+  width: 42px; height: 30px; padding: 0;
+  border: 1px solid var(--line-strong); border-radius: 6px; background: #fff;
+}
+.hex-input { width: 104px !important; font-family: ui-monospace, Consolas, monospace; font-size: 12px !important; }
+
+.check-row { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; }
+.check-row input { width: 16px; height: 16px; }
+
+.btn-bar { display: flex; flex-wrap: wrap; gap: 6px; }
+.note-text { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 6px 0; }
+
+/* ------------------------------------------------------- previsualització */
+
+.preview { flex: 1; overflow-y: auto; padding: 22px 22px 60px; }
+
+.page-wrap {
+  width: var(--page-w);
+  margin: 0 auto 28px;
+  position: relative;
+  touch-action: none;
+}
+.page-wrap[data-tool="quote"] { cursor: move; }
+.page-wrap[data-tool="image"] { cursor: grab; }
+.page-wrap.is-dragging { cursor: grabbing; }
+
+.page-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.page-paper {
+  width: 100%;
+  display: block;
+  background: #fff;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.16);
+  user-select: none;
+  -webkit-user-select: none;
+  line-height: 0;
+}
+.page-paper > svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.page-paper:empty {
+  /* mentre no s'ha pintat encara: manté la proporció A3 */
+  aspect-ratio: 297 / 420;
+  background: #fbfaf8;
+}
+.page-wrap.is-selected .page-paper { outline: 3px solid var(--accent); outline-offset: 3px; }
+.page-wrap.is-drop { outline: 3px dashed var(--ok); outline-offset: 3px; }
+
+/* ------------------------------------------------------- barra d'estat */
+
+.statusbar {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 7px 16px;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--chrome);
+  border-top: 1px solid var(--line);
+}
+.statusbar .warn { color: var(--accent); }
+.statusbar .saved { color: var(--muted); }
+.status-hint { margin-left: auto; }
+
+.diag { position: relative; }
+.diag > summary {
+  cursor: pointer;
+  color: var(--muted);
+  text-decoration: underline dotted;
+  list-style: none;
+}
+.diag > summary::-webkit-details-marker { display: none; }
+.diag > pre {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  width: min(680px, 90vw);
+  max-height: 46vh;
+  overflow: auto;
+  margin: 0;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.16);
+  font-size: 11.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  z-index: 30;
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------ ocupat / avisos */
+
+.busy {
+  position: fixed;
+  inset: 0;
+  background: rgba(40, 36, 32, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+/* IMPORTANT: `display: flex` guanya l'atribut `hidden` del navegador, així que
+   cal amagar-lo explícitament o la capa de progrés tapa tota l'app. */
+.busy[hidden] { display: none; }
+.busy-card {
+  background: #fff;
+  padding: 22px 28px;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 260px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+.busy-card p { margin: 12px 0 0; font-size: 13.5px; }
+.spinner {
+  width: 30px; height: 30px; margin: 0 auto;
+  border: 3px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: gir 0.9s linear infinite;
+}
+@keyframes gir { to { transform: rotate(360deg); } }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  transform: translate(-50%, 20px);
+  background: #2b2b2b;
+  color: #fff;
+  font-size: 13px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 70;
+  max-width: 78vw;
+}
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* -------------------------------------------------------------- mòbil */
+
+@media (max-width: 980px) {
+  body { overflow: auto; }
+  main { flex-direction: column; }
+  .panel { width: 100%; min-width: 0; border-right: 0; border-bottom: 1px solid var(--line); max-height: 60vh; }
+  .preview { padding: 14px 10px 40px; }
+  .actions { margin-left: 0; }
+  .status-hint { display: none; }
+}
+
+/* ==========================================================================
+   Impressió: A3 vertical, una pàgina per mes, sense interfície
+   ========================================================================== */
+
+@media print {
+  @page { size: A3 portrait; margin: 0; }
+
+  html, body {
+    background: #fff;
+    height: auto;
+    overflow: visible;
+    display: block;
+  }
+  .topbar, .panel, .statusbar, .toast, .busy, .page-label { display: none !important; }
+  main { display: block; }
+  .preview { overflow: visible; padding: 0; background: #fff; }
+
+  .page-wrap {
+    width: 297mm;
+    height: 420mm;
+    margin: 0;
+    padding: 0;
+    page-break-after: always;
+    break-after: page;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .page-wrap:last-child { page-break-after: auto; break-after: auto; }
+  .page-paper {
+    width: 297mm !important;
+    height: 420mm !important;
+    box-shadow: none;
+    outline: none !important;
+  }
+  .page-paper > svg {
+    width: 297mm !important;
+    height: 420mm !important;
+  }
+  body.printing-single .page-wrap:not(.is-print-target) { display: none !important; }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
