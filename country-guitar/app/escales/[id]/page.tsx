@@ -1,0 +1,17 @@
+import { scales } from "@/data/scales";
+import EscalaDetall from "./EscalaDetall";
+
+export function generateStaticParams() {
+  return scales.map((s) => ({ id: s.id }));
+}
+
+export const dynamicParams = false;
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  return <EscalaDetall id={id} />;
+}
