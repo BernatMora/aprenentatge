@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>Estils musicals · guies de gèneres · Aula BernatLab</title>
+<meta name="description" content="Guies dels gèneres musicals: guitarra flamenca, bossa nova, blues i gypsy jazz. Cadascuna amb el ritme, l'harmonia, la tècnica, els grans i com començar a practicar.">
+<style>
+  :root{--bg:#0b1220;--soft:#0f1a30;--panel:#182545;--border:#24344f;--txt:#eaf0f9;
+    --muted:#8da2c0;--dim:#5d7294;--accent:#f5b942;--rad:14px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    background:linear-gradient(180deg,var(--bg),var(--soft));color:var(--txt);line-height:1.6;
+    padding:16px 14px 70px;font-size:16px}
+  .wrap{max-width:880px;margin:0 auto}
+  h1{font-size:1.5rem;margin-bottom:4px}
+  .sub{color:var(--muted);font-size:.93rem;margin-bottom:20px}
+  .tornar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;font-size:.85rem}
+  .tornar a{color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:99px;padding:5px 12px}
+  .tornar a:hover{color:var(--accent);border-color:var(--accent)}
+  .graella{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+  a.card{display:block;background:var(--panel);border:1px solid var(--border);border-radius:var(--rad);
+    padding:16px 18px;text-decoration:none;color:var(--txt);transition:border-color .15s}
+  a.card:hover{border-color:var(--accent)}
+  .t{font-weight:700;font-size:1.05rem;margin-bottom:6px}
+  .d{color:var(--muted);font-size:.88rem}
+  .et{display:inline-block;background:#1f2f52;border:1px solid var(--border);border-radius:8px;
+    padding:1px 8px;font-size:.76rem;color:var(--muted);margin-top:8px}
+  footer{color:var(--dim);font-size:.82rem;margin-top:30px;border-top:1px solid var(--border);padding-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tornar">
+    <a href="https://bernatmora.github.io/aprenentatge/">← Inici (Aula BernatLab)</a>
+    <a href="https://bernatmora.github.io/aprenentatge/CursMusica/index.html">🎸 Harmonia avançada</a>
+  </div>
+
+  <h1>🎼 Estils musicals</h1>
+  <div class="sub">Una guia per gènere, amb la mateixa estructura: <b>què és</b>, el <b>ritme</b>,
+    l'<b>harmonia</b>, les <b>tècniques</b>, els <b>grans</b> i <b>com començar a practicar-ho</b>.
+    Tria'n un i en surts sabent per on començar.</div>
+
+  <div class="graella">
+    <a class="card" href="https://bernatmora.github.io/aprenentatge/flamenc/index.html">
+      <div class="t">🔥 Guitarra flamenca</div>
+      <div class="d">Els palos (soleá, bulería, seguiriyas, alegrías…), el compàs de 12 i els seus accents,
+        l'harmonia andalusa (la cadència Am–G–F–E, el mode frigi, por arriba i por medio), les cadències
+        amb tensions i les tècniques (rasgueo, picado, pulz, alzapúa, tremolo).</div>
+      <div class="et">10 seccions · 6 taules · compàs dibuixat</div>
+    </a>
+    <a class="card" href="./bossa-nova/index.html">
+      <div class="t">🌴 Bossa Nova</div>
+      <div class="d">El batida de la guitarra (polze fent el baix, dits desplaçats), la clave, l'harmonia
+        amb extensions (maj7, 9, 13, b5, #11), els moviments de Jobim, els temes i el comping.</div>
+      <div class="et">7 seccions · el ritme pas a pas</div>
+    </a>
+    <a class="card" href="./blues/index.html">
+      <div class="t">🎸 Blues</div>
+      <div class="d">Els 12 compassos i les variants (quick change, blues menor, el turnaround), el shuffle
+        i el feel, els dominants i les blue notes, les tècniques (bends, vibrato, double stops) i els grans.</div>
+      <div class="et">8 seccions · la forma dibuixada</div>
+    </a>
+    <a class="card" href="./gypsy-jazz/index.html">
+      <div class="t">🎩 Gypsy Jazz (manouche)</div>
+      <div class="d">Django i el Hot Club, la guitarra Selmer, la pompe (el «xof» a 2 i 4), el rest-stroke,
+        l'harmonia de les 6enes menors i els 6/9, el repertori i els grans.</div>
+      <div class="et">8 seccions · la tècnica explicada</div>
+    </a>
+  </div>
+
+  <footer>
+    Aula BernatLab · estils · fet amb les eines i la biblioteca del laboratori
+  </footer>
+</div>
+</body>
+</html>
