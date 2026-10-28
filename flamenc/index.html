@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>Guitarra flamenca · el gènere, el compàs i la tècnica · Aula BernatLab</title>
+<meta name="description" content="Guia completa de la guitarra flamenca: què és el flamenc, els palos, el compàs de 12, l'harmonia andalusa (cadència, mode frigi, por arriba i por medio), les tècniques (rasgueo, picado, tremolo, alzapúa, pulgar, golpe) i com començar a practicar-lo.">
+<style>
+  :root{--bg:#0b1220;--soft:#0f1a30;--panel:#182545;--panel2:#1f2f52;--border:#24344f;
+    --txt:#eaf0f9;--muted:#8da2c0;--dim:#5d7294;--accent:#f5b942;--accent2:#e07a3f;--verd:#3ddc84;--rad:14px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    background:linear-gradient(180deg,var(--bg),var(--soft));color:var(--txt);line-height:1.6;
+    padding:16px 14px 70px;font-size:16px}
+  .wrap{max-width:880px;margin:0 auto}
+  h1{font-size:1.5rem;margin-bottom:4px}
+  h2{font-size:1.1rem;margin:26px 0 10px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:6px}
+  h3{font-size:.98rem;margin:16px 0 6px;color:var(--txt)}
+  p,li{color:#d6e0ef}
+  .sub{color:var(--muted);font-size:.93rem;margin-bottom:16px}
+  .tornar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;font-size:.85rem}
+  .tornar a{color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:99px;padding:5px 12px}
+  .tornar a:hover{color:var(--accent);border-color:var(--accent)}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--rad);padding:14px 16px;margin:10px 0}
+  .card.bon{border-left:3px solid var(--verd)}
+  .card.clau{border-left:3px solid var(--accent)}
+  .card.avis{border-left:3px solid var(--accent2)}
+  code,.mono{font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:var(--accent)}
+  table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--panel);
+    border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:10px 0}
+  th,td{padding:8px 10px;border-top:1px solid var(--border);text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.03em}
+  td.palo{font-weight:700;color:var(--accent);white-space:nowrap}
+  .et{display:inline-block;background:var(--panel2);border:1px solid var(--border);border-radius:8px;
+    padding:1px 8px;font-size:.78rem;color:var(--muted);margin:2px 2px 0 0}
+  ul{margin-left:20px} li{margin:4px 0}
+  .graella{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}
+  .compas{border:1px solid var(--border);border-radius:8px;padding:6px 0;width:58px;text-align:center;
+    font-family:ui-monospace,Menlo,monospace;background:var(--panel2)}
+  .compas b{display:block;font-size:1rem;color:var(--txt)}
+  .compas.acc{background:rgba(245,185,66,.18);border-color:var(--accent)}
+  .compas.acc b{color:var(--accent)}
+  .compas span{font-size:.68rem;color:var(--dim)}
+  footer{color:var(--dim);font-size:.82rem;margin-top:30px;border-top:1px solid var(--border);padding-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tornar">
+    <a href="https://bernatmora.github.io/aprenentatge/">← Inici (Aula BernatLab)</a>
+    <a href="https://bernatmora.github.io/aprenentatge/CursMusica/index.html">🎸 Harmonia avançada</a>
+    <a href="https://hortosona.tail37c051.ts.net/harmonia/">🧬 Harmonia del repertori</a>
+  </div>
+
+  <h1>🔥 Guitarra flamenca</h1>
+  <div class="sub">El gènere, els palos, el compàs de 12, l'harmonia andalusa, les tècniques i com començar.
+    Tot el que cal saber per endinsar-s'hi de debò.</div>
+
+  <div class="card clau">
+    <b>La idea que ho explica tot</b> — el flamenc no és una harmonia amb un ritme a sobre ✗: és un
+    <b>compàs</b> (un cicle d'accents) amb un <b>llenguatge harmònic propi</b> ✓. Quan entens les dues
+    coses, la resta és vocabulari ✓.
+  </div>
+
+  <h2>1. Què és el flamenc</h2>
+  <p>El flamenc és una música <b>andalusa</b>, nascuda de la barreja de la tradició <b>gitana (romaní)</b>
+    ✓, la música andalusa popular ✓ i, més tard, la influència de l'òpera i de la música llatinoamericana ✓.
+    No és «un estil de jazz» ✗ ni un folklore tancat ✗: és una tradició viva amb un llenguatge molt
+    codificat ✓.</p>
+  <p>Es construeix sobre <b>tres potes</b> ✓, que sempre van juntes (o dues, si no hi ha ball):</p>
+  <div class="card">
+    <ul>
+      <li><b>El cante</b> ✓ — la veu. És el cor del flamenc ✓: la guitarra l'acompanya i l'empeny ✓.</li>
+      <li><b>El toque</b> ✓ — la guitarra. Acompanya ✓ i fa <b>falsetas</b> (les melodies pròpies ✓).</li>
+      <li><b>El baile</b> ✓ — el ball, amb el <b>zapateado</b> (el picat de peus ✓) com a percussió.</li>
+    </ul>
+  </div>
+  <p>Les paraules clau per entendre'l ✓: <span class="et">jondo / jonda</span> (fondo, intens, tràgic ✓)
+    <span class="et">falseta</span> (la melodia de la guitarra ✓) <span class="et">compás</span> (el cicle
+    d'accents ✓) <span class="et">peña</span> (el club flamenc ✓) <span class="et">tablao</span> (l'escenari ✓)
+    <span class="et">duende</span> (l'emoció que no s'explica ✓).</p>
+
+  <h2>2. La guitarra flamenca</h2>
+  <p>És una guitarra **espanyola de niló** ✓ — però amb detalls que la fan diferent ✗:</p>
+  <table>
+    <tr><th>Detall</th><th>Per a què</th></tr>
+    <tr><td><b>Golpeador</b> ✓</td><td>La planxa protectora sota la boca ✓: es toca la tapa amb els dits (el <b>golpe</b> ✓) i cal protegir-la ✓.</td></tr>
+    <tr><td><b>Acció baixa</b> ✓</td><td>Les cordes més a prop del màstil ✗ que en una clàssica ✓: permet <b>picar</b> i fer <b>rasgueos</b> ràpids ✓ (a canvi de menys volum i més «brut» ✓ — és el so que vols ✓).</td></tr>
+    <tr><td><b>Fusta de la caixa</b> ✓</td><td><b>Xiprer</b> ✓ → la «blanca» ✓ (so sec, percussiu, clàssic de l'acompanyament ✓). <b>Palosanto / jacaranda</b> ✓ → la «negra» ✓ (més greu i potent ✓).</td></tr>
+    <tr><td><b>Tapa</b> ✓</td><td>Avet ✓ (brillant i àgil ✓) o cedre ✓ (més càlid ✓).</td></tr>
+    <tr><td><b>Clavilles</b> ✓</td><td>De fusta ✓ (clavijas ✓) a la «blanca» tradicional ✓.</td></tr>
+    <tr><td><b>Cejilla</b> ✓</td><td>El <b>capo</b> ✓ — imprescindible ✗: es toca sempre amb cejilla ✓ (normalment al <b>2n, 3r o 4t trast</b> ✓) perquè acompanyi la veu ✓.</td></tr>
+  </table>
+
+  <h2>3. El compàs: el cor del flamenc</h2>
+  <p>La majoria de palos es compten en **cicles de 12** ✓ (no de 4 ✗). L'important no és el número ✗,
+    sinó **on cauen els accents** ✓✓:</p>
+  <div class="graella">
+    <div class="compas"><b>1</b><span>—</span></div>
+    <div class="compas"><b>2</b><span>—</span></div>
+    <div class="compas acc"><b>3</b><span>accent</span></div>
+    <div class="compas"><b>4</b><span>—</span></div>
+    <div class="compas"><b>5</b><span>—</span></div>
+    <div class="compas acc"><b>6</b><span>accent</span></div>
+    <div class="compas"><b>7</b><span>—</span></div>
+    <div class="compas acc"><b>8</b><span>accent</span></div>
+    <div class="compas"><b>9</b><span>—</span></div>
+    <div class="compas acc"><b>10</b><span>accent</span></div>
+    <div class="compas"><b>11</b><span>—</span></div>
+    <div class="compas acc"><b>12</b><span>accent</span></div>
+  </div>
+  <div class="card avis">
+    <b>El parany del principiant</b> ✗: comptar «1-2-3-4» i posar-hi a sobre la cadència ✗. El compàs
+    flamenc <b>comença a comptar en un lloc que no és l'u</b> ✓: els cicles sovint s'escolten
+    «12-1-2-**3**…» ✓ (el «12» és l'últim accent ✓). Practica'l comptant en veu alta ✓ i picant de mans
+    als accents <b>3, 6, 8, 10 i 12</b> ✓✓.
+  </div>
+  <p>Peces del llenguatge rítmic ✓: <span class="et">llamada</span> (la crida que obre ✓)
+    <span class="et">escobilla</span> (el passatge de compàs sense cante ✓) <span class="et">subida</span>
+    (la pujada que prepara el final ✓) <span class="et">remate</span> (el tancament ✓).</p>
+
+  <h2>4. L'harmonia andalusa: el que fa sonar «flamenc»</h2>
+  <p>Aquí hi ha el secret ✓. El flamenc fa servir un <b>mode propi</b> ✓✓: el <b>mode frigi amb tercera
+    major</b> (el «frigi espanyol» o «mode andalús» ✓) — i, sobretot, una progressió ✓✓:</p>
+  <div class="card bon">
+    <b>La cadència andalusa</b> ✓✓: <code>Am → G → F → E</code> ✓ (en graus: <code>i → bVII → bVI → V</code> ✓).
+    Fes-la en bucle ✓ i ja tens mig flamenc ✓✓. És la mateixa progressió del «Hit the Road Jack» ✓, de
+    «Sultans of Swing» ✓ i de tants temes ✓ — però al flamenc es toca <b>en frigi</b> ✓, amb el <b>E</b>
+    com a centre de gravetat ✓✓ (no el Am ✗).
+  </div>
+  <p>Les dues «cases» ✓ on viu tot ✗ (amb la cejilla ✓):</p>
+  <table>
+    <tr><th>Forma</th><th>Què vol dir</th><th>Com es toca</th></tr>
+    <tr><td><b>Por arriba</b> ✓</td><td>El centre és <b>E</b> ✓</td><td>La cadència <code>Am–G–F–E</code> ✓ (sense cejilla o amb poca ✓)</td></tr>
+    <tr><td><b>Por medio</b> ✓</td><td>El centre és <b>A</b> ✓</td><td>La mateixa forma moguda ✓ (la cejilla et porta d'un lloc a l'altre ✓✓)</td></tr>
+  </table>
+  <p>Detalls que hi has de sentir ✓:</p>
+  <ul>
+    <li>El <b>F</b> és la «sensible» dramàtica ✓ i el <b>E</b> el punt de repòs ✓.</li>
+    <li>Moltes falsetas **baixen** per la cadència ✓ (E → F → G → Am hmm: hmm ✓) i d'altres **pugen** ✓.</li>
+    <li>El <b>picat</b> fort amb el polze sobre l'E ✓ (el «golpe» sobre la cadència ✓).</li>
+    <li>Les <b>tensions</b>: el <b>b9</b> ✓ i el <b>#11</b> hmm ✗ — al flamenc es fa servir molt el <b>b9</b> ✓ i les notes de pas cromàtiques ✓.</li>
+  </ul>
+
+  <h2>5. Els palos (les «formes»)</h2>
+  <p>Cada palo és un <b>gènere</b> amb el seu compàs ✓, el seu caràcter ✓ i el seu lloc d'origen ✓✓.
+    Aquesta és la llista que et cal ✓:</p>
+  <table>
+    <tr><th>Palo</th><th>Compàs</th><th>Caràcter i origen</th></tr>
+    <tr><td class="palo">Soleá</td><td>12 ✓</td><td>La mare del flamenc ✓. <b>Jondo</b>, greu, solemne ✓. De Sevilla/Jerez ✓. Serveix per a tot ✓.</td></tr>
+    <tr><td class="palo">Bulerías</td><td>12 ✓</td><td>Ràpid i festiu ✓, de <b>Jerez</b> ✓. El compàs més reconeixible del flamenc ✓✓.</td></tr>
+    <tr><td class="palo">Alegrías</td><td>12 ✓</td><td>Viu i lluminós ✓, de <b>Cadis</b> ✓. Germà de la soleá però en major ✓.</td></tr>
+    <tr><td class="palo">Seguiriyas</td><td>12 (propi) ✓</td><td>El més <b>jondo</b> i tràgic ✓✓. Compàs peculiar ✓ (sovint 3+3+2 hmm — s'escolta en 5+5 hmm ✓). Difícil però essencial ✓.</td></tr>
+    <tr><td class="palo">Tangos</td><td>4 ✓</td><td>De festa ✓, el ritme base ✓. La porta d'entrada més fàcil ✓.</td></tr>
+    <tr><td class="palo">Tientos</td><td>4 ✓</td><td>Tangos <b>lents i greus</b> ✓ — i solen acabar en tangos ✓.</td></tr>
+    <tr><td class="palo">Rumba</td><td>4 ✓</td><td>La cara més popular ✓ (i la que va portar el flamenc arreu ✓).</td></tr>
+    <tr><td class="palo">Sevillanas</td><td>6 ✓</td><td>Les festes de Sevilla ✓, en 4 coplas ✓. Fàcils i per començar ✓.</td></tr>
+    <tr><td class="palo">Fandangos</td><td>12 o lliure ✓</td><td>De <b>Huelva</b> ✓ i <b>Málaga</b> ✓. Melòdic i brillant ✓.</td></tr>
+    <tr><td class="palo">Malagueñas · Granaínas · Tarantas</td><td>lliure ✓</td><td>Els «cantes mineros» ✓: lliures, amb el <b>tremolo</b> de la guitarra ✓✓.</td></tr>
+    <tr><td class="palo">Guajiras · Colombianas · Milongas</td><td>12 o 4 ✓</td><td>Els <b>«de ida y vuelta»</b> ✓ — la influència llatinoamericana ✓✓.</td></tr>
+    <tr><td class="palo">Farruca · Garrotín · Petenera · Zambra</td><td>4 / 12 ✓</td><td>Peculiaritats ✓ — la farruca és un tango «de home» ✓, la zambra la del Sacromonte ✓.</td></tr>
+  </table>
+
+  <h2>6. Les tècniques de la mà dreta i l'esquerra</h2>
+  <table>
+    <tr><th>Nom</th><th>Què és</th></tr>
+    <tr><td><b>Rasgueo</b> ✓</td><td>El «rascat»: els dits canvien de corda en un moviment ràpid ✓ — la base de l'acompanyament ✓✓. Hi ha patrons (el «abanico» ✓, el «pulgar-índex» ✓...).</td></tr>
+    <tr><td><b>Picado</b> ✓</td><td>Notes picades amb l'índex i el mig alternats ✓, ràpid i precís ✓.</td></tr>
+    <tr><td><b>Pulgar</b> ✓</td><td>El polze com a protagonista ✓ — la tècnica més flamenca ✓✓ (i la que més costa de controlar ✗).</td></tr>
+    <tr><td><b>Alzapúa</b> ✓</td><td>El polze fa amunt i avall ràpid ✓ (sobre un acord o una nota ✓) — el famós «martelleig» ✓.</td></tr>
+    <tr><td><b>Tremolo</b> ✓</td><td>La nota greu amb el polze ✓ i tres o més notes ràpides a sobre ✓✓ — el tret dels cantes mineros ✓.</td></tr>
+    <tr><td><b>Arpegio</b> ✓</td><td>Els acords desplegats ✓, amb patrons estalviats ✓.</td></tr>
+    <tr><td><b>Golpe</b> ✓</td><td>Colpir la tapa amb el dit ✓ sobre el golpeador ✓ — percussió dins l'instrument ✓.</td></tr>
+    <tr><td><b>Ligado</b> ✓</td><td>Hammer-on i pull-off ✓ (més ràpid i net que picar ✗).</td></tr>
+    <tr><td><b>Cejilla</b> ✓</td><td>El capo ✓: canvia el «lloc» sense canviar la forma ✓✓.</td></tr>
+  </table>
+
+  <h2>7. Els grans (per on començar a escoltar)</h2>
+  <div class="card">
+    <ul>
+      <li><b>Ramón Montoya</b> ✓ — el primer gran solista de guitarra flamenca ✓ (el «pare» del toque modern ✓).</li>
+      <li><b>Niño Ricardo</b> ✓ — el mestre de l'acompanyament ✓.</li>
+      <li><b>Sabicas</b> ✓ — va portar el flamenc als grans escenaris ✓ (tècnica neta i elegant ✓).</li>
+      <li><b>Paco de Lucía</b> ✓✓ — <b>la revolució</b>: tècnica, harmonia i la fusió amb el jazz ✓✓ (comença aquí si vols entendre de què parlem ✓).</li>
+      <li><b>Manolo Sanlúcar</b> ✓, <b>Serranito</b> ✓, <b>Tomatito</b> ✓, <b>Vicente Amigo</b> ✓ — dels més grans de les últimes dècades ✓.</li>
+    </ul>
+  </div>
+
+  <h2>8. Com començar a practicar-ho (en aquest ordre)</h2>
+  <div class="card bon">
+    <ol style="margin-left:20px">
+      <li><b>El compàs de 12 amb palmells</b> ✓✓: poses un metrònom a 60 ✓ i comptes «1…12» picant als
+        accents <b>3, 6, 8, 10, 12</b> ✓. Quan et surti sense pensar ✓, passa-ho a la guitarra ✓.</li>
+      <li><b>La cadència andalusa en bucle</b> ✓✓: <code>Am–G–F–E</code> amb rasgueos simples ✓, 4 cops per acord ✓.
+        Primer lent ✗, i després fes el compàs de 12 a sobre ✓✓.</li>
+      <li><b>La cejilla</b> ✓: toca la mateixa cadència al 2n trast ✓ — així aprens <b>«por medio»</b> ✓
+        sense canviar les formes ✓.</li>
+      <li><b>Una falseta curta</b> ✓: agafa dues frases ✓ d'un palo que t'agradi ✓ (la bulería o la soleá ✓) i
+        enllaca-les amb la cadència ✓✓.</li>
+      <li><b>Amb el cante</b> ✓: escolta una bulería de Jerez ✓ i toca-hi a sobre ✓ — el compàs es fa sol ✓✓.</li>
+    </ol>
+  </div>
+  <div class="card avis">
+    <b>Dues coses que t'estalviaran mesos</b> ✓: (1) <b>mai</b> comptar «1-2-3-4» ✗ — el compàs de 12 no és
+    una barra de 12/8 ✗: és un cicle amb accents propis ✓. (2) la <b>mà dreta</b> mana ✓✓: el flamenc és so
+    de dreta ✓ (rasgueo, polze, picat ✓); la mà esquerra gairebé no fa res de nou ✗.
+  </div>
+
+  <h2>9. I si vols aprofundir-hi</h2>
+  <p>Al laboratori tens material per continuar ✓: el <b>tutor d'harmonia</b> ✓ (pregunta-li per la cadència
+    andalusa ✓ o pel mode frigi ✓ — et citarà els llibres amb la pàgina ✓✓), el <b>mapa de funcions</b> ✓
+    (el frigi hi és ✓) i els <b>jocs</b> ✓ per reconèixer els intervals i les escales ✓.</p>
+
+  <footer>
+    Aula BernatLab · guitarra flamenca · fet amb el material i les eines del laboratori ✓<br>
+    <a href="https://bernatmora.github.io/aprenentatge/" style="color:#8da2c0">← Tornar a l'Aula</a>
+  </footer>
+</div>
+</body>
+</html>
