@@ -1,0 +1,182 @@
+<!DOCTYPE html><html lang="ca"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>Blocs A i B · anàlisi i reharmonització · Curs avançat</title>
+<style>
+:root{--bg:#0b1220;--soft:#0f1a30;--panel:#182545;--panel2:#1f2f52;--border:#24344f;--txt:#eaf0f9;
+--muted:#8da2c0;--dim:#5d7294;--accent:#f5b942;--verd:#3ddc84;--verm:#e05a5a;--rad:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+background:linear-gradient(180deg,var(--bg),var(--soft));color:var(--txt);line-height:1.65;padding:16px 14px 80px}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-size:1.4rem;margin-bottom:4px} h2{font-size:1.1rem;margin:30px 0 6px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:6px}
+h3{font-size:.98rem;margin:18px 0 6px;color:#cfdcf0}
+.sub{color:var(--muted);font-size:.92rem;margin-bottom:12px}
+.tornar a{color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:99px;padding:5px 12px;font-size:.85rem}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--rad);padding:14px 16px;margin:10px 0}
+.card.clau{border-left:3px solid var(--accent)} .card.bon{border-left:3px solid var(--verd)} .card.avis{border-left:3px solid var(--verm)}
+code{font-family:ui-monospace,Menlo,monospace;color:var(--accent);font-size:.92em}
+ul,ol{margin-left:20px} li{margin:5px 0}
+table{width:100%;border-collapse:collapse;font-size:.87rem;background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:10px 0}
+th,td{padding:8px 10px;border-top:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--panel2);color:var(--muted);font-size:.73rem;text-transform:uppercase}
+details{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;margin:8px 0}
+summary{cursor:pointer;font-weight:600;font-size:.92rem}
+.petit{color:var(--muted);font-size:.87rem}
+.et{display:inline-block;background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:1px 7px;font-size:.76rem;color:var(--muted);margin:2px}
+
+@media (max-width: 700px) {
+  body{padding:14px 12px 90px;font-size:16.5px}
+  h1{font-size:1.3rem} h2{font-size:1.08rem}
+  table{font-size:.83rem} th,td{padding:6px 7px}
+  code{overflow-wrap:anywhere}
+  details{padding:12px 13px} summary{font-size:1rem;padding:4px 0}
+  .card{padding:13px 14px}
+  li{margin:8px 0}
+}
+</style></head><body><div class="wrap">
+<div class="tornar"><a href="https://bernatmora.github.io/aprenentatge/harmonia-avancat/">← Curs</a>&nbsp;<a href="https://bernatmora.github.io/aprenentatge/">Aula</a></div>
+<h1>📐 Bloc A · Anàlisi, i Bloc B · Reharmonització</h1>
+<div class="sub">Quatre lliçons d'anàlisi i tres de reharmonització. Cada lliçó porta els exemples trets del teu
+propi repertori, un exercici i la solució amagada (obre-la només quan l'hagis fet).</div>
+
+<div class="card clau"><b>Si ho fas amb el mòbil</b> (que és com ho faràs): <b>no has d'escriure res</b> ✓.
+<br>1) Llegeix la lliçó ✓.
+<br>2) Quan hi hagi una <b>solució amagada</b>, fes-ho al cap (o amb la guitarra) i <b>toca-la</b> per comprovar-la ✓.
+<br>3) Quan vulguis que ho corregeixi, <b>enregistra un àudio</b> (o un vídeo curtet) i me'l passes ✓✓ —
+o me'n parles aquí ✗, sense escriure ✗✓.
+<br>4) I si un exercici demana «escriu», <b>toca-la i envia'm l'àudio</b> ✓: és el mateix, i per a mi és millor ✓.
+</div>
+
+
+<h2>A1 · L'anàlisi funcional: el mètode</h2>
+<p>Analitzar un tema no és posar números romans bonics: és <b>respondre tres preguntes</b>:</p>
+<ol>
+<li><b>En quin to sóc?</b> Mira <b>la cadència</b> (el <code>ii–V–I</code> o el <code>V–I</code>) i <b>l'últim acord</b>. No miris la primera nota: en un tema de jazz la primera sovint és una inversió.</li>
+<li><b>Què fa cada acord?</b> I aquí el truc: <b>només hi ha tres funcions</b> — <b>tònica</b> (I, iii, vi), <b>pre-dominant</b> (ii, IV, bVII) i <b>dominant</b> (V, viio, bII7). Si un acord no encaixa, busca <b>de quin acord és el dominant</b>: serà un dominant secundari (lliçó A2).</li>
+<li><b>Per què sona així?</b> La resposta és sempre <b>la veu que es mou</b>: quina nota passa a quina (la 3a que baixa, la 7a que baixa un semitò, el baix que fa 4a justa...).</li>
+</ol>
+<div class="card clau"><b>L'exemple del teu mapa: <code>Tune Up</code></b> — és el millor per començar perquè és <b>el mateix</b> tres vegades:
+<br><code>Em7 – A7 – Dmaj7</code> · <code>Dm7 – G7 – Cmaj7</code> · <code>Cm7 – F7 – Bbmaj7</code>
+<br>O sigui: <b>ii–V–I en Re</b> → <b>ii–V–I en Do</b> → <b>ii–V–I en Sib</b>. Tres tons, la mateixa frase. Si ho veus aquí, ho veuràs a tot arreu.</div>
+<h3>Exercici</h3>
+<p>Analitza <code>Four</code> (en Mib) del quadern: digues els graus i <b>on és la cadència</b>.</p>
+<details><summary>Solució A1</summary>
+<p>El tema és un tour per Mib: <code>Abmaj7 – Gm7 – Cm7 – Fm7 – Bb7 – Ebmaj7</code> → <b>I – iii – vi – ii – V – I</b>.
+La cadència és el <code>Fm7 – Bb7 – Ebmaj7</code> (<b>ii–V–I</b>) ✓. Al mig hi ha un <b>turnaround</b> que hi torna.
+I fixa't en el detall: <code>Abmaj7 → Gm7</code> és el <b>I → iii</b>, que és la porta que porta cap al vi (Cm7).</p>
+</details>
+<p class="petit"><b>Ho domines quan</b>: ets capaç de fer el mapa funcional d'un estàndard de 24 compassos <b>en 10 minuts</b>, sense mirar-te el paper.</p>
+
+<h2>A2 · Els dominants secundaris</h2>
+<p>Un <b>dominant secundari</b> és el <code>V7</code> d'un acord que no és la tònica. Es construeix <b>sense sortir del to</b>: agafes el grau que vols atacar, puges una quinta, i hi poses un <b>7</b> (amb tercera major).</p>
+<table>
+<tr><th>Escrit</th><th>Vol dir</th><th>Resol a</th><th>On el trobaràs</th></tr>
+<tr><td><code>A7</code> en Do</td><td>V7/ii</td><td>Dm7</td><td>A tot arreu (el de l'exercici del test ✓)</td></tr>
+<tr><td><code>E7</code> en Do</td><td>V7/vi</td><td>Am7</td><td><i>All of Me</i>, el segon compàs</td></tr>
+<tr><td><code>D7</code> en Do</td><td>V7/V</td><td>G7</td><td>Una «doble dominació»: D7 → G7 → C</td></tr>
+<tr><td><code>C7</code> en Do</td><td>V7/IV</td><td>F</td><td><b>El parany</b> ⚠️: el I7 <b>no</b> és el dominant del to: és el del IV</td></tr>
+</table>
+<div class="card avis"><b>El parany que fa que molta gent no entengui el jazz</b>: veure un <code>C7</code> en Do i pensar «el blues». No ✗: si el C7 <b>no</b> va al F, llavors sí és blues; si va al F, és un <b>V7/IV</b>. <b>Mira sempre cap on resol</b>, no com es diu.</div>
+<h3>Exercici</h3>
+<p>Al quadern, obre <code>All of Me</code> i <b>subratlla tots els dominants secundaris</b>. Digues de quin grau és cadascun.</p>
+<details><summary>Solució A2</summary>
+<p>Els que has de trobar: <code>E7</code> (V7/vi, cap a Am) i <code>A7</code> (V7/ii, cap a Dm). I compte: el <code>D7</code> del compàs 6 és <b>V7/V</b> (cap a G7). Tots ells <b>resolen baixant una quinta</b> — és la llei del dominant ⚠️.</p>
+</details>
+<p class="petit"><b>Ho domines quan</b>: en un tema nou, veus un acord amb 7 que no és el V i <b>saps a quin acord resol</b> abans de mirar el següent compàs.</p>
+
+<h2>A3 · Les substitucions</h2>
+<p>Una <b>substitució</b> canvia un acord per un altre <b>sense canviar la funció</b>. Les tres que has de tenir:</p>
+<table>
+<tr><th>Nom</th><th>Què fa</th><th>Exemple</th></tr>
+<tr><td><b>Substitució de tríton</b> ⭐</td><td>El dominant es canvia pel dominant <b>a distància de tríton</b> (comparteixen el tríton, per això funciona)</td><td><code>G7 → Db7</code></td></tr>
+<tr><td><b>Backdoor (bVII7)</b> ⭐</td><td>Un dominant <b>un to per sota</b> de la tònica, que hi cau per dalt</td><td><code>Bb7 → C</code></td></tr>
+<tr><td><b>Disminuït de pas</b></td><td>Un <code>viio7</code> o <code>#ivo7</code> que enllaça dos acords</td><td><code>Cmaj7 → C#o7 → Dm7</code></td></tr>
+</table>
+<div class="card clau"><b>La llei del tríton</b>: <code>G7</code> conté les notes <b>Si–Fa</b>, i <code>Db7</code> conté <b>Fa–Si</b>: <b>les mateixes dues notes, invertides</b> → el mateix tríton → la mateixa tensió → la mateixa resolució. Per això pots canviar un per l'altre i només canvia el <b>baix</b> (i el color).</div>
+<h3>Exercici</h3>
+<p>Al quadern, mira <code>Solar</code>: hi ha un <code>Dbmaj7</code> en un tema en Do menor. <b>Què hi fa?</b></p>
+<details><summary>Solució A3</summary>
+<p>És un <b>bII</b> (el «napolità»): la tònica <b>pujada mig to</b>. No és una substitució de funció sinó de <b>color</b>: serveix perquè el baix baixi <code>Do → Re♭ → Sol</code> de manera cromàtica. És el mateix recurs que la cadència napolitana del flamenc ✓ — i per això els dos gèneres comparteixen «olor».</p>
+</details>
+<p class="petit"><b>Ho domines quan</b>: ets capaç d'agafar una progressió de 4 compassos i <b>tornar-la a harmonitzar</b> amb una substitució, i saps <b>per què</b> encara funciona.</p>
+
+<h2>A4 · Les modulacions</h2>
+<p>Quatre maneres de canviar de to, de la més suau a la més brusca:</p>
+<ol>
+<li><b>Acord pivot</b> ✓: l'acord que és comú als dos tons (ex: <code>Am7</code> és vi en Do i ii en Sol) → suau, invisible.</li>
+<li><b>Dominant nou</b> ✓: arribes amb el <code>V7</code> del to nou (ex: un <code>D7</code> per anar a Sol) → clar, però musical.</li>
+<li><b>Cromàtica</b> ✓: el <b>relatiu major del menor paral·lel</b> (Do major → Do menor → Mib major) → el famós «canya a canviar de to» del jazz.</li>
+<li><b>Directa</b> ⚠️: sense preparació. És la més brusca i la que més impacta.</li>
+</ol>
+<div class="card clau"><b>El laboratori: <code>All the Things You Are</code></b> — és el tema que més modula del repertori. La tornada en <b>Ab</b>, el pont en <b>C</b>, després en <b>Eb</b>, i la tornada passa per <b>G</b> i <b>E</b>. Analitza-la amb calma i tindràs mig A4 fet.</div>
+<h3>Exercici</h3>
+<p>Al quadern, <code>Blue Bossa</code>: on modula i cap a on? Quina de les quatre maneres fa servir?</p>
+<details><summary>Solució A4</summary>
+<p>Està en <b>Do menor</b> i al pont passa a <b>Mib major</b> (el <b>relatiu major</b>). Ho fa amb un <b>acord pivot</b>: el el pivot és el <b>Ebmaj7</b> (el bIII), i el pont comença amb el <b>ii–V–I de Mib</b> (<code>Fm7 – Bb7 – Ebmaj7</code>). Després torna a Do menor amb un <code>Dm7b5 – G7</code>. És el canvi de to més «de llibre» que hi ha: per això Blue Bossa és el primer tema que s'estudia.</p>
+</details>
+<p class="petit"><b>Ho domines quan</b>: en un tema que no coneixes, sents que «ha canviat alguna cosa» i <b>trobés el compàs exacte</b> on ha passat.</p>
+
+<h2>B1 · Reharmonitzar: els sis recursos</h2>
+<p>Reharmonitzar és canviar els acords <b>sense tocar la melodia</b> ⚠️ (la melodia mana: si la nota no encaixa, l'acord no val). Els sis recursos, per ordre de dificultat:</p>
+<table>
+<tr><th>#</th><th>Recurs</th><th>Exemple (en Do)</th></tr>
+<tr><td>1</td><td>Canviar el I per <b>iii o vi</b></td><td><code>Cmaj7 → Em7 → Cmaj7</code></td></tr>
+<tr><td>2</td><td>Posar-hi un <b>ii–V</b> al davant</td><td><code>Cmaj7</code> → <code>Dm7 – G7 – Cmaj7</code></td></tr>
+<tr><td>3</td><td><b>Substitució de tríton</b></td><td><code>G7 → Db7</code></td></tr>
+<tr><td>4</td><td><b>Backdoor</b></td><td><code>C → Bb7 → C</code></td></tr>
+<tr><td>5</td><td><b>Intercanvi modal</b></td><td><code>F → Fm6</code> (el minor iv), <code>Dm7 → Dm7b5</code></td></tr>
+<tr><td>6</td><td><b>Reharmonització per pedal</b></td><td>Canviar els acords <b>sobre una nota fixa</b> (el clàssic «C sobre tot»)</td></tr>
+</table>
+<div class="card avis"><b>La regla d'or</b> ⚠️: <b>una substitució, no tres alhora</b>. Si canvies tot el tema, no és «reharmonitzar», és una altra cançó. El que fa sonar bé una reharmonització és que <b>la melodia encara hi encaixi</b> i que <b>el baix sigui bo</b>.</div>
+<h3>Exercici</h3>
+<p>Agafa <code>Tune Up</code> del quadern (3 ii–V–I) i <b>reharmonitza'ls</b>: el primer amb una substitució de tríton, el segon amb un backdoor, el tercer amb intercanvi modal.</p>
+<details><summary>Solució B1</summary>
+<p>Una solució possible: <code>Em7 – Eb7 – Dmaj7</code> ✓ (el tríton de A7 és Eb7) · <code>Dm7 – G7 – Cmaj7</code> → <code>Dm7 – G7 – <b>Bb7 – Cmaj7</b></code> ✓ (el backdoor: el Bb7 entra just abans de la tònica) · <code>Cm7 – F7b9 – Bbm7</code> ✓ (el Bbmaj7 passa a Bbm7: intercanvi modal en el IV). <b>No hi ha una sola solució</b>: el que compta és que la melodia encaixi i que <b>el baix es mogui bé</b>.</p>
+</details>
+
+<h2>B2 · Reharmonitzar un tema sencer</h2>
+<p>El mètode, en cinc passos:</p>
+<ol>
+<li><b>Marca les notes fortes</b> de la melodia (les que cauen a temps 1 i 3). Són les que <b>no pots contradir</b>.</li>
+<li><b>Fes el mapa funcional</b> del tema original (A1).</li>
+<li><b>Tria el recurs</b> per a cada lloc (B1). Una decisió per compàs, com a màxim.</li>
+<li><b>Comprova el baix</b>: canta'l. Si el baix no té sentit sol, la reharmonització no funciona.</li>
+<li><b>Toca-la amb la melodia</b>. Si alguna cosa xoca, torna enrere: <b>el que mana és la melodia</b>.</li>
+</ol>
+<div class="card bon"><b>El secret dels grans</b>: no reharmonitzen <b>més</b>, reharmonitzen <b>millor</b>. El Felts ho diu clar: la reharmonització és <b>una decisió d'arranjament</b>, no una exhibició.</div>
+<h3>Exercici</h3>
+<p>Tria <b>un</b> tema del quadern (<code>Blue Bossa</code> és el més fàcil) i reharmonitza'l sencer, però <b>només dos acords</b> del total. Explica per què aquests dos.</p>
+<details><summary>Solució B2 (exemple)</summary>
+<p>Una opció: canviar el <code>Cm7</code> d'entrada per <code>Cm9</code> no seria una reharmonització ⚠️. Millor: canviar el <code>Dm7b5 – G7</code> del final per <code>Ab7 – G7</code> (un <b>bVImaj7</b> substituint el ii) — perquè el baix fa <code>Ab → G</code>, mig to, i la melodia del final és la <b>9a</b>, que hi encaixa. <b>Per això aquests dos</b>: el baix baixa cromàtic i la melodia ho permet.</p>
+</details>
+
+<h2>B3 · Els voicings (la guitarra)</h2>
+<p>Una reharmonització no sona sense els voicings. Per a la guitarra de jazz, el que cal:</p>
+<table>
+<tr><th>Voicing</th><th>Què és</th><th>Quan</th></tr>
+<tr><td><b>Shell (2 veus)</b></td><td>Arrel + 3a + 7a (la 5a fora)</td><td>Acompanyament amb baix o amb un altre instrument</td></tr>
+<tr><td><b>Drop-2 / Drop-3</b></td><td>L'acord de 4 veus amb una veu baixada una octava</td><td>El so clàssic del jazz (les «block chords»)</td></tr>
+<tr><td><b>Rootless</b></td><td>Sense l'arrel (3a-5a-7a-9a o 3a-5a-7a-b9)</td><td>Quan hi ha baix o piano</td></tr>
+<tr><td><b>Amb tensions</b></td><td>+9 ✓, b9 ✓, #11 ✓, 13 ✓</td><td>El color (i el que et demanaran a C2)</td></tr>
+</table>
+<div class="card avis"><b>El parany del guitarrista</b> ⚠️: tocar <b>totes</b> les notes (6 cordes). El voicing bo és el que <b>deixa sonar les notes que importen</b> (3a i 7a a dalt, tensió a sobre) i silencia la resta. Un acord de 4 notes ben posat sona millor que un de 6.</div>
+<h3>Exercici</h3>
+<p>Agafa <code>Dm7 – G7 – Cmaj7</code> i toca'l amb: (a) shell, (b) drop-2, (c) rootless amb 9a. Escriu les posicions.</p>
+<details><summary>Solució B3</summary>
+<p><b>Shell</b> (3 notes): <code>D-F-C</code> → <code>G-B-F</code> → <code>C-E-B</code> ✓.<br><b>Rootless</b> (4 notes, a dalt): <code>F-C-E-A</code> → <code>F-B-E-A</code> → <code>E-B-D-A</code> ✓✓ — fixa't que la 3a i la 7a <b>s'inverteixen</b> (F-C → F-B) i la resta quasi no es mou. Aquest és <b>el moviment</b> que fa sonar el ii–V–I com una flotació. Practica-ho <b>lent i sense mirar les mans</b>.</p>
+</details>
+
+<h2>Com sé que he acabat el bloc A i B?</h2>
+<div class="card">
+<ul>
+<li>☐ Has fet l'anàlisi de <b>10 dels 20 temes</b> del quadern (i me l'has passat per corregir)</li>
+<li>☐ Saps dir, sense mirar, <b>quins són els dominants secundaris</b> d'un tema que no coneixes</li>
+<li>☐ Has reharmonitzat <b>un tema sencer</b> amb 2-3 canvis i saps defensar <b>per què</b></li>
+<li>☐ Toques el <code>ii–V–I</code> en <b>sis tonalitats</b> amb voicings de 4 notes</li>
+</ul>
+Quan els tinguis, passem al bloc C (el segle XX) — que és on el curs es posa interessant de veritat.
+</div>
+<footer style="color:#5d7294;font-size:.82rem;margin-top:30px;border-top:1px solid #24344f;padding-top:12px">
+Aula BernatLab · curs avançat · blocs A i B · <a href="https://bernatmora.github.io/aprenentatge/harmonia-avancat/" style="color:#8da2c0">tornar al curs</a>
+</footer></div></body></html>
