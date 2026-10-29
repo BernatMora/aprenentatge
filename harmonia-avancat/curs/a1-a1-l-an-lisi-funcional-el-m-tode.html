@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="ca"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220"><title>A1 · L'anàlisi funcional: el mètode · Curs d'harmonia</title>
+<style>:root{--bg:#0b1220;--soft:#0f1a30;--panel:#182545;--panel2:#1f2f52;--border:#24344f;--txt:#eaf0f9;
+--muted:#8da2c0;--accent:#f5b942;--verd:#3ddc84;--verm:#e05a5a;--rad:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),var(--soft));color:var(--txt);line-height:1.65;padding:12px 14px 40px;font-size:17px}
+.wrap{max-width:860px;margin:0 auto}
+h2{font-size:1.12rem;margin:4px 0 12px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:8px}
+h3{font-size:1rem;margin:16px 0 6px;color:#cfdcf0}
+code{font-family:ui-monospace,Menlo,monospace;color:var(--accent);font-size:.92em;overflow-wrap:anywhere}
+ul,ol{margin-left:20px} li{margin:7px 0}
+table{width:100%;border-collapse:collapse;font-size:.84rem;background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:10px 0}
+th,td{padding:7px 8px;border-top:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--panel2);color:var(--muted);font-size:.72rem;text-transform:uppercase}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--rad);padding:13px 15px;margin:10px 0}
+.card.clau{border-left:3px solid var(--accent)} .card.bon{border-left:3px solid var(--verd)} .card.avis{border-left:3px solid var(--verm)}
+details{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin:10px 0}
+summary{cursor:pointer;font-weight:700;font-size:1rem;padding:4px 0}
+.petit{color:var(--muted);font-size:.88rem}
+.nav{display:flex;gap:8px;margin:0 0 14px;flex-wrap:wrap}
+.nav a{flex:1;min-width:120px;text-align:center;text-decoration:none;background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:13px 8px;color:var(--txt);font-size:.92rem;font-weight:600}
+.nav a:active{background:var(--accent);color:#101820}
+.nav a.buit{opacity:.35}
+.peu{display:flex;gap:8px;margin:-6px 0 6px;flex-wrap:wrap}
+.peu a{flex:1;min-width:120px;text-align:center;text-decoration:none;background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:11px 8px;color:var(--txt);font-size:.9rem}.peu a:active{background:var(--accent);color:#101820}
+</style></head><body><div class="wrap"><div class="nav"><a href="../">📚 Índex</a><a class="buit">← Anterior</a><a href="./a2-a2-els-dominants-secundaris.html">Següent →</a></div>
+<h2>A1 · L'anàlisi funcional: el mètode</h2>
+<p>Analitzar un tema no és posar números romans bonics: és <b>respondre tres preguntes</b>:</p>
+<ol>
+<li><b>En quin to sóc?</b> Mira <b>la cadència</b> (el <code>ii–V–I</code> o el <code>V–I</code>) i <b>l'últim acord</b>. No miris la primera nota: en un tema de jazz la primera sovint és una inversió.</li>
+<li><b>Què fa cada acord?</b> I aquí el truc: <b>només hi ha tres funcions</b> — <b>tònica</b> (I, iii, vi), <b>pre-dominant</b> (ii, IV, bVII) i <b>dominant</b> (V, viio, bII7). Si un acord no encaixa, busca <b>de quin acord és el dominant</b>: serà un dominant secundari (lliçó A2).</li>
+<li><b>Per què sona així?</b> La resposta és sempre <b>la veu que es mou</b>: quina nota passa a quina (la 3a que baixa, la 7a que baixa un semitò, el baix que fa 4a justa...).</li>
+</ol>
+<div class="card clau"><b>L'exemple del teu mapa: <code>Tune Up</code></b> — és el millor per començar perquè és <b>el mateix</b> tres vegades:
+<br><code>Em7 – A7 – Dmaj7</code> · <code>Dm7 – G7 – Cmaj7</code> · <code>Cm7 – F7 – Bbmaj7</code>
+<br>O sigui: <b>ii–V–I en Re</b> → <b>ii–V–I en Do</b> → <b>ii–V–I en Sib</b>. Tres tons, la mateixa frase. Si ho veus aquí, ho veuràs a tot arreu.</div>
+<h3>Exercici</h3>
+<p>Analitza <code>Four</code> (en Mib) del quadern: digues els graus i <b>on és la cadència</b>.</p>
+<details><summary>Solució A1</summary>
+<p>El tema és un tour per Mib: <code>Abmaj7 – Gm7 – Cm7 – Fm7 – Bb7 – Ebmaj7</code> → <b>I – iii – vi – ii – V – I</b>.
+La cadència és el <code>Fm7 – Bb7 – Ebmaj7</code> (<b>ii–V–I</b>) ✓. Al mig hi ha un <b>turnaround</b> que hi torna.
+I fixa't en el detall: <code>Abmaj7 → Gm7</code> és el <b>I → iii</b>, que és la porta que porta cap al vi (Cm7).</p>
+</details>
+<p class="petit"><b>Ho domines quan</b>: ets capaç de fer el mapa funcional d'un estàndard de 24 compassos <b>en 10 minuts</b>, sense mirar-te el paper.</p>
+
+
+<div class="peu"><a class="buit">← Anterior</a><a href="./a2-a2-els-dominants-secundaris.html">Següent →</a></div>
+</div></body></html>
