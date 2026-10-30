@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mapa viu del repertori · BernatLab</title>
+<meta name="theme-color" content="#0b1220">
+<meta name="description" content="Els 20 estàndards de BernatLab al cercle de quintes: progressions amb graus i so real per compàs. Web pública de l'Aula BernatLab.">
+<style>
+  :root{--bg:#0b1220;--panel:#182545;--panel2:#1f2f52;--border:#24344f;--txt:#eaf0f9;--muted:#8da2c0;--accent:#f5b942;--verd:#3ddc84;--lila:#c084fc;--verm:#f87171}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,var(--bg),#0f1a30);color:var(--txt);min-height:100vh;padding:14px}
+  .wrap{max-width:880px;margin:0 auto}
+  h1{font-size:1.3rem;color:var(--accent)}
+  .sub{color:var(--muted);font-size:.88rem;margin:4px 0 12px}
+  .llegenda{display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin-bottom:8px}
+  .llegenda .lin{display:inline-block;width:22px;height:0;border-top:2px solid;margin-right:5px;vertical-align:middle}
+  .svg-wrap{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:8px;overflow-x:auto}
+  svg{display:block;margin:0 auto;min-width:640px}
+  .node{cursor:pointer}
+  .node circle{fill:var(--panel2);stroke:var(--border);stroke-width:2;transition:.15s}
+  .node:hover circle,.node.actiu circle{stroke:var(--accent);fill:#2a3a5e;stroke-width:3}
+  .node text{fill:var(--txt);font-size:12px;font-weight:700;text-anchor:middle;pointer-events:none}
+  .node .to{fill:var(--muted);font-size:10px;font-weight:400}
+  .node.menor circle{stroke-dasharray:4 3}
+  .rel{stroke-width:1.2;fill:none;opacity:.55}
+  .rel.mateix{stroke:var(--verd)}
+  .rel.relatiu{stroke:var(--lila);stroke-dasharray:5 4}
+  .rel.tríton{stroke:var(--verm)}
+  .rel.quinta{stroke:var(--muted);stroke-dasharray:2 4;opacity:.35}
+  .panell{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-top:12px}
+  .panell h2{font-size:1rem;color:var(--accent);margin-bottom:4px}
+  .estil{font-size:.78rem;color:var(--muted)}
+  .acord{display:inline-block;background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:3px 8px;margin:3px 2px;font-family:ui-monospace,monospace;font-size:.8rem;cursor:pointer}
+  .acord:hover{border-color:var(--accent)}
+  .acord .g{color:var(--verd);font-size:.68rem;margin-left:4px}
+  button.btn{background:var(--accent);border:none;color:#101820;font-weight:700;border-radius:10px;padding:10px 16px;font-size:.9rem;cursor:pointer;margin:6px 8px 0 0}
+  button.btn.sec{background:var(--panel2);color:var(--txt);border:1px solid var(--border)}
+  .buit{color:var(--muted);font-size:.9rem;padding:20px 0;text-align:center}
+  .info{font-size:.76rem;color:var(--muted);margin-top:8px}
+  .mods{color:var(--lila);font-size:.78rem}
+  @media (max-width:700px){ svg{min-width:560px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🗺️ Mapa viu del repertori</h1>
+  <p class="sub">Els teus 20 estàndards al cercle de quintes. Clica un tema: progressió amb graus i <b>so real</b> (cada acord dura els seus compassos segons l'estil) 🔊</p>
+  <div class="llegenda">
+    <span><span class="lin" style="border-color:var(--verd)"></span>mateix to</span>
+    <span><span class="lin" style="border-color:var(--lila);border-top-style:dashed"></span>relatiu major/menor</span>
+    <span><span class="lin" style="border-color:var(--verm)"></span>tríton</span>
+    <span><span class="lin" style="border-color:var(--muted);border-top-style:dotted"></span>quinta</span>
+    <span>⚪ major · ◌ puntejat = menor</span>
+  </div>
+  <div class="svg-wrap"><svg id="cercle" viewBox="0 0 800 700" width="100%"></svg></div>
+  <div class="panell" id="detall"><div class="buit">👆 Tria un tema del cercle</div></div>
+</div>
+
+<script src="./audio.js"></script>
+<script>
+const svg = document.getElementById("cercle");
+const NS = "http://www.w3.org/2000/svg";
+let temes = [], relacions = [], cercle = [], actiu = null;
+
+async function api(p){ const r = await fetch(p); return r.json(); }
+function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+async function carrega(){
+  const d = await api("/api/temes");
+  if(!d.ok) return;
+  temes = d.temes; relacions = d.relacions || []; cercle = d.cercle;
+  dibuixa();
+}
+
+function dibuixa(){
+  svg.innerHTML = "";
+  const cx=400, cy=340, R=300;
+  let base = `<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="6 6"/>`;
+  base += `<circle cx="${cx}" cy="${cy}" r="${R-52}" fill="none" stroke="var(--border)" stroke-width="1"/>`;
+  cercle.forEach((to,i)=>{
+    const a=(i/12)*2*Math.PI - Math.PI/2;
+    const x=cx+(R-26)*Math.cos(a), y=cy+(R-26)*Math.sin(a);
+    base += `<text x="${x}" y="${y}" fill="var(--muted)" font-size="12" font-weight="600" text-anchor="middle" dominant-baseline="middle">${esc(to)}</text>`;
+  });
+  base += `<text x="${cx}" y="${cy}" fill="var(--accent)" font-size="14" font-weight="700" text-anchor="middle" dominant-baseline="middle">CERCLE DE QUINTES</text>`;
+  svg.innerHTML = base;
+  // relacions (sota els nodes)
+  const gRel = document.createElementNS(NS,"g");
+  relacions.forEach(r=>{
+    const a=temes[r.a], b=temes[r.b];
+    const lin=document.createElementNS(NS,"line");
+    lin.setAttribute("x1",a.x); lin.setAttribute("y1",a.y);
+    lin.setAttribute("x2",b.x); lin.setAttribute("y2",b.y);
+    lin.setAttribute("class","rel "+r.tipus.replace("í","i"));
+    gRel.appendChild(lin);
+  });
+  svg.appendChild(gRel);
+  // nodes
+  const g = document.createElementNS(NS,"g");
+  temes.forEach(t=>{
+    const n=document.createElementNS(NS,"g");
+    n.setAttribute("class","node"+(t.menor?" menor":"")+(actiu===t.id?" actiu":""));
+    const nom = (t.nom.split(".")[1]||t.nom).trim();
+    n.innerHTML = `<circle cx="${t.x}" cy="${t.y}" r="24"/>
+      <text x="${t.x}" y="${t.y-2}">${esc(nom).slice(0,13)}</text>
+      <text x="${t.x}" y="${t.y+12}" class="to">${esc(t.to)}</text>`;
+    n.onclick = ()=>mostraTema(t.id);
+    g.appendChild(n);
+  });
+  svg.appendChild(g);
+}
+
+function mostraTema(id){
+  actiu = id; dibuixa();
+  const t = temes[id];
+  const estil = (t.estil||"").split("·")[0].trim();
+  // cada acord = 1 compàs (4 pulsacions); l'últim acord de la progressió = 2 compassos
+  const acordsHtml = t.acords.map((a,i)=>{
+    const comp = (i === t.acords.length-1) ? 2 : 1;
+    const g = t.graus[i] ? `<span class="g">${esc(t.graus[i])}</span>` : "";
+    return `<span class="acord" data-acord="${esc(a)}" data-comp="${comp}" title="🔊 ${esc(a)} (${comp} compàs${comp>1?'os':''})">${esc(a)}${g}</span>`;
+  }).join(" ");
+  document.getElementById("detall").innerHTML = `
+    <h2>${esc(t.nom)} <span class="estil">· ${esc(estil)} · to ${esc(t.to)}${t.modulacions?` · <span class="mods">${t.modulacions} graus alterats</span>`:""}</span></h2>
+    <div class="fila-acords">${acordsHtml}</div>
+    <button class="btn" id="btn-tot">▶ 🔊 Progressió sencera (1 compàs/acord)</button>
+    <button class="btn sec" id="btn-loop">🔁 En bucle</button>
+    <button class="btn sec" id="btn-stop">⏹ Para</button>
+    <div class="info">Clica un acord per sentir-lo · cada acord dura 1 compàs (l'últim, 2) segons l'estil «${esc(estil)}» · les línies del cercle connecten temes relacionats (mateix to, relatiu, tríton, quinta)</div>`;
+  document.querySelectorAll(".acord").forEach(el=>{
+    el.onclick = ()=>window.tocaAcord(el.dataset.acord, {estil, compassos: Number(el.dataset.comp)||1});
+  });
+  document.getElementById("btn-tot").onclick = ()=>window.tocaAcord(t.acords.map((a,i)=>a), {estil, compassos:1});
+  document.getElementById("btn-loop").onclick = ()=>window.tocaAcord(t.acords, {estil, compassos:1, loop:true});
+  document.getElementById("btn-stop").onclick = ()=>window.paraAcord();
+}
+
+carrega();
+</script>
+</body>
+</html>
