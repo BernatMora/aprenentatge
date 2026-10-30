@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="ca"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220"><title>E1 · El to i les escales · Curs d'harmonia</title>
+<style>:root{--bg:#0b1220;--soft:#0f1a30;--panel:#182545;--panel2:#1f2f52;--border:#24344f;--txt:#eaf0f9;
+--muted:#8da2c0;--accent:#f5b942;--verd:#3ddc84;--verm:#e05a5a;--rad:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),var(--soft));color:var(--txt);line-height:1.65;padding:12px 14px 40px;font-size:17px}
+.wrap{max-width:860px;margin:0 auto}
+h2{font-size:1.12rem;margin:4px 0 12px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:8px}
+h3{font-size:1rem;margin:16px 0 6px;color:#cfdcf0}
+code{font-family:ui-monospace,Menlo,monospace;color:var(--accent);font-size:.92em;overflow-wrap:anywhere}
+ul,ol{margin-left:20px} li{margin:7px 0}
+table{width:100%;border-collapse:collapse;font-size:.84rem;background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:10px 0}
+th,td{padding:7px 8px;border-top:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--panel2);color:var(--muted);font-size:.72rem;text-transform:uppercase}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--rad);padding:13px 15px;margin:10px 0}
+.card.clau{border-left:3px solid var(--accent)} .card.bon{border-left:3px solid var(--verd)} .card.avis{border-left:3px solid var(--verm)}
+details{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin:10px 0}
+summary{cursor:pointer;font-weight:700;font-size:1rem;padding:4px 0}
+.petit{color:var(--muted);font-size:.88rem}
+.nav{display:flex;gap:8px;margin:0 0 14px;flex-wrap:wrap}
+.nav a{flex:1;min-width:120px;text-align:center;text-decoration:none;background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:13px 8px;color:var(--txt);font-size:.92rem;font-weight:600}
+.nav a:active{background:var(--accent);color:#101820}
+.nav a.buit{opacity:.35}
+.peu{display:flex;gap:8px;margin:-6px 0 6px;flex-wrap:wrap}
+.peu a{flex:1;min-width:120px;text-align:center;text-decoration:none;background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:11px 8px;color:var(--txt);font-size:.9rem}.peu a:active{background:var(--accent);color:#101820}
+</style></head><body><div class="wrap"><div class="nav"><a href="../">📚 Índex</a><a href="./d2-d2-la-forma-de-32-aaba.html">← Anterior</a><a href="./e2-e2-el-cicle-de-quartes.html">Següent →</a></div>
+<h2>E1 · Trobar el to i triar l'escala</h2>
+<p>Abans d'analitzar res, dues preguntes: <b>en quin to està?</b> i <b>quina escala li toca?</b>. Aquesta lliçó és la clau de tot el curs: si fallen aquestes dues, tot el que vingui darrere és decoració.</p>
+
+<h3>1. Trobar el to (el mètode de la cadència)</h3>
+<ol>
+<li><b>Mira l'últim acord</b>. Si és <code>maj7</code> o <code>6</code>, gairebé segur que és la tònica (o la seua relatiu). Si és <code>m7</code>, mira si és la tònica menor o el ii.</li>
+<li><b>Busca la cadència</b> <code>ii–V–I</code> o <code>V–I</code> al final. El to és on cau el <code>V</code>.</li>
+<li><b>Comprova amb la melodia</b>: la nota de repòs de la melodia (la que acaba, la més llarga) és sovint la tònica o la 5a.</li>
+</ol>
+<div class="card clau"><b>Exemple del teu quadern: <span data-acords="Cmaj7,Am7,Fmaj7,G7,Cmaj7">All Of Me (en Do)</span></b> — acaba en <code>G7 → Cmaj7</code>: el V–I diu que el to és <b>Do major</b> ✓. La primera nota és un <code>E</code>, però això és només una inversió: no és el to.</div>
+
+<h3>2. L'escala del to (els 7 graus)</h3>
+<table>
+<tr><th>Grau</th><th>Nom</th><th>Acord típic en Do major</th></tr>
+<tr><td><b>I</b></td><td>tònica</td><td><code>Cmaj7</code></td></tr>
+<tr><td><b>ii</b></td><td>supertònica</td><td><code>Dm7</code></td></tr>
+<tr><td><b>iii</b></td><td>mediante</td><td><code>Em7</code></td></tr>
+<tr><td><b>IV</b></td><td>subdominant</td><td><code>Fmaj7</code></td></tr>
+<tr><td><b>V</b></td><td>dominant</td><td><code>G7</code></td></tr>
+<tr><td><b>vi</b></td><td>submediante</td><td><code>Am7</code></td></tr>
+<tr><td><b>viiø</b></td><td>sensible</td><td><code>Bm7b5</code></td></tr>
+</table>
+<p>La <b>fórmula de la major</b>: <code>T T S T T T S</code> (to-to-semitò). Les 7 notes: <b>Do Re Mi Fa Sol La Si</b> <span data-acords="C,D,E,F,G,A,B">🔊</span></p>
+
+<div class="card avis"><b>El parany del to menor</b>: <code>Blue Bossa</code> està en <b>Do menor</b>, però el seu últim acord és un <code>Cm7</code>, no un <code>Cmaj7</code>. Si només mires «acaba en C», pensaràs que és Do major ✗. La diferència: el <b>iii és Eb, no E</b> (<code>Ebmaj7</code>, no <code>Em</code>), i el <code>V</code> és <code>G7</code> amb la 3a major (Si), no el <code>Gm7</code>. En menor harmònic el 7è grau puja mig to per fer de sensible: <b>Si natural</b>, no Sib.</div>
+
+<h3>3. Tria l'escala segons l'acord, no segons el to</h3>
+<p>Aquesta és la diferència entre un estudiant i un professional: <b>cada acord té la seua escala</b>. En un <code>Dm7 – G7 – Cmaj7</code>:</p>
+<ul>
+<li><code>Dm7</code> → <b>Do major</b> (o Re doric) ✓</li>
+<li><code>G7</code> → <b>Mixolidi</b> (Sol mixolidi = Do major però començant en Sol) <span data-acords="G,A,B,C,D,E,F">🔊</span></li>
+<li><code>Cmaj7</code> → <b>Do major</b> (o Do lidi) <span data-acords="C,D,E,F#,G,A,B">🔊</span></li>
+</ul>
+<div class="card clau"><b>Escolta la diferència</b>: <span data-acords="Dm7,G7,Cmaj7">Dm7 – G7 – Cmaj7 (acords)</span> vs <span data-acords="D,E,F,G,A,B,C">escala de Re doric</span> — mateixes notes, diferent centre. El <code>G7</code> té el <b>Fa natural</b> (la b7), que és el que fa la tensió ✓.</div>
+
+<h3>Exercici</h3>
+<p>Al quadern, tria <code>Stella By Starlight</code> (en Bb) i <code>Body And Soul</code> (en Db):</p>
+<ol>
+<li>Digues el to de cadascun (mira la cadència).</li>
+<li>Escriu les 7 notes de la seua escala major.</li>
+<li>Digues quin és l'acord del V en cadascun.</li>
+</ol>
+<details><summary>Solució E1</summary>
+<p><b>Stella By Starlight</b>: acaba en <code>Eb7 → Abmaj7</code>... no, espera: el final és <code>Bm7b5 – E7 – Am... </code> — en realitat el tema està en <b>Bb major</b> i la tornada fa un tour per tonalitats (Bb → Gb → ...). El V de Bb és <code>F7</code>. Les notes de Bb major: <b>Bb C D Eb F G A</b>.<br><br>
+<b>Body And Soul</b>: està en <b>Db major</b>. Notes: <b>Db Eb F Gb Ab Bb C</b>. El V és <code>Ab7</code>. Fixa't que Db major té 5 bemolls: és un to «gorra», però la cadència <code>Ab7 → Dbmaj7</code> la delata sempre ✓.</p>
+</details>
+<p class="petit"><b>Ho domines quan</b>: en un tema nou, en <b>30 segons</b> saps el to i tens les 7 notes a la punta dels dits (mentals).</p>
+
+<div class="peu"><a href="./d2-d2-la-forma-de-32-aaba.html">← Anterior</a><a href="./e2-e2-el-cicle-de-quartes.html">Següent →</a></div>
+</div><script src="./audio.js"></script></body></html>
