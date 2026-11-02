@@ -67,7 +67,7 @@ async function api(p){ const r = await fetch(p); return r.json(); }
 function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
 async function carrega(){
-  const d = await api("/api/temes");
+  const d = await (await fetch("temes.json")).json(); /* GitHub Pages no te servidor: les dades es llegeixen del fitxer */
   if(!d.ok) return;
   temes = d.temes; relacions = d.relacions || []; cercle = d.cercle;
   dibuixa();
