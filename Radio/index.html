@@ -22,7 +22,6 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px;fl
 
 [hidden]{display:none!important}.programa-controls{border:1px solid var(--line);border-radius:15px;background:var(--card);padding:17px;margin:0 0 20px;display:flex;flex-direction:column;gap:12px}.programa-controls>label{font-size:12px;color:var(--muted)}.programa-controls select{max-width:100%;min-width:0;width:100%;background:var(--bg);color:var(--fg);border:1px solid var(--line);padding:12px;border-radius:10px;font:inherit;font-size:12px}.programa-botons{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.programa-botons label{font-size:11px;color:var(--muted)}.programa-progres{display:flex;align-items:center;gap:12px}.programa-progres input{flex:1;width:auto;min-width:0}.programa-progres span{font:11px monospace;white-space:nowrap}.actualitza{display:flex;align-items:center;gap:12px;margin-bottom:23px;flex-wrap:wrap}.actualitza small{flex:1;color:var(--muted);font-size:11px;line-height:1.6;min-width:170px}.episodi-card{margin-top:4px;padding-top:8px;border-top:1px solid var(--line)}.episodi-card strong{font-size:10px;display:block;color:var(--accent);padding-right:0}.episodi-card span{display:block;font-size:10px;line-height:1.5;color:var(--muted);margin-top:4px}.card{min-height:145px}.info small#canco.viu{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.info small#canco{opacity:1}.reproductor .viu{max-width:85px} .quick[data-cerca]{font-size:11px}
 </style>
-<link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-256.png">
 </head>
 <body>
 
@@ -231,7 +230,7 @@ const memoria = (() => {
 let preferits = [];
 let volum = 0.8;
 let tema = 'fosc';
-let categoria = 'Anglès';
+let categoria = 'Tot';
 let minimitzat = false;
 let temporitzador = 0;
 let temporitzadorId = null;
@@ -711,9 +710,10 @@ function actualitzaComptes() {
 }
 
 document.querySelectorAll('[data-salta]').forEach(b => b.addEventListener('click', () => {
-  $('#q').value = b.dataset.cerca || '';
   const chip = Array.from(document.querySelectorAll('.chip')).find(c => c.dataset.cat === b.dataset.salta);
   if (chip) chip.click();
+  $('#q').value = b.dataset.cerca || '';
+  pinta();
   $('.cerca').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
 }));
 
@@ -732,6 +732,7 @@ function pintaChips() {
     b.appendChild(n);
     b.addEventListener('click', () => {
       categoria = cat;
+      $('#q').value = ''; // En canviar de categoria, elimina el filtre del tema anterior.
       capsa.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.cat === cat)));
       pinta();
     });
