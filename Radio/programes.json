@@ -1,0 +1,22 @@
+[
+  {
+    "id": "intelligent-machines",
+    "feed": "https://feeds.twit.tv/twig.xml",
+    "name": "Intelligent Machines · TWiT"
+  },
+  {
+    "id": "practical-ai",
+    "feed": "https://feeds.transistor.fm/practical-ai-machine-learning-data-science-llm",
+    "name": "Practical AI"
+  },
+  {
+    "id": "this-week-in-tech",
+    "feed": "https://feeds.twit.tv/twit.xml",
+    "name": "This Week in Tech · TWiT"
+  },
+  {
+    "id": "99-invisible",
+    "feed": "https://feeds.simplecast.com/BqbsxVfO",
+    "name": "99% Invisible"
+  }
+]
