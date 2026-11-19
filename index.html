@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ca">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Aula BernatLab · cursos de música i d'IA en català</title>
-<meta name="description" content="Aula BernatLab: cursos de música i d'intel·ligència artificial en català, amb àudio per escoltar. NOVETAT: pràctica de guitarra amb seqüències per dits (58 exercicis, metrònom amb entrenament per graons i el llibre de Sam Russell en català). També harmonia avançada (45 capítols), exercicis d'oïda, cursos d'IA i eines de música." />
+<meta name="description" content="BernatLab: un espai per aprendre música i intel·ligència artificial. Cursos en català, eines per a guitarra i ràdio amb IA i converses en anglès.">
 <meta property="og:title" content="Aula BernatLab · cursos de música i d'IA en català" />
-<meta property="og:description" content="Novetat: pràctica de guitarra amb seqüències per dits (58 exercicis, metrònom i el llibre de Sam Russell en català). Cursos en català amb àudio: harmonia avançada (45 capítols), exercicis d'oïda, cursos d'IA i eines de música." />
+<meta property="og:description" content="Música, idees i tecnologia. Explora cursos en català, eines de guitarra i converses sobre IA.">
 <meta property="og:type" content="website" />
 <link rel="icon" type="image/png" sizes="32x32" href="icons/aula-foto-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="icons/aula-foto-16.png" />
@@ -17,343 +17,43 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="Aula BernatLab" />
 <style>
-  :root { color-scheme: dark; }
-  * { box-sizing: border-box; }
-  body { margin: 0; padding: 30px 18px 48px; background: #0b1220; color: #e2e8f0;
-         font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-         max-width: 860px; margin-inline: auto; }
-  .etiqueta-petita { display: inline-block; background: rgba(14,165,233,.22); color: #7dd3fc;
-         border-radius: 999px; padding: 3px 11px; font-size: 11.5px; font-weight: 700;
-         letter-spacing: .04em; text-transform: uppercase; }
-  h1 { font-size: 30px; margin: 12px 0 6px; letter-spacing: -.01em; }
-  p.sub { color: #94a3b8; font-size: 15px; margin: 0 0 10px; }
-  .numeros { display: flex; gap: 18px; flex-wrap: wrap; margin: 18px 0 26px;
-             padding: 14px 16px; border: 1px solid rgba(255,255,255,.08);
-             border-radius: 14px; background: rgba(255,255,255,.03); }
-  .numeros div { font-size: 13px; color: #94a3b8; }
-  .numeros b { display: block; font-size: 19px; color: #fff; }
-  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: #94a3b8;
-       margin: 30px 0 12px; border-bottom: 1px solid rgba(255,255,255,.09); padding-bottom: 7px; }
-  a.targeta { display: block; text-decoration: none; color: inherit;
-              border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.045);
-              border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; }
-  a.targeta:hover { border-color: #0ea5e9; background: rgba(14,165,233,.14); }
-  a.targeta.curs { border-color: rgba(56,189,248,.32); background: rgba(14,165,233,.09); }
-  a.targeta.musica { border-color: rgba(251,191,36,.42); background: rgba(251,191,36,.09); }
-  .t { font-size: 18px; font-weight: 700; color: #fff; }
-  .d { color: #94a3b8; font-size: 13px; margin-top: 5px; }
-  .etiqueta { display: inline-block; background: rgba(14,165,233,.35); color: #e0f2fe;
-              border-radius: 999px; padding: 2px 10px; font-size: 11.5px; font-weight: 700;
-              margin-left: 8px; vertical-align: middle; }
-  .etiqueta.groc { background: rgba(251,191,36,.35); color: #fef3c7; }
-  .enllacos { margin-top: 10px; font-size: 12.5px; }
-  .enllacos a { display: inline-block; color: #7dd3fc; text-decoration: none; font-weight: 600;
-                border: 1px solid rgba(125,211,252,.35); border-radius: 999px;
-                padding: 3px 11px; margin: 4px 6px 0 0; }
-  .enllacos a:hover { background: rgba(14,165,233,.2); }
-  .peu { margin-top: 34px; color: #64748b; font-size: 12.5px; line-height: 1.8;
-         border-top: 1px solid rgba(255,255,255,.08); padding-top: 16px; }
-  code { background: rgba(255,255,255,.07); padding: 1px 6px; border-radius: 6px; }
-
-  /* codis QR per al mòbil */
-  .qr-grid { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 26px; }
-  .qr-card { flex: 1 1 240px; max-width: 320px; text-align: center; text-decoration: none;
-             border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04);
-             border-radius: 16px; padding: 14px; }
-  .qr-card:hover { border-color: #0ea5e9; background: rgba(14,165,233,.10); }
-  .qr-card img { width: 132px; height: 132px; background: #fff; padding: 8px; border-radius: 12px; }
-  .qr-card .t { color: #fff; font-weight: 700; margin-top: 8px; font-size: 15px; }
-  .qr-card .d { color: #94a3b8; font-size: 12.5px; margin: 2px 0 4px; }
-  .qr-card a { color: #7dd3fc; font-size: 12px; text-decoration: none; word-break: break-all; }
-
-  /* avís de material nou */
-  .novetat { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
-             border: 1px solid rgba(74,222,128,.45); background: rgba(34,197,94,.12);
-             border-radius: 16px; padding: 14px 16px; margin: 4px 0 22px; }
-  .novetat .punt { width: 10px; height: 10px; border-radius: 50%; background: #4ade80; margin-top: 7px;
-                   box-shadow: 0 0 0 0 rgba(74,222,128,.7); animation: pols 2s infinite; }
-  @keyframes pols { 70% { box-shadow: 0 0 0 9px rgba(74,222,128,0); } 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); } }
-  .novetat .cos { flex: 1; min-width: 220px; }
-  .novetat .titol { font-size: 17px; font-weight: 700; color: #fff; }
-  .novetat .text { color: #94a3b8; font-size: 13.5px; margin-top: 4px; }
-  .novetat a.boto { display: inline-block; background: #22c55e; color: #06240f; font-weight: 700;
-                    border-radius: 999px; padding: 6px 14px; text-decoration: none; white-space: nowrap;
-                    align-self: center; }
-  .novetat a.boto:hover { background: #4ade80; }
-  .etiqueta.verd { background: rgba(34,197,94,.4); color: #dcfce7; }
-  .novetat .qr { flex: none; text-align: center; text-decoration: none; color: #cbd5e1; font-size: 12.5px;
-                 font-weight: 600; }
-  .novetat .qr img { display: block; width: 184px; height: 184px; background: #fff; padding: 10px;
-                     border-radius: 14px; margin: 0 auto 6px; }
-  .novetat .qr:hover img { outline: 3px solid #4ade80; }
-  @media (max-width: 620px) { .novetat .qr img { width: 150px; height: 150px; } }
-  @media (prefers-reduced-motion: reduce) { .novetat .punt { animation: none; } }
-
-  /* avís de la ràdio en directe */
-  .novetat.radio { border-color: rgba(244,114,182,.5); background: rgba(244,114,182,.13); }
-  .novetat.radio .punt { background: #f472b6; box-shadow: 0 0 0 0 rgba(244,114,182,.75); animation: pols-radio 2s infinite; }
-  .novetat.radio a.boto { background: #f472b6; color: #2a0715; }
-  .novetat.radio a.boto:hover { background: #f9a8d4; }
-  @keyframes pols-radio { 70% { box-shadow: 0 0 0 9px rgba(244,114,182,0); } 100% { box-shadow: 0 0 0 0 rgba(244,114,182,0); } }
-  @media (prefers-reduced-motion: reduce) { .novetat.radio .punt { animation: none; } }
+:root{color-scheme:dark;--bg:#0b111b;--panel:#121d2c;--card:#141f30;--fg:#f2f5fb;--muted:#94a3b9;--line:#253347;--accent:#55dfc1;--soft:#55dfc110;--bar:#0b111bee;--shadow:#00000030}body.light{color-scheme:light;--bg:#f6f8fb;--panel:#edf2f8;--card:#fff;--fg:#152438;--muted:#5c6e85;--line:#dce4ed;--accent:#067f6c;--soft:#087f6d0b;--bar:#f6f8fbee;--shadow:#182b4010}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--bg);color:var(--fg);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}button:disabled{opacity:.45}.wrap{max-width:1280px;margin:auto;padding:0 34px}.site-head{position:sticky;top:0;z-index:30;background:var(--bar);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.head-inner{height:76px;display:flex;align-items:center;gap:30px;justify-content:space-between}.brand{display:flex;align-items:center;gap:11px;font-weight:750;font-size:21px;letter-spacing:-.8px}.brand img{width:35px;height:35px;border-radius:11px;object-fit:cover}.brand span span{color:var(--accent)}.brand small{font-size:9px;display:block;line-height:1;letter-spacing:2px;font-weight:500;color:var(--muted);text-transform:uppercase;margin-top:4px}nav{display:flex;gap:23px;align-items:center}nav button,nav a{background:none;border:0;padding:6px 0;color:var(--muted);font-size:12px;font-weight:600}nav button:hover,nav a:hover{color:var(--fg)}.theme{border:1px solid var(--line);background:var(--card);padding:8px 12px;border-radius:10px;color:var(--fg);font-size:12px}.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:40px;align-items:center;padding:66px 0 54px}.eyebrow{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent)}.eyebrow:before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent)}h1{font-size:clamp(40px,4.7vw,65px);letter-spacing:-2.7px;line-height:1.08;margin:22px 0}h1 em{font-style:normal;color:var(--accent)}.intro{font-size:15px;color:var(--muted);line-height:1.9;max-width:490px;margin:0 0 24px}.actions{display:flex;gap:11px;flex-wrap:wrap}.button{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-size:12px;font-weight:650;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:12px 18px;border-radius:11px}.button.primary{background:#55dfc1;color:#092a23;border-color:#55dfc1}.button:hover{transform:translateY(-1px)}.hero-note{color:var(--muted);font-size:10px;margin-top:19px}.hero-art{position:relative;min-height:310px;display:grid;place-items:center;background:radial-gradient(ellipse,#55dfc116,transparent 68%)}.hero-art svg{width:100%;max-width:470px;height:auto;overflow:visible}.hero-art .svg-muted{fill:var(--muted)}.hero-art .svg-fg{fill:var(--fg)}.hero-art .svg-card{fill:var(--card);stroke:var(--line)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:17px;background:var(--panel);margin-bottom:42px}.stat{padding:20px 25px;border-right:1px solid var(--line)}.stat:last-child{border:0}.stat strong{display:block;font-size:25px;line-height:1.2;font-weight:650;letter-spacing:-1px}.stat span{color:var(--muted);font-size:11px}.section-heading{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:19px}.section-heading h2{font-size:22px;letter-spacing:-.6px;margin:0;font-weight:650}.section-heading p{margin:0;color:var(--muted);font-size:11px}.highlights{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:44px}.highlight{position:relative;border-radius:20px;padding:28px;border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:21px;min-height:230px;background:var(--panel)}.highlight.main{background:linear-gradient(110deg,var(--panel),var(--soft));border-color:color-mix(in srgb,var(--accent) 28%,var(--line))}.highlight h3{font-size:25px;letter-spacing:-.6px;line-height:1.2;max-width:350px;margin:12px 0}.highlight p{color:var(--muted);font-size:12px;max-width:385px;margin:0}.highlight .tag{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);font-weight:700}.highlight .arrow{color:var(--accent);font-size:12px;font-weight:650}.mini-wave{position:absolute;right:26px;bottom:32px;display:flex;gap:5px;align-items:center;opacity:.55}.mini-wave i{width:6px;height:var(--h);background:var(--accent);border-radius:5px}.catalogue{border-top:1px solid var(--line);padding-top:32px}.catalogue-top{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:22px}.catalogue-top h2{margin:0;font-size:24px;letter-spacing:-.6px}.search{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 13px;max-width:380px;width:100%}.search svg{width:18px;flex:none;color:var(--muted)}.search input{width:100%;background:transparent;border:0;color:var(--fg);padding:12px 0;outline:none;font-size:12px;min-width:0}.filters{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:27px}.filter{border:1px solid transparent;background:transparent;color:var(--muted);font-size:11px;font-weight:600;padding:9px 13px;border-radius:9px}.filter:hover{color:var(--fg);background:var(--panel)}.filter[aria-pressed=true]{background:var(--panel);border-color:var(--line);color:var(--fg)}.filter small{font-size:9px;opacity:.65;margin-left:7px}.results{color:var(--muted);font-size:11px;margin-bottom:15px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.resource{--c:#55dfc1;border:1px solid var(--line);border-radius:17px;background:var(--card);overflow:hidden;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;min-width:0}.resource:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--c) 55%,var(--line))}.resource[data-accent=music],.resource[data-accent=guitar]{--c:#e9bd74}.resource[data-accent=ai]{--c:#b59afc}.resource[data-accent=learn]{--c:#87bbf5}.resource[data-accent=tools]{--c:#79c4d2}.resource-art{height:85px;background:linear-gradient(120deg,color-mix(in srgb,var(--c) 10%,var(--card)),var(--card));display:flex;align-items:center;justify-content:space-between;padding:20px;position:relative;border-bottom:1px solid var(--line)}.resource-art:after{content:'';position:absolute;inset:0;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:13px 13px;mask-image:linear-gradient(90deg,transparent,#000);opacity:.6}.resource-art svg{width:38px;height:38px;color:var(--c);z-index:1}.bookmark{z-index:2;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--muted);width:30px;height:30px;font-size:14px}.bookmark[aria-pressed=true]{color:var(--c);border-color:var(--c)}.resource-body{padding:19px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1}.resource-top{display:flex;gap:6px;flex-wrap:wrap}.pill{display:inline-flex;font-size:9px;font-weight:600;padding:3px 7px;border-radius:5px;background:var(--panel);color:var(--muted)}.pill.cat{color:var(--c);background:color-mix(in srgb,var(--c) 9%,transparent)}.resource h3{font-size:16px;letter-spacing:-.3px;line-height:1.4;margin:0;font-weight:650}.resource h3 a:hover{color:var(--c)}.description{font-size:11.5px;line-height:1.8;color:var(--muted);margin:0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}.description.expanded{display:block;overflow:visible}.expand{background:none;border:0;padding:0;color:var(--muted);font-size:10px;text-align:left;align-self:flex-start}.expand:hover{color:var(--fg)}.resource-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:13px;margin-top:auto;border-top:1px solid var(--line)}.open{font-size:11px;font-weight:650;color:var(--c)}.extra-links{display:flex;gap:8px;flex-wrap:wrap;font-size:10px;color:var(--muted)}.extra-links a{text-decoration:underline;text-underline-offset:3px}.private{font-size:9px;color:var(--muted)}.empty{padding:45px 0;color:var(--muted);text-align:center}.mobile-section{margin-top:48px;border-top:1px solid var(--line);padding-top:30px}.mobile-intro{color:var(--muted);max-width:700px;font-size:12px;line-height:1.9}.qr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:22px}.qr-card{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:23px;display:flex;gap:18px;align-items:center}.qr-card img{width:88px;height:88px;background:white;padding:6px;border-radius:10px;flex:none}.qr-card h3{font-size:13px;margin:0 0 5px}.qr-card p{font-size:10px;line-height:1.7;color:var(--muted);margin:0}.qr-card a{font-size:10px;color:var(--accent)}footer{display:flex;justify-content:space-between;align-items:flex-start;gap:25px;border-top:1px solid var(--line);margin-top:40px;padding:25px 0 40px;font-size:10px;color:var(--muted);line-height:1.9}footer strong{font-size:13px;color:var(--fg)}footer p{max-width:600px;margin:0}footer a{color:var(--accent)}[hidden]{display:none!important}@media(max-width:1000px){.hero{gap:15px}.grid{grid-template-columns:repeat(2,1fr)}.qr-grid{grid-template-columns:1fr}.qr-card{max-width:none}.head-inner{gap:18px}nav{gap:15px}}@media(max-width:680px){.wrap{padding:0 19px}.head-inner{height:auto;min-height:70px;flex-wrap:wrap;padding:15px 0;gap:12px}.brand{font-size:19px}.brand img{width:31px;height:31px}nav{order:3;width:100%;justify-content:space-between;gap:9px}nav a,nav button{font-size:11px}.hero{grid-template-columns:1fr;padding:35px 0 28px;gap:10px}.hero-art{min-height:190px;max-width:350px;justify-self:center;width:100%}.hero-art svg{max-height:220px}h1{font-size:43px;letter-spacing:-1.7px;margin:17px 0}.intro{font-size:13px;line-height:1.9}.eyebrow{font-size:9px;letter-spacing:1.4px}.hero-note{font-size:9px}.stats{grid-template-columns:repeat(2,1fr);margin-bottom:30px}.stat{padding:16px 18px}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}.stat strong{font-size:24px}.highlights{grid-template-columns:1fr;margin-bottom:32px}.highlight{padding:23px;min-height:220px}.highlight h3{font-size:24px}.highlight p{max-width:260px}.mini-wave{right:20px;opacity:.3}.section-heading{align-items:flex-start;flex-direction:column;gap:5px}.catalogue-top{align-items:stretch;flex-direction:column;gap:17px}.search{max-width:none}.filters{gap:5px}.filter{padding:8px 10px;font-size:10px}.grid{grid-template-columns:1fr;gap:15px}.resource-art{height:75px}.resource-body{padding:18px 20px}.resource h3{font-size:17px}.description{font-size:12px}.qr-card{padding:19px;gap:15px}.qr-card img{width:78px;height:78px}footer{flex-direction:column;gap:13px}.button{font-size:11px;padding:11px 15px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-  <span class="etiqueta-petita">BernatLab · aprenentatge</span>
-  <h1>🎓 Aula BernatLab</h1>
-  <p class="sub">Cursos de música i d'intel·ligència artificial <strong>en català, amb àudio</strong>,
-    per escoltar al navegador (o al cotxe). Tot el material és propi: els textos, la veu i els exemples de so.</p>
-
-  <div class="numeros">
-    <div><b>4</b> cursos</div>
-    <div><b>85</b> capítols</div>
-    <div><b>16,6 h</b> d'àudio</div>
-    <div><b>279</b> clips de so</div>
-    <div><b>135</b> exercicis d'oïda</div>
-    <div><b>3</b> nivells al curs de música</div>
-  </div>
-
-  <div class="novetat radio">
-    <span class="punt" aria-hidden="true"></span>
-    <div class="cos">
-      <div class="titol">🆕 Novetat: 📻 Ràdio en directe per treballar</div>
-      <div class="text">53 emissores triades (jazz, chill, clàssica, catalanes, notícies…) en una sola pàgina,
-        amb <strong>preferits</strong>, volum, temporitzador per aturar-la sola i <strong>el títol de la cançó
-        que sona</strong>. Sense anuncis ni comptes: l'àudio va directament de l'emissora al teu navegador.
-        <br><strong>També la pots tenir al mòbil com una app:</strong> obre-la-hi i afegeix-la a la pantalla d'inici
-        (iPhone: Compartir → Afegeix a la pantalla d'inici · Android: ⋮ → Instal·la l'aplicació).</div>
-    </div>
-    <a class="boto" href="./Radio/index.html">Escolta-la →</a>
-  </div>
-
-  <div class="novetat">
-      <span class="punt" aria-hidden="true"></span>
-      <div class="cos">
-        <div class="titol">🆕 Curs d'harmonia avançat · el test de nivell</div>
-        <div class="text">Nou curs, pensat per fer <strong>amb el mòbil</strong> i <strong>sense escriure res</strong>:
-          <strong>12 lliçons</strong> (anàlisi funcional ✓, dominants secundaris ✓, substitucions ✓, modulacions ✓,
-          reharmonització ✓, voicings ✓, modes ✓, <em>negative harmony</em> ✓ i composició ✓) i un
-          <strong>quadern d'anàlisi amb 20 estàndards</strong> de la teva biblioteca, amb els graus per corregir-te sol ✓✓.</div>
-        <div class="text" style="margin-top:6px">Comença pel <strong>test de nivell</strong> (15 preguntes, sense escriure) o directament per la <strong>lliçó A1</strong>.</div>
-      </div>
-      <a class="boto" href="./harmonia-avancat/">Comença →</a>
-    </div>
-<a class="boto" href="https://hortosona.tail37c051.ts.net/jocs/">Obre'ls →</a>
-  </div>
-
-  <h2>🎓 Cursos</h2>
-
-  <a class="targeta musica" href="./harmonia-avancat/test.html">
-    <div class="t">🎯 Curs d'harmonia· test de nivell <span class="etiqueta verd">nou</span></div>
-    <div class="d">Abans de començar el <strong>curs avançat</strong>: <strong>15 preguntes</strong> (dels
-      fonaments al cromatisme i el segle XX) i <strong>3 exercicis d'anàlisi i reharmonització</strong>.
-      Et diu on ets (nivell 1 a 4) i què t'hauríem de treballar.</div>
-  </a>
-  <a class="targeta musica" href="./mapa-repertori/">
-    <span class="icona">🗺️</span>
-    <span class="titol">Mapa viu del repertori</span>
-    <span class="desc">Els 20 estàndards al cercle de quintes, amb progressió i so 🔊</span>
-  </a>
-
-  <a class="targeta musica" href="./CursMusica/index.html">
-    <div class="t">🎸 Harmonia avançada de guitarra <span class="etiqueta groc">45 capítols · 10,8 h</span></div>
-    <div class="d">Del funcional al modern: funcions i graus · dominants secundàries · substitució de tritó ·
-      intercanvi modal · modulació · harmonia negativa · reharmonització · voicings · triades superiors ·
-      acords quartals · soul · bossa · melodia amb acords · mediants · escales de la menor melòdica ·
-      rhythm changes · gospel · tres estàndards a fons · blues modern · jazz fusió · pentatòniques.
-      Amb <strong>204 clips de so</strong> intercalats i <strong>fitxes</strong> d'una pàgina per capítol.</div>
-    <div class="enllacos">
-      <a href="./CursMusica/index.html">▶ Els 45 capítols</a>
-      <a href="./CursMusica/oida.html">🎯 Exercicis d'oïda</a>
-      <a href="./CursMusica/fitxes.html">🗂️ Fitxes</a>
-    </div>
-  </a>
-
-  <a class="targeta curs" href="./CursIA/index.html">
-    <div class="t">🎓 Curs · Crear amb IA <span class="etiqueta">25 capítols · 4,1 h</span></div>
-    <div class="d">Com demanar bé · crear una app · agents · imatge i vídeo · veu i àudio · automatitzar ·
-      models locals i núvol · no empassar-te invents · assistents · dades i fulls de càlcul · privacitat ·
-      IA al mòbil · programar · IA a casa · errors reals · un pla aplicat a tu.
-      Cada capítol amb <strong>exercicis</strong> (5 preguntes amb pausa per respondre).</div>
-  </a>
-
-  <a class="targeta curs" href="./CursAprendre/index.html">
-    <div class="t">🧠 Curs · Aprendre a aprendre <span class="etiqueta">10 capítols · 1,4 h</span></div>
-    <div class="d">Com funciona la memòria · recuperar en lloc de rellegir · repetició espaiada ·
-      practicar barrejat · entendre o memoritzar · apunts que serveixen · atenció i hàbits ·
-      explicar per aprendre · el teu sistema.</div>
-  </a>
-
-  <a class="targeta musica" href="./CursAcompanyament/index.html">
-    <div class="t">🎸 Curs · Acompanyament de guitarra <span class="etiqueta groc">nivell 1 · 5 capítols · 0,3 h</span></div>
-    <div class="d">El pols i la subdivisió · la mà dreta · corxera recta, swing i shuffle ·
-      el silenci i l'espai. Cada capítol amb el seu patró i <strong>pauses per practicar</strong>
-      sobre les bases.</div>
-    <div class="enllacos"><a href="./CursAcompanyament/bases.html">🎧 Les bases per practicar</a></div>
-  </a>
-
-  <h2>🎯 Exercicis d'oïda</h2>
-
-  <a class="targeta musica" href="./CursMusica/oida.html">
-    <div class="t">🎯 Exercicis d'oïda · Harmonia <span class="etiqueta groc">45 capítols · 3 nivells · +6 extres</span></div>
-    <div class="d">Sona la música → uns segons per respondre en veu alta → la resposta.
-      Cada capítol amb tres nivells (<strong>fàcil</strong>, normal i <strong>difícil</strong>) i sis extres:
-      arpegis · parells mínims · cantar · dictat melòdic · mode cotxe · repàs barrejat.
-      Tot s'encadena sol: perfecte per al cotxe.</div>
-  </a>
-
-  <h2>🖐️ Guitarra</h2>
-
-  <a class="targeta musica" href="./jazz-fusion-guitar/">
-    <div class="t">🎸 Jazz Fusion Guitar · entrenament <span class="etiqueta groc">40 pistes d'àudio</span></div>
-    <div class="d">Biblioteca d'escales (22 escales essencials), exercicis, improvisació, flashcards, connexions i PDFs.
-      I dins la biblioteca, els <strong>backing tracks</strong>: deu estudis d'improvisació per intervals
-      (2a a 8a i compostos), cada un amb el sol, el sol alentit, <strong>el backing</strong> i el
-      backing alentit al 80%, per anar-hi tocant a sobre i pujant el ritme a poc a poc.</div>
-    <div class="enllacos"><a href="./jazz-fusion-guitar/biblioteca/backing-tracks/">🎧 Els backing tracks</a>
-      <a href="./jazz-fusion-guitar/biblioteca/creative-intervallic/">🎼 Els 10 estudis per intervals</a></div>
-  </a>
-
-  <a class="targeta musica" href="./country-guitar/">
-    <div class="t">🤠 Country Guitar <span class="etiqueta groc">licks · tècniques</span></div>
-    <div class="d">Guitarra country (modern, classic, bluegrass): biblioteca de licks, pràctica,
-      progressions, rutines, tècniques i escales, amb els àudios d'exemple per escoltar i tocar-hi a sobre.</div>
-  </a>
-
-  <a class="targeta musica" href="./Secuencies-per-dits/index.html">
-    <div class="t">🎯 Pràctica de guitarra · seqüències per dits <span class="etiqueta groc">58 exercicis · 29 capítols</span></div>
-    <div class="d">El mètode de <strong>chromatics</strong> per a la independència de dits: les 24 permutacions de
-      1-2-3-4 i les frases amb pedal, amb <strong>tablatura generada</strong> per a qualsevol posició del mànec,
-      <strong>metrònom</strong> amb entrenament per graons (+2 bpm cada setmana i baixada de 10 bpm quan t'encalles),
-      <strong>àudio sintetitzat</strong> de cada seqüència amb l'afinació real, pla anual de 52 setmanes i registre
-      del progrés. Inclou el llibre de Sam Russell <em>How to Practice Guitar and Train Your Creativity</em>
-      amb els 29 capítols d'àudio i el text <strong>en català</strong>, i les 43 figures.</div>
-    <div class="enllacos"><a href="./Secuencies-per-dits/mobil.html">📱 Obre-la al mòbil (QR i passos)</a></div>
-  </a>
-  <a class="targeta musica" href="./DiagramesGuitarra/index.html">
-    <div class="t">🖐️ Acords de guitarra · a tot el màstil <span class="etiqueta groc">360 acords</span></div>
-    <div class="d">Sistema propi de diagrames: 12 arrels × 30 qualitats, amb les digitacions de la posició
-      oberta i de les posicions del 3, 5, 7 i 9. Cada digitació està <strong>comprovada nota per nota</strong>
-      (les notes que sonen són les de l'acord, amb l'extensió que li toca i sense xocs) i es pot escoltar i
-      filtrar per arrel, qualitat i posició.</div>
-  </a>
-
-  <h2>🎵 Música i eines</h2>
-
-  <a class="targeta musica" href="https://hortosona.tail37c051.ts.net/jocs/">
-    <div class="t">🎸 Jocs de música <span class="etiqueta verd">nou</span> <span class="etiqueta groc">10 jocs · 319 temes · 1.500 graelles</span></div>
-    <div class="d">Sis jocs fets amb la biblioteca de música de casa, cap d'ells d'oïda: <strong>Els Canvis</strong> (graelles reals amb compassos tapats), <strong>Endevina el tema</strong>, <strong>Quin lick, quina escala</strong> (tabulacions de Guitar Pro), <strong>Veritat o fals amb cita</strong> (frases dels llibres d'harmonia), <strong>Puzzle de voicings</strong> i <strong>Anàlisi harmònica</strong>. Ara amb <strong>repàs espaiat</strong> (el que falles torna al cap d'uns dies), nivells de dificultat, boto per practicar el tema al reproductor i <strong>instal·lable al mobil</strong>: funciona sense xarxa.</div>
-    <div class="enllacos"><a href="https://hortosona.tail37c051.ts.net/jocs/buits.html">🔎 Buits de la biblioteca</a></div>
-  </a>
-
-  <a class="targeta musica" href="https://hortosona.tail37c051.ts.net/partitures/">
-    <div class="t">📄 Partitures · anàlisi i canvis d'acords <span class="etiqueta verd">nou</span> <span class="etiqueta groc">27 temes amb les dues versions</span></div>
-    <div class="d">Les teves partitures al costat de la versió d'iReal Pro amb les <strong>diferències
-      d'acords marcades</strong>, l'<strong>anàlisi harmònica</strong> de cada tema i quins <strong>acords
-      es podrien canviar</strong> (substitut de tríton, ii–V, backdoor…), amb el perquè de cada proposta.</div>
-  </a>
-
-  <a class="targeta musica" href="./estils/index.html">
-    <div class="t">🎼 Estils musicals <span class="etiqueta verd">nou</span> <span class="etiqueta groc">4 guies</span></div>
-    <div class="d">Quatre guies de gènere amb la mateixa estructura: <strong>guitarra flamenca</strong>
-      (compàs de 12, harmonia andalusa, palos), <strong>bossa nova</strong> (la batida, la clave, Jobim),
-      <strong>blues</strong> (els 12 compassos, el shuffle, els turnarounds) i <strong>gypsy jazz</strong>
-      (la pompe, el rest-stroke, Django). Cadascuna amb com començar a practicar-ho.</div>
-  </a>
-
-  <a class="targeta musica" href="./flamenc/index.html">
-    <div class="t">🔥 Guitarra flamenca <span class="etiqueta verd">nou</span> <span class="etiqueta groc">guia completa</span></div>
-    <div class="d">El gènere explicat de dalt a baix: els <strong>palos</strong> (soleá, bulería, seguiriyas,
-      tangos, alegrías…), el <strong>compàs de 12</strong> amb els seus accents, l'<strong>harmonia andalusa</strong>
-      (la cadència <code>Am–G–F–E</code>, el mode frigi, «por arriba» i «por medio»), les <strong>tècniques</strong>
-      (rasgueo, picado, polze, alzapúa, tremolo, golpe) i una <strong>ruta per començar a practicar-ho</strong>.</div>
-  </a>
-
-  <a class="targeta musica" href="https://hortosona.tail37c051.ts.net/harmonia/">
-    <div class="t">🧬 Harmonia del repertori <span class="etiqueta verd">nou</span> <span class="etiqueta groc">4.103 graelles</span></div>
-    <div class="d">Les <strong>famílies de temes</strong> (Rhythm Changes, blues, Anatole…) calculades en graus
-      relatius, un <strong>cercador de canvis</strong> («a quins temes s'assembla això?»), els
-      <strong>diagrames d'acords</strong> de cada tema i les dades de tota la biblioteca.</div>
-  </a>
-
-  <a class="targeta musica" href="https://hortosona.tail37c051.ts.net/jocs/Quadern-analisi-harmonica.pdf">
-    <div class="t">📖 Quadern d'anàlisi harmònica <span class="etiqueta verd">nou</span> <span class="etiqueta groc">106 pàgines · PDF</span></div>
-    <div class="d">Un tema per pàgina: la <strong>graella</strong> dels acords i quines <strong>escales d'acord</strong>
-      hi encaixen, per tenir-ho a mà mentre toques.</div>
-  </a>
-
-  <a class="targeta musica" href="https://hortosona.tail37c051.ts.net/mapa/">
-    <div class="t">🎼 Mapa de funcions harmòniques <span class="etiqueta verd">nou</span> <span class="etiqueta groc">98 funcions · 30 escales</span></div>
-    <div class="d">Taula de consulta de les 98 funcions del mapa harmònic amb <strong>selector de 12 tonalitats</strong> (l'acord de cada funció es recalcula sol) i el glossari de 30 escales amb els àlies, la fórmula de graus, la d'intervals, l'origen i l'índex de dissonància.</div>
-  </a>
-
-
-  <a class="targeta musica" href="./AcordsSensacions/index.html">
-    <div class="t">🎼 Acords i sensacions <span class="etiqueta groc">amb so · 25 progressions</span></div>
-    <div class="d">Progressions amb el seu caràcter: per què una sona màgica i una altra no.
-      Amb el so i l'explicació de cada una.</div>
-    <div class="enllacos"><a href="./AcordsSensacions/fusio.html">🎸 Progressions de jazz-fusió</a></div>
-  </a>
-
-  <a class="targeta musica" href="./WebsMusica/index.html">
-    <div class="t">🎵 Webs de música <span class="etiqueta groc">tot agrupat</span></div>
-    <div class="d">EmotiChords (genera acords per emocions) · academia d'harmonia moderna ·
-      explorador d'acords oberts · progressions jazz-fusió · acords de guitarra comprovats.</div>
-  </a>
-
-  <a class="targeta musica" href="./MetronomBerna/metronom.html">
-    <div class="t">🥁 Metrònom amb swing humanitzat <span class="etiqueta groc">clic al 2 i al 4</span></div>
-    <div class="d">Per practicar el pols com ho faria una bateria, amb subdivisió i swing.</div>
-  </a>
-
-  <h2>📻 Ràdio</h2>
-
-  <a class="targeta musica" href="./Radio/index.html">
-    <div class="t">📻 Ràdio <span class="etiqueta verd">en directe</span> <span class="etiqueta groc">53 emissores</span></div>
-    <div class="d">La ràdio per escoltar mentre treballes: jazz, chill, clàssica, catalanes i notícies,
-      totes en una sola pàgina. Amb <strong>preferits</strong>, control de volum, temporitzador perquè s'aturi
-      sola i <strong>el títol de la cançó que sona</strong> a les emissores que el publiquen.
-      Dreceres de teclat per canviar d'emissora sense deixar la feina. Sense anuncis i sense comptes.</div>
-    <div class="enllacos"><a href="./Radio/index.html">▶ Escolta-la</a></div>
-  </a>
-
-  <h2 id="mobil">📱 Tenir-ho al mòbil</h2>
-  <p style="color:#94a3b8;font-size:13.5px;margin:-4px 0 12px">
-    Tots tres es poden instal·lar a la pantalla d'inici i s'obren a pantalla completa, amb la seva icona.
-    Escaneja el codi amb el telèfon o obre l'enllaç directament:
-    <strong>iPhone/iPad</strong> (Safari) → Compartir → «Afegeix a la pantalla d'inici» ·
-    <strong>Android</strong> (Chrome) → ⋮ → «Instal·la l'aplicació».
-  </p>
-  <div class="qr-grid">
-    <div class="qr-card">
-      <img src="qr/aula.svg" alt="Codi QR de l'Aula BernatLab" loading="lazy" />
-      <div class="t">🌱 Aula BernatLab</div>
-      <div class="d">Cursos i eines, amb àudio</div>
-      <a href="./">bernatmora.github.io/aprenentatge</a>
-    </div>
-    <div class="qr-card">
-      <img src="./Secuencies-per-dits/media/qr-mobil.svg" alt="Codi QR de l'app de pràctica de guitarra" loading="lazy" />
-      <div class="t">🎯 Pràctica de guitarra</div>
-      <div class="d">58 exercicis, metrònom i el llibre</div>
-      <a href="./Secuencies-per-dits/">…/Secuencies-per-dits</a>
-    </div>
-    <div class="qr-card">
-      <img src="qr/radio.svg" alt="Codi QR de la Ràdio de l'Aula BernatLab" loading="lazy" />
-      <div class="t">📻 Ràdio</div>
-      <div class="d">En directe: jazz, chill, clàssica i notícies</div>
-      <a href="./Radio/">…/Radio</a>
-    </div>
-  </div>
-
-  <div class="peu">
-    <strong>Com està fet:</strong> els textos són propis; la veu és sintètica (catalana) i els exemples
-    musicals es generen amb síntesi d'àudio (acords i progressions). Els cursos dels navegadors no
-    necessiten res instal·lat: tot sona al navegador.<br />
-    Si una cosa no sona, prova de fer clic al títol de la targeta (els navegadors necessiten un clic
-    per començar a reproduir).<br /><br />
-    <strong>© BernatLab · contingut propi.</strong> Es pot escoltar i fer servir per aprendre, però
-    no es pot copiar, modificar ni redistribuir sense permís
-    (<a href="LICENSE" style="color:#7dd3fc">llicència</a>).
-  </div>
+<header class="site-head"><div class="wrap"><div class="head-inner"><a class="brand" href="./" aria-label="BernatLab, inici"><img src="icons/aula-foto-180.png" alt=""><span>BernatLab<span>.</span><small>Espai d’aprenentatge</small></span></a><nav aria-label="Navegació principal"><button data-category="Cursos">Cursos</button><button data-category="Guitarra">Guitarra</button><button data-category="IA">Intel·ligència artificial</button><a href="./Radio/index.html">Ràdio ↗</a></nav><button class="theme" id="theme" aria-label="Canvia el tema">☀ Clar</button></div></div></header>
+<main class="wrap"><section class="hero" aria-labelledby="hero-title"><div><div class="eyebrow">Curiositat que es converteix en pràctica</div><h1 id="hero-title">Aprendre,<br><em>al teu ritme.</em></h1><p class="intro">Música, idees i tecnologia en un mateix espai. Cursos en català amb àudio, eines per tocar i converses per descobrir alguna cosa nova cada dia.</p><div class="actions"><a href="#biblioteca" class="button primary">Explora la biblioteca <span>↗</span></a><a href="./Radio/index.html" class="button">Escolta la ràdio <span>▶</span></a></div><p class="hero-note">Al navegador, al mòbil o mentre practiques. Tu tries per on comences.</p></div><div class="hero-art"><svg viewBox="0 0 470 330" aria-hidden="true"><defs><linearGradient id="mint" x2="1" y2="1"><stop stop-color="#55dfc1"/><stop offset="1" stop-color="#548bec"/></linearGradient></defs><circle cx="245" cy="163" r="131" fill="none" stroke="#55dfc114"/><circle cx="245" cy="163" r="105" fill="none" stroke="#55dfc119" stroke-dasharray="3 9"/><path d="M63 255C100 255 115 66 169 82s67 180 125 160 63-160 106-160" fill="none" stroke="url(#mint)" stroke-width="2" opacity=".6"/><g transform="translate(74 33) rotate(-7 145 89)"><rect width="292" height="172" rx="19" class="svg-card"/><text x="22" y="28" font-size="9" letter-spacing="1.5" class="svg-muted">MÚSICA · IDEES · TECNOLOGIA</text><path d="M24 105h245M24 89h245M24 73h245M24 57h245" stroke="#8fabc129"/><g stroke="#55dfc1" fill="#55dfc1"><path d="M53 91V55m47 51V70m48 5V40m48 51V55m45 51V70"/><ellipse cx="48" cy="93" rx="7" ry="5"/><ellipse cx="95" cy="108" rx="7" ry="5"/><ellipse cx="143" cy="77" rx="7" ry="5"/><ellipse cx="191" cy="93" rx="7" ry="5"/><ellipse cx="236" cy="108" rx="7" ry="5"/></g><text x="23" y="143" font-size="15" class="svg-fg" font-family="monospace">Cmaj7 · Am7 · Dm7 · G7</text></g><g transform="translate(212 200) rotate(5 103 46)"><rect width="210" height="91" rx="16" class="svg-card"/><circle cx="31" cy="32" r="15" fill="#55dfc115"/><path d="m26 25 12 7-12 7z" fill="#55dfc1"/><text x="58" y="30" font-size="11" class="svg-fg" font-weight="600">Una idea nova cada dia</text><text x="58" y="46" font-size="9" class="svg-muted">IA i converses en anglès</text><path d="M21 70h8m5 0h11m6 0h8m6 0h18m6 0h9m6 0h24m6 0h9m6 0h16m6 0h14" stroke="url(#mint)" stroke-width="5" stroke-linecap="round"/></g><circle cx="68" cy="211" r="5" fill="#b59afc"/><circle cx="408" cy="91" r="4" fill="#e9bd74"/></svg></div></section>
+<div class="stats" aria-label="Material dels cursos amb àudio"><div class="stat"><strong>85</strong><span>capítols amb àudio</span></div><div class="stat"><strong>16,6 h</strong><span>per escoltar i aprendre</span></div><div class="stat"><strong>135</strong><span>exercicis d’oïda</span></div><div class="stat"><strong>En català</strong><span>els cursos de BernatLab</span></div></div>
+<section aria-labelledby="featured-title"><div class="section-heading"><h2 id="featured-title">Una bona manera de començar</h2><p>Tria què et ve de gust fer avui.</p></div><div class="highlights"><a class="highlight main" href="./Radio/index.html"><div><span class="tag">Ràdio · anglès B2+/C1</span><h3>IA, converses<br>i noves perspectives.</h3><p>Intelligent Machines, Practical AI, històries de disseny i humor. Episodis amb data i controls per seguir-los al teu ritme.</p></div><span class="arrow">Obre la nova ràdio ↗</span><div class="mini-wave" aria-hidden="true"><i style="--h:13px"></i><i style="--h:24px"></i><i style="--h:38px"></i><i style="--h:55px"></i><i style="--h:34px"></i><i style="--h:22px"></i><i style="--h:40px"></i><i style="--h:27px"></i><i style="--h:13px"></i></div></a><a class="highlight" href="./Secuencies-per-dits/index.html"><div><span class="tag" style="color:#e9bd74">Guitarra · pràctica</span><h3>Una mica cada dia.<br>Una mica més lluny.</h3><p>58 exercicis de seqüències per als dits, tablatures, àudio i metrònom. Troba el teu tempo i construeix l’hàbit.</p></div><span class="arrow" style="color:#e9bd74">Comença a practicar ↗</span></a></div></section>
+<section class="catalogue" id="biblioteca" aria-labelledby="library-title"><div class="catalogue-top"><h2 id="library-title">La teva biblioteca</h2><label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg><input id="search" type="search" placeholder="Cerca un curs, una eina, una idea…" aria-label="Cerca a la biblioteca"></label></div><div class="filters" id="filters" aria-label="Categories de la biblioteca"></div><div id="result-count" class="results" aria-live="polite"></div><div class="grid" id="resources"></div><p id="empty" class="empty" hidden>No hem trobat cap recurs. Prova una altra paraula o categoria.</p></section>
+<section class="mobile-section" id="mobil" aria-labelledby="mobile-title"><div class="section-heading"><h2 id="mobile-title">Emporta-t’ho amb tu</h2><p>Un accés directe al que t’agrada.</p></div><p class="mobile-intro">Obre l’enllaç al mòbil o escaneja el codi. A l’iPhone: Safari → Compartir → <strong>Afegeix a la pantalla d’inici</strong>. A Android: menú del navegador → <strong>Instal·la l’aplicació</strong> o afegeix-hi una drecera, segons el navegador.</p><div class="qr-grid"><article class="qr-card"><img src="qr/aula.svg" alt="Codi QR de BernatLab" loading="lazy"><div><h3>BernatLab</h3><p>Cursos, idees i eines.</p><a href="./">Obre la portada ↗</a></div></article><article class="qr-card"><img src="Secuencies-per-dits/media/qr-mobil.svg" alt="Codi QR de pràctica de guitarra" loading="lazy"><div><h3>Pràctica de guitarra</h3><p>El teu entrenament diari.</p><a href="./Secuencies-per-dits/">Obre la pràctica ↗</a></div></article><article class="qr-card"><img src="qr/radio.svg" alt="Codi QR de la ràdio" loading="lazy"><div><h3>Radio-Feina</h3><p>IA, converses i música.</p><a href="./Radio/">Obre la ràdio ↗</a></div></article></div></section>
+<footer><div><strong>BernatLab<span style="color:var(--accent)">.</span></strong><br>Un espai per continuar aprenent.</div><p>Els cursos tenen textos propis, veu sintètica en català i exemples musicals generats amb síntesi d’àudio. Els programes de ràdio són dels seus editors i hi enllacen directament. Alguns recursos de la biblioteca privada requereixen accés a la xarxa de BernatLab.<br><a href="LICENSE">Llicència dels continguts propis</a> · <a href="#mobil">Obre-ho al mòbil</a></p></footer></main><noscript><div class="wrap"><h2>Biblioteca</h2><ul><li><a href="./harmonia-avancat/test.html">Curs d&#x27;harmonia· test de nivell</a></li><li><a href="./mapa-repertori/">Mapa viu del repertori</a></li><li><a href="./CursMusica/index.html">Harmonia avançada de guitarra</a></li><li><a href="./CursIA/index.html">Curs · Crear amb IA</a></li><li><a href="./CursAprendre/index.html">Curs · Aprendre a aprendre</a></li><li><a href="./CursAcompanyament/index.html">Curs · Acompanyament de guitarra</a></li><li><a href="./CursMusica/oida.html">Exercicis d&#x27;oïda · Harmonia</a></li><li><a href="./jazz-fusion-guitar/">Jazz Fusion Guitar · entrenament</a></li><li><a href="./country-guitar/">Country Guitar</a></li><li><a href="./Secuencies-per-dits/index.html">Pràctica de guitarra · seqüències per dits</a></li><li><a href="./DiagramesGuitarra/index.html">Acords de guitarra · a tot el màstil</a></li><li><a href="https://hortosona.tail37c051.ts.net/jocs/">Jocs de música</a></li><li><a href="https://hortosona.tail37c051.ts.net/partitures/">Partitures · anàlisi i canvis d&#x27;acords</a></li><li><a href="./estils/index.html">Estils musicals</a></li><li><a href="./flamenc/index.html">Guitarra flamenca</a></li><li><a href="https://hortosona.tail37c051.ts.net/harmonia/">Harmonia del repertori</a></li><li><a href="https://hortosona.tail37c051.ts.net/jocs/Quadern-analisi-harmonica.pdf">Quadern d&#x27;anàlisi harmònica</a></li><li><a href="https://hortosona.tail37c051.ts.net/mapa/">Mapa de funcions harmòniques</a></li><li><a href="./AcordsSensacions/index.html">Acords i sensacions</a></li><li><a href="./WebsMusica/index.html">Webs de música</a></li><li><a href="./MetronomBerna/metronom.html">Metrònom amb swing humanitzat</a></li><li><a href="./Radio/index.html">Ràdio</a></li></ul></div></noscript>
+<script>
+const RESOURCES = [{"title": "Curs d'harmonia· test de nivell", "description": "Abans de començar el curs avançat: 15 preguntes (dels fonaments al cromatisme i el segle XX) i 3 exercicis d'anàlisi i reharmonització. Et diu on ets (nivell 1 a 4) i què t'hauríem de treballar.", "badge": "", "href": "./harmonia-avancat/test.html", "category": "Cursos", "accent": "music", "links": [], "private": false}, {"title": "Mapa viu del repertori", "description": "Els 20 estàndards al cercle de quintes, amb progressió i so 🔊", "badge": "", "href": "./mapa-repertori/", "category": "Eines", "accent": "tools", "links": [], "private": false}, {"title": "Harmonia avançada de guitarra", "description": "Del funcional al modern: funcions i graus · dominants secundàries · substitució de tritó · intercanvi modal · modulació · harmonia negativa · reharmonització · voicings · triades superiors · acords quartals · soul · bossa · melodia amb acords · mediants · escales de la menor melòdica · rhythm changes · gospel · tres estàndards a fons · blues modern · jazz fusió · pentatòniques. Amb 204 clips de so intercalats i fitxes d'una pàgina per capítol.", "badge": "45 capítols · 10,8 h", "href": "./CursMusica/index.html", "category": "Cursos", "accent": "music", "links": [{"href": "./CursMusica/oida.html", "text": "Exercicis d'oïda"}, {"href": "./CursMusica/fitxes.html", "text": "Fitxes"}], "private": false}, {"title": "Curs · Crear amb IA", "description": "Com demanar bé · crear una app · agents · imatge i vídeo · veu i àudio · automatitzar · models locals i núvol · no empassar-te invents · assistents · dades i fulls de càlcul · privacitat · IA al mòbil · programar · IA a casa · errors reals · un pla aplicat a tu. Cada capítol amb exercicis (5 preguntes amb pausa per respondre).", "badge": "25 capítols · 4,1 h", "href": "./CursIA/index.html", "category": "IA", "accent": "ai", "links": [], "private": false}, {"title": "Curs · Aprendre a aprendre", "description": "Com funciona la memòria · recuperar en lloc de rellegir · repetició espaiada · practicar barrejat · entendre o memoritzar · apunts que serveixen · atenció i hàbits · explicar per aprendre · el teu sistema.", "badge": "10 capítols · 1,4 h", "href": "./CursAprendre/index.html", "category": "Cursos", "accent": "learn", "links": [], "private": false}, {"title": "Curs · Acompanyament de guitarra", "description": "El pols i la subdivisió · la mà dreta · corxera recta, swing i shuffle · el silenci i l'espai. Cada capítol amb el seu patró i pauses per practicar sobre les bases.", "badge": "nivell 1 · 5 capítols · 0,3 h", "href": "./CursAcompanyament/index.html", "category": "Cursos", "accent": "music", "links": [{"href": "./CursAcompanyament/bases.html", "text": "Les bases per practicar"}], "private": false}, {"title": "Exercicis d'oïda · Harmonia", "description": "Sona la música → uns segons per respondre en veu alta → la resposta. Cada capítol amb tres nivells (fàcil, normal i difícil) i sis extres: arpegis · parells mínims · cantar · dictat melòdic · mode cotxe · repàs barrejat. Tot s'encadena sol: perfecte per al cotxe.", "badge": "45 capítols · 3 nivells · +6 extres", "href": "./CursMusica/oida.html", "category": "Cursos", "accent": "music", "links": [], "private": false}, {"title": "Jazz Fusion Guitar · entrenament", "description": "Biblioteca d'escales (22 escales essencials), exercicis, improvisació, flashcards, connexions i PDFs. I dins la biblioteca, els backing tracks: deu estudis d'improvisació per intervals (2a a 8a i compostos), cada un amb el sol, el sol alentit, el backing i el backing alentit al 80%, per anar-hi tocant a sobre i pujant el ritme a poc a poc.", "badge": "40 pistes d'àudio", "href": "./jazz-fusion-guitar/", "category": "Guitarra", "accent": "guitar", "links": [{"href": "./jazz-fusion-guitar/biblioteca/backing-tracks/", "text": "Els backing tracks"}, {"href": "./jazz-fusion-guitar/biblioteca/creative-intervallic/", "text": "Els 10 estudis per intervals"}], "private": false}, {"title": "Country Guitar", "description": "Guitarra country (modern, classic, bluegrass): biblioteca de licks, pràctica, progressions, rutines, tècniques i escales, amb els àudios d'exemple per escoltar i tocar-hi a sobre.", "badge": "licks · tècniques", "href": "./country-guitar/", "category": "Guitarra", "accent": "guitar", "links": [], "private": false}, {"title": "Pràctica de guitarra · seqüències per dits", "description": "El mètode de chromatics per a la independència de dits: les 24 permutacions de 1-2-3-4 i les frases amb pedal, amb tablatura generada per a qualsevol posició del mànec, metrònom amb entrenament per graons (+2 bpm cada setmana i baixada de 10 bpm quan t'encalles), àudio sintetitzat de cada seqüència amb l'afinació real, pla anual de 52 setmanes i registre del progrés. Inclou el llibre de Sam Russell How to Practice Guitar and Train Your Creativity amb els 29 capítols d'àudio i el text en català, i les 43 figures.", "badge": "58 exercicis · 29 capítols", "href": "./Secuencies-per-dits/index.html", "category": "Guitarra", "accent": "guitar", "links": [{"href": "./Secuencies-per-dits/mobil.html", "text": "Obre-la al mòbil (QR i passos)"}], "private": false}, {"title": "Acords de guitarra · a tot el màstil", "description": "Sistema propi de diagrames: 12 arrels × 30 qualitats, amb les digitacions de la posició oberta i de les posicions del 3, 5, 7 i 9. Cada digitació està comprovada nota per nota (les notes que sonen són les de l'acord, amb l'extensió que li toca i sense xocs) i es pot escoltar i filtrar per arrel, qualitat i posició.", "badge": "360 acords", "href": "./DiagramesGuitarra/index.html", "category": "Guitarra", "accent": "guitar", "links": [], "private": false}, {"title": "Jocs de música", "description": "Sis jocs fets amb la biblioteca de música de casa, cap d'ells d'oïda: Els Canvis (graelles reals amb compassos tapats), Endevina el tema, Quin lick, quina escala (tabulacions de Guitar Pro), Veritat o fals amb cita (frases dels llibres d'harmonia), Puzzle de voicings i Anàlisi harmònica. Ara amb repàs espaiat (el que falles torna al cap d'uns dies), nivells de dificultat, boto per practicar el tema al reproductor i instal·lable al mobil: funciona sense xarxa.", "badge": "10 jocs · 319 temes · 1.500 graelles", "href": "https://hortosona.tail37c051.ts.net/jocs/", "category": "Eines", "accent": "tools", "links": [{"href": "https://hortosona.tail37c051.ts.net/jocs/buits.html", "text": "Buits de la biblioteca"}], "private": true}, {"title": "Partitures · anàlisi i canvis d'acords", "description": "Les teves partitures al costat de la versió d'iReal Pro amb les diferències d'acords marcades, l'anàlisi harmònica de cada tema i quins acords es podrien canviar (substitut de tríton, ii–V, backdoor…), amb el perquè de cada proposta.", "badge": "27 temes amb les dues versions", "href": "https://hortosona.tail37c051.ts.net/partitures/", "category": "Eines", "accent": "tools", "links": [], "private": true}, {"title": "Estils musicals", "description": "Quatre guies de gènere amb la mateixa estructura: guitarra flamenca (compàs de 12, harmonia andalusa, palos), bossa nova (la batida, la clave, Jobim), blues (els 12 compassos, el shuffle, els turnarounds) i gypsy jazz (la pompe, el rest-stroke, Django). Cadascuna amb com començar a practicar-ho.", "badge": "4 guies", "href": "./estils/index.html", "category": "Eines", "accent": "tools", "links": [], "private": false}, {"title": "Guitarra flamenca", "description": "El gènere explicat de dalt a baix: els palos (soleá, bulería, seguiriyas, tangos, alegrías…), el compàs de 12 amb els seus accents, l'harmonia andalusa (la cadència Am–G–F–E, el mode frigi, «por arriba» i «por medio»), les tècniques (rasgueo, picado, polze, alzapúa, tremolo, golpe) i una ruta per començar a practicar-ho.", "badge": "guia completa", "href": "./flamenc/index.html", "category": "Guitarra", "accent": "guitar", "links": [], "private": false}, {"title": "Harmonia del repertori", "description": "Les famílies de temes (Rhythm Changes, blues, Anatole…) calculades en graus relatius, un cercador de canvis («a quins temes s'assembla això?»), els diagrames d'acords de cada tema i les dades de tota la biblioteca.", "badge": "4.103 graelles", "href": "https://hortosona.tail37c051.ts.net/harmonia/", "category": "Eines", "accent": "tools", "links": [], "private": true}, {"title": "Quadern d'anàlisi harmònica", "description": "Un tema per pàgina: la graella dels acords i quines escales d'acord hi encaixen, per tenir-ho a mà mentre toques.", "badge": "106 pàgines · PDF", "href": "https://hortosona.tail37c051.ts.net/jocs/Quadern-analisi-harmonica.pdf", "category": "Eines", "accent": "tools", "links": [], "private": true}, {"title": "Mapa de funcions harmòniques", "description": "Taula de consulta de les 98 funcions del mapa harmònic amb selector de 12 tonalitats (l'acord de cada funció es recalcula sol) i el glossari de 30 escales amb els àlies, la fórmula de graus, la d'intervals, l'origen i l'índex de dissonància.", "badge": "98 funcions · 30 escales", "href": "https://hortosona.tail37c051.ts.net/mapa/", "category": "Eines", "accent": "tools", "links": [], "private": true}, {"title": "Acords i sensacions", "description": "Progressions amb el seu caràcter: per què una sona màgica i una altra no. Amb el so i l'explicació de cada una.", "badge": "amb so · 25 progressions", "href": "./AcordsSensacions/index.html", "category": "Eines", "accent": "tools", "links": [{"href": "./AcordsSensacions/fusio.html", "text": "Progressions de jazz-fusió"}], "private": false}, {"title": "Webs de música", "description": "EmotiChords (genera acords per emocions) · academia d'harmonia moderna · explorador d'acords oberts · progressions jazz-fusió · acords de guitarra comprovats.", "badge": "tot agrupat", "href": "./WebsMusica/index.html", "category": "Eines", "accent": "tools", "links": [], "private": false}, {"title": "Metrònom amb swing humanitzat", "description": "Per practicar el pols com ho faria una bateria, amb subdivisió i swing.", "badge": "clic al 2 i al 4", "href": "./MetronomBerna/metronom.html", "category": "Eines", "accent": "tools", "links": [], "private": false}, {"title": "Ràdio", "description": "Una selecció variada per escoltar mentre treballes: Intelligent Machines i Practical AI, converses de tecnologia, històries de disseny i humor, més música i emissores en directe. Episodis amb data, selector, salts de 15/30 segons i continuació automàtica opcional. Amb preferits i temporitzador. Àudio dels seus editors; pot incloure publicitat.", "badge": "IA i tecnologiaanglès B2+/C1", "href": "./Radio/index.html", "category": "Ràdio", "accent": "radio", "links": [], "private": false}];
+const ICONS = {"music": "<path d=\"M8 26V9l20-4v17M8 14l20-4\"/><ellipse cx=\"4\" cy=\"27\" rx=\"4\" ry=\"3\"/><ellipse cx=\"24\" cy=\"23\" rx=\"4\" ry=\"3\"/>", "guitar": "<path d=\"m22 3 7 7-12 12c2 4 0 8-4 9s-10-2-10-6 3-6 7-6L22 3Z\"/><circle cx=\"11\" cy=\"24\" r=\"3\"/><path d=\"m18 15 4 4M21 12l4 4\"/>", "ai": "<rect x=\"7\" y=\"7\" width=\"20\" height=\"20\" rx=\"5\"/><path d=\"M12 1v6m10-6v6M12 27v6m10-6v6M1 12h6m-6 10h6m20-10h6m-6 10h6\"/><path d=\"m12 21 5-9 5 9m-8-3h6\"/>", "learn": "<path d=\"m2 11 15-8 15 8-15 8-15-8Z\"/><path d=\"M8 15v10c6 5 12 5 18 0V15M32 11v13\"/>", "tools": "<circle cx=\"17\" cy=\"17\" r=\"11\"/><path d=\"M17 6v22M6 17h22M9 9l16 16m0-16L9 25\"/>", "radio": "<rect x=\"3\" y=\"11\" width=\"28\" height=\"19\" rx=\"5\"/><path d=\"m7 11 17-8\"/><circle cx=\"12\" cy=\"21\" r=\"5\"/><path d=\"M22 17h4m-4 5h4m-4 5h4\"/>"};
+let chosen='Tot', bookmarks=[];
+try{const stored=JSON.parse(localStorage.getItem('bernatlab.preferits')||'[]');if(Array.isArray(stored))bookmarks=stored;}catch(_){}
+const themeButton=document.querySelector('#theme');
+try{if(localStorage.getItem('bernatlab.tema')==='clar')document.body.classList.add('light');}catch(_){}
+function themeLabel(){themeButton.textContent=document.body.classList.contains('light')?'☾ Fosc':'☀ Clar';}
+themeLabel();themeButton.addEventListener('click',()=>{document.body.classList.toggle('light');themeLabel();try{localStorage.setItem('bernatlab.tema',document.body.classList.contains('light')?'clar':'fosc');}catch(_){}});
+const categories=['Tot','Cursos','Guitarra','IA','Eines','Ràdio','Preferits'];
+function filters(){const box=document.querySelector('#filters');box.replaceChildren();categories.forEach(cat=>{const b=document.createElement('button');b.className='filter';b.type='button';b.dataset.category=cat;b.setAttribute('aria-pressed',String(chosen===cat));b.append(document.createTextNode(cat==='Preferits'?'★ Preferits':cat));const n=document.createElement('small');n.textContent=cat==='Tot'?RESOURCES.length:cat==='Preferits'?RESOURCES.filter(x=>bookmarks.includes(x.href)).length:RESOURCES.filter(x=>x.category===cat).length;b.append(n);b.addEventListener('click',()=>{chosen=cat;filters();render();});box.append(b);});}
+function text(tag,content,className){const el=document.createElement(tag);el.textContent=content;if(className)el.className=className;return el;}
+function resource(item){const article=document.createElement('article');article.className='resource';article.dataset.accent=item.accent;
+ const art=document.createElement('div');art.className='resource-art';art.innerHTML='<svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICONS[item.accent]+'</svg>';
+ const fav=text('button',bookmarks.includes(item.href)?'★':'☆','bookmark');fav.type='button';fav.setAttribute('aria-label','Desa als preferits: '+item.title);fav.setAttribute('aria-pressed',String(bookmarks.includes(item.href)));fav.addEventListener('click',()=>{bookmarks=bookmarks.includes(item.href)?bookmarks.filter(x=>x!==item.href):[...bookmarks,item.href];try{localStorage.setItem('bernatlab.preferits',JSON.stringify(bookmarks));}catch(_){}filters();render();});art.append(fav);
+ const body=document.createElement('div');body.className='resource-body';const tags=document.createElement('div');tags.className='resource-top';tags.append(text('span',item.category,'pill cat'));if(item.badge)tags.append(text('span',item.badge,'pill'));body.append(tags);
+ const h=document.createElement('h3');const a=text('a',item.title);a.href=item.href;h.append(a);body.append(h);
+ const d=text('p',item.description,'description');body.append(d);if(item.description.length>170){const more=text('button','Més informació','expand');more.type='button';more.setAttribute('aria-expanded','false');more.addEventListener('click',()=>{const expanded=d.classList.toggle('expanded');more.textContent=expanded?'Mostra’n menys':'Més informació';more.setAttribute('aria-expanded',String(expanded));});body.append(more);}
+ if(item.links.length){const extra=document.createElement('div');extra.className='extra-links';item.links.forEach(x=>{const a=text('a',x.text);a.href=x.href;extra.append(a);});body.append(extra);}
+ const bottom=document.createElement('div');bottom.className='resource-bottom';const open=text('a','Explora el recurs ↗','open');open.href=item.href;bottom.append(open);if(item.private)bottom.append(text('span','BernatLab privat','private'));body.append(bottom);article.append(art,body);return article;}
+function normalize(s){return s.toLocaleLowerCase('ca').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function render(){const q=normalize(document.querySelector('#search').value.trim());const items=RESOURCES.filter(x=>(chosen==='Tot'||chosen==='Preferits'&&bookmarks.includes(x.href)||chosen===x.category)&&(!q||normalize(x.title+' '+x.description+' '+x.badge+' '+x.category).includes(q)));document.querySelector('#resources').replaceChildren(...items.map(resource));document.querySelector('#empty').hidden=items.length>0;document.querySelector('#result-count').textContent=items.length+' recursos'+(chosen==='Tot'?' per explorar':' · '+chosen.toLocaleLowerCase('ca'));}
+document.querySelector('#search').addEventListener('input',render);
+document.querySelectorAll('nav [data-category]').forEach(b=>b.addEventListener('click',()=>{chosen=b.dataset.category;document.querySelector('#search').value='';filters();render();document.querySelector('#biblioteca').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}));
+document.addEventListener('keydown',ev=>{if(ev.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){ev.preventDefault();document.querySelector('#search').focus();}if(ev.key==='Escape'&&document.activeElement===document.querySelector('#search')){document.querySelector('#search').value='';render();}});
+filters();render();
+</script>
 </body>
 </html>
